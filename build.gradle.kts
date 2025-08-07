@@ -4,15 +4,3 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.android.library) apply false
 }
-
-subprojects {
-    plugins.withId("com.android.library") {
-        extensions.configure<com.android.build.gradle.LibraryExtension> {
-            compileSdk = 36
-            defaultConfig {
-                minSdk = 24
-                targetSdk = 36
-            }
-        }
-    }
-}

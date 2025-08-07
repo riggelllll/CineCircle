@@ -1,16 +1,12 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.cinecircle.android.application)
 }
 
 android {
     namespace = "com.koniukhov.cinecircle"
-    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.koniukhov.cinecircle"
-        minSdk = 24
-        targetSdk = 36
         versionCode = 1
         versionName = "0.0.1"
 
@@ -25,10 +21,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
         jvmTarget = "17"
@@ -61,4 +53,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    coreLibraryDesugaring(libs.android.desugarJdkLibs)
 }
