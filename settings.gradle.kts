@@ -20,4 +20,15 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "CineCircle"
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
+include(":core:common")
+include(":core:data")
+include(":core:database")
+include(":core:domain")
+include(":core:model")
+include(":core:network")
+include(":feature:home")
+include(":feature:lists")
+include(":feature:search")
