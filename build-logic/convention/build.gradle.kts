@@ -24,5 +24,9 @@ gradlePlugin {
             id = libs.plugins.cinecircle.android.library.get().pluginId
             implementationClass = "AndroidLibraryConventionPlugin"
         }
+        register("androidFeature") {
+            id =libs.plugins.cinecircle.android.feature.get().pluginId
+            implementationClass = "AndroidFeatureConventionPlugin"
+        }
     }
 }

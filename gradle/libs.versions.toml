@@ -70,6 +70,7 @@ firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "
 
 cinecircle-android-application = { id = "cinecircle.android.application" }
 cinecircle-android-library = { id = "cinecircle.android.library" }
+cinecircle-android-feature = { id = "cinecircle.android.feature" }
 
 [bundles]
 retrofit = [

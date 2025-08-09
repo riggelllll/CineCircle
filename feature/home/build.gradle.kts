@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.cinecircle.android.library)
+    alias(libs.plugins.cinecircle.android.feature)
 }
 
 android {

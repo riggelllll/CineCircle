@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.ui.home
+package com.koniukhov.cinecircle.feature.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

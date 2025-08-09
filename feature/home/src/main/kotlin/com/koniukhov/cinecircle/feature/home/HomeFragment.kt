@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.ui.home
+package com.koniukhov.cinecircle.feature.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.koniukhov.cinecircle.databinding.FragmentHomeBinding
+import com.koniukhov.cinecircle.feature.home.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
