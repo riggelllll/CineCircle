@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.koniukhov.cinecircle.feature.lists"
+    namespace = "com.koniukhov.cinecircle.feature.collections"
 }

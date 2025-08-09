@@ -23,7 +23,6 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-                "implementation"(libs.findLibrary("androidx-lifecycle-livedata-ktx").get())
                 "implementation"(libs.findLibrary("androidx-lifecycle-viewmodel-ktx").get())
                 "implementation"(libs.findLibrary("androidx-navigation-fragment-ktx").get())
                 "implementation"(libs.findLibrary("androidx-constraintlayout").get())

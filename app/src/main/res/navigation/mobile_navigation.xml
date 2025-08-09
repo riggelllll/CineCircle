@@ -10,16 +10,15 @@
         android:name="com.koniukhov.cinecircle.feature.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
-
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.koniukhov.cinecircle.ui.dashboard.DashboardFragment"
-        android:label="@string/title_search"
-        tools:layout="@layout/fragment_dashboard" />
-
+        android:id="@+id/navigation_collections"
+        android:name="com.koniukhov.cinecircle.feature.lists.CollectionsFragment"
+        android:label="CollectionsFragment"
+        tools:layout="@layout/collections_fragment"/>
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.koniukhov.cinecircle.ui.notifications.NotificationsFragment"
-        android:label="@string/title_lists"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_search"
+        android:name="com.koniukhov.cinecircle.feature.search.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/search_fragment"/>
+
 </navigation>
