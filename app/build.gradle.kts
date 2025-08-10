@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.cinecircle.android.application)
     alias(libs.plugins.cinecircle.hilt)
+    alias(libs.plugins.secrets.gradle.plugin)
 }
 
 android {
@@ -29,7 +30,12 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
+}
+
+secrets {
+    propertiesFileName = "secrets.properties"
 }
 
 dependencies {

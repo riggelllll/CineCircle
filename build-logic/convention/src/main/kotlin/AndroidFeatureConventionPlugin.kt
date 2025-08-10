@@ -16,6 +16,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 testOptions.animationsDisabled = true
                 buildFeatures {
                     viewBinding = true
+                    buildConfig = true
                 }
             }
             extensions.configure<KotlinAndroidProjectExtension> {

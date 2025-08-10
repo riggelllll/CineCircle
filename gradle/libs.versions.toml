@@ -25,6 +25,7 @@ firebase-bom = "34.0.0"
 google-services = "4.4.3"
 firebase-crashlytics-gradle = "3.0.5"
 splashscreen = "1.0.1"
+secrets-gradle = "2.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -66,6 +67,7 @@ google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-gradle" }
+secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets-gradle" }
 
 cinecircle-android-application = { id = "cinecircle.android.application" }
 cinecircle-android-library = { id = "cinecircle.android.library" }
