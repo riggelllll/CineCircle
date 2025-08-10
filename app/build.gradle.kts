@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.cinecircle.android.application)
+    alias(libs.plugins.cinecircle.hilt)
 }
 
 android {
