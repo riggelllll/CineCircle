@@ -3,6 +3,8 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.extra
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -16,8 +18,23 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                     minSdk = 24
                     targetSdk = 36
                 }
+                buildFeatures {
+                    buildConfig = true
+                }
                 defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+                val apiKey = target.rootProject.extra.get("API_KEY") as? String
+                if (apiKey != null) {
+                    defaultConfig {
+                        buildConfigField("String", "API_KEY", "\"$apiKey\"")
+                    }
+                }
             }
+            extensions.configure<KotlinAndroidProjectExtension> {
+                jvmToolchain(17)
+            }
+
         }
+
     }
 }

@@ -6,3 +6,9 @@ plugins {
 android {
     namespace = "com.koniukhov.cinecircle.feature.home"
 }
+
+dependencies{
+    implementation(projects.core.domain)
+    implementation(projects.core.data)
+    implementation(projects.core.network)
+}

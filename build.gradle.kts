@@ -8,3 +8,12 @@ plugins {
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
 }
+
+val secretsFile = rootProject.file("secrets.properties")
+if (secretsFile.exists()) {
+    val properties = java.util.Properties()
+    properties.load(secretsFile.inputStream())
+    properties.forEach { key, value ->
+        extra[key.toString()] = value
+    }
+}
