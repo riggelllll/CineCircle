@@ -1,0 +1,15 @@
+package com.koniukhov.cinecircle.core.data.remote
+
+import com.koniukhov.cinecircle.core.data.BuildConfig
+import com.koniukhov.cinecircle.core.domain.datasource.MoviesDataSource
+import com.koniukhov.cinecircle.core.network.api.TMDBApi
+import com.koniukhov.cinecircle.core.network.model.MoviesResponseDto
+import javax.inject.Inject
+
+class RemoteMoviesDataSource @Inject constructor(
+    private val api: TMDBApi
+) : MoviesDataSource{
+    override suspend fun getPopularMovies(page: Int): MoviesResponseDto {
+        return api.getPopularMovies(BuildConfig.API_KEY, page).body() ?: MoviesResponseDto.empty()
+    }
+}
