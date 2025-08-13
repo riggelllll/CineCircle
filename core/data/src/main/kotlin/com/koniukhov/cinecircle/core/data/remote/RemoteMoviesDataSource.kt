@@ -15,4 +15,8 @@ class RemoteMoviesDataSource @Inject constructor(
     override suspend fun getPopularMovies(page: Int): MoviesResponseDto {
         return api.getPopularMovies(BuildConfig.API_KEY, page).body() ?: MoviesResponseDto.empty()
     }
+
+    override suspend fun getTopRatedMovies(page: Int): MoviesResponseDto {
+        return api.getTopRatedMovies(BuildConfig.API_KEY, page).body() ?: MoviesResponseDto.empty()
+    }
 }

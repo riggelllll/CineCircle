@@ -11,11 +11,16 @@ class MoviesRepositoryImpl @Inject constructor(
 ) : MoviesRepository {
     override suspend fun getNowPlayingMovies(page: Int): List<Movie> {
         val dto = remoteDataSource.getNowPlayingMovies(page)
-        return dto.results.map { it.toDomain() }.toList()
+        return dto.results.map { it.toDomain() }
     }
 
     override suspend fun getPopularMovies(page: Int): List<Movie> {
         val dto = remoteDataSource.getPopularMovies(page)
-        return dto.results.map { it.toDomain() }.toList()
+        return dto.results.map { it.toDomain() }
+    }
+
+    override suspend fun getTopRatedMovies(page: Int): List<Movie> {
+        val dto = remoteDataSource.getTopRatedMovies(page)
+        return dto.results.map { it.toDomain() }
     }
 }

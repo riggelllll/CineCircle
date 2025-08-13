@@ -40,6 +40,7 @@ class HomeFragment : Fragment() {
             viewModel.uiState.collect {
                 initNowPlayingRecyclerView(it.nowPlayingMovies)
                 initPopularRecyclerView(it.popularMovies)
+                initTopRatedRecyclerView(it.topRatedMovies)
             }
         }
     }
@@ -69,5 +70,15 @@ class HomeFragment : Fragment() {
         binding.popularRecyclerView.adapter = MoviesAdapter(movies){
         }
 
+    }
+
+    private fun initTopRatedRecyclerView(movies: List<Movie>) {
+        binding.topRatedRecyclerView.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        binding.topRatedRecyclerView.adapter = MoviesAdapter(movies){
+        }
     }
 }
