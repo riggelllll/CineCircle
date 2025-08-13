@@ -4,6 +4,7 @@ import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.API_KEY
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_POPULAR
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.NOW_PLAYING
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.TOP_RATED
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.UPCOMING
 import com.koniukhov.cinecircle.core.network.model.MoviesResponseDto
 import retrofit2.Response
 import retrofit2.http.GET
@@ -18,4 +19,7 @@ interface TMDBApi {
 
     @GET(TOP_RATED)
     suspend fun getTopRatedMovies(@Query(API_KEY) apiKey: String, @Query("page") page: Int): Response<MoviesResponseDto>
+
+    @GET(UPCOMING)
+    suspend fun getUpcomingMovies(@Query(API_KEY) apiKey: String, @Query("page") page: Int): Response<MoviesResponseDto>
 }

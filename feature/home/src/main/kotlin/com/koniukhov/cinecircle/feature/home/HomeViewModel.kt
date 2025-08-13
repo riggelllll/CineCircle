@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.koniukhov.cinecircle.core.domain.usecase.GetNowPlayingMoviesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetPopularMoviesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetTopRatedMoviesUseCase
+import com.koniukhov.cinecircle.core.domain.usecase.GetUpcomingMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +16,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase,
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
-    private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase
+    private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
+    private val getUpcomingMoviesUseCase: GetUpcomingMoviesUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(MoviesUiState())
     val uiState: StateFlow<MoviesUiState> = _uiState
@@ -27,10 +29,12 @@ class HomeViewModel @Inject constructor(
                 val nowPlayingMovies = getNowPlayingMoviesUseCase(page)
                 val popularMovies = getPopularMoviesUseCase(page)
                 val topRatedMovies = getTopRatedMoviesUseCase(page)
+                val upcomingMovies = getUpcomingMoviesUseCase(page)
                 _uiState.value = _uiState.value.copy(
                     nowPlayingMovies = nowPlayingMovies,
                     popularMovies = popularMovies,
                     topRatedMovies = topRatedMovies,
+                    upcomingMovies = upcomingMovies,
                     isLoading = false
                 )
             } catch (e: Exception) {

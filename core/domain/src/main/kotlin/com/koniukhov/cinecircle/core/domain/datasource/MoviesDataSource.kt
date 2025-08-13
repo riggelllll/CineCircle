@@ -6,4 +6,5 @@ interface MoviesDataSource {
     suspend fun getNowPlayingMovies(page: Int): MoviesResponseDto
     suspend fun getPopularMovies(page: Int): MoviesResponseDto
     suspend fun getTopRatedMovies(page: Int): MoviesResponseDto
+    suspend fun getUpcomingMovies(page: Int): MoviesResponseDto
 }

@@ -12,6 +12,7 @@ object TMDBEndpoints {
     const val NOW_PLAYING = "movie/now_playing"
     const val MOVIE_POPULAR = "movie/popular"
     const val TOP_RATED = "movie/top_rated"
+    const val UPCOMING = "movie/upcoming"
     const val MOVIE = "movie/{$MOVIE_ID}"
     const val CREDITS = "movie/{$MOVIE_ID}/credits"
     const val IMAGES = "movie/{$MOVIE_ID}/images"

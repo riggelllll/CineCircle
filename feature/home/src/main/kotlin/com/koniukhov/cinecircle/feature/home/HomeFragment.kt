@@ -41,6 +41,7 @@ class HomeFragment : Fragment() {
                 initNowPlayingRecyclerView(it.nowPlayingMovies)
                 initPopularRecyclerView(it.popularMovies)
                 initTopRatedRecyclerView(it.topRatedMovies)
+                initUpcomingRecyclerView(it.upcomingMovies)
             }
         }
     }
@@ -79,6 +80,16 @@ class HomeFragment : Fragment() {
             false
         )
         binding.topRatedRecyclerView.adapter = MoviesAdapter(movies){
+        }
+    }
+
+    private fun initUpcomingRecyclerView(movies: List<Movie>) {
+        binding.upcomingRecyclerView.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        binding.upcomingRecyclerView.adapter = MoviesAdapter(movies){
         }
     }
 }

@@ -23,4 +23,9 @@ class MoviesRepositoryImpl @Inject constructor(
         val dto = remoteDataSource.getTopRatedMovies(page)
         return dto.results.map { it.toDomain() }
     }
+
+    override suspend fun getUpcomingMovies(page: Int): List<Movie> {
+        val dto = remoteDataSource.getUpcomingMovies(page)
+        return dto.results.map { it.toDomain() }
+    }
 }

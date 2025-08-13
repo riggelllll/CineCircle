@@ -6,4 +6,5 @@ interface MoviesRepository {
     suspend fun getNowPlayingMovies(page: Int = 1): List<Movie>
     suspend fun getPopularMovies(page: Int = 1): List<Movie>
     suspend fun getTopRatedMovies(page: Int = 1): List<Movie>
+    suspend fun getUpcomingMovies(page: Int = 1): List<Movie>
 }
