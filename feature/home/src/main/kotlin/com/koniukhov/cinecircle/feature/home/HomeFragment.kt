@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.koniukhov.cinecircle.core.domain.model.Movie
+import com.koniukhov.cinecircle.feature.home.adapter.MoviesAdapter
 import com.koniukhov.cinecircle.feature.home.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -35,9 +38,7 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.loadPopularMovies()
             viewModel.uiState.collect {
-                if (!it.isLoading){
-                    binding.textHome.text = it.popularMovies.size.toString()
-                }
+                initNowPlayingRecyclerView(it.popularMovies)
             }
         }
     }
@@ -45,5 +46,16 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun initNowPlayingRecyclerView(movies: List<Movie>) {
+        binding.nowPlayingRecyclerView.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        binding.nowPlayingRecyclerView.adapter = MoviesAdapter(movies){
+        }
+
     }
 }

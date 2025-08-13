@@ -12,6 +12,7 @@ dependencies{
     implementation(projects.core.data)
     implementation(projects.core.design)
     implementation(projects.core.network)
+    implementation(projects.core.common)
     implementation(libs.androidx.recyclerview)
     implementation(libs.material)
     implementation(libs.bundles.coil)
