@@ -10,5 +10,9 @@ android {
 dependencies{
     implementation(projects.core.domain)
     implementation(projects.core.data)
+    implementation(projects.core.design)
     implementation(projects.core.network)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.material)
+    implementation(libs.bundles.coil)
 }
