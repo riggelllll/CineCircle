@@ -36,9 +36,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
-            viewModel.loadPopularMovies()
+            viewModel.loadMoviesForAllCategories()
             viewModel.uiState.collect {
-                initNowPlayingRecyclerView(it.popularMovies)
+                initNowPlayingRecyclerView(it.nowPlayingMovies)
+                initPopularRecyclerView(it.popularMovies)
             }
         }
     }
@@ -55,6 +56,17 @@ class HomeFragment : Fragment() {
             false
         )
         binding.nowPlayingRecyclerView.adapter = MoviesAdapter(movies){
+        }
+
+    }
+
+    private fun initPopularRecyclerView(movies: List<Movie>) {
+        binding.popularRecyclerView.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        binding.popularRecyclerView.adapter = MoviesAdapter(movies){
         }
 
     }

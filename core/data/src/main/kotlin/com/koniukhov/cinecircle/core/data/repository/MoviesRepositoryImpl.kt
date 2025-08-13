@@ -9,6 +9,11 @@ import javax.inject.Inject
 class MoviesRepositoryImpl @Inject constructor(
     private val remoteDataSource: MoviesDataSource
 ) : MoviesRepository {
+    override suspend fun getNowPlayingMovies(page: Int): List<Movie> {
+        val dto = remoteDataSource.getNowPlayingMovies(page)
+        return dto.results.map { it.toDomain() }.toList()
+    }
+
     override suspend fun getPopularMovies(page: Int): List<Movie> {
         val dto = remoteDataSource.getPopularMovies(page)
         return dto.results.map { it.toDomain() }.toList()

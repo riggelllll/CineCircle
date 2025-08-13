@@ -2,6 +2,7 @@ package com.koniukhov.cinecircle.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.koniukhov.cinecircle.core.domain.usecase.GetNowPlayingMoviesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetPopularMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,17 +12,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase,
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(MoviesUiState())
     val uiState: StateFlow<MoviesUiState> = _uiState
 
-    fun loadPopularMovies(page: Int = 1) {
+    fun loadMoviesForAllCategories(page: Int = 1) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             try {
+                val nowPlayingMovies = getNowPlayingMoviesUseCase(page)
                 val popularMovies = getPopularMoviesUseCase(page)
                 _uiState.value = _uiState.value.copy(
+                    nowPlayingMovies = nowPlayingMovies,
                     popularMovies = popularMovies,
                     isLoading = false
                 )
