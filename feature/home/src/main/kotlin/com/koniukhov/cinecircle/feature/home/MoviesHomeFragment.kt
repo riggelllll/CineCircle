@@ -39,8 +39,8 @@ class MoviesHomeFragment : Fragment() {
         _binding = FragmentMoviesHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        initAllRecyclerViews()
-        initAllRecyclerSkeletons()
+        setupAllRecyclerViews()
+        setupAllRecyclerSkeletons()
         showAllSkeletons()
 
         return root
@@ -64,15 +64,15 @@ class MoviesHomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun initAllRecyclerViews() {
-        initTrendingRecyclerView()
-        initNowPlayingRecyclerView()
-        initPopularRecyclerView()
-        initTopRatedRecyclerView()
-        initUpcomingRecyclerView()
-        initMoviesGenreRecyclerView()
+    private fun setupAllRecyclerViews() {
+        setupTrendingRecyclerView()
+        setupNowPlayingRecyclerView()
+        setupPopularRecyclerView()
+        setupTopRatedRecyclerView()
+        setupUpcomingRecyclerView()
+        setupMoviesGenreRecyclerView()
     }
-    private fun initTrendingRecyclerView() {
+    private fun setupTrendingRecyclerView() {
         binding.trendingRecyclerView.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL,
@@ -81,7 +81,7 @@ class MoviesHomeFragment : Fragment() {
         binding.trendingRecyclerView.adapter = MoviesAdapter(){
         }
     }
-    private fun initNowPlayingRecyclerView() {
+    private fun setupNowPlayingRecyclerView() {
         binding.nowPlayingRecyclerView.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL,
@@ -91,7 +91,7 @@ class MoviesHomeFragment : Fragment() {
         }
 
     }
-    private fun initPopularRecyclerView() {
+    private fun setupPopularRecyclerView() {
         binding.popularRecyclerView.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL,
@@ -101,7 +101,7 @@ class MoviesHomeFragment : Fragment() {
         }
 
     }
-    private fun initTopRatedRecyclerView() {
+    private fun setupTopRatedRecyclerView() {
         binding.topRatedRecyclerView.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL,
@@ -110,7 +110,7 @@ class MoviesHomeFragment : Fragment() {
         binding.topRatedRecyclerView.adapter = MoviesAdapter(){
         }
     }
-    private fun initUpcomingRecyclerView() {
+    private fun setupUpcomingRecyclerView() {
         binding.upcomingRecyclerView.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL,
@@ -119,7 +119,7 @@ class MoviesHomeFragment : Fragment() {
         binding.upcomingRecyclerView.adapter = MoviesAdapter(){
         }
     }
-    private fun initMoviesGenreRecyclerView() {
+    private fun setupMoviesGenreRecyclerView() {
         binding.genreRecyclerView.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL,
@@ -128,7 +128,7 @@ class MoviesHomeFragment : Fragment() {
         binding.genreRecyclerView.adapter = GenreUiAdapter(){
         }
     }
-    private fun initAllRecyclerSkeletons() {
+    private fun setupAllRecyclerSkeletons() {
         trendingSkeleton = binding.trendingRecyclerView.applySkeleton(R.layout.item_home_movie, RECYCLER_SKELETON_ITEM_COUNT)
         mowPlayingSkeleton = binding.nowPlayingRecyclerView.applySkeleton(R.layout.item_home_movie, RECYCLER_SKELETON_ITEM_COUNT)
         popularSkeleton = binding.popularRecyclerView.applySkeleton(R.layout.item_home_movie, RECYCLER_SKELETON_ITEM_COUNT)
