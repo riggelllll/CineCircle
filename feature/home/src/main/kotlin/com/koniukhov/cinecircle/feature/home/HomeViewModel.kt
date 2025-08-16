@@ -2,6 +2,7 @@ package com.koniukhov.cinecircle.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.koniukhov.cinecircle.core.design.util.moviesGenreUiList
 import com.koniukhov.cinecircle.core.domain.usecase.GetNowPlayingMoviesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetPopularMoviesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetTopRatedMoviesUseCase
@@ -35,6 +36,7 @@ class HomeViewModel @Inject constructor(
                     popularMovies = popularMovies,
                     topRatedMovies = topRatedMovies,
                     upcomingMovies = upcomingMovies,
+                    genreUiMovies = moviesGenreUiList,
                     isLoading = false
                 )
             } catch (e: Exception) {

@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.koniukhov.cinecircle.core.design"
 }
+
+dependencies{
+    implementation(projects.core.common)
+}

@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.koniukhov.cinecircle.core.common.model.GenreUi
 import com.koniukhov.cinecircle.core.domain.model.Movie
+import com.koniukhov.cinecircle.feature.home.adapter.GenreUiAdapter
 import com.koniukhov.cinecircle.feature.home.adapter.MoviesAdapter
 import com.koniukhov.cinecircle.feature.home.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +44,7 @@ class HomeFragment : Fragment() {
                 initPopularRecyclerView(it.popularMovies)
                 initTopRatedRecyclerView(it.topRatedMovies)
                 initUpcomingRecyclerView(it.upcomingMovies)
+                initMoviesGenreRecyclerView(it.genreUiMovies)
             }
         }
     }
@@ -90,6 +93,16 @@ class HomeFragment : Fragment() {
             false
         )
         binding.upcomingRecyclerView.adapter = MoviesAdapter(movies){
+        }
+    }
+
+    private fun initMoviesGenreRecyclerView(genres: List<GenreUi>) {
+        binding.genreRecyclerView.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        binding.genreRecyclerView.adapter = GenreUiAdapter(genres){
         }
     }
 }
