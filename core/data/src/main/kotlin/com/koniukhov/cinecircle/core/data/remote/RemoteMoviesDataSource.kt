@@ -9,9 +9,15 @@ import javax.inject.Inject
 class RemoteMoviesDataSource @Inject constructor(
     private val api: TMDBApi
 ) : MoviesDataSource{
+
+    override suspend fun getTrendingMovies(page: Int): MoviesResponseDto {
+        return api.getTrendingMovies(BuildConfig.API_KEY, page).body() ?: MoviesResponseDto.empty()
+    }
+
     override suspend fun getNowPlayingMovies(page: Int): MoviesResponseDto {
         return api.getNowPlayingMovies(BuildConfig.API_KEY, page).body() ?: MoviesResponseDto.empty()
     }
+
     override suspend fun getPopularMovies(page: Int): MoviesResponseDto {
         return api.getPopularMovies(BuildConfig.API_KEY, page).body() ?: MoviesResponseDto.empty()
     }

@@ -9,6 +9,7 @@ object TMDBEndpoints {
     const val MOVIE_ID = "movie_id"
 
     // Endpoints
+    const val TRENDING_MOVIE = "trending/movie/day"
     const val NOW_PLAYING = "movie/now_playing"
     const val MOVIE_POPULAR = "movie/popular"
     const val TOP_RATED = "movie/top_rated"

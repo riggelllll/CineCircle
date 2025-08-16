@@ -6,6 +6,7 @@ import com.koniukhov.cinecircle.core.design.util.moviesGenreUiList
 import com.koniukhov.cinecircle.core.domain.usecase.GetNowPlayingMoviesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetPopularMoviesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetTopRatedMoviesUseCase
+import com.koniukhov.cinecircle.core.domain.usecase.GetTrendingMoviesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetUpcomingMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val getTrendingMoviesUseCase: GetTrendingMoviesUseCase,
     private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase,
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
     private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
@@ -27,11 +29,13 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             try {
+                val trendingMovies = getTrendingMoviesUseCase(page)
                 val nowPlayingMovies = getNowPlayingMoviesUseCase(page)
                 val popularMovies = getPopularMoviesUseCase(page)
                 val topRatedMovies = getTopRatedMoviesUseCase(page)
                 val upcomingMovies = getUpcomingMoviesUseCase(page)
                 _uiState.value = _uiState.value.copy(
+                    trendingMovies = trendingMovies,
                     nowPlayingMovies = nowPlayingMovies,
                     popularMovies = popularMovies,
                     topRatedMovies = topRatedMovies,

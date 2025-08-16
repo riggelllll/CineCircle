@@ -40,6 +40,7 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.loadMoviesForAllCategories()
             viewModel.uiState.collect {
+                initTrendingRecyclerView(it.trendingMovies)
                 initNowPlayingRecyclerView(it.nowPlayingMovies)
                 initPopularRecyclerView(it.popularMovies)
                 initTopRatedRecyclerView(it.topRatedMovies)
@@ -54,6 +55,15 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
+    private fun initTrendingRecyclerView(movies: List<Movie>) {
+        binding.trendingRecyclerView.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        binding.trendingRecyclerView.adapter = MoviesAdapter(movies){
+        }
+    }
     private fun initNowPlayingRecyclerView(movies: List<Movie>) {
         binding.nowPlayingRecyclerView.layoutManager = LinearLayoutManager(
             requireContext(),
