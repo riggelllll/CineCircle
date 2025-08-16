@@ -128,12 +128,12 @@ class HomeFragment : Fragment() {
         }
     }
     private fun initAllRecyclerSkeletons() {
-        trendingSkeleton = binding.trendingRecyclerView.applySkeleton(R.layout.item_home_movie, 5)
-        mowPlayingSkeleton = binding.nowPlayingRecyclerView.applySkeleton(R.layout.item_home_movie, 5)
-        popularSkeleton = binding.popularRecyclerView.applySkeleton(R.layout.item_home_movie, 5)
-        topRatedSkeleton = binding.topRatedRecyclerView.applySkeleton(R.layout.item_home_movie, 5)
-        upcomingSkeleton = binding.upcomingRecyclerView.applySkeleton(R.layout.item_home_movie, 5)
-        genreSkeleton = binding.genreRecyclerView.applySkeleton(R.layout.item_home_genre_ui, 5)
+        trendingSkeleton = binding.trendingRecyclerView.applySkeleton(R.layout.item_home_movie, RECYCLER_SKELETON_ITEM_COUNT)
+        mowPlayingSkeleton = binding.nowPlayingRecyclerView.applySkeleton(R.layout.item_home_movie, RECYCLER_SKELETON_ITEM_COUNT)
+        popularSkeleton = binding.popularRecyclerView.applySkeleton(R.layout.item_home_movie, RECYCLER_SKELETON_ITEM_COUNT)
+        topRatedSkeleton = binding.topRatedRecyclerView.applySkeleton(R.layout.item_home_movie, RECYCLER_SKELETON_ITEM_COUNT)
+        upcomingSkeleton = binding.upcomingRecyclerView.applySkeleton(R.layout.item_home_movie, RECYCLER_SKELETON_ITEM_COUNT)
+        genreSkeleton = binding.genreRecyclerView.applySkeleton(R.layout.item_home_genre_ui, RECYCLER_SKELETON_ITEM_COUNT)
     }
     private fun showAllSkeletons() {
         trendingSkeleton.showSkeleton()
@@ -158,5 +158,9 @@ class HomeFragment : Fragment() {
         (binding.topRatedRecyclerView.adapter as? MoviesAdapter)?.setData(ui.topRatedMovies)
         (binding.upcomingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.upcomingMovies)
         (binding.genreRecyclerView.adapter as? GenreUiAdapter)?.setData(ui.genreUiMovies)
+    }
+
+    companion object{
+        const val RECYCLER_SKELETON_ITEM_COUNT = 5
     }
 }
