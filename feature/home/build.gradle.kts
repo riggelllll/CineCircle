@@ -16,4 +16,5 @@ dependencies{
     implementation(libs.androidx.recyclerview)
     implementation(libs.material)
     implementation(libs.bundles.coil)
+    implementation(libs.skeletonlayout)
 }

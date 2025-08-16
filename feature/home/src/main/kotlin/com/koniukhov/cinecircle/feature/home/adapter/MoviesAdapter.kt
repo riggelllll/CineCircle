@@ -15,7 +15,9 @@ import com.koniukhov.cinecircle.feature.home.databinding.ItemHomeMovieBinding
 
 const val IMAGE_RADIUS = 20f
 
-class MoviesAdapter(private val movies: List<Movie>, private val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(){
+class MoviesAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(){
+    private var movies: List<Movie> = emptyList()
+
     class MoviesViewHolder(val binding: ItemHomeMovieBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
@@ -39,5 +41,10 @@ class MoviesAdapter(private val movies: List<Movie>, private val onItemClick: (I
 
     override fun getItemCount(): Int {
         return movies.size
+    }
+
+    fun setData(data: List<Movie>) {
+        movies = data
+        notifyDataSetChanged()
     }
 }
