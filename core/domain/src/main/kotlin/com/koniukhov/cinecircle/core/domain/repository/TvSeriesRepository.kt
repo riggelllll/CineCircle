@@ -1,0 +1,11 @@
+package com.koniukhov.cinecircle.core.domain.repository
+
+import com.koniukhov.cinecircle.core.domain.model.TvSeries
+
+interface TvSeriesRepository {
+    suspend fun getAiringTodayTvSeries(page: Int = 1): List<TvSeries>
+    suspend fun getOnTheAirTvSeries(page: Int = 1): List<TvSeries>
+    suspend fun getTrendingTvSeries(page: Int = 1): List<TvSeries>
+    suspend fun getPopularTvSeries(page: Int = 1): List<TvSeries>
+    suspend fun getTopRatedTvSeries(page: Int = 1): List<TvSeries>
+}

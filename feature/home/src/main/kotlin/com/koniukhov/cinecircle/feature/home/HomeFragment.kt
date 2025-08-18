@@ -27,11 +27,12 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setupViewPagerAdapter()
+        setupViewPager()
         setupTabMediator()
     }
 
-    private fun setupViewPagerAdapter(){
+    private fun setupViewPager(){
+        binding.viewPager.isUserInputEnabled = false
         binding.viewPager.adapter = createAdapter()
     }
 
@@ -41,7 +42,7 @@ class HomeFragment : Fragment() {
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
                     0 -> MoviesHomeFragment()
-                    1 -> MoviesHomeFragment()
+                    1 -> TvSeriesHomeFragment()
                     else -> throw IllegalStateException()
                 }
             }

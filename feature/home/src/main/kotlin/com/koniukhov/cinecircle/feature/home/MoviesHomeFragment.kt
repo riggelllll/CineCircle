@@ -50,7 +50,7 @@ class MoviesHomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
             viewModel.loadMoviesForAllCategories()
-            viewModel.uiState.collect {
+            viewModel.moviesUiState.collect {
                 if (!it.isLoading && it.error == null){
                     hideAllSkeletons()
                     setDataToRecyclers(it)
