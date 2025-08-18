@@ -9,24 +9,24 @@ import javax.inject.Inject
 class TvSeriesRepositoryImpl @Inject constructor(
     private val remoteDataSource: TvSeriesDataSource
 ) : TvSeriesRepository{
-    override suspend fun getAiringTodayTvSeries(page: Int): List<TvSeries> {
-        val dto = remoteDataSource.getAiringTodayTvSeries(page)
+    override suspend fun getAiringTodayTvSeries(page: Int, language: String): List<TvSeries> {
+        val dto = remoteDataSource.getAiringTodayTvSeries(page, language)
         return dto.results.map { it.toDomain() }
     }
-    override suspend fun getOnTheAirTvSeries(page: Int): List<TvSeries> {
-        val dto = remoteDataSource.getOnTheAirTvSeries(page)
+    override suspend fun getOnTheAirTvSeries(page: Int, language: String): List<TvSeries> {
+        val dto = remoteDataSource.getOnTheAirTvSeries(page, language)
         return dto.results.map { it.toDomain() }
     }
-    override suspend fun getTrendingTvSeries(page: Int): List<TvSeries> {
-        val dto = remoteDataSource.getTrendingTvSeries(page)
+    override suspend fun getTrendingTvSeries(page: Int, language: String): List<TvSeries> {
+        val dto = remoteDataSource.getTrendingTvSeries(page, language)
         return dto.results.map { it.toDomain() }
     }
-    override suspend fun getPopularTvSeries(page: Int): List<TvSeries> {
-        val dto = remoteDataSource.getPopularTvSeries(page)
+    override suspend fun getPopularTvSeries(page: Int, language: String): List<TvSeries> {
+        val dto = remoteDataSource.getPopularTvSeries(page, language)
         return dto.results.map { it.toDomain() }
     }
-    override suspend fun getTopRatedTvSeries(page: Int): List<TvSeries> {
-        val dto = remoteDataSource.getTopRatedTvSeries(page)
+    override suspend fun getTopRatedTvSeries(page: Int, language: String): List<TvSeries> {
+        val dto = remoteDataSource.getTopRatedTvSeries(page, language)
         return dto.results.map { it.toDomain() }
     }
 }

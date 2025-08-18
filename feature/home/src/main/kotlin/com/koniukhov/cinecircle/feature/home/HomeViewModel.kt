@@ -22,6 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val language: String,
     private val getTrendingMoviesUseCase: GetTrendingMoviesUseCase,
     private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase,
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
@@ -42,11 +43,11 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _moviesUiState.value = _moviesUiState.value.copy(isLoading = true, error = null)
             try {
-                val trendingMovies = getTrendingMoviesUseCase(page)
-                val nowPlayingMovies = getNowPlayingMoviesUseCase(page)
-                val popularMovies = getPopularMoviesUseCase(page)
-                val topRatedMovies = getTopRatedMoviesUseCase(page)
-                val upcomingMovies = getUpcomingMoviesUseCase(page)
+                val trendingMovies = getTrendingMoviesUseCase(page, language)
+                val nowPlayingMovies = getNowPlayingMoviesUseCase(page, language)
+                val popularMovies = getPopularMoviesUseCase(page, language)
+                val topRatedMovies = getTopRatedMoviesUseCase(page, language)
+                val upcomingMovies = getUpcomingMoviesUseCase(page, language)
                 _moviesUiState.value = _moviesUiState.value.copy(
                     trendingMovies = trendingMovies,
                     nowPlayingMovies = nowPlayingMovies,
@@ -69,11 +70,11 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _tvSeriesUiState.value = _tvSeriesUiState.value.copy(isLoading = true, error = null)
             try {
-                val airingTodayTvSeries = getAiringTodayTvSeriesUseCase(page)
-                val onTheAirTvSeries = getOnAirTvSeriesUseCase(page)
-                val trendingTvSeries = getTrendingTvSeriesUseCase(page)
-                val popularTvSeries = getPopularTvSeriesUseCase(page)
-                val topRatedTvSeries = getTopRatedTvSeriesUseCase(page)
+                val airingTodayTvSeries = getAiringTodayTvSeriesUseCase(page, language)
+                val onTheAirTvSeries = getOnAirTvSeriesUseCase(page, language)
+                val trendingTvSeries = getTrendingTvSeriesUseCase(page, language)
+                val popularTvSeries = getPopularTvSeriesUseCase(page, language)
+                val topRatedTvSeries = getTopRatedTvSeriesUseCase(page, language)
                 _tvSeriesUiState.value = _tvSeriesUiState.value.copy(
                     airingTodayTvSeries = airingTodayTvSeries,
                     onTheAirTvSeries = onTheAirTvSeries,

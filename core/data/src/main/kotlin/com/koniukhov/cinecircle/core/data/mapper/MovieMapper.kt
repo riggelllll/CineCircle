@@ -6,35 +6,35 @@ import com.koniukhov.cinecircle.core.network.model.MovieDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesDto
 
 fun MovieDto.toDomain(): Movie = Movie(
-    adult = adult,
-    backdropPath = backdropPath,
-    genreIds = genreIds,
-    id = id,
-    originalLanguage = originalLanguage,
-    originalTitle = originalTitle,
-    overview = overview,
-    popularity = popularity,
-    posterPath = posterPath,
-    releaseDate = releaseDate,
-    title = title,
-    video = video,
-    voteAverage = voteAverage,
-    voteCount = voteCount
+    adult = adult ?: false,
+    backdropPath = backdropPath ?: "",
+    genreIds = genreIds ?: emptyList(),
+    id = id ?: 0,
+    originalLanguage = originalLanguage ?: "",
+    originalTitle = originalTitle ?: "",
+    overview = overview ?: "",
+    popularity = popularity ?: 0.0f,
+    posterPath = posterPath ?: "",
+    releaseDate = releaseDate ?: "",
+    title = title ?: "",
+    video = video ?: false,
+    voteAverage = voteAverage ?: 0.0f,
+    voteCount = voteCount ?: 0
 )
 
 fun TvSeriesDto.toDomain(): TvSeries = TvSeries(
-    adult = adult,
+    adult = adult ?: false,
     backdropPath = backdropPath ?: "",
-    genreIds = genreIds,
-    id = id,
-    originCountry = originCountry,
-    originalLanguage = originalLanguage,
-    originalName = originalName,
-    overview = overview,
-    popularity = popularity,
-    posterPath = posterPath,
-    firstAirDate = firstAirDate,
-    name = name,
-    voteAverage = voteAverage,
-    voteCount = voteCount
+    genreIds = genreIds ?: emptyList(),
+    id = id ?: 0,
+    originCountry = originCountry ?: emptyList(),
+    originalLanguage = originalLanguage ?: "",
+    originalName = originalName ?: "",
+    overview = overview ?: "",
+    popularity = popularity ?: 0.0f,
+    posterPath = posterPath ?: "",
+    firstAirDate = firstAirDate ?: "",
+    name = name ?: "",
+    voteAverage = voteAverage ?: 0.0f,
+    voteCount = voteCount ?: 0
 )

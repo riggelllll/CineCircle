@@ -4,5 +4,5 @@ import com.koniukhov.cinecircle.core.domain.repository.TvSeriesRepository
 import javax.inject.Inject
 
 class GetTopRatedTvSeriesUseCase @Inject constructor(private val repository: TvSeriesRepository) {
-    suspend operator fun invoke(page: Int) = repository.getTopRatedTvSeries(page)
+    suspend operator fun invoke(page: Int, language: String) = repository.getTopRatedTvSeries(page, language)
 }

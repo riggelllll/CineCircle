@@ -10,28 +10,28 @@ class MoviesRepositoryImpl @Inject constructor(
     private val remoteDataSource: MoviesDataSource
 ) : MoviesRepository {
 
-    override suspend fun getTrendingMovies(page: Int): List<Movie> {
-        val dto = remoteDataSource.getTrendingMovies(page)
+    override suspend fun getTrendingMovies(page: Int, language: String): List<Movie> {
+        val dto = remoteDataSource.getTrendingMovies(page, language)
         return dto.results.map { it.toDomain() }
     }
 
-    override suspend fun getNowPlayingMovies(page: Int): List<Movie> {
-        val dto = remoteDataSource.getNowPlayingMovies(page)
+    override suspend fun getNowPlayingMovies(page: Int, language: String): List<Movie> {
+        val dto = remoteDataSource.getNowPlayingMovies(page, language)
         return dto.results.map { it.toDomain() }
     }
 
-    override suspend fun getPopularMovies(page: Int): List<Movie> {
-        val dto = remoteDataSource.getPopularMovies(page)
+    override suspend fun getPopularMovies(page: Int, language: String): List<Movie> {
+        val dto = remoteDataSource.getPopularMovies(page, language)
         return dto.results.map { it.toDomain() }
     }
 
-    override suspend fun getTopRatedMovies(page: Int): List<Movie> {
-        val dto = remoteDataSource.getTopRatedMovies(page)
+    override suspend fun getTopRatedMovies(page: Int, language: String): List<Movie> {
+        val dto = remoteDataSource.getTopRatedMovies(page, language)
         return dto.results.map { it.toDomain() }
     }
 
-    override suspend fun getUpcomingMovies(page: Int): List<Movie> {
-        val dto = remoteDataSource.getUpcomingMovies(page)
+    override suspend fun getUpcomingMovies(page: Int, language: String): List<Movie> {
+        val dto = remoteDataSource.getUpcomingMovies(page, language)
         return dto.results.map { it.toDomain() }
     }
 }

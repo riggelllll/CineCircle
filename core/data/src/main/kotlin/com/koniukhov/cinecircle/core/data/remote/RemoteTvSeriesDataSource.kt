@@ -8,23 +8,23 @@ import javax.inject.Inject
 
 class RemoteTvSeriesDataSource @Inject constructor(private val api: TMDBApi) : TvSeriesDataSource {
 
-    override suspend fun getAiringTodayTvSeries(page: Int): TvSeriesResponseDto {
-        return api.getAiringTodayTvSeries(BuildConfig.API_KEY, page).body() ?: TvSeriesResponseDto.empty()
+    override suspend fun getAiringTodayTvSeries(page: Int, language: String): TvSeriesResponseDto {
+        return api.getAiringTodayTvSeries(BuildConfig.API_KEY, page, language).body() ?: TvSeriesResponseDto.empty()
     }
 
-    override suspend fun getOnTheAirTvSeries(page: Int): TvSeriesResponseDto {
-        return api.getOnTheAirTvSeries(BuildConfig.API_KEY, page).body() ?: TvSeriesResponseDto.empty()
+    override suspend fun getOnTheAirTvSeries(page: Int, language: String): TvSeriesResponseDto {
+        return api.getOnTheAirTvSeries(BuildConfig.API_KEY, page, language).body() ?: TvSeriesResponseDto.empty()
     }
 
-    override suspend fun getTrendingTvSeries(page: Int): TvSeriesResponseDto {
-        return api.getTrendingTvSeries(BuildConfig.API_KEY, page).body() ?: TvSeriesResponseDto.empty()
+    override suspend fun getTrendingTvSeries(page: Int, language: String): TvSeriesResponseDto {
+        return api.getTrendingTvSeries(BuildConfig.API_KEY, page, language).body() ?: TvSeriesResponseDto.empty()
     }
 
-    override suspend fun getPopularTvSeries(page: Int): TvSeriesResponseDto {
-        return api.getPopularTvSeries(BuildConfig.API_KEY, page).body() ?: TvSeriesResponseDto.empty()
+    override suspend fun getPopularTvSeries(page: Int, language: String): TvSeriesResponseDto {
+        return api.getPopularTvSeries(BuildConfig.API_KEY, page, language).body() ?: TvSeriesResponseDto.empty()
     }
 
-    override suspend fun getTopRatedTvSeries(page: Int): TvSeriesResponseDto {
-        return api.getTopRatedTvSeries(BuildConfig.API_KEY, page).body() ?: TvSeriesResponseDto.empty()
+    override suspend fun getTopRatedTvSeries(page: Int, language: String): TvSeriesResponseDto {
+        return api.getTopRatedTvSeries(BuildConfig.API_KEY, page, language).body() ?: TvSeriesResponseDto.empty()
     }
 }

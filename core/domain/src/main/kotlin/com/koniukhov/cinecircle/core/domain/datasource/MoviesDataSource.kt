@@ -3,9 +3,9 @@ package com.koniukhov.cinecircle.core.domain.datasource
 import com.koniukhov.cinecircle.core.network.model.MoviesResponseDto
 
 interface MoviesDataSource {
-    suspend fun getTrendingMovies(page: Int): MoviesResponseDto
-    suspend fun getNowPlayingMovies(page: Int): MoviesResponseDto
-    suspend fun getPopularMovies(page: Int): MoviesResponseDto
-    suspend fun getTopRatedMovies(page: Int): MoviesResponseDto
-    suspend fun getUpcomingMovies(page: Int): MoviesResponseDto
+    suspend fun getTrendingMovies(page: Int, language: String): MoviesResponseDto
+    suspend fun getNowPlayingMovies(page: Int, language: String): MoviesResponseDto
+    suspend fun getPopularMovies(page: Int, language: String): MoviesResponseDto
+    suspend fun getTopRatedMovies(page: Int, language: String): MoviesResponseDto
+    suspend fun getUpcomingMovies(page: Int, language: String): MoviesResponseDto
 }
