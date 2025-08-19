@@ -2,6 +2,7 @@ package com.koniukhov.cinecircle.core.network.api
 
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.AIRING_TODAY_TV_SERIES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.API_KEY
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_GENRES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.NOW_PLAYING_MOVIES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ON_THE_AIR_TV_SERIES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.POPULAR_MOVIES
@@ -10,7 +11,9 @@ import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.TOP_RATED_MOVIES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.TOP_RATED_TV_SERIES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.TRENDING_MOVIES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.TRENDING_TV_SERIES
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.TV_SERIES_GENRES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.UPCOMING_MOVIES
+import com.koniukhov.cinecircle.core.network.model.GenreResponseDto
 import com.koniukhov.cinecircle.core.network.model.MoviesResponseDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesResponseDto
 import retrofit2.Response
@@ -46,4 +49,10 @@ interface TMDBApi {
 
     @GET(TOP_RATED_TV_SERIES)
     suspend fun getTopRatedTvSeries(@Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<TvSeriesResponseDto>
+
+    @GET(MOVIE_GENRES)
+    suspend fun getMovieGenres(@Query(API_KEY) apiKey: String, @Query("language") language: String): Response<GenreResponseDto>
+
+    @GET(TV_SERIES_GENRES)
+    suspend fun getTvSeriesGenres(@Query(API_KEY) apiKey: String, @Query("language") language: String): Response<GenreResponseDto>
 }

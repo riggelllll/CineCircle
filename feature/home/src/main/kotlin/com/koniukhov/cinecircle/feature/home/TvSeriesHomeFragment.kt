@@ -183,11 +183,11 @@ class TvSeriesHomeFragment : Fragment() {
     }
 
     private fun setDataToRecyclers(ui: TvSeriesUiState){
-        (binding.airingTodayRecyclerView.adapter as? TvSeriesAdapter)?.setData(ui.airingTodayTvSeries)
-        (binding.onAirRecyclerView.adapter as? TvSeriesAdapter)?.setData(ui.onTheAirTvSeries)
-        (binding.trendingRecyclerView.adapter as? TvSeriesAdapter)?.setData(ui.trendingTvSeries)
-        (binding.popularRecyclerView.adapter as? TvSeriesAdapter)?.setData(ui.popularTvSeries)
-        (binding.topRatedRecyclerView.adapter as? TvSeriesAdapter)?.setData(ui.topRatedTvSeries)
+        (binding.airingTodayRecyclerView.adapter as? TvSeriesAdapter)?.setData(ui.airingTodayTvSeries, ui.genreUiTvSeries)
+        (binding.onAirRecyclerView.adapter as? TvSeriesAdapter)?.setData(ui.onTheAirTvSeries, ui.genreUiTvSeries)
+        (binding.trendingRecyclerView.adapter as? TvSeriesAdapter)?.setData(ui.trendingTvSeries, ui.genreUiTvSeries)
+        (binding.popularRecyclerView.adapter as? TvSeriesAdapter)?.setData(ui.popularTvSeries, ui.genreUiTvSeries)
+        (binding.topRatedRecyclerView.adapter as? TvSeriesAdapter)?.setData(ui.topRatedTvSeries, ui.genreUiTvSeries)
         (binding.genreRecyclerView.adapter as? GenreUiAdapter)?.setData(ui.genreUiTvSeries)
     }
 

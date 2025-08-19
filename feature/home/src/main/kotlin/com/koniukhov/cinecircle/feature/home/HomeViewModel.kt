@@ -2,9 +2,10 @@ package com.koniukhov.cinecircle.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.koniukhov.cinecircle.core.design.util.moviesGenreUiList
-import com.koniukhov.cinecircle.core.design.util.tvSeriesGenreUiList
+import com.koniukhov.cinecircle.core.design.util.getMoviesGenreUiList
+import com.koniukhov.cinecircle.core.design.util.getTvSeriesGenreUiList
 import com.koniukhov.cinecircle.core.domain.usecase.GetAiringTodayTvSeriesUseCase
+import com.koniukhov.cinecircle.core.domain.usecase.GetMovieGenresUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetNowPlayingMoviesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetOnAirTvSeriesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetPopularMoviesUseCase
@@ -13,6 +14,7 @@ import com.koniukhov.cinecircle.core.domain.usecase.GetTopRatedMoviesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetTopRatedTvSeriesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetTrendingMoviesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetTrendingTvSeriesUseCase
+import com.koniukhov.cinecircle.core.domain.usecase.GetTvSeriesGenresUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetUpcomingMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val language: String,
+    private val getMovieGenresUseCase: GetMovieGenresUseCase,
+    private val getTvSeriesGenresUseCase: GetTvSeriesGenresUseCase,
     private val getTrendingMoviesUseCase: GetTrendingMoviesUseCase,
     private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase,
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
@@ -43,6 +47,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _moviesUiState.value = _moviesUiState.value.copy(isLoading = true, error = null)
             try {
+                val movieGenres = getMovieGenresUseCase(language)
                 val trendingMovies = getTrendingMoviesUseCase(page, language)
                 val nowPlayingMovies = getNowPlayingMoviesUseCase(page, language)
                 val popularMovies = getPopularMoviesUseCase(page, language)
@@ -54,7 +59,7 @@ class HomeViewModel @Inject constructor(
                     popularMovies = popularMovies,
                     topRatedMovies = topRatedMovies,
                     upcomingMovies = upcomingMovies,
-                    genreUiMovies = moviesGenreUiList,
+                    genreUiMovies = getMoviesGenreUiList(movieGenres),
                     isLoading = false
                 )
             } catch (e: Exception) {
@@ -70,6 +75,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _tvSeriesUiState.value = _tvSeriesUiState.value.copy(isLoading = true, error = null)
             try {
+                val tvSeriesGenres = getTvSeriesGenresUseCase(language)
                 val airingTodayTvSeries = getAiringTodayTvSeriesUseCase(page, language)
                 val onTheAirTvSeries = getOnAirTvSeriesUseCase(page, language)
                 val trendingTvSeries = getTrendingTvSeriesUseCase(page, language)
@@ -81,7 +87,7 @@ class HomeViewModel @Inject constructor(
                     trendingTvSeries = trendingTvSeries,
                     popularTvSeries = popularTvSeries,
                     topRatedTvSeries = topRatedTvSeries,
-                    genreUiTvSeries = tvSeriesGenreUiList,
+                    genreUiTvSeries = getTvSeriesGenreUiList(tvSeriesGenres),
                     isLoading = false
                 )
             } catch (e: Exception) {

@@ -1,11 +1,11 @@
 package com.koniukhov.cinecircle.core.design.util
 import com.koniukhov.cinecircle.core.common.model.GenreUi
-import com.koniukhov.cinecircle.core.common.util.movieGenreMap
-import com.koniukhov.cinecircle.core.common.util.tvSeriesGenreMap
 import com.koniukhov.cinecircle.core.design.R
+import com.koniukhov.cinecircle.core.domain.model.Genre
+import kotlin.collections.mapNotNull
 
 val moviesGenreDrawableMap = mapOf(
-    22 to R.drawable.movie_genre_action_poster,
+    28 to R.drawable.movie_genre_action_poster,
     12 to R.drawable.movie_genre_adventure_poster,
     16 to R.drawable.movie_genre_animation_poster,
     35 to R.drawable.movie_genre_comedy_poster,
@@ -45,22 +45,26 @@ val tvSeriesGenreDrawableMap = mapOf(
     37 to R.drawable.tv_series_genre_western_poster
 )
 
-val moviesGenreUiList = movieGenreMap.mapNotNull { (id, name) ->
-    moviesGenreDrawableMap[id]?.let { drawableId ->
-        GenreUi(
-            id = id,
-            name = name,
-            imageResId = drawableId
-        )
+fun getMoviesGenreUiList(genres: List<Genre>): List<GenreUi> {
+    return genres.mapNotNull { (id, name) ->
+        moviesGenreDrawableMap[id]?.let { drawableId ->
+            GenreUi(
+                id = id,
+                name = name,
+                imageResId = drawableId
+            )
+        }
     }
 }
 
-val tvSeriesGenreUiList = tvSeriesGenreDrawableMap.mapNotNull { (id, drawableId) ->
-    tvSeriesGenreMap[id]?.let { name ->
-        GenreUi(
-            id = id,
-            name = name,
-            imageResId = drawableId
-        )
+fun getTvSeriesGenreUiList(genres: List<Genre>): List<GenreUi> {
+    return genres.mapNotNull { (id, name) ->
+        tvSeriesGenreDrawableMap[id]?.let { drawableId ->
+            GenreUi(
+                id = id,
+                name = name,
+                imageResId = drawableId
+            )
+        }
     }
 }

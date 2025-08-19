@@ -1,7 +1,9 @@
 package com.koniukhov.cinecircle.core.data.mapper
 
+import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.domain.model.TvSeries
+import com.koniukhov.cinecircle.core.network.model.GenreDto
 import com.koniukhov.cinecircle.core.network.model.MovieDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesDto
 
@@ -38,3 +40,9 @@ fun TvSeriesDto.toDomain(): TvSeries = TvSeries(
     voteAverage = voteAverage ?: 0.0f,
     voteCount = voteCount ?: 0
 )
+
+fun GenreDto.toDomain(): Genre =
+    Genre(
+        id = id ?: 0,
+        name = name ?: ""
+    )

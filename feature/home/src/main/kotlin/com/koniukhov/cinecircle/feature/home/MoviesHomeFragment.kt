@@ -153,11 +153,11 @@ class MoviesHomeFragment : Fragment() {
         genreSkeleton.showOriginal()
     }
     private fun setDataToRecyclers(ui: MoviesUiState){
-        (binding.trendingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.trendingMovies)
-        (binding.nowPlayingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.nowPlayingMovies)
-        (binding.popularRecyclerView.adapter as? MoviesAdapter)?.setData(ui.popularMovies)
-        (binding.topRatedRecyclerView.adapter as? MoviesAdapter)?.setData(ui.topRatedMovies)
-        (binding.upcomingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.upcomingMovies)
+        (binding.trendingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.trendingMovies, ui.genreUiMovies)
+        (binding.nowPlayingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.nowPlayingMovies, ui.genreUiMovies)
+        (binding.popularRecyclerView.adapter as? MoviesAdapter)?.setData(ui.popularMovies, ui.genreUiMovies)
+        (binding.topRatedRecyclerView.adapter as? MoviesAdapter)?.setData(ui.topRatedMovies, ui.genreUiMovies)
+        (binding.upcomingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.upcomingMovies, ui.genreUiMovies)
         (binding.genreRecyclerView.adapter as? GenreUiAdapter)?.setData(ui.genreUiMovies)
     }
 

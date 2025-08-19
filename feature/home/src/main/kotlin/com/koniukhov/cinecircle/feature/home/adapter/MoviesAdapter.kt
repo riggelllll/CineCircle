@@ -7,7 +7,7 @@ import coil3.load
 import coil3.request.placeholder
 import coil3.request.transformations
 import coil3.transform.RoundedCornersTransformation
-import com.koniukhov.cinecircle.core.common.util.movieGenreMap
+import com.koniukhov.cinecircle.core.common.model.GenreUi
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
@@ -17,6 +17,7 @@ const val IMAGE_RADIUS = 20f
 
 class MoviesAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(){
     private var movies: List<Movie> = emptyList()
+    private var genres: List<GenreUi> = emptyList()
 
     class MoviesViewHolder(val binding: ItemHomeMovieBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -31,7 +32,7 @@ class MoviesAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapt
             onItemClick(movie.id)
         }
         holder.binding.title.text = movie.title
-        holder.binding.genre.text = movieGenreMap[movie.genreIds[0]]
+        holder.binding.genre.text = genres.find { it.id == movie.genreIds[0] }?.name
         holder.binding.rating.text = String.format("%.1f", movie.voteAverage).replace(',', '.')
         holder.binding.poster.load(IMAGE_URL_TEMPLATE.format(movie.posterPath)){
             placeholder(R.drawable.placeholder_image)
@@ -43,8 +44,9 @@ class MoviesAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapt
         return movies.size
     }
 
-    fun setData(data: List<Movie>) {
-        movies = data
+    fun setData(movies: List<Movie>, genres: List<GenreUi>) {
+        this.movies = movies
+        this.genres = genres
         notifyDataSetChanged()
     }
 }

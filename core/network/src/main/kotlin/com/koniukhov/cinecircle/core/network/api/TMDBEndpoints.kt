@@ -21,6 +21,9 @@ object TMDBEndpoints {
     const val POPULAR_TV_SERIES = "tv/popular"
     const val TOP_RATED_TV_SERIES = "tv/top_rated"
 
+    const val MOVIE_GENRES = "genre/movie/list"
+    const val TV_SERIES_GENRES = "genre/tv/list"
+
 
     const val MOVIE = "movie/{$MOVIE_ID}"
     const val CREDITS = "movie/{$MOVIE_ID}/credits"
