@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.home
+package com.koniukhov.cinecircle.feature.home.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
+import com.koniukhov.cinecircle.feature.home.HomeViewModel
+import com.koniukhov.cinecircle.feature.home.MoviesUiState
+import com.koniukhov.cinecircle.feature.home.R
 import com.koniukhov.cinecircle.feature.home.adapter.GenreUiAdapter
 import com.koniukhov.cinecircle.feature.home.adapter.MoviesAdapter
 import com.koniukhov.cinecircle.feature.home.databinding.FragmentMoviesHomeBinding
