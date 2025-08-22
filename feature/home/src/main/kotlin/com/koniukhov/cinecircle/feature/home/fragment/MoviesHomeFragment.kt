@@ -1,24 +1,31 @@
 package com.koniukhov.cinecircle.feature.home.fragment
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
+import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.feature.home.HomeViewModel
 import com.koniukhov.cinecircle.feature.home.MoviesUiState
 import com.koniukhov.cinecircle.feature.home.R
 import com.koniukhov.cinecircle.feature.home.adapter.GenreUiAdapter
 import com.koniukhov.cinecircle.feature.home.adapter.MoviesAdapter
 import com.koniukhov.cinecircle.feature.home.databinding.FragmentMoviesHomeBinding
+import com.koniukhov.cinecircle.feature.home.fragment.MediaListFragment.Companion.ARG_GENRE_ID
+import com.koniukhov.cinecircle.feature.home.fragment.MediaListFragment.Companion.ARG_TITLE
+import com.koniukhov.cinecircle.feature.home.fragment.MediaListFragment.Companion.ARG_TYPE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import kotlin.getValue
 
 @AndroidEntryPoint
 class MoviesHomeFragment : Fragment() {
@@ -45,6 +52,7 @@ class MoviesHomeFragment : Fragment() {
         setupAllRecyclerViews()
         setupAllRecyclerSkeletons()
         showAllSkeletons()
+        setupSeeAllClickListeners()
 
         return root
     }
@@ -128,7 +136,12 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.genreRecyclerView.adapter = GenreUiAdapter(){
+        binding.genreRecyclerView.adapter = GenreUiAdapter { id, name ->
+            val encodedName = Uri.encode(name)
+            val request = NavDeepLinkRequest.Builder
+                .fromUri("app://cinecircle/mediaList?$ARG_TYPE=${MediaListType.MOVIES_BY_GENRE}&$ARG_TITLE=${encodedName}&${ARG_GENRE_ID}=${id}".toUri())
+                .build()
+            findNavController().navigate(request)
         }
     }
     private fun setupAllRecyclerSkeletons() {
@@ -156,12 +169,54 @@ class MoviesHomeFragment : Fragment() {
         genreSkeleton.showOriginal()
     }
     private fun setDataToRecyclers(ui: MoviesUiState){
-        (binding.trendingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.trendingMovies, ui.genreUiMovies)
-        (binding.nowPlayingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.nowPlayingMovies, ui.genreUiMovies)
-        (binding.popularRecyclerView.adapter as? MoviesAdapter)?.setData(ui.popularMovies, ui.genreUiMovies)
-        (binding.topRatedRecyclerView.adapter as? MoviesAdapter)?.setData(ui.topRatedMovies, ui.genreUiMovies)
-        (binding.upcomingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.upcomingMovies, ui.genreUiMovies)
+        (binding.trendingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.trendingMovies)
+        (binding.nowPlayingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.nowPlayingMovies)
+        (binding.popularRecyclerView.adapter as? MoviesAdapter)?.setData(ui.popularMovies)
+        (binding.topRatedRecyclerView.adapter as? MoviesAdapter)?.setData(ui.topRatedMovies)
+        (binding.upcomingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.upcomingMovies)
         (binding.genreRecyclerView.adapter as? GenreUiAdapter)?.setData(ui.genreUiMovies)
+    }
+
+    private fun setupSeeAllClickListeners() {
+        setupSeeAllClickListener(
+            binding.nowPlayingSeeAll,
+            MediaListType.NOW_PLAYING_MOVIES,
+            R.string.now_playing_title
+        )
+        setupSeeAllClickListener(
+            binding.trendingSeeAll,
+            MediaListType.TRENDING_MOVIES,
+            R.string.trending_title
+        )
+        setupSeeAllClickListener(
+            binding.popularSeeAll,
+            MediaListType.POPULAR_MOVIES,
+            R.string.popular_title
+        )
+        setupSeeAllClickListener(
+            binding.topRatedSeeAll,
+            MediaListType.TOP_RATED_MOVIES,
+            R.string.top_rated_title
+        )
+        setupSeeAllClickListener(
+            binding.upcomingSeeAll,
+            MediaListType.UPCOMING_MOVIES,
+            R.string.upcoming_title
+        )
+    }
+
+    private fun setupSeeAllClickListener(
+        view: View,
+        type: MediaListType,
+        titleRes: Int
+    ) {
+        view.setOnClickListener {
+            val encodedTitle = Uri.encode(getString(titleRes))
+            val request = NavDeepLinkRequest.Builder
+                .fromUri("app://cinecircle/mediaList?$ARG_TYPE=$type&$ARG_TITLE=${encodedTitle}&${ARG_GENRE_ID}=${-1}".toUri())
+                .build()
+            findNavController().navigate(request)
+        }
     }
 
     companion object{
