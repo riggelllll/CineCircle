@@ -7,7 +7,6 @@ import coil3.load
 import coil3.request.placeholder
 import coil3.request.transformations
 import coil3.transform.RoundedCornersTransformation
-import com.koniukhov.cinecircle.core.common.model.GenreUi
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
@@ -15,7 +14,6 @@ import com.koniukhov.cinecircle.feature.home.databinding.ItemHomeMovieBinding
 
 class TvSeriesAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<TvSeriesAdapter.TvSeriesViewHolder>(){
     private var tvSeries: List<TvSeries> = emptyList()
-    private var genres: List<GenreUi> = emptyList()
 
     class TvSeriesViewHolder(val binding: ItemHomeMovieBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -25,16 +23,17 @@ class TvSeriesAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: TvSeriesViewHolder, position: Int) {
-        val movie = tvSeries[position]
+        val tvSeries = tvSeries[position]
         holder.itemView.setOnClickListener {
-            onItemClick(movie.id)
+            onItemClick(tvSeries.id)
         }
-        holder.binding.title.text = movie.name
-        holder.binding.genre.text = genres.find { it.id == movie.genreIds[0] }?.name
-        holder.binding.rating.text = String.format("%.1f", movie.voteAverage).replace(',', '.')
-        holder.binding.poster.load(IMAGE_URL_TEMPLATE.format(movie.posterPath)){
-            placeholder(R.drawable.placeholder_image)
-            transformations(RoundedCornersTransformation(IMAGE_RADIUS))
+        holder.binding.title.text = tvSeries.name
+        holder.binding.rating.text = String.format("%.1f", tvSeries.voteAverage).replace(',', '.')
+        if (tvSeries.posterPath.isNotEmpty()){
+            holder.binding.poster.load(IMAGE_URL_TEMPLATE.format(tvSeries.posterPath)){
+                placeholder(R.drawable.placeholder_image)
+                transformations(RoundedCornersTransformation(IMAGE_RADIUS))
+            }
         }
     }
 
@@ -42,9 +41,8 @@ class TvSeriesAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Ada
         return tvSeries.size
     }
 
-    fun setData(tvSeries: List<TvSeries>, genres: List<GenreUi>) {
+    fun setData(tvSeries: List<TvSeries>) {
         this.tvSeries = tvSeries
-        this.genres = genres
         notifyDataSetChanged()
     }
 }

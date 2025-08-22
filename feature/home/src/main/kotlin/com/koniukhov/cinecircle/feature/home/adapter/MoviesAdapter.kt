@@ -17,7 +17,6 @@ const val IMAGE_RADIUS = 20f
 
 class MoviesAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(){
     private var movies: List<Movie> = emptyList()
-    private var genres: List<GenreUi> = emptyList()
 
     class MoviesViewHolder(val binding: ItemHomeMovieBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -32,11 +31,12 @@ class MoviesAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapt
             onItemClick(movie.id)
         }
         holder.binding.title.text = movie.title
-        holder.binding.genre.text = genres.find { it.id == movie.genreIds[0] }?.name
         holder.binding.rating.text = String.format("%.1f", movie.voteAverage).replace(',', '.')
-        holder.binding.poster.load(IMAGE_URL_TEMPLATE.format(movie.posterPath)){
-            placeholder(R.drawable.placeholder_image)
-            transformations(RoundedCornersTransformation(IMAGE_RADIUS))
+        if (movie.posterPath.isNotEmpty()){
+            holder.binding.poster.load(IMAGE_URL_TEMPLATE.format(movie.posterPath)){
+                placeholder(R.drawable.placeholder_image)
+                transformations(RoundedCornersTransformation(IMAGE_RADIUS))
+            }
         }
     }
 
@@ -44,9 +44,8 @@ class MoviesAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapt
         return movies.size
     }
 
-    fun setData(movies: List<Movie>, genres: List<GenreUi>) {
+    fun setData(movies: List<Movie>) {
         this.movies = movies
-        this.genres = genres
         notifyDataSetChanged()
     }
 }
