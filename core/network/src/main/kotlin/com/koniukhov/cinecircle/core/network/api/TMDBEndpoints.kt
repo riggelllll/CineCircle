@@ -24,6 +24,8 @@ object TMDBEndpoints {
     const val MOVIE_GENRES = "genre/movie/list"
     const val TV_SERIES_GENRES = "genre/tv/list"
 
+    const val DISCOVER_MOVIES = "discover/movie"
+    const val DISCOVER_TV_SERIES = "discover/tv"
 
     const val MOVIE = "movie/{$MOVIE_ID}"
     const val CREDITS = "movie/{$MOVIE_ID}/credits"

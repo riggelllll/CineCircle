@@ -34,4 +34,13 @@ class MoviesRepositoryImpl @Inject constructor(
         val dto = remoteDataSource.getUpcomingMovies(page, language)
         return dto.results.map { it.toDomain() }
     }
+
+    override suspend fun getMoviesByGenre(
+        genreId: Int,
+        page: Int,
+        language: String
+    ): List<Movie> {
+        val dto = remoteDataSource.getMoviesByGenre(genreId, page, language)
+        return dto.results.map { it.toDomain() }
+    }
 }

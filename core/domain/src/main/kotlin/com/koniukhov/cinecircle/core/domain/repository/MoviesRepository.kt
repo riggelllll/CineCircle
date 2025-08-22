@@ -8,4 +8,5 @@ interface MoviesRepository {
     suspend fun getPopularMovies(page: Int = 1, language: String): List<Movie>
     suspend fun getTopRatedMovies(page: Int = 1, language: String): List<Movie>
     suspend fun getUpcomingMovies(page: Int = 1, language: String): List<Movie>
+    suspend fun getMoviesByGenre(genreId: Int, page: Int = 1, language: String): List<Movie>
 }

@@ -29,4 +29,13 @@ class TvSeriesRepositoryImpl @Inject constructor(
         val dto = remoteDataSource.getTopRatedTvSeries(page, language)
         return dto.results.map { it.toDomain() }
     }
+
+    override suspend fun getTvSeriesByGenre(
+        genreId: Int,
+        page: Int,
+        language: String
+    ): List<TvSeries> {
+        val dto = remoteDataSource.getTvSeriesByGenre(genreId, page, language)
+        return dto.results.map { it.toDomain() }
+    }
 }

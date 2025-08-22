@@ -8,4 +8,5 @@ interface TvSeriesDataSource {
     suspend fun getTrendingTvSeries(page: Int, language: String): TvSeriesResponseDto
     suspend fun getPopularTvSeries(page: Int, language: String): TvSeriesResponseDto
     suspend fun getTopRatedTvSeries(page: Int, language: String): TvSeriesResponseDto
+    suspend fun getTvSeriesByGenre(genreId: Int, page: Int, language: String): TvSeriesResponseDto
 }

@@ -8,4 +8,5 @@ interface TvSeriesRepository {
     suspend fun getTrendingTvSeries(page: Int = 1, language: String): List<TvSeries>
     suspend fun getPopularTvSeries(page: Int = 1, language: String): List<TvSeries>
     suspend fun getTopRatedTvSeries(page: Int = 1, language: String): List<TvSeries>
+    suspend fun getTvSeriesByGenre(genreId: Int, page: Int = 1, language: String): List<TvSeries>
 }

@@ -2,6 +2,8 @@ package com.koniukhov.cinecircle.core.network.api
 
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.AIRING_TODAY_TV_SERIES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.API_KEY
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.DISCOVER_MOVIES
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.DISCOVER_TV_SERIES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_GENRES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.NOW_PLAYING_MOVIES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ON_THE_AIR_TV_SERIES
@@ -55,4 +57,20 @@ interface TMDBApi {
 
     @GET(TV_SERIES_GENRES)
     suspend fun getTvSeriesGenres(@Query(API_KEY) apiKey: String, @Query("language") language: String): Response<GenreResponseDto>
+
+    @GET(DISCOVER_MOVIES)
+    suspend fun getMoviesByGenre(
+        @Query(API_KEY) apiKey: String,
+        @Query("with_genres") genreId: Int,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<MoviesResponseDto>
+
+    @GET(DISCOVER_TV_SERIES)
+    suspend fun getTvSeriesByGenre(
+        @Query(API_KEY) apiKey: String,
+        @Query("with_genres") genreId: Int,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<TvSeriesResponseDto>
 }

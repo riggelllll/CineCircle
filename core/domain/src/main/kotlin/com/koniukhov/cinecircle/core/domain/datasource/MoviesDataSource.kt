@@ -8,4 +8,5 @@ interface MoviesDataSource {
     suspend fun getPopularMovies(page: Int, language: String): MoviesResponseDto
     suspend fun getTopRatedMovies(page: Int, language: String): MoviesResponseDto
     suspend fun getUpcomingMovies(page: Int, language: String): MoviesResponseDto
+    suspend fun getMoviesByGenre(genreId: Int, page: Int, language: String): MoviesResponseDto
 }

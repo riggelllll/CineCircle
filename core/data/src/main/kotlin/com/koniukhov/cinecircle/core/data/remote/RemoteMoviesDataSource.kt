@@ -29,4 +29,12 @@ class RemoteMoviesDataSource @Inject constructor(
     override suspend fun getUpcomingMovies(page: Int, language: String): MoviesResponseDto {
         return api.getUpcomingMovies(BuildConfig.API_KEY, page, language).body() ?: MoviesResponseDto.empty()
     }
+
+    override suspend fun getMoviesByGenre(
+        genreId: Int,
+        page: Int,
+        language: String
+    ): MoviesResponseDto {
+        return api.getMoviesByGenre(BuildConfig.API_KEY, genreId, page, language).body() ?: MoviesResponseDto.empty()
+    }
 }

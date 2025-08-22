@@ -27,4 +27,12 @@ class RemoteTvSeriesDataSource @Inject constructor(private val api: TMDBApi) : T
     override suspend fun getTopRatedTvSeries(page: Int, language: String): TvSeriesResponseDto {
         return api.getTopRatedTvSeries(BuildConfig.API_KEY, page, language).body() ?: TvSeriesResponseDto.empty()
     }
+
+    override suspend fun getTvSeriesByGenre(
+        genreId: Int,
+        page: Int,
+        language: String
+    ): TvSeriesResponseDto {
+        return api.getTvSeriesByGenre(BuildConfig.API_KEY, genreId, page, language).body() ?: TvSeriesResponseDto.empty()
+    }
 }
