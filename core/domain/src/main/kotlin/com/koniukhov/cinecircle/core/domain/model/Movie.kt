@@ -4,7 +4,7 @@ data class Movie (
     val adult: Boolean,
     val backdropPath: String,
     val genreIds: List<Int>,
-    val id: Int,
+    override val id: Int,
     val originalLanguage: String,
     val originalTitle: String,
     val overview: String,
@@ -15,4 +15,4 @@ data class Movie (
     val video: Boolean,
     val voteAverage: Float,
     val voteCount: Int
-)
+) : MediaItem()

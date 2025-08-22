@@ -4,7 +4,7 @@ data class TvSeries(
     val adult: Boolean,
     val backdropPath: String,
     val genreIds: List<Int>,
-    val id: Int,
+    override val id: Int,
     val originCountry: List<String>,
     val originalLanguage: String,
     val originalName: String,
@@ -15,4 +15,4 @@ data class TvSeries(
     val name: String,
     val voteAverage: Float,
     val voteCount: Int
-)
+) : MediaItem()
