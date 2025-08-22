@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
+    <include app:graph="@navigation/feature_home_nav_graph"/>
 
     <fragment
         android:id="@+id/navigation_home"
