@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph">
+
+    <fragment
+        android:id="@+id/mediaListFragment"
+        android:name="com.koniukhov.cinecircle.feature.home.fragment.MediaListFragment"
+        android:label="MediaListFragment"
+        tools:layout="@layout/fragment_media_list">
+        <argument
+            android:name="type"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument android:name="genre_id"
+            app:argType="integer" />
+        <deepLink
+            app:uri="app://cinecircle/mediaList?type={type}&amp;title={title}&amp;genre_id={genre_id}" />
+    </fragment>
+</navigation>

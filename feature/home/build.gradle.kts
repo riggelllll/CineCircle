@@ -13,8 +13,11 @@ dependencies{
     implementation(projects.core.design)
     implementation(projects.core.network)
     implementation(projects.core.common)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.material)
     implementation(libs.bundles.coil)
     implementation(libs.skeletonlayout)
+    implementation(libs.androidx.paging.runtime)
 }

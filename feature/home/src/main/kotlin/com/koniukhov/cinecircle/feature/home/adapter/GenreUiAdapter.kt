@@ -12,7 +12,7 @@ import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.feature.home.databinding.ItemHomeGenreUiBinding
 
 
-class GenreUiAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<GenreUiAdapter.GenreUiViewHolder>(){
+class GenreUiAdapter(private val onItemClick: (Int, String) -> Unit) : RecyclerView.Adapter<GenreUiAdapter.GenreUiViewHolder>(){
     private var genres: List<GenreUi> = emptyList()
 
     class GenreUiViewHolder(val binding: ItemHomeGenreUiBinding) : RecyclerView.ViewHolder(binding.root)
@@ -25,7 +25,7 @@ class GenreUiAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adap
     override fun onBindViewHolder(holder: GenreUiViewHolder, position: Int) {
         val genre = genres[position]
         holder.itemView.setOnClickListener {
-            onItemClick(genre.id)
+            onItemClick(genre.id, genre.name)
         }
         holder.binding.genre.text = genre.name
         holder.binding.poster.load(genre.imageResId){
