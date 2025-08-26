@@ -20,6 +20,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 }
                 buildFeatures {
                     buildConfig = true
+                    viewBinding = true
                 }
                 defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
