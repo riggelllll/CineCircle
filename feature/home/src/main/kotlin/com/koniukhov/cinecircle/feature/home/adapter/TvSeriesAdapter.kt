@@ -8,17 +8,17 @@ import coil3.request.placeholder
 import coil3.request.transformations
 import coil3.transform.RoundedCornersTransformation
 import com.koniukhov.cinecircle.core.design.R
+import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
 import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
-import com.koniukhov.cinecircle.feature.home.databinding.ItemHomeMovieBinding
 
 class TvSeriesAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<TvSeriesAdapter.TvSeriesViewHolder>(){
     private var tvSeries: List<TvSeries> = emptyList()
 
-    class TvSeriesViewHolder(val binding: ItemHomeMovieBinding) : RecyclerView.ViewHolder(binding.root)
+    class TvSeriesViewHolder(val binding: ItemMediaBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvSeriesViewHolder {
-        val binding = ItemHomeMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemMediaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TvSeriesViewHolder(binding)
     }
 

@@ -7,21 +7,20 @@ import coil3.load
 import coil3.request.placeholder
 import coil3.request.transformations
 import coil3.transform.RoundedCornersTransformation
-import com.koniukhov.cinecircle.core.common.model.GenreUi
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
-import com.koniukhov.cinecircle.feature.home.databinding.ItemHomeMovieBinding
+import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
 
 const val IMAGE_RADIUS = 20f
 
 class MoviesAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(){
     private var movies: List<Movie> = emptyList()
 
-    class MoviesViewHolder(val binding: ItemHomeMovieBinding) : RecyclerView.ViewHolder(binding.root)
+    class MoviesViewHolder(val binding: ItemMediaBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
-        val binding = ItemHomeMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemMediaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MoviesViewHolder(binding)
     }
 
