@@ -3,7 +3,7 @@ package com.koniukhov.cinecircle.core.domain.model
 data class MovieDetails(
     val adult: Boolean,
     val backdropPath: String,
-    val belongsToCollection: String,
+    val belongsToCollection: MovieCollection,
     val budget: Int,
     val genres: List<Genre>,
     val homePage: String,

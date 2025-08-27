@@ -7,7 +7,7 @@ data class MovieDetailsDto (
     @SerializedName("backdrop_path")
     val backdropPath: String,
     @SerializedName("belongs_to_collection")
-    val belongsToCollection: String,
+    val belongsToCollection: MovieCollectionDto,
     val budget: Int,
     val genres: List<GenreDto>,
     @SerializedName("homepage")
@@ -46,7 +46,7 @@ data class MovieDetailsDto (
         fun empty() = MovieDetailsDto(
             adult = false,
             backdropPath = "",
-            belongsToCollection = "",
+            belongsToCollection = MovieCollectionDto.empty(),
             budget = 0,
             genres = emptyList(),
             homePage = "",

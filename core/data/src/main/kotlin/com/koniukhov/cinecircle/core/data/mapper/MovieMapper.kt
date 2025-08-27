@@ -7,6 +7,7 @@ import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.domain.model.Company
 import com.koniukhov.cinecircle.core.domain.model.ProductionCountry
 import com.koniukhov.cinecircle.core.domain.model.Language
+import com.koniukhov.cinecircle.core.domain.model.MovieCollection
 import com.koniukhov.cinecircle.core.network.model.GenreDto
 import com.koniukhov.cinecircle.core.network.model.MovieDetailsDto
 import com.koniukhov.cinecircle.core.network.model.MovieDto
@@ -14,6 +15,7 @@ import com.koniukhov.cinecircle.core.network.model.TvSeriesDto
 import com.koniukhov.cinecircle.core.network.model.CompanyDto
 import com.koniukhov.cinecircle.core.network.model.ProductionCountryDto
 import com.koniukhov.cinecircle.core.network.model.LanguageDto
+import com.koniukhov.cinecircle.core.network.model.MovieCollectionDto
 
 fun MovieDto.toDomain(): Movie = Movie(
     adult = adult ?: false,
@@ -58,9 +60,9 @@ fun GenreDto.toDomain(): Genre =
 fun MovieDetailsDto.toDomain(): MovieDetails = MovieDetails(
     adult = adult ?: false,
     backdropPath = backdropPath ?: "",
-    belongsToCollection = belongsToCollection ?: "",
+    belongsToCollection = belongsToCollection?.toDomain() ?: MovieCollection(-1, "", "", ""),
     budget = budget ?: 0,
-    genres = genres.map { it.toDomain() } ?: emptyList(),
+    genres = genres?.map { it.toDomain() } ?: emptyList(),
     homePage = homePage ?: "",
     id = id ?: 0,
     imdbId = imdbId ?: "",
@@ -69,12 +71,12 @@ fun MovieDetailsDto.toDomain(): MovieDetails = MovieDetails(
     overview = overview ?: "",
     popularity = popularity ?: 0.0f,
     posterPath = posterPath ?: "",
-    productionCompanies = productionCompanies.map { it.toDomain() } ?: emptyList(),
-    productionCountries = productionCountries.map { it.toDomain() } ?: emptyList(),
+    productionCompanies = productionCompanies?.map { it.toDomain() } ?: emptyList(),
+    productionCountries = productionCountries?.map { it.toDomain() } ?: emptyList(),
     releaseDate = releaseDate ?: "",
     revenue = revenue ?: 0,
     runtime = runtime ?: 0,
-    spokenLanguages = spokenLanguages.map { it.toDomain() } ?: emptyList(),
+    spokenLanguages = spokenLanguages?.map { it.toDomain() } ?: emptyList(),
     status = status ?: "",
     tagline = tagline ?: "",
     title = title ?: "",
@@ -100,3 +102,11 @@ fun LanguageDto.toDomain(): Language = Language(
     isoName = isoName ?: "",
     name = name ?: ""
 )
+
+fun MovieCollectionDto.toDomain(): MovieCollection =
+    MovieCollection(
+        id = id,
+        name = name,
+        posterPath = posterPath,
+        backdropPath = backdropPath
+    )
