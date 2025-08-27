@@ -27,7 +27,7 @@ object TMDBEndpoints {
     const val DISCOVER_MOVIES = "discover/movie"
     const val DISCOVER_TV_SERIES = "discover/tv"
 
-    const val MOVIE = "movie/{$MOVIE_ID}"
+    const val MOVIE_DETAILS = "movie/{$MOVIE_ID}"
     const val CREDITS = "movie/{$MOVIE_ID}/credits"
     const val IMAGES = "movie/{$MOVIE_ID}/images"
     const val RECOMMENDATIONS = "movie/{$MOVIE_ID}/recommendations"

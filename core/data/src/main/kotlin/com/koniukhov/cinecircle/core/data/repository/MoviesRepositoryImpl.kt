@@ -3,6 +3,7 @@ package com.koniukhov.cinecircle.core.data.repository
 import com.koniukhov.cinecircle.core.data.mapper.toDomain
 import com.koniukhov.cinecircle.core.domain.datasource.MoviesDataSource
 import com.koniukhov.cinecircle.core.domain.model.Movie
+import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.repository.MoviesRepository
 import javax.inject.Inject
 
@@ -42,5 +43,13 @@ class MoviesRepositoryImpl @Inject constructor(
     ): List<Movie> {
         val dto = remoteDataSource.getMoviesByGenre(genreId, page, language)
         return dto.results.map { it.toDomain() }
+    }
+
+    override suspend fun getMovieDetails(
+        movieId: Int,
+        language: String
+    ): MovieDetails {
+        val dto = remoteDataSource.getMovieDetails(movieId, language)
+        return dto.toDomain()
     }
 }

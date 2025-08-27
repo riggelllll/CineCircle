@@ -7,7 +7,7 @@ data class MovieDetailsDto (
     @SerializedName("backdrop_path")
     val backdropPath: String,
     @SerializedName("belongs_to_collection")
-    val belongsToCollection: Boolean,
+    val belongsToCollection: String,
     val budget: Int,
     val genres: List<GenreDto>,
     @SerializedName("homepage")
@@ -30,7 +30,7 @@ data class MovieDetailsDto (
     @SerializedName("release_date")
     val releaseDate: String,
     val revenue: Int,
-    val runtime: Short,
+    val runtime: Int,
     @SerializedName("spoken_languages")
     val spokenLanguages: List<LanguageDto>,
     val status: String,
@@ -41,4 +41,34 @@ data class MovieDetailsDto (
     val voteAverage: Float,
     @SerializedName("vote_count")
     val voteCount: Int
-)
+){
+    companion object {
+        fun empty() = MovieDetailsDto(
+            adult = false,
+            backdropPath = "",
+            belongsToCollection = "",
+            budget = 0,
+            genres = emptyList(),
+            homePage = "",
+            id = 0,
+            imdbId = "",
+            originalLanguage = "",
+            originalTitle = "",
+            overview = "",
+            popularity = 0f,
+            posterPath = "",
+            productionCompanies = emptyList(),
+            productionCountries = emptyList(),
+            releaseDate = "",
+            revenue = 0,
+            runtime = 0,
+            spokenLanguages = emptyList(),
+            status = "",
+            tagline = "",
+            title = "",
+            video = false,
+            voteAverage = 0f,
+            voteCount = 0
+        )
+    }
+}

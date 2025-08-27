@@ -3,6 +3,7 @@ package com.koniukhov.cinecircle.core.data.remote
 import com.koniukhov.cinecircle.core.data.BuildConfig
 import com.koniukhov.cinecircle.core.domain.datasource.MoviesDataSource
 import com.koniukhov.cinecircle.core.network.api.TMDBApi
+import com.koniukhov.cinecircle.core.network.model.MovieDetailsDto
 import com.koniukhov.cinecircle.core.network.model.MoviesResponseDto
 import javax.inject.Inject
 
@@ -36,5 +37,12 @@ class RemoteMoviesDataSource @Inject constructor(
         language: String
     ): MoviesResponseDto {
         return api.getMoviesByGenre(BuildConfig.API_KEY, genreId, page, language).body() ?: MoviesResponseDto.empty()
+    }
+
+    override suspend fun getMovieDetails(
+        movieId: Int,
+        language: String
+    ): MovieDetailsDto {
+        return api.getMovieDetails(movieId, BuildConfig.API_KEY, language).body() ?: MovieDetailsDto.empty()
     }
 }
