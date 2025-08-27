@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.koniukhov.cinecircle.core.common"
 }
+
+dependencies{
+    implementation(libs.androidx.core.ktx)
+}

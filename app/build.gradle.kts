@@ -48,6 +48,7 @@ dependencies {
     implementation(projects.core.model)
     implementation(projects.core.network)
     implementation(projects.feature.home)
+    implementation(projects.feature.movieDetails)
     implementation(projects.feature.collections)
     implementation(projects.feature.search)
 
