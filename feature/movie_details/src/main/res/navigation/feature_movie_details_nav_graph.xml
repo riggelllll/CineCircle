@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/feature_movie_details_nav_graph"
+    app:startDestination="@id/movieDetailFragment">
+
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="com.koniukhov.cinecircle.feature.movie.details.MovieDetailsFragment"
+        android:label="MovieDetailsFragment">
+        <argument android:name="movie_id"
+            app:argType="integer" />
+        <deepLink
+            app:uri="app://cinecircle/movie_details?movie_id={movie_id}" />
+    </fragment>
+</navigation>
