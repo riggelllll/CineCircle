@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">About</string>
+    <string name="add_to_favorites">Add to Favorites</string>
+    <string name="plot">Plot</string>
+    <string name="read_more">Read more</string>
+    <string name="see_all">See all</string>
+    <string name="images_title">Images</string>
+    <string name="trailers_teasers_title">Trailers and Teasers</string>
+    <string name="cast_title">Cast</string>
+    <string name="crew_title">Crew</string>
+    <string name="reviews_title">Reviews</string>
+    <string name="recommendations_title">Recommendations</string>
+    <string name="similar_title">Similar</string>
+
+    <string name="budget">Budget</string>
+    <string name="homepage">Homepage</string>
+    <string name="original_language">Original language</string>
+    <string name="original_title">Original title</string>
+    <string name="popularity">Popularity</string>
+    <string name="production_countries">Production countries</string>
+    <string name="release_date">Release date</string>
+    <string name="revenue">Revenue</string>
+    <string name="runtime">Runtime</string>
+    <string name="spoken_languages">Spoken languages</string>
+    <string name="status">Status</string>
+    <string name="tagline">Tagline</string>
+    <string name="vote_count">Vote count</string>
+    <string name="collections_title">Collections</string>
+    <string name="view_collection">View collection</string>
+</resources>
