@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,15 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.koniukhov.cinecircle.core.common.model.MediaListType
+import com.koniukhov.cinecircle.core.common.navigation.NavArgs.mediaListUri
 import com.koniukhov.cinecircle.feature.home.HomeViewModel
 import com.koniukhov.cinecircle.feature.home.R
 import com.koniukhov.cinecircle.feature.home.TvSeriesUiState
 import com.koniukhov.cinecircle.feature.home.adapter.GenreUiAdapter
 import com.koniukhov.cinecircle.feature.home.adapter.TvSeriesAdapter
 import com.koniukhov.cinecircle.feature.home.databinding.FragmentTvSeriesHomeBinding
-import com.koniukhov.cinecircle.feature.home.fragment.MediaListFragment.Companion.ARG_GENRE_ID
-import com.koniukhov.cinecircle.feature.home.fragment.MediaListFragment.Companion.ARG_TITLE
-import com.koniukhov.cinecircle.feature.home.fragment.MediaListFragment.Companion.ARG_TYPE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -175,7 +172,7 @@ class TvSeriesHomeFragment : Fragment() {
         binding.genreRecyclerView.adapter = GenreUiAdapter { id, name ->
             val encodedName = Uri.encode(name)
             val request = NavDeepLinkRequest.Builder
-                .fromUri("app://cinecircle/mediaList?$ARG_TYPE=${MediaListType.TV_SERIES_BY_GENRE}&$ARG_TITLE=$encodedName&${ARG_GENRE_ID}=$id".toUri())
+                .fromUri(mediaListUri(MediaListType.TV_SERIES_BY_GENRE, encodedName, id))
                 .build()
             findNavController().navigate(request)
         }
@@ -244,7 +241,7 @@ class TvSeriesHomeFragment : Fragment() {
         view.setOnClickListener {
             val encodedTitle = Uri.encode(getString(titleRes))
             val request = NavDeepLinkRequest.Builder
-                .fromUri("app://cinecircle/mediaList?$ARG_TYPE=$type&$ARG_TITLE=${encodedTitle}&${ARG_GENRE_ID}=${-1}".toUri())
+                .fromUri(mediaListUri(type, encodedTitle, -1))
                 .build()
             findNavController().navigate(request)
         }

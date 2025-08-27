@@ -9,6 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.koniukhov.cinecircle.core.common.model.MediaListType
+import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_GENRE_ID
+import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_TITLE
+import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_TYPE
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.feature.home.MediaListViewModel
 import com.koniukhov.cinecircle.feature.home.adapter.PagingMediaAdapter
@@ -101,11 +104,4 @@ class MediaListFragment : Fragment() {
             viewModel.loadMedia(currentType, genreId)
         }
     }
-
-    companion object {
-        const val ARG_TYPE = "type"
-        const val ARG_TITLE = "title"
-        const val ARG_GENRE_ID = "genre_id"
-    }
-
 }

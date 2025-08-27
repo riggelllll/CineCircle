@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,15 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.koniukhov.cinecircle.core.common.model.MediaListType
+import com.koniukhov.cinecircle.core.common.navigation.NavArgs.mediaListUri
+import com.koniukhov.cinecircle.core.common.navigation.NavArgs.movieDetailsUri
 import com.koniukhov.cinecircle.feature.home.HomeViewModel
 import com.koniukhov.cinecircle.feature.home.MoviesUiState
 import com.koniukhov.cinecircle.feature.home.R
 import com.koniukhov.cinecircle.feature.home.adapter.GenreUiAdapter
 import com.koniukhov.cinecircle.feature.home.adapter.MoviesAdapter
 import com.koniukhov.cinecircle.feature.home.databinding.FragmentMoviesHomeBinding
-import com.koniukhov.cinecircle.feature.home.fragment.MediaListFragment.Companion.ARG_GENRE_ID
-import com.koniukhov.cinecircle.feature.home.fragment.MediaListFragment.Companion.ARG_TITLE
-import com.koniukhov.cinecircle.feature.home.fragment.MediaListFragment.Companion.ARG_TYPE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -89,7 +87,8 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.trendingRecyclerView.adapter = MoviesAdapter(){
+        binding.trendingRecyclerView.adapter = MoviesAdapter{
+            navigateToMovieDetails(it)
         }
     }
     private fun setupNowPlayingRecyclerView() {
@@ -98,7 +97,8 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.nowPlayingRecyclerView.adapter = MoviesAdapter(){
+        binding.nowPlayingRecyclerView.adapter = MoviesAdapter {
+            navigateToMovieDetails(it)
         }
 
     }
@@ -108,7 +108,8 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.popularRecyclerView.adapter = MoviesAdapter(){
+        binding.popularRecyclerView.adapter = MoviesAdapter {
+            navigateToMovieDetails(it)
         }
 
     }
@@ -118,7 +119,8 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.topRatedRecyclerView.adapter = MoviesAdapter(){
+        binding.topRatedRecyclerView.adapter = MoviesAdapter {
+            navigateToMovieDetails(it)
         }
     }
     private fun setupUpcomingRecyclerView() {
@@ -127,7 +129,8 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.upcomingRecyclerView.adapter = MoviesAdapter(){
+        binding.upcomingRecyclerView.adapter = MoviesAdapter {
+            navigateToMovieDetails(it)
         }
     }
     private fun setupMoviesGenreRecyclerView() {
@@ -139,7 +142,7 @@ class MoviesHomeFragment : Fragment() {
         binding.genreRecyclerView.adapter = GenreUiAdapter { id, name ->
             val encodedName = Uri.encode(name)
             val request = NavDeepLinkRequest.Builder
-                .fromUri("app://cinecircle/mediaList?$ARG_TYPE=${MediaListType.MOVIES_BY_GENRE}&$ARG_TITLE=${encodedName}&${ARG_GENRE_ID}=${id}".toUri())
+                .fromUri(mediaListUri(MediaListType.MOVIES_BY_GENRE, encodedName, id))
                 .build()
             findNavController().navigate(request)
         }
@@ -213,10 +216,17 @@ class MoviesHomeFragment : Fragment() {
         view.setOnClickListener {
             val encodedTitle = Uri.encode(getString(titleRes))
             val request = NavDeepLinkRequest.Builder
-                .fromUri("app://cinecircle/mediaList?$ARG_TYPE=$type&$ARG_TITLE=${encodedTitle}&${ARG_GENRE_ID}=${-1}".toUri())
+                .fromUri(mediaListUri(type, encodedTitle, -1))
                 .build()
             findNavController().navigate(request)
         }
+    }
+
+    private fun navigateToMovieDetails(movieId: Int) {
+        val request = NavDeepLinkRequest.Builder
+            .fromUri(movieDetailsUri(movieId))
+            .build()
+        findNavController().navigate(request)
     }
 
     companion object{
