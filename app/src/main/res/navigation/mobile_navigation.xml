@@ -5,6 +5,7 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
     <include app:graph="@navigation/feature_home_nav_graph"/>
+    <include app:graph="@navigation/feature_movie_details_nav_graph"/>
 
     <fragment
         android:id="@+id/navigation_home"
