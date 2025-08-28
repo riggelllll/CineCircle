@@ -7,8 +7,10 @@ import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.domain.model.Company
+import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.domain.model.ProductionCountry
 import com.koniukhov.cinecircle.core.domain.model.Language
+import com.koniukhov.cinecircle.core.domain.model.MediaImages
 import com.koniukhov.cinecircle.core.domain.model.MovieCollection
 import com.koniukhov.cinecircle.core.network.model.CollectionDetailsDto
 import com.koniukhov.cinecircle.core.network.model.CollectionMediaDto
@@ -17,8 +19,10 @@ import com.koniukhov.cinecircle.core.network.model.MovieDetailsDto
 import com.koniukhov.cinecircle.core.network.model.MovieDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesDto
 import com.koniukhov.cinecircle.core.network.model.CompanyDto
+import com.koniukhov.cinecircle.core.network.model.ImageDto
 import com.koniukhov.cinecircle.core.network.model.ProductionCountryDto
 import com.koniukhov.cinecircle.core.network.model.LanguageDto
+import com.koniukhov.cinecircle.core.network.model.MediaImagesDto
 import com.koniukhov.cinecircle.core.network.model.MovieCollectionDto
 
 fun MovieDto.toDomain(): Movie = Movie(
@@ -140,4 +144,21 @@ fun CollectionDetailsDto.toDomain(): CollectionDetails = CollectionDetails(
     posterPath = posterPath ?: "",
     backdropPath = backdropPath ?: "",
     parts = parts?.map { it.toDomain() } ?: emptyList()
+)
+
+fun ImageDto.toDomain(): Image = Image(
+    aspectRatio = aspectRatio ?: 0.0,
+    filePath = filePath ?: "",
+    height = height ?: 0,
+    isoName = isoName ?: "",
+    voteAverage = voteAverage ?: 0.0,
+    voteCount = voteCount ?: 0,
+    width = width ?: 0
+)
+
+fun MediaImagesDto.toDomain(): MediaImages = MediaImages(
+    id = id ?: 0,
+    backdrops = backdrops?.map { it.toDomain() } ?: emptyList(),
+    posters = posters?.map { it.toDomain() } ?: emptyList(),
+    logos = logos?.map { it.toDomain() } ?: emptyList()
 )
