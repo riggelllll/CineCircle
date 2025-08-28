@@ -4,7 +4,7 @@ data class Image(
     val filePath: String,
     val width: Int,
     val height: Int,
-    val isoName: String,
+    val countryCode: String,
     val aspectRatio: Double,
     val voteAverage: Double,
     val voteCount: Int

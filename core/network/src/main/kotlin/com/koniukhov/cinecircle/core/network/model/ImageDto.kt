@@ -9,7 +9,7 @@ data class ImageDto(
     val filePath: String,
     val height: Int,
     @SerializedName("iso_639_1")
-    val isoName: String,
+    val countryCode: String,
     @SerializedName("vote_average")
     val voteAverage: Double,
     @SerializedName("vote_count")
