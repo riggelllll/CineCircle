@@ -12,6 +12,8 @@ import com.koniukhov.cinecircle.core.domain.model.ProductionCountry
 import com.koniukhov.cinecircle.core.domain.model.Language
 import com.koniukhov.cinecircle.core.domain.model.MediaImages
 import com.koniukhov.cinecircle.core.domain.model.MovieCollection
+import com.koniukhov.cinecircle.core.domain.model.MovieVideos
+import com.koniukhov.cinecircle.core.domain.model.Video
 import com.koniukhov.cinecircle.core.network.model.CollectionDetailsDto
 import com.koniukhov.cinecircle.core.network.model.CollectionMediaDto
 import com.koniukhov.cinecircle.core.network.model.GenreDto
@@ -24,6 +26,8 @@ import com.koniukhov.cinecircle.core.network.model.ProductionCountryDto
 import com.koniukhov.cinecircle.core.network.model.LanguageDto
 import com.koniukhov.cinecircle.core.network.model.MediaImagesDto
 import com.koniukhov.cinecircle.core.network.model.MovieCollectionDto
+import com.koniukhov.cinecircle.core.network.model.MovieVideosDto
+import com.koniukhov.cinecircle.core.network.model.VideoDto
 
 fun MovieDto.toDomain(): Movie = Movie(
     adult = adult ?: false,
@@ -161,4 +165,22 @@ fun MediaImagesDto.toDomain(): MediaImages = MediaImages(
     backdrops = backdrops?.map { it.toDomain() } ?: emptyList(),
     posters = posters?.map { it.toDomain() } ?: emptyList(),
     logos = logos?.map { it.toDomain() } ?: emptyList()
+)
+
+fun VideoDto.toDomain(): Video = Video(
+    languageCode = languageCode ?: "",
+    countryCode = countryCode ?: "",
+    name = name ?: "",
+    key = key ?: "",
+    site = site ?: "",
+    size = size ?: 0,
+    type = type ?: "",
+    official = official ?: false,
+    publishedAt = publishedAt ?: "",
+    id = id ?: ""
+)
+
+fun MovieVideosDto.toDomain(): MovieVideos = MovieVideos(
+    id = id ?: 0,
+    results = results?.map { it.toDomain() } ?: emptyList()
 )
