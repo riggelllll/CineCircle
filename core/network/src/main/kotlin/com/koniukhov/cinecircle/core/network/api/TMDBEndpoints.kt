@@ -31,6 +31,7 @@ object TMDBEndpoints {
     const val MOVIE_DETAILS = "movie/{$MOVIE_ID}"
     const val COLLECTION_DETAILS = "collection/{$COLLECTION_ID}"
     const val MOVIE_IMAGES = "movie/{$MOVIE_ID}/images"
+    const val MOVIE_VIDEOS = "movie/{$MOVIE_ID}/videos"
     const val CREDITS = "movie/{$MOVIE_ID}/credits"
     const val IMAGES = "movie/{$MOVIE_ID}/images"
     const val RECOMMENDATIONS = "movie/{$MOVIE_ID}/recommendations"
