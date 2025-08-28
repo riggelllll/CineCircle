@@ -2,18 +2,22 @@ package com.koniukhov.cinecircle.core.data.di
 
 import com.koniukhov.cinecircle.core.data.remote.RemoteCollectionsDataSource
 import com.koniukhov.cinecircle.core.data.remote.RemoteGenresDataSource
+import com.koniukhov.cinecircle.core.data.remote.RemoteImagesDataSource
 import com.koniukhov.cinecircle.core.data.remote.RemoteMoviesDataSource
 import com.koniukhov.cinecircle.core.data.remote.RemoteTvSeriesDataSource
 import com.koniukhov.cinecircle.core.data.repository.CollectionsRepositoryImpl
 import com.koniukhov.cinecircle.core.data.repository.GenresRepositoryImpl
+import com.koniukhov.cinecircle.core.data.repository.ImagesRepositoryImpl
 import com.koniukhov.cinecircle.core.data.repository.MoviesRepositoryImpl
 import com.koniukhov.cinecircle.core.data.repository.TvSeriesRepositoryImpl
 import com.koniukhov.cinecircle.core.domain.datasource.CollectionsDataSource
 import com.koniukhov.cinecircle.core.domain.datasource.GenresDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.ImagesDataSource
 import com.koniukhov.cinecircle.core.domain.datasource.MoviesDataSource
 import com.koniukhov.cinecircle.core.domain.datasource.TvSeriesDataSource
 import com.koniukhov.cinecircle.core.domain.repository.CollectionsRepository
 import com.koniukhov.cinecircle.core.domain.repository.GenresRepository
+import com.koniukhov.cinecircle.core.domain.repository.ImagesRepository
 import com.koniukhov.cinecircle.core.domain.repository.MoviesRepository
 import com.koniukhov.cinecircle.core.domain.repository.TvSeriesRepository
 import dagger.Binds
@@ -72,4 +76,16 @@ abstract class DataModule {
     abstract fun bindCollectionsRepository(
         collectionsRepository: CollectionsRepositoryImpl
     ): CollectionsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindRemoteImageDataSource(
+        remoteImageDataSource: RemoteImagesDataSource
+    ): ImagesDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindImagesRepository(
+        imagesRepository: ImagesRepositoryImpl
+    ): ImagesRepository
 }
