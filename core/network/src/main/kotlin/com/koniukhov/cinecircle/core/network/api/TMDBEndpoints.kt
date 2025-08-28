@@ -7,6 +7,7 @@ object TMDBEndpoints {
     // Query parameters
     const val API_KEY = "api_key"
     const val MOVIE_ID = "movie_id"
+    const val COLLECTION_ID = "collection_id"
 
     // Endpoints
     const val TRENDING_MOVIES = "trending/movie/day"
@@ -28,6 +29,7 @@ object TMDBEndpoints {
     const val DISCOVER_TV_SERIES = "discover/tv"
 
     const val MOVIE_DETAILS = "movie/{$MOVIE_ID}"
+    const val COLLECTION_DETAILS = "collection/{$COLLECTION_ID}"
     const val CREDITS = "movie/{$MOVIE_ID}/credits"
     const val IMAGES = "movie/{$MOVIE_ID}/images"
     const val RECOMMENDATIONS = "movie/{$MOVIE_ID}/recommendations"

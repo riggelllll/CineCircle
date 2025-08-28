@@ -1,5 +1,7 @@
 package com.koniukhov.cinecircle.core.data.mapper
 
+import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
+import com.koniukhov.cinecircle.core.domain.model.CollectionMedia
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
@@ -8,6 +10,8 @@ import com.koniukhov.cinecircle.core.domain.model.Company
 import com.koniukhov.cinecircle.core.domain.model.ProductionCountry
 import com.koniukhov.cinecircle.core.domain.model.Language
 import com.koniukhov.cinecircle.core.domain.model.MovieCollection
+import com.koniukhov.cinecircle.core.network.model.CollectionDetailsDto
+import com.koniukhov.cinecircle.core.network.model.CollectionMediaDto
 import com.koniukhov.cinecircle.core.network.model.GenreDto
 import com.koniukhov.cinecircle.core.network.model.MovieDetailsDto
 import com.koniukhov.cinecircle.core.network.model.MovieDto
@@ -109,4 +113,31 @@ fun MovieCollectionDto.toDomain(): MovieCollection =
         name = name,
         posterPath = posterPath,
         backdropPath = backdropPath
-    )
+)
+
+fun CollectionMediaDto.toDomain(): CollectionMedia = CollectionMedia(
+    adult = adult ?: false,
+    backdropPath = backdropPath ?: "",
+    id = id ?: 0,
+    title = title ?: "",
+    originalLanguage = originalLanguage ?: "",
+    originalTitle = originalTitle ?: "",
+    overview = overview ?: "",
+    posterPath = posterPath ?: "",
+    mediaType = mediaType ?: "",
+    genreIds = genreIds ?: emptyList(),
+    popularity = popularity?.toDouble() ?: 0.0,
+    releaseDate = releaseDate ?: "",
+    video = video ?: false,
+    voteAverage = voteAverage ?: 0.0,
+    voteCount = voteCount ?: 0
+)
+
+fun CollectionDetailsDto.toDomain(): CollectionDetails = CollectionDetails(
+    id = id ?: 0,
+    name = name ?: "",
+    overview = overview ?: "",
+    posterPath = posterPath ?: "",
+    backdropPath = backdropPath ?: "",
+    parts = parts?.map { it.toDomain() } ?: emptyList()
+)
