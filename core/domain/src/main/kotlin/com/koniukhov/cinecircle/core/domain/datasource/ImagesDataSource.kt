@@ -1,0 +1,7 @@
+package com.koniukhov.cinecircle.core.domain.datasource
+
+import com.koniukhov.cinecircle.core.network.model.MediaImagesDto
+
+interface ImagesDataSource {
+    suspend fun getMovieImages(movieId: Int, language: String): MediaImagesDto
+}
