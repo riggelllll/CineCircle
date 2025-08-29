@@ -11,6 +11,7 @@ import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_DETAILS
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_GENRES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_ID
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_IMAGES
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_RECOMMENDATIONS
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_REVIEWS
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_VIDEOS
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.NOW_PLAYING_MOVIES
@@ -106,4 +107,7 @@ interface TMDBApi {
 
     @GET(MOVIE_CREDITS)
     suspend fun getMovieCredits(@Path(MOVIE_ID) movieId: Int, @Query(API_KEY) apiKey: String, @Query("language") language: String): Response<MovieCreditsDto>
+
+    @GET(MOVIE_RECOMMENDATIONS)
+    suspend fun getMovieRecommendations(@Path(MOVIE_ID) movieId: Int, @Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<MoviesResponseDto>
 }
