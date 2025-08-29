@@ -10,6 +10,7 @@ import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_DETAILS
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_GENRES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_ID
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_IMAGES
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_REVIEWS
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_VIDEOS
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.NOW_PLAYING_MOVIES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ON_THE_AIR_TV_SERIES
@@ -25,6 +26,7 @@ import com.koniukhov.cinecircle.core.network.model.CollectionDetailsDto
 import com.koniukhov.cinecircle.core.network.model.GenreResponseDto
 import com.koniukhov.cinecircle.core.network.model.MovieDetailsDto
 import com.koniukhov.cinecircle.core.network.model.MediaImagesDto
+import com.koniukhov.cinecircle.core.network.model.MovieReviewResponseDto
 import com.koniukhov.cinecircle.core.network.model.MovieVideosDto
 import com.koniukhov.cinecircle.core.network.model.MoviesResponseDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesResponseDto
@@ -96,4 +98,7 @@ interface TMDBApi {
 
     @GET(MOVIE_VIDEOS)
     suspend fun getMovieVideos(@Path(MOVIE_ID) movieId: Int, @Query(API_KEY) apiKey: String, @Query("language") language: String): Response<MovieVideosDto>
+
+    @GET(MOVIE_REVIEWS)
+    suspend fun getMovieReviews(@Path(MOVIE_ID) movieId: Int, @Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<MovieReviewResponseDto>
 }
