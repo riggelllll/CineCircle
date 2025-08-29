@@ -52,4 +52,13 @@ class MoviesRepositoryImpl @Inject constructor(
         val dto = remoteDataSource.getMovieDetails(movieId, language)
         return dto.toDomain()
     }
+
+    override suspend fun getMovieRecommendations(
+        movieId: Int,
+        page: Int,
+        language: String
+    ): List<Movie> {
+        val dto = remoteDataSource.getMovieRecommendations(movieId, page, language)
+        return dto.results.map { it.toDomain() }
+    }
 }
