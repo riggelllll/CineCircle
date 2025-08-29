@@ -40,40 +40,88 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TMDBApi {
+
     @GET(TRENDING_MOVIES)
-    suspend fun getTrendingMovies(@Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<MoviesResponseDto>
+    suspend fun getTrendingMovies(
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<MoviesResponseDto>
+
     @GET(NOW_PLAYING_MOVIES)
-    suspend fun getNowPlayingMovies(@Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<MoviesResponseDto>
+    suspend fun getNowPlayingMovies(
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<MoviesResponseDto>
 
     @GET(POPULAR_MOVIES)
-    suspend fun getPopularMovies(@Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<MoviesResponseDto>
+    suspend fun getPopularMovies(
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<MoviesResponseDto>
 
     @GET(TOP_RATED_MOVIES)
-    suspend fun getTopRatedMovies(@Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<MoviesResponseDto>
+    suspend fun getTopRatedMovies(
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<MoviesResponseDto>
 
     @GET(UPCOMING_MOVIES)
-    suspend fun getUpcomingMovies(@Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<MoviesResponseDto>
+    suspend fun getUpcomingMovies(
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<MoviesResponseDto>
 
     @GET(AIRING_TODAY_TV_SERIES)
-    suspend fun getAiringTodayTvSeries(@Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<TvSeriesResponseDto>
+    suspend fun getAiringTodayTvSeries(
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<TvSeriesResponseDto>
 
     @GET(ON_THE_AIR_TV_SERIES)
-    suspend fun getOnTheAirTvSeries(@Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<TvSeriesResponseDto>
+    suspend fun getOnTheAirTvSeries(
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<TvSeriesResponseDto>
 
     @GET(TRENDING_TV_SERIES)
-    suspend fun getTrendingTvSeries(@Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<TvSeriesResponseDto>
+    suspend fun getTrendingTvSeries(
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<TvSeriesResponseDto>
 
     @GET(POPULAR_TV_SERIES)
-    suspend fun getPopularTvSeries(@Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<TvSeriesResponseDto>
+    suspend fun getPopularTvSeries(
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<TvSeriesResponseDto>
 
     @GET(TOP_RATED_TV_SERIES)
-    suspend fun getTopRatedTvSeries(@Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<TvSeriesResponseDto>
+    suspend fun getTopRatedTvSeries(
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<TvSeriesResponseDto>
 
     @GET(MOVIE_GENRES)
-    suspend fun getMovieGenres(@Query(API_KEY) apiKey: String, @Query("language") language: String): Response<GenreResponseDto>
+    suspend fun getMovieGenres(
+        @Query(API_KEY) apiKey: String,
+        @Query("language") language: String
+    ): Response<GenreResponseDto>
 
     @GET(TV_SERIES_GENRES)
-    suspend fun getTvSeriesGenres(@Query(API_KEY) apiKey: String, @Query("language") language: String): Response<GenreResponseDto>
+    suspend fun getTvSeriesGenres(
+        @Query(API_KEY) apiKey: String,
+        @Query("language") language: String
+    ): Response<GenreResponseDto>
 
     @GET(DISCOVER_MOVIES)
     suspend fun getMoviesByGenre(
@@ -92,26 +140,61 @@ interface TMDBApi {
     ): Response<TvSeriesResponseDto>
 
     @GET(MOVIE_DETAILS)
-    suspend fun getMovieDetails(@Path(MOVIE_ID) movieId: Int, @Query(API_KEY) apiKey: String, @Query("language") language: String): Response<MovieDetailsDto>
+    suspend fun getMovieDetails(
+        @Path(MOVIE_ID) movieId: Int,
+        @Query(API_KEY) apiKey: String,
+        @Query("language") language: String
+    ): Response<MovieDetailsDto>
 
     @GET(COLLECTION_DETAILS)
-    suspend fun getCollectionDetails(@Path(COLLECTION_ID) collectionId: Int, @Query(API_KEY) apiKey: String, @Query("language") language: String): Response<CollectionDetailsDto>
+    suspend fun getCollectionDetails(
+        @Path(COLLECTION_ID) collectionId: Int,
+        @Query(API_KEY) apiKey: String,
+        @Query("language") language: String
+    ): Response<CollectionDetailsDto>
 
     @GET(MOVIE_IMAGES)
-    suspend fun getMovieImages(@Path(MOVIE_ID) movieId: Int, @Query(API_KEY) apiKey: String, @Query("language") language: String): Response<MediaImagesDto>
+    suspend fun getMovieImages(
+        @Path(MOVIE_ID) movieId: Int,
+        @Query(API_KEY) apiKey: String,
+        @Query("language") language: String
+    ): Response<MediaImagesDto>
 
     @GET(MOVIE_VIDEOS)
-    suspend fun getMovieVideos(@Path(MOVIE_ID) movieId: Int, @Query(API_KEY) apiKey: String, @Query("language") language: String): Response<MovieVideosDto>
+    suspend fun getMovieVideos(
+        @Path(MOVIE_ID) movieId: Int,
+        @Query(API_KEY) apiKey: String,
+        @Query("language") language: String
+    ): Response<MovieVideosDto>
 
     @GET(MOVIE_REVIEWS)
-    suspend fun getMovieReviews(@Path(MOVIE_ID) movieId: Int, @Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<MovieReviewsResponseDto>
+    suspend fun getMovieReviews(
+        @Path(MOVIE_ID) movieId: Int,
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<MovieReviewsResponseDto>
 
     @GET(MOVIE_CREDITS)
-    suspend fun getMovieCredits(@Path(MOVIE_ID) movieId: Int, @Query(API_KEY) apiKey: String, @Query("language") language: String): Response<MovieCreditsDto>
+    suspend fun getMovieCredits(
+        @Path(MOVIE_ID) movieId: Int,
+        @Query(API_KEY) apiKey: String,
+        @Query("language") language: String
+    ): Response<MovieCreditsDto>
 
     @GET(MOVIE_RECOMMENDATIONS)
-    suspend fun getMovieRecommendations(@Path(MOVIE_ID) movieId: Int, @Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<MoviesResponseDto>
+    suspend fun getMovieRecommendations(
+        @Path(MOVIE_ID) movieId: Int,
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<MoviesResponseDto>
 
     @GET(MOVIE_SIMILAR)
-    suspend fun getSimilarMovies(@Path(MOVIE_ID) movieId: Int, @Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<MoviesResponseDto>
+    suspend fun getSimilarMovies(
+        @Path(MOVIE_ID) movieId: Int,
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<MoviesResponseDto>
 }
