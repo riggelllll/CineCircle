@@ -13,6 +13,7 @@ import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_ID
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_IMAGES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_RECOMMENDATIONS
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_REVIEWS
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_SIMILAR
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_VIDEOS
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.NOW_PLAYING_MOVIES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ON_THE_AIR_TV_SERIES
@@ -110,4 +111,7 @@ interface TMDBApi {
 
     @GET(MOVIE_RECOMMENDATIONS)
     suspend fun getMovieRecommendations(@Path(MOVIE_ID) movieId: Int, @Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<MoviesResponseDto>
+
+    @GET(MOVIE_SIMILAR)
+    suspend fun getSimilarMovies(@Path(MOVIE_ID) movieId: Int, @Query(API_KEY) apiKey: String, @Query("page") page: Int, @Query("language") language: String): Response<MoviesResponseDto>
 }

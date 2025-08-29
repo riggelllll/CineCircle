@@ -12,4 +12,5 @@ interface MoviesDataSource {
     suspend fun getMoviesByGenre(genreId: Int, page: Int, language: String): MoviesResponseDto
     suspend fun getMovieDetails(movieId: Int, language: String): MovieDetailsDto
     suspend fun getMovieRecommendations(movieId: Int, page: Int, language: String): MoviesResponseDto
+    suspend fun getSimilarMovies(movieId: Int, page: Int, language: String): MoviesResponseDto
 }

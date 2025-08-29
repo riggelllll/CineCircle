@@ -61,4 +61,13 @@ class MoviesRepositoryImpl @Inject constructor(
         val dto = remoteDataSource.getMovieRecommendations(movieId, page, language)
         return dto.results.map { it.toDomain() }
     }
+
+    override suspend fun getSimilarMovies(
+        movieId: Int,
+        page: Int,
+        language: String
+    ): List<Movie> {
+        val dto = remoteDataSource.getSimilarMovies(movieId, page, language)
+        return dto.results.map { it.toDomain() }
+    }
 }
