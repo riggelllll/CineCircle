@@ -38,7 +38,7 @@ class MovieDetailsViewModel @Inject constructor(
         _movieId.value = id
     }
 
-    fun loadAllInfo() {
+    fun loadMovieDetails() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             try {
