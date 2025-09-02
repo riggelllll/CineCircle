@@ -16,6 +16,8 @@ import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.MovieReview
 import com.koniukhov.cinecircle.core.domain.model.MovieVideos
 import com.koniukhov.cinecircle.core.domain.model.ProductionCountry
+import com.koniukhov.cinecircle.core.domain.model.ReleaseDate
+import com.koniukhov.cinecircle.core.domain.model.ReleaseDateResult
 import com.koniukhov.cinecircle.core.domain.model.ReviewAuthor
 import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.domain.model.Video
@@ -38,6 +40,8 @@ import com.koniukhov.cinecircle.core.network.model.TvSeriesDto
 import com.koniukhov.cinecircle.core.network.model.VideoDto
 import com.koniukhov.cinecircle.core.network.model.CrewMemberDto
 import com.koniukhov.cinecircle.core.network.model.MovieCreditsDto
+import com.koniukhov.cinecircle.core.network.model.ReleaseDatesDto
+import com.koniukhov.cinecircle.core.network.model.ReleaseDatesResultDto
 
 fun MovieDto.toDomain(): Movie = Movie(
     adult = adult ?: false,
@@ -244,4 +248,18 @@ fun CrewMemberDto.toDomain(): CrewMember = CrewMember(
 fun MovieCreditsDto.toDomain(): MovieCredits = MovieCredits(
     cast = cast?.map { it.toDomain() } ?: emptyList(),
     crew = crew?.map { it.toDomain() } ?: emptyList()
+)
+
+fun ReleaseDatesDto.toDomain(): ReleaseDate = ReleaseDate(
+    certification = certification ?: "",
+    descriptors = descriptors ?: emptyList(),
+    languageCode = languageCode ?: "",
+    note = note ?: "",
+    releaseDate = releaseDate ?: "",
+    releaseType = type ?: 0
+)
+
+fun ReleaseDatesResultDto.toDomain(): ReleaseDateResult = ReleaseDateResult(
+    countryCode = countryCode ?: "",
+    releaseDates = releaseDates?.map { it.toDomain() } ?: emptyList()
 )
