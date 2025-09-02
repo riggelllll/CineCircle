@@ -10,7 +10,7 @@ enum class ReleaseType(val value: Int) {
 
     companion object {
         fun fromValue(value: Int): ReleaseType? {
-            return values().find { it.value == value }
+            return entries.find { it.value == value }
         }
     }
 }
