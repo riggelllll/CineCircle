@@ -2,6 +2,7 @@ package com.koniukhov.cinecircle.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.koniukhov.cinecircle.core.data.di.LanguageCode
 import com.koniukhov.cinecircle.core.design.util.getMoviesGenreUiList
 import com.koniukhov.cinecircle.core.design.util.getTvSeriesGenreUiList
 import com.koniukhov.cinecircle.core.domain.usecase.GetAiringTodayTvSeriesUseCase
@@ -24,7 +25,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val language: String,
+    @LanguageCode
+    private val languageCode: String,
     private val getMovieGenresUseCase: GetMovieGenresUseCase,
     private val getTvSeriesGenresUseCase: GetTvSeriesGenresUseCase,
     private val getTrendingMoviesUseCase: GetTrendingMoviesUseCase,
@@ -47,12 +49,12 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _moviesUiState.value = _moviesUiState.value.copy(isLoading = true, error = null)
             try {
-                val movieGenres = getMovieGenresUseCase(language)
-                val trendingMovies = getTrendingMoviesUseCase(page, language)
-                val nowPlayingMovies = getNowPlayingMoviesUseCase(page, language)
-                val popularMovies = getPopularMoviesUseCase(page, language)
-                val topRatedMovies = getTopRatedMoviesUseCase(page, language)
-                val upcomingMovies = getUpcomingMoviesUseCase(page, language)
+                val movieGenres = getMovieGenresUseCase(languageCode)
+                val trendingMovies = getTrendingMoviesUseCase(page, languageCode)
+                val nowPlayingMovies = getNowPlayingMoviesUseCase(page, languageCode)
+                val popularMovies = getPopularMoviesUseCase(page, languageCode)
+                val topRatedMovies = getTopRatedMoviesUseCase(page, languageCode)
+                val upcomingMovies = getUpcomingMoviesUseCase(page, languageCode)
                 _moviesUiState.value = _moviesUiState.value.copy(
                     trendingMovies = trendingMovies,
                     nowPlayingMovies = nowPlayingMovies,
@@ -75,12 +77,12 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _tvSeriesUiState.value = _tvSeriesUiState.value.copy(isLoading = true, error = null)
             try {
-                val tvSeriesGenres = getTvSeriesGenresUseCase(language)
-                val airingTodayTvSeries = getAiringTodayTvSeriesUseCase(page, language)
-                val onTheAirTvSeries = getOnAirTvSeriesUseCase(page, language)
-                val trendingTvSeries = getTrendingTvSeriesUseCase(page, language)
-                val popularTvSeries = getPopularTvSeriesUseCase(page, language)
-                val topRatedTvSeries = getTopRatedTvSeriesUseCase(page, language)
+                val tvSeriesGenres = getTvSeriesGenresUseCase(languageCode)
+                val airingTodayTvSeries = getAiringTodayTvSeriesUseCase(page, languageCode)
+                val onTheAirTvSeries = getOnAirTvSeriesUseCase(page, languageCode)
+                val trendingTvSeries = getTrendingTvSeriesUseCase(page, languageCode)
+                val popularTvSeries = getPopularTvSeriesUseCase(page, languageCode)
+                val topRatedTvSeries = getTopRatedTvSeriesUseCase(page, languageCode)
                 _tvSeriesUiState.value = _tvSeriesUiState.value.copy(
                     airingTodayTvSeries = airingTodayTvSeries,
                     onTheAirTvSeries = onTheAirTvSeries,
