@@ -7,6 +7,7 @@ import com.koniukhov.cinecircle.core.domain.model.MovieCredits
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.MovieReview
 import com.koniukhov.cinecircle.core.domain.model.MovieVideos
+import com.koniukhov.cinecircle.core.domain.model.ReleaseDateResult
 
 data class MovieDetailsUiState(
     val isLoading: Boolean = false,
@@ -18,5 +19,6 @@ data class MovieDetailsUiState(
     val credits: MovieCredits? = null,
     val recommendations: List<Movie> = emptyList(),
     val similarMovies: List<Movie> = emptyList(),
+    val releaseDates: List<ReleaseDateResult> = emptyList(),
     val error: String? = null
 )
