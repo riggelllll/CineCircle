@@ -36,4 +36,5 @@ object TMDBEndpoints {
     const val MOVIE_CREDITS = "movie/{$MOVIE_ID}/credits"
     const val MOVIE_RECOMMENDATIONS = "movie/{$MOVIE_ID}/recommendations"
     const val MOVIE_SIMILAR = "movie/{$MOVIE_ID}/similar"
+    const val MOVIE_RELEASE_DATES = "movie/{$MOVIE_ID}/release_dates"
 }

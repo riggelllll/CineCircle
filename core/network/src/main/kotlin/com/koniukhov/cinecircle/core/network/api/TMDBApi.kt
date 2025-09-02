@@ -12,6 +12,7 @@ import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_GENRES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_ID
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_IMAGES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_RECOMMENDATIONS
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_RELEASE_DATES
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_REVIEWS
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_SIMILAR
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_VIDEOS
@@ -33,6 +34,7 @@ import com.koniukhov.cinecircle.core.network.model.MovieCreditsDto
 import com.koniukhov.cinecircle.core.network.model.MovieReviewsResponseDto
 import com.koniukhov.cinecircle.core.network.model.MovieVideosDto
 import com.koniukhov.cinecircle.core.network.model.MoviesResponseDto
+import com.koniukhov.cinecircle.core.network.model.ReleaseDatesResponseDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesResponseDto
 import retrofit2.Response
 import retrofit2.http.GET
@@ -197,4 +199,10 @@ interface TMDBApi {
         @Query("page") page: Int,
         @Query("language") language: String
     ): Response<MoviesResponseDto>
+
+    @GET(MOVIE_RELEASE_DATES)
+    suspend fun getMovieReleaseDates(
+        @Path(MOVIE_ID) movieId: Int,
+        @Query(API_KEY) apiKey: String
+    ): Response<ReleaseDatesResponseDto>
 }
