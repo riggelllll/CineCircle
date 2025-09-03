@@ -28,4 +28,7 @@
     <string name="vote_count">Vote count</string>
     <string name="collections_title">Collections</string>
     <string name="view_collection">View collection</string>
+
+    <string name="hours_short">h</string>
+    <string name="minutes_short">m</string>
 </resources>
