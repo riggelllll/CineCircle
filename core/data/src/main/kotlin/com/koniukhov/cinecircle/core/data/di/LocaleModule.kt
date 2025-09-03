@@ -14,7 +14,15 @@ object LocaleModule {
 
     @Provides
     @Singleton
-    fun provideLocale(@ApplicationContext context: Context): String {
+    @LanguageCode
+    fun provideLanguageCode(@ApplicationContext context: Context): String {
         return context.resources.configuration.locales[0].language
+    }
+
+    @Provides
+    @Singleton
+    @CountryCode
+    fun provideCountryCode(@ApplicationContext context: Context): String {
+        return context.resources.configuration.locales[0].country
     }
 }
