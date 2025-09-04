@@ -1,16 +1,19 @@
 package com.koniukhov.cinecircle.feature.movie.details
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import coil3.load
+import coil3.request.placeholder
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_MOVIE_ID
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.feature.movie_details.R
 import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentMovieDetailsBinding
+import com.koniukhov.cinecircle.feature.movie.details.utils.MovieDetailsUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -25,7 +28,7 @@ class MovieDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupArgs()
-        viewModel.loadAllInfo()
+        viewModel.loadMovieDetails()
     }
 
     override fun onCreateView(
@@ -48,7 +51,26 @@ class MovieDetailsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { uiState ->
                 if (!uiState.isLoading && uiState.error  == null){
-                    Timber.d("Movie details loaded: ${uiState.movieDetails?.title}")
+                    uiState.movieDetails?.let { movieDetails ->
+                        binding.apply {
+                            imgBackdrop.load(IMAGE_URL_TEMPLATE.format(movieDetails.backdropPath)){
+                                placeholder(com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image)
+                            }
+                            movieTitle.text = movieDetails.title
+                            rating.text = MovieDetailsUtils.formatRating(movieDetails.voteAverage)
+                            duration.text = MovieDetailsUtils.formatRuntime(
+                                runtime = movieDetails.runtime,
+                                hoursLabel = getString(R.string.hours_short),
+                                minutesLabel = getString(R.string.minutes_short)
+                            )
+                            age.text = MovieDetailsUtils.getAgeRating(movieDetails, uiState.releaseDates, viewModel.countryCode)
+                            country.text = MovieDetailsUtils.getCountryCode(movieDetails)
+                            year.text = MovieDetailsUtils.formatReleaseYear(movieDetails.releaseDate)
+                            plotDescription.text = movieDetails.overview
+                        }
+                    }
+                }else{
+                    Timber.d(uiState.error)
                 }
             }
         }
