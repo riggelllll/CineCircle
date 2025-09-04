@@ -10,9 +10,12 @@ import androidx.lifecycle.lifecycleScope
 import coil3.load
 import coil3.request.placeholder
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_MOVIE_ID
+import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.feature.movie_details.R
 import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentMovieDetailsBinding
+import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieImagesAdapter
+import com.koniukhov.cinecircle.feature.movie.details.dialog.FullscreenImageDialog
 import com.koniukhov.cinecircle.feature.movie.details.utils.MovieDetailsUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -24,6 +27,8 @@ class MovieDetailsFragment : Fragment() {
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MovieDetailsViewModel by viewModels()
+
+    private lateinit var imagesAdapter: MovieImagesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +49,20 @@ class MovieDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
         setupSectionHeaders()
+        setupRecyclerViews()
         observeUiState()
+    }
+
+    private fun setupRecyclerViews() {
+        imagesAdapter = MovieImagesAdapter { imagePath ->
+            showFullscreenImage(imagePath)
+        }
+        binding.recyclerImages.adapter = imagesAdapter
+    }
+
+    private fun showFullscreenImage(imagePath: String) {
+        val dialog = FullscreenImageDialog.newInstance(imagePath)
+        dialog.show(parentFragmentManager, FULLSCREEN_IMAGE_DIALOG_TAG)
     }
 
     private fun observeUiState() {
@@ -68,6 +86,13 @@ class MovieDetailsFragment : Fragment() {
                             year.text = MovieDetailsUtils.formatReleaseYear(movieDetails.releaseDate)
                             plotDescription.text = movieDetails.overview
                         }
+                    }
+
+                    uiState.images?.let { mediaImages ->
+                        val allImages = mutableListOf<Image>()
+                        allImages.addAll(mediaImages.backdrops)
+                        allImages.addAll(mediaImages.posters)
+                        imagesAdapter.setImages(allImages)
                     }
                 }else{
                     Timber.d(uiState.error)
@@ -113,5 +138,9 @@ class MovieDetailsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object{
+        private const val FULLSCREEN_IMAGE_DIALOG_TAG = "FullscreenImageDialog"
     }
 }
