@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import coil3.load
 import coil3.request.placeholder
+import com.google.android.material.chip.Chip
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_MOVIE_ID
+import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.feature.movie_details.R
@@ -86,6 +88,8 @@ class MovieDetailsFragment : Fragment() {
                             year.text = MovieDetailsUtils.formatReleaseYear(movieDetails.releaseDate)
                             plotDescription.text = movieDetails.overview
                         }
+
+                        setupGenres(movieDetails.genres)
                     }
 
                     uiState.images?.let { mediaImages ->
@@ -98,6 +102,18 @@ class MovieDetailsFragment : Fragment() {
                     Timber.d(uiState.error)
                 }
             }
+        }
+    }
+
+    private fun setupGenres(genres: List<Genre>) {
+        binding.chipGroupGenres.removeAllViews()
+
+        genres.forEach { genre ->
+            val chip = Chip(requireContext())
+            chip.text = genre.name
+            chip.isClickable = false
+            chip.isCheckable = false
+            binding.chipGroupGenres.addView(chip)
         }
     }
 
