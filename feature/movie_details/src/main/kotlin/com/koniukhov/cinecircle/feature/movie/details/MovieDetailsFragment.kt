@@ -1,9 +1,13 @@
 package com.koniukhov.cinecircle.feature.movie.details
 
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -14,11 +18,13 @@ import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_MOVIE_ID
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieImagesAdapter
+import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieTrailersAdapter
+import com.koniukhov.cinecircle.feature.movie.details.dialog.FullscreenImageDialog
+import com.koniukhov.cinecircle.feature.movie.details.dialog.FullscreenVideoDialog
+import com.koniukhov.cinecircle.feature.movie.details.utils.MovieDetailsUtils
 import com.koniukhov.cinecircle.feature.movie_details.R
 import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentMovieDetailsBinding
-import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieImagesAdapter
-import com.koniukhov.cinecircle.feature.movie.details.dialog.FullscreenImageDialog
-import com.koniukhov.cinecircle.feature.movie.details.utils.MovieDetailsUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -29,8 +35,12 @@ class MovieDetailsFragment : Fragment() {
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MovieDetailsViewModel by viewModels()
-
+    private lateinit var trailersAdapter: MovieTrailersAdapter
     private lateinit var imagesAdapter: MovieImagesAdapter
+    private var isFullscreen = false
+    private var currentExitFullscreenFunction: (() -> Unit)? = null
+    private var originalOrientation: Int = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+    private lateinit var windowInsetsController: WindowInsetsControllerCompat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +59,11 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(requireActivity().window, false)
+        windowInsetsController = WindowCompat.getInsetsController(requireActivity().window, view)
+        windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+
         setupToolbar()
         setupSectionHeaders()
         setupRecyclerViews()
@@ -56,10 +71,34 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun setupRecyclerViews() {
+        trailersAdapter = MovieTrailersAdapter(
+            lifecycle = lifecycle,
+            onFullscreenEnter = { fullscreenView, exitFullscreen ->
+                handleEnterFullscreen(fullscreenView, exitFullscreen)
+            },
+            onFullscreenExit = {
+                handleExitFullscreen()
+            }
+        )
+        binding.recyclerTrailers.adapter = trailersAdapter
+
         imagesAdapter = MovieImagesAdapter { imagePath ->
             showFullscreenImage(imagePath)
         }
         binding.recyclerImages.adapter = imagesAdapter
+    }
+
+    private fun handleEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
+        val dialog = FullscreenVideoDialog.newInstance(fullscreenView, exitFullscreen)
+        dialog.show(parentFragmentManager, FULLSCREEN_VIDEO_DIALOG_TAG)
+
+        isFullscreen = true
+        currentExitFullscreenFunction = exitFullscreen
+    }
+
+    private fun handleExitFullscreen() {
+        isFullscreen = false
+        currentExitFullscreenFunction = null
     }
 
     private fun showFullscreenImage(imagePath: String) {
@@ -90,6 +129,10 @@ class MovieDetailsFragment : Fragment() {
                         }
 
                         setupGenres(movieDetails.genres)
+                    }
+
+                    uiState.videos?.let { movieVideos ->
+                        trailersAdapter.setTrailers(movieVideos.results)
                     }
 
                     uiState.images?.let { mediaImages ->
@@ -152,11 +195,32 @@ class MovieDetailsFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        currentExitFullscreenFunction?.invoke()
         super.onDestroyView()
         _binding = null
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        if (isFullscreen) {
+            when (newConfig.orientation) {
+                Configuration.ORIENTATION_LANDSCAPE -> {
+                    binding.appBarLayout.visibility = View.GONE
+                }
+                Configuration.ORIENTATION_PORTRAIT -> {
+                    if (!isFullscreen) {
+                        binding.appBarLayout.visibility = View.VISIBLE
+                    }
+                }
+            }
+        } else {
+            binding.appBarLayout.visibility = View.VISIBLE
+        }
+    }
+
     companion object{
         private const val FULLSCREEN_IMAGE_DIALOG_TAG = "FullscreenImageDialog"
+        private const val FULLSCREEN_VIDEO_DIALOG_TAG = "FullscreenVideoDialog"
     }
 }
