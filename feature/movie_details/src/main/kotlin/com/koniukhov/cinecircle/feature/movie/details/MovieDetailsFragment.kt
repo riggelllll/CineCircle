@@ -39,8 +39,8 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var imagesAdapter: MovieImagesAdapter
     private var isFullscreen = false
     private var currentExitFullscreenFunction: (() -> Unit)? = null
-    private var originalOrientation: Int = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
+    private var fullscreenVideoDialog: FullscreenVideoDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,14 +60,17 @@ class MovieDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        WindowCompat.setDecorFitsSystemWindows(requireActivity().window, false)
-        windowInsetsController = WindowCompat.getInsetsController(requireActivity().window, view)
-        windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-
+        setupWindowInsets(view)
         setupToolbar()
         setupSectionHeaders()
         setupRecyclerViews()
         observeUiState()
+    }
+
+    private fun setupWindowInsets(view: View) {
+        WindowCompat.setDecorFitsSystemWindows(requireActivity().window, false)
+        windowInsetsController = WindowCompat.getInsetsController(requireActivity().window, view)
+        windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
     }
 
     private fun setupRecyclerViews() {
@@ -90,6 +93,7 @@ class MovieDetailsFragment : Fragment() {
 
     private fun handleEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
         val dialog = FullscreenVideoDialog.newInstance(fullscreenView, exitFullscreen)
+        fullscreenVideoDialog = dialog
         dialog.show(parentFragmentManager, FULLSCREEN_VIDEO_DIALOG_TAG)
 
         isFullscreen = true
@@ -99,6 +103,8 @@ class MovieDetailsFragment : Fragment() {
     private fun handleExitFullscreen() {
         isFullscreen = false
         currentExitFullscreenFunction = null
+        fullscreenVideoDialog?.dismiss()
+        fullscreenVideoDialog = null
     }
 
     private fun showFullscreenImage(imagePath: String) {
@@ -196,6 +202,8 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onDestroyView() {
         currentExitFullscreenFunction?.invoke()
+        fullscreenVideoDialog?.dismiss()
+        fullscreenVideoDialog = null
         super.onDestroyView()
         _binding = null
     }
