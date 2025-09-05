@@ -1,7 +1,8 @@
 package com.koniukhov.cinecircle.feature.movie.details
 
-import android.content.pm.ActivityInfo
+import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.google.android.material.chip.Chip
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_MOVIE_ID
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
+import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.MovieReview
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieCastAdapter
@@ -159,6 +161,7 @@ class MovieDetailsFragment : Fragment() {
                         }
 
                         setupGenres(movieDetails.genres)
+                        setupAboutSection(movieDetails)
                     }
 
                     uiState.videos?.let { movieVideos ->
@@ -232,6 +235,91 @@ class MovieDetailsFragment : Fragment() {
         sectionReviews.sectionTitle.setText(R.string.reviews_title)
         sectionRecommendations.sectionTitle.setText(R.string.recommendations_title)
         sectionSimilar.sectionTitle.setText(R.string.similar_title)
+    }
+
+    private fun setupAboutSection(movieDetails: MovieDetails) {
+        with(binding.sectionAbout) {
+            budgetValue.text = if (movieDetails.budget > 0) {
+                "$${String.format("%,d", movieDetails.budget)}"
+            } else {
+                getString(R.string.not_available)
+            }
+
+            revenueValue.text = if (movieDetails.revenue > 0) {
+                "$${String.format("%,d", movieDetails.revenue)}"
+            } else {
+                getString(R.string.not_available)
+            }
+
+            originalTitleValue.text = movieDetails.originalTitle.ifEmpty {
+                getString(R.string.not_available)
+            }
+
+            originalLanguageValue.text = movieDetails.originalLanguage.ifEmpty {
+                getString(R.string.not_available)
+            }
+
+            statusValue.text = movieDetails.status.ifEmpty {
+                getString(R.string.not_available)
+            }
+
+            popularityValue.text = String.format("%.1f", movieDetails.popularity)
+
+            productionCountriesValue.text = if (movieDetails.productionCountries.isNotEmpty()) {
+                movieDetails.productionCountries.joinToString(", ") { it.name }
+            } else {
+                getString(R.string.not_available)
+            }
+
+            spokenLanguagesValue.text = if (movieDetails.spokenLanguages.isNotEmpty()) {
+                movieDetails.spokenLanguages.joinToString(", ") { it.name }
+            } else {
+                getString(R.string.not_available)
+            }
+
+            homepageValue.text = movieDetails.homePage.ifEmpty {
+                getString(R.string.not_available)
+            }
+
+            if (movieDetails.homePage.isNotEmpty()) {
+                homepageValue.setOnClickListener {
+                    openWebsite(movieDetails.homePage)
+                }
+                homepageValue.isClickable = true
+            } else {
+                homepageValue.setOnClickListener(null)
+                homepageValue.isClickable = false
+            }
+
+            releaseDateValue.text = movieDetails.releaseDate.ifEmpty {
+                getString(R.string.not_available)
+            }
+
+            runtimeValue.text = if (movieDetails.runtime > 0) {
+                MovieDetailsUtils.formatRuntime(
+                    runtime = movieDetails.runtime,
+                    hoursLabel = getString(R.string.hours_short),
+                    minutesLabel = getString(R.string.minutes_short)
+                )
+            } else {
+                getString(R.string.not_available)
+            }
+
+            taglineValue.text = movieDetails.tagline.ifEmpty {
+                getString(R.string.not_available)
+            }
+
+            voteCountValue.text = String.format("%,d", movieDetails.voteCount)
+        }
+    }
+
+    private fun openWebsite(url: String) {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to open website: $url")
+        }
     }
 
     override fun onDestroyView() {

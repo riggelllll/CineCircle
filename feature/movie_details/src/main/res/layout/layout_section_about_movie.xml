@@ -40,6 +40,29 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/revenue"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/revenue_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:gravity="end"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                tools:text="$1,500,000,000" />
+        </TableRow>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp" />
+
+        <TableRow android:layout_width="match_parent">
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/homepage"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 android:textColor="?attr/colorOnSurfaceVariant" />
@@ -169,29 +192,6 @@
                 android:gravity="end"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 tools:text="12.05.2023" />
-        </TableRow>
-
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp" />
-
-        <TableRow android:layout_width="match_parent">
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/revenue"
-                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                android:textColor="?attr/colorOnSurfaceVariant" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/revenue_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:gravity="end"
-                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                tools:text="$1,500,000,000" />
         </TableRow>
 
         <com.google.android.material.divider.MaterialDivider
