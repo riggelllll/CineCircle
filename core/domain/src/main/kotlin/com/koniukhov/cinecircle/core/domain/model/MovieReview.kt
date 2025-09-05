@@ -1,5 +1,7 @@
 package com.koniukhov.cinecircle.core.domain.model
 
+import java.io.Serializable
+
 data class MovieReview(
     val author: String,
     val authorDetails: ReviewAuthor,
@@ -8,4 +10,4 @@ data class MovieReview(
     val id: String,
     val updatedAt: String,
     val url: String
-)
+) : Serializable
