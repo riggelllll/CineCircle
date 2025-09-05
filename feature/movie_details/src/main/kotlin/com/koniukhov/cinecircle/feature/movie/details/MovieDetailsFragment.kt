@@ -184,6 +184,14 @@ class MovieDetailsFragment : Fragment() {
                     }
 
                     reviewsAdapter.setReviews(uiState.reviews)
+
+                    if (uiState.reviews.isEmpty()) {
+                        binding.recyclerReviews.visibility = View.GONE
+                        binding.containerNoReviews.visibility = View.VISIBLE
+                    } else {
+                        binding.recyclerReviews.visibility = View.VISIBLE
+                        binding.containerNoReviews.visibility = View.GONE
+                    }
                 }else{
                     Timber.d(uiState.error)
                 }
