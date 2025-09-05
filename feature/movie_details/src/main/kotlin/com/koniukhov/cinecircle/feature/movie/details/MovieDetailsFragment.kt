@@ -17,13 +17,16 @@ import com.google.android.material.chip.Chip
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_MOVIE_ID
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
+import com.koniukhov.cinecircle.core.domain.model.MovieReview
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieCastAdapter
 import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieCrewAdapter
 import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieImagesAdapter
+import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieReviewsAdapter
 import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieTrailersAdapter
 import com.koniukhov.cinecircle.feature.movie.details.dialog.FullscreenImageDialog
 import com.koniukhov.cinecircle.feature.movie.details.dialog.FullscreenVideoDialog
+import com.koniukhov.cinecircle.feature.movie.details.dialog.ReviewDetailBottomSheetDialog
 import com.koniukhov.cinecircle.feature.movie.details.utils.MovieDetailsUtils
 import com.koniukhov.cinecircle.feature.movie_details.R
 import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentMovieDetailsBinding
@@ -41,6 +44,7 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var imagesAdapter: MovieImagesAdapter
     private lateinit var castAdapter: MovieCastAdapter
     private lateinit var crewAdapter: MovieCrewAdapter
+    private lateinit var reviewsAdapter: MovieReviewsAdapter
     private var isFullscreen = false
     private var currentExitFullscreenFunction: (() -> Unit)? = null
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
@@ -99,6 +103,16 @@ class MovieDetailsFragment : Fragment() {
 
         crewAdapter = MovieCrewAdapter()
         binding.recyclerCrew.adapter = crewAdapter
+
+        reviewsAdapter = MovieReviewsAdapter { review ->
+            showReviewDetail(review)
+        }
+        binding.recyclerReviews.adapter = reviewsAdapter
+    }
+
+    private fun showReviewDetail(review: MovieReview) {
+        val dialog = ReviewDetailBottomSheetDialog.newInstance(review)
+        dialog.show(parentFragmentManager, REVIEW_DETAIL_DIALOG_TAG)
     }
 
     private fun handleEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
@@ -165,6 +179,8 @@ class MovieDetailsFragment : Fragment() {
                     uiState.credits?.crew?.let { crew ->
                         crewAdapter.setCrewMembers(crew)
                     }
+
+                    reviewsAdapter.setReviews(uiState.reviews)
                 }else{
                     Timber.d(uiState.error)
                 }
@@ -248,5 +264,6 @@ class MovieDetailsFragment : Fragment() {
     companion object{
         private const val FULLSCREEN_IMAGE_DIALOG_TAG = "FullscreenImageDialog"
         private const val FULLSCREEN_VIDEO_DIALOG_TAG = "FullscreenVideoDialog"
+        private const val REVIEW_DETAIL_DIALOG_TAG = "ReviewDetailDialog"
     }
 }
