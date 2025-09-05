@@ -51,6 +51,9 @@
                 android:layout_marginStart="16dp"
                 android:gravity="end"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="@color/md_theme_tertiary"
+                android:background="?attr/selectableItemBackground"
+                android:textStyle="bold"
                 tools:text="https://example.com" />
         </TableRow>
 
