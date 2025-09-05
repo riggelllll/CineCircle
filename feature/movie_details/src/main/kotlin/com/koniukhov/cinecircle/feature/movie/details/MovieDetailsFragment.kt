@@ -272,7 +272,7 @@ class MovieDetailsFragment : Fragment() {
             }
 
             spokenLanguagesValue.text = if (movieDetails.spokenLanguages.isNotEmpty()) {
-                movieDetails.spokenLanguages.joinToString(", ") { it.name }
+                movieDetails.spokenLanguages.filter { it.name.isNotEmpty() }.joinToString(", ") { it.name }
             } else {
                 getString(R.string.not_available)
             }
