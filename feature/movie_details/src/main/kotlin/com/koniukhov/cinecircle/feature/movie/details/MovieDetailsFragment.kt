@@ -24,6 +24,7 @@ import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLAT
 import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieCastAdapter
 import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieCrewAdapter
 import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieImagesAdapter
+import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieRecommendationsAdapter
 import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieReviewsAdapter
 import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieTrailersAdapter
 import com.koniukhov.cinecircle.feature.movie.details.dialog.FullscreenImageDialog
@@ -47,6 +48,8 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var castAdapter: MovieCastAdapter
     private lateinit var crewAdapter: MovieCrewAdapter
     private lateinit var reviewsAdapter: MovieReviewsAdapter
+    private lateinit var recommendationsAdapter: MovieRecommendationsAdapter
+    private lateinit var similarMoviesAdapter: MovieRecommendationsAdapter
     private var isFullscreen = false
     private var currentExitFullscreenFunction: (() -> Unit)? = null
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
@@ -110,6 +113,16 @@ class MovieDetailsFragment : Fragment() {
             showReviewDetail(review)
         }
         binding.recyclerReviews.adapter = reviewsAdapter
+
+        recommendationsAdapter = MovieRecommendationsAdapter { movieId ->
+            // TODO: Implement navigation to movie details
+        }
+        binding.recyclerRecommendations.adapter = recommendationsAdapter
+
+        similarMoviesAdapter = MovieRecommendationsAdapter { movieId ->
+            // TODO: Implement navigation to movie details
+        }
+        binding.recyclerSimilar.adapter = similarMoviesAdapter
     }
 
     private fun showReviewDetail(review: MovieReview) {
@@ -184,6 +197,9 @@ class MovieDetailsFragment : Fragment() {
                     }
 
                     reviewsAdapter.setReviews(uiState.reviews)
+
+                    recommendationsAdapter.setMovies(uiState.recommendations)
+                    similarMoviesAdapter.setMovies(uiState.similarMovies)
 
                     if (uiState.reviews.isEmpty()) {
                         binding.recyclerReviews.visibility = View.GONE
