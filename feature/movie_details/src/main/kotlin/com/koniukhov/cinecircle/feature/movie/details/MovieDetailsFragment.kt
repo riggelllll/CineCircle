@@ -18,6 +18,7 @@ import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_MOVIE_ID
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieCastAdapter
 import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieImagesAdapter
 import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieTrailersAdapter
 import com.koniukhov.cinecircle.feature.movie.details.dialog.FullscreenImageDialog
@@ -37,6 +38,7 @@ class MovieDetailsFragment : Fragment() {
     private val viewModel: MovieDetailsViewModel by viewModels()
     private lateinit var trailersAdapter: MovieTrailersAdapter
     private lateinit var imagesAdapter: MovieImagesAdapter
+    private lateinit var castAdapter: MovieCastAdapter
     private var isFullscreen = false
     private var currentExitFullscreenFunction: (() -> Unit)? = null
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
@@ -89,6 +91,9 @@ class MovieDetailsFragment : Fragment() {
             showFullscreenImage(imagePath)
         }
         binding.recyclerImages.adapter = imagesAdapter
+
+        castAdapter = MovieCastAdapter()
+        binding.recyclerCast.adapter = castAdapter
     }
 
     private fun handleEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
@@ -146,6 +151,10 @@ class MovieDetailsFragment : Fragment() {
                         allImages.addAll(mediaImages.backdrops)
                         allImages.addAll(mediaImages.posters)
                         imagesAdapter.setImages(allImages)
+                    }
+
+                    uiState.credits?.cast?.let { cast ->
+                        castAdapter.setCastMembers(cast)
                     }
                 }else{
                     Timber.d(uiState.error)
