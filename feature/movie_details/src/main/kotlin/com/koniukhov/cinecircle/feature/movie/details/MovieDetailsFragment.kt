@@ -19,6 +19,7 @@ import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieCastAdapter
+import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieCrewAdapter
 import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieImagesAdapter
 import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieTrailersAdapter
 import com.koniukhov.cinecircle.feature.movie.details.dialog.FullscreenImageDialog
@@ -39,6 +40,7 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var trailersAdapter: MovieTrailersAdapter
     private lateinit var imagesAdapter: MovieImagesAdapter
     private lateinit var castAdapter: MovieCastAdapter
+    private lateinit var crewAdapter: MovieCrewAdapter
     private var isFullscreen = false
     private var currentExitFullscreenFunction: (() -> Unit)? = null
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
@@ -94,6 +96,9 @@ class MovieDetailsFragment : Fragment() {
 
         castAdapter = MovieCastAdapter()
         binding.recyclerCast.adapter = castAdapter
+
+        crewAdapter = MovieCrewAdapter()
+        binding.recyclerCrew.adapter = crewAdapter
     }
 
     private fun handleEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
@@ -155,6 +160,10 @@ class MovieDetailsFragment : Fragment() {
 
                     uiState.credits?.cast?.let { cast ->
                         castAdapter.setCastMembers(cast)
+                    }
+
+                    uiState.credits?.crew?.let { crew ->
+                        crewAdapter.setCrewMembers(crew)
                     }
                 }else{
                     Timber.d(uiState.error)
