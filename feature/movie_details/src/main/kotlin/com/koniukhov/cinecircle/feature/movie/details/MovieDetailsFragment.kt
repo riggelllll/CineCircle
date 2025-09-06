@@ -12,10 +12,13 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.fragment.findNavController
 import coil3.load
 import coil3.request.placeholder
 import com.google.android.material.chip.Chip
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_MOVIE_ID
+import com.koniukhov.cinecircle.core.common.navigation.NavArgs.movieDetailsUri
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
@@ -115,12 +118,12 @@ class MovieDetailsFragment : Fragment() {
         binding.recyclerReviews.adapter = reviewsAdapter
 
         recommendationsAdapter = MovieRecommendationsAdapter { movieId ->
-            // TODO: Implement navigation to movie details
+            navigateToMovieDetails(movieId)
         }
         binding.recyclerRecommendations.adapter = recommendationsAdapter
 
         similarMoviesAdapter = MovieRecommendationsAdapter { movieId ->
-            // TODO: Implement navigation to movie details
+            navigateToMovieDetails(movieId)
         }
         binding.recyclerSimilar.adapter = similarMoviesAdapter
     }
@@ -344,6 +347,13 @@ class MovieDetailsFragment : Fragment() {
         } catch (e: Exception) {
             Timber.e(e, "Failed to open website: $url")
         }
+    }
+
+    private fun navigateToMovieDetails(movieId: Int) {
+        val request = NavDeepLinkRequest.Builder
+            .fromUri(movieDetailsUri(movieId))
+            .build()
+        findNavController().navigate(request)
     }
 
     override fun onDestroyView() {
