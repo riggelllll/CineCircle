@@ -51,8 +51,14 @@ class MovieDetailsViewModel @Inject constructor(
             try {
                 val movieDetails = getMovieDetailsUseCase(_movieId.value, languageCode)
                 val collectionDetails = getCollectionDetailsUseCase(movieDetails.belongsToCollection.id, languageCode)
-                val images = getMovieImagesUseCase(movieDetails.id, languageCode)
-                val videos = getMovieVideosUseCase(movieDetails.id, languageCode)
+                var images = getMovieImagesUseCase(movieDetails.id, languageCode)
+                if ((images.posters.isEmpty() && images.backdrops.isEmpty()) && languageCode != ENGLISH_LANGUAGE_CODE) {
+                    images = getMovieImagesUseCase(movieDetails.id, ENGLISH_LANGUAGE_CODE)
+                }
+                var videos = getMovieVideosUseCase(movieDetails.id, languageCode)
+                if (videos.results.isEmpty() && languageCode != ENGLISH_LANGUAGE_CODE) {
+                    videos = getMovieVideosUseCase(movieDetails.id, ENGLISH_LANGUAGE_CODE)
+                }
                 val reviews = getMovieReviewsUseCase(movieDetails.id, 1, languageCode)
                 val credits = getMovieCreditsUseCase(movieDetails.id, languageCode)
                 val recommendations = getMovieRecommendationsUseCase(movieDetails.id, 1, languageCode)
@@ -78,5 +84,9 @@ class MovieDetailsViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    companion object {
+        const val ENGLISH_LANGUAGE_CODE = "en"
     }
 }

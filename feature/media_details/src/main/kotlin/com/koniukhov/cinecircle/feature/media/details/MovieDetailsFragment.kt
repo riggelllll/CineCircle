@@ -181,14 +181,25 @@ class MovieDetailsFragment : Fragment() {
                     }
 
                     uiState.videos?.let { movieVideos ->
-                        trailersAdapter.setTrailers(movieVideos.results)
+                        if (movieVideos.results.isEmpty()) {
+                            binding.recyclerTrailers.visibility = View.GONE
+                            binding.containerNoTrailer.visibility = View.VISIBLE
+                        } else {
+                            trailersAdapter.setTrailers(movieVideos.results)
+                        }
                     }
 
                     uiState.images?.let { mediaImages ->
                         val allImages = mutableListOf<Image>()
                         allImages.addAll(mediaImages.backdrops)
                         allImages.addAll(mediaImages.posters)
-                        imagesAdapter.setImages(allImages)
+
+                        if (allImages.isEmpty()){
+                            binding.recyclerImages.visibility = View.GONE
+                            binding.containerNoImages.visibility = View.VISIBLE
+                        } else {
+                            imagesAdapter.setImages(allImages)
+                        }
                     }
 
                     uiState.credits?.cast?.let { cast ->
