@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/movieDetailFragment"
-        android:name="com.koniukhov.cinecircle.feature.movie.details.MovieDetailsFragment"
+        android:name="com.koniukhov.cinecircle.feature.media.details.MovieDetailsFragment"
         android:label="MovieDetailsFragment">
         <argument android:name="movie_id"
             app:argType="integer" />

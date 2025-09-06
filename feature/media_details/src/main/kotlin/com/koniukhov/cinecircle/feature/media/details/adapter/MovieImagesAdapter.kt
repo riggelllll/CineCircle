@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.movie.details.adapter
+package com.koniukhov.cinecircle.feature.media.details.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.movie.details.dialog
+package com.koniukhov.cinecircle.feature.media.details.dialog
 
 import android.app.Dialog
 import android.content.pm.ActivityInfo

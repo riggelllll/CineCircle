@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.movie.details.dialog
+package com.koniukhov.cinecircle.feature.media.details.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater

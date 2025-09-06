@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.movie.details
+package com.koniukhov.cinecircle.feature.media.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

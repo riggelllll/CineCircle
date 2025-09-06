@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.movie.details
+package com.koniukhov.cinecircle.feature.media.details
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -24,16 +24,16 @@ import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.MovieReview
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
-import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieCastAdapter
-import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieCrewAdapter
-import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieImagesAdapter
-import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieRecommendationsAdapter
-import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieReviewsAdapter
-import com.koniukhov.cinecircle.feature.movie.details.adapter.MovieTrailersAdapter
-import com.koniukhov.cinecircle.feature.movie.details.dialog.FullscreenImageDialog
-import com.koniukhov.cinecircle.feature.movie.details.dialog.FullscreenVideoDialog
-import com.koniukhov.cinecircle.feature.movie.details.dialog.ReviewDetailBottomSheetDialog
-import com.koniukhov.cinecircle.feature.movie.details.utils.MovieDetailsUtils
+import com.koniukhov.cinecircle.feature.media.details.adapter.MovieCastAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MovieCrewAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MovieImagesAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MovieRecommendationsAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MovieReviewsAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MovieTrailersAdapter
+import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenImageDialog
+import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenVideoDialog
+import com.koniukhov.cinecircle.feature.media.details.dialog.ReviewDetailBottomSheetDialog
+import com.koniukhov.cinecircle.feature.media.details.utils.MovieDetailsUtils
 import com.koniukhov.cinecircle.feature.movie_details.R
 import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint

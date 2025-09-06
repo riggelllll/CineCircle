@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.movie.details.utils
+package com.koniukhov.cinecircle.feature.media.details.utils
 
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.ReleaseDateResult
