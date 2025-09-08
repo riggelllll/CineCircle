@@ -7,14 +7,15 @@ import coil3.load
 import coil3.request.placeholder
 import coil3.request.transformations
 import coil3.transform.RoundedCornersTransformation
+import com.koniukhov.cinecircle.core.common.Constants.IMAGE_RADIUS
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
 
-const val IMAGE_RADIUS = 20f
-
-class MoviesAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(){
+class MoviesAdapter(
+    private val onItemClick: (Int) -> Unit
+) : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(){
     private var movies: List<Movie> = emptyList()
 
     class MoviesViewHolder(val binding: ItemMediaBinding) : RecyclerView.ViewHolder(binding.root)
@@ -36,6 +37,8 @@ class MoviesAdapter(private val onItemClick: (Int) -> Unit) : RecyclerView.Adapt
                 placeholder(R.drawable.placeholder_image)
                 transformations(RoundedCornersTransformation(IMAGE_RADIUS))
             }
+        }else{
+            holder.binding.poster.load(R.drawable.placeholder_image)
         }
     }
 
