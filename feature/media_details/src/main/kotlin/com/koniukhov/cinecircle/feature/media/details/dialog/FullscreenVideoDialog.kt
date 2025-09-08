@@ -40,11 +40,11 @@ class FullscreenVideoDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
-        setupWindow(dialog)
+        setupDialogWindow(dialog)
         return dialog
     }
 
-    private fun setupWindow(dialog: Dialog) {
+    private fun setupDialogWindow(dialog: Dialog) {
         dialog.window?.let { window ->
             window.setLayout(
                 WindowManager.LayoutParams.MATCH_PARENT,

@@ -39,6 +39,11 @@ class FullscreenImageDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
+        setupDialogWindow(dialog)
+        return dialog
+    }
+
+    private fun setupDialogWindow(dialog: Dialog) {
         dialog.window?.let { window ->
             window.setLayout(
                 WindowManager.LayoutParams.MATCH_PARENT,
@@ -49,7 +54,6 @@ class FullscreenImageDialog : DialogFragment() {
             controller.hide(WindowInsetsCompat.Type.systemBars())
             controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
-        return dialog
     }
 
     override fun onCreateView(
