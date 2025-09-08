@@ -23,8 +23,12 @@ import com.koniukhov.cinecircle.core.common.navigation.NavArgs
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
+import com.koniukhov.cinecircle.core.domain.model.MediaImages
+import com.koniukhov.cinecircle.core.domain.model.Movie
+import com.koniukhov.cinecircle.core.domain.model.MovieCredits
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.MovieReview
+import com.koniukhov.cinecircle.core.domain.model.MovieVideos
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
 import com.koniukhov.cinecircle.feature.media.details.ui.viewmodel.MovieDetailsViewModel
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieCastAdapter
@@ -36,11 +40,16 @@ import com.koniukhov.cinecircle.feature.media.details.adapter.MovieTrailersAdapt
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenImageDialog
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenVideoDialog
 import com.koniukhov.cinecircle.feature.media.details.dialog.ReviewDetailBottomSheetDialog
+import com.koniukhov.cinecircle.feature.media.details.ui.state.MovieDetailsUiState
 import com.koniukhov.cinecircle.feature.media.details.utils.MovieDetailsUtils
 import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import com.koniukhov.cinecircle.feature.movie_details.R.id.action_favorite as action_favorite
+import com.koniukhov.cinecircle.feature.movie_details.R.layout.item_movie_image as item_movie_image
+import com.koniukhov.cinecircle.feature.movie_details.R.layout.item_person as item_person
+import com.koniukhov.cinecircle.feature.movie_details.R.layout.item_review as item_review
 
 @AndroidEntryPoint
 class MovieDetailsFragment : Fragment() {
@@ -59,7 +68,6 @@ class MovieDetailsFragment : Fragment() {
     private var currentExitFullscreenFunction: (() -> Unit)? = null
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
     private var fullscreenVideoDialog: FullscreenVideoDialog? = null
-
     private lateinit var containerBackdropSkeleton: Skeleton
     private lateinit var imagesRecyclerSkeleton: Skeleton
     private lateinit var trailersRecyclerSkeleton: Skeleton
@@ -91,7 +99,6 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupWindowInsets(view)
         setupToolbar()
         setupSectionHeaders()
@@ -105,42 +112,44 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun setupRecyclerViews() {
-        trailersAdapter = MovieTrailersAdapter(
-            lifecycle = lifecycle,
-            onFullscreenEnter = { fullscreenView, exitFullscreen ->
-                handleEnterFullscreen(fullscreenView, exitFullscreen)
-            },
-            onFullscreenExit = {
-                handleExitFullscreen()
+        with(binding){
+            trailersAdapter = MovieTrailersAdapter(
+                lifecycle = lifecycle,
+                onFullscreenEnter = { fullscreenView, exitFullscreen ->
+                    handleEnterFullscreen(fullscreenView, exitFullscreen)
+                },
+                onFullscreenExit = {
+                    handleExitFullscreen()
+                }
+            )
+            recyclerTrailers.adapter = trailersAdapter
+
+            imagesAdapter = MovieImagesAdapter { imagePath ->
+                showFullscreenImage(imagePath)
             }
-        )
-        binding.recyclerTrailers.adapter = trailersAdapter
+            recyclerImages.adapter = imagesAdapter
 
-        imagesAdapter = MovieImagesAdapter { imagePath ->
-            showFullscreenImage(imagePath)
+            castAdapter = MovieCastAdapter()
+            recyclerCast.adapter = castAdapter
+
+            crewAdapter = MovieCrewAdapter()
+            recyclerCrew.adapter = crewAdapter
+
+            reviewsAdapter = MovieReviewsAdapter { review ->
+                showReviewDetail(review)
+            }
+            recyclerReviews.adapter = reviewsAdapter
+
+            recommendationsAdapter = MovieRecommendationsAdapter { movieId ->
+                navigateToMovieDetails(movieId)
+            }
+            recyclerRecommendations.adapter = recommendationsAdapter
+
+            similarMoviesAdapter = MovieRecommendationsAdapter { movieId ->
+                navigateToMovieDetails(movieId)
+            }
+            recyclerSimilar.adapter = similarMoviesAdapter
         }
-        binding.recyclerImages.adapter = imagesAdapter
-
-        castAdapter = MovieCastAdapter()
-        binding.recyclerCast.adapter = castAdapter
-
-        crewAdapter = MovieCrewAdapter()
-        binding.recyclerCrew.adapter = crewAdapter
-
-        reviewsAdapter = MovieReviewsAdapter { review ->
-            showReviewDetail(review)
-        }
-        binding.recyclerReviews.adapter = reviewsAdapter
-
-        recommendationsAdapter = MovieRecommendationsAdapter { movieId ->
-            navigateToMovieDetails(movieId)
-        }
-        binding.recyclerRecommendations.adapter = recommendationsAdapter
-
-        similarMoviesAdapter = MovieRecommendationsAdapter { movieId ->
-            navigateToMovieDetails(movieId)
-        }
-        binding.recyclerSimilar.adapter = similarMoviesAdapter
     }
 
     private fun showReviewDetail(review: MovieReview) {
@@ -149,10 +158,9 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun handleEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
-        val dialog = FullscreenVideoDialog.Companion.newInstance(fullscreenView, exitFullscreen)
+        val dialog = FullscreenVideoDialog.newInstance(fullscreenView, exitFullscreen)
         fullscreenVideoDialog = dialog
         dialog.show(parentFragmentManager, FULLSCREEN_VIDEO_DIALOG_TAG)
-
         isFullscreen = true
         currentExitFullscreenFunction = exitFullscreen
     }
@@ -165,7 +173,7 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun showFullscreenImage(imagePath: String) {
-        val dialog = FullscreenImageDialog.Companion.newInstance(imagePath)
+        val dialog = FullscreenImageDialog.newInstance(imagePath)
         dialog.show(parentFragmentManager, FULLSCREEN_IMAGE_DIALOG_TAG)
     }
 
@@ -175,73 +183,100 @@ class MovieDetailsFragment : Fragment() {
                 if (!uiState.isLoading && uiState.error  == null){
                     hideSkeletons()
                     uiState.movieDetails?.let { movieDetails ->
-                        binding.apply {
-                            imgBackdrop.load(TMDBEndpoints.IMAGE_URL_TEMPLATE.format(movieDetails.backdropPath)){
-                                placeholder(R.drawable.placeholder_image)
-                            }
-                            movieTitle.text = movieDetails.title
-                            rating.text = MovieDetailsUtils.formatRating(movieDetails.voteAverage)
-                            duration.text = MovieDetailsUtils.formatRuntime(
-                                runtime = movieDetails.runtime,
-                                hoursLabel = getString(com.koniukhov.cinecircle.feature.movie_details.R.string.hours_short),
-                                minutesLabel = getString(com.koniukhov.cinecircle.feature.movie_details.R.string.minutes_short)
-                            )
-                            age.text = MovieDetailsUtils.getAgeRating(movieDetails, uiState.releaseDates, viewModel.countryCode)
-                            country.text = MovieDetailsUtils.getCountryCode(movieDetails)
-                            year.text = MovieDetailsUtils.formatReleaseYear(movieDetails.releaseDate)
-                            plotDescription.text = movieDetails.overview
-                        }
-
-                        setupGenres(movieDetails.genres)
-                        setupAboutSection(movieDetails)
+                        updateMovieDetails(movieDetails, uiState)
                     }
-
-                    uiState.videos?.let { movieVideos ->
-                        if (movieVideos.results.isEmpty()) {
-                            binding.recyclerTrailers.visibility = View.GONE
-                            binding.containerNoTrailer.visibility = View.VISIBLE
-                        } else {
-                            trailersAdapter.setTrailers(movieVideos.results)
-                        }
-                    }
-
-                    uiState.images?.let { mediaImages ->
-                        val allImages = mutableListOf<Image>()
-                        allImages.addAll(mediaImages.backdrops)
-                        allImages.addAll(mediaImages.posters)
-
-                        if (allImages.isEmpty()){
-                            binding.recyclerImages.visibility = View.GONE
-                            binding.containerNoImages.visibility = View.VISIBLE
-                        } else {
-                            imagesAdapter.setImages(allImages)
-                        }
-                    }
-
-                    uiState.credits?.cast?.let { cast ->
-                        castAdapter.setCastMembers(cast)
-                    }
-
-                    uiState.credits?.crew?.let { crew ->
-                        crewAdapter.setCrewMembers(crew)
-                    }
-
-                    reviewsAdapter.setReviews(uiState.reviews)
-
-                    recommendationsAdapter.setMovies(uiState.recommendations)
-                    similarMoviesAdapter.setMovies(uiState.similarMovies)
-
-                    if (uiState.reviews.isEmpty()) {
-                        binding.recyclerReviews.visibility = View.GONE
-                        binding.containerNoReviews.visibility = View.VISIBLE
-                    } else {
-                        binding.recyclerReviews.visibility = View.VISIBLE
-                        binding.containerNoReviews.visibility = View.GONE
-                    }
+                    updateVideos(uiState.videos)
+                    updateImages(uiState.images)
+                    updateCredits(uiState.credits)
+                    updateReviews(uiState.reviews)
+                    updateRecommendations(uiState.recommendations)
+                    updateSimilarMovies(uiState.similarMovies)
+                    updateReviewsVisibility(uiState.reviews)
                 }else{
                     Timber.Forest.d(uiState.error)
                 }
             }
+        }
+    }
+
+    private fun updateMovieDetails(movieDetails: MovieDetails, uiState: MovieDetailsUiState) {
+        with(binding){
+            if (movieDetails.backdropPath.isNotEmpty()){
+                imgBackdrop.load(TMDBEndpoints.IMAGE_URL_TEMPLATE.format(movieDetails.backdropPath)){
+                    placeholder(R.drawable.placeholder_image)
+                }
+            }else {
+                imgBackdrop.load(R.drawable.placeholder_image)
+            }
+            movieTitle.text = movieDetails.title
+            rating.text = MovieDetailsUtils.formatRating(movieDetails.voteAverage)
+            duration.text = MovieDetailsUtils.formatRuntime(
+                runtime = movieDetails.runtime,
+                hoursLabel = getString(com.koniukhov.cinecircle.feature.movie_details.R.string.hours_short),
+                minutesLabel = getString(com.koniukhov.cinecircle.feature.movie_details.R.string.minutes_short)
+            )
+            age.text = MovieDetailsUtils.getAgeRating(movieDetails, uiState.releaseDates, viewModel.countryCode)
+            country.text = MovieDetailsUtils.getCountryCode(movieDetails)
+            year.text = MovieDetailsUtils.formatReleaseYear(movieDetails.releaseDate)
+            plotDescription.text = movieDetails.overview
+        }
+        setupGenres(movieDetails.genres)
+        setupAboutSection(movieDetails)
+    }
+
+    private fun updateVideos(movieVideos: MovieVideos?) {
+        movieVideos?.let {
+            if (movieVideos.results.isEmpty()) {
+                binding.recyclerTrailers.visibility = View.GONE
+                binding.containerNoTrailer.visibility = View.VISIBLE
+            } else {
+                trailersAdapter.setTrailers(movieVideos.results)
+                binding.recyclerTrailers.visibility = View.VISIBLE
+                binding.containerNoTrailer.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun updateImages(mediaImages: MediaImages?) {
+        mediaImages?.let {
+            val allImages = mutableListOf<Image>()
+            allImages.addAll(mediaImages.backdrops)
+            allImages.addAll(mediaImages.posters)
+            if (allImages.isEmpty()){
+                binding.recyclerImages.visibility = View.GONE
+                binding.containerNoImages.visibility = View.VISIBLE
+            } else {
+                imagesAdapter.setImages(allImages)
+                binding.recyclerImages.visibility = View.VISIBLE
+                binding.containerNoImages.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun updateCredits(credits: MovieCredits?) {
+        credits?.cast?.let { castAdapter.setCastMembers(it) }
+        credits?.crew?.let { crewAdapter.setCrewMembers(it) }
+    }
+
+    private fun updateReviews(reviews: List<MovieReview>) {
+        reviewsAdapter.setReviews(reviews)
+    }
+
+    private fun updateRecommendations(recommendations: List<Movie>) {
+        recommendationsAdapter.setMovies(recommendations)
+    }
+
+    private fun updateSimilarMovies(similarMovies: List<Movie>) {
+        similarMoviesAdapter.setMovies(similarMovies)
+    }
+
+    private fun updateReviewsVisibility(reviews: List<MovieReview>) {
+        if (reviews.isEmpty()) {
+            binding.recyclerReviews.visibility = View.GONE
+            binding.containerNoReviews.visibility = View.VISIBLE
+        } else {
+            binding.recyclerReviews.visibility = View.VISIBLE
+            binding.containerNoReviews.visibility = View.GONE
         }
     }
 
@@ -263,14 +298,16 @@ class MovieDetailsFragment : Fragment() {
         viewModel.setMovieId(movieId)
     }
 
-    private fun setupToolbar() = with(binding.topAppBar) {
-        setupNavigationClickListener()
-        setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                com.koniukhov.cinecircle.feature.movie_details.R.id.action_favorite -> {
-                    true
+    private fun setupToolbar() {
+        with(binding.topAppBar) {
+            setupNavigationClickListener()
+            setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    action_favorite -> {
+                        true
+                    }
+                    else -> false
                 }
-                else -> false
             }
         }
     }
@@ -281,14 +318,16 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun setupSectionHeaders() = with(binding) {
-        sectionImages.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.images_title)
-        sectionTrailers.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.trailers_teasers_title)
-        sectionCast.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.cast_title)
-        sectionCrew.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.crew_title)
-        sectionReviews.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.reviews_title)
-        sectionRecommendations.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.recommendations_title)
-        sectionSimilar.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.similar_title)
+    private fun setupSectionHeaders() {
+        with(binding) {
+            sectionImages.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.images_title)
+            sectionTrailers.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.trailers_teasers_title)
+            sectionCast.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.cast_title)
+            sectionCrew.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.crew_title)
+            sectionReviews.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.reviews_title)
+            sectionRecommendations.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.recommendations_title)
+            sectionSimilar.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.similar_title)
+        }
     }
 
     private fun setupAboutSection(movieDetails: MovieDetails) {
@@ -387,8 +426,8 @@ class MovieDetailsFragment : Fragment() {
         currentExitFullscreenFunction?.invoke()
         fullscreenVideoDialog?.dismiss()
         fullscreenVideoDialog = null
-        super.onDestroyView()
         _binding = null
+        super.onDestroyView()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -400,9 +439,7 @@ class MovieDetailsFragment : Fragment() {
                     binding.appBarLayout.visibility = View.GONE
                 }
                 Configuration.ORIENTATION_PORTRAIT -> {
-                    if (!isFullscreen) {
-                        binding.appBarLayout.visibility = View.VISIBLE
-                    }
+                    binding.appBarLayout.visibility = View.GONE
                 }
             }
         } else {
@@ -413,11 +450,11 @@ class MovieDetailsFragment : Fragment() {
     private fun setupSkeletons() {
         containerBackdropSkeleton = binding.skeletonBackdrop
         plotSkeleton = binding.skeletonPlot
-        imagesRecyclerSkeleton = binding.recyclerImages.applySkeleton(com.koniukhov.cinecircle.feature.movie_details.R.layout.item_movie_image, RECYCLER_SKELETON_ITEM_COUNT)
-        trailersRecyclerSkeleton = binding.recyclerTrailers.applySkeleton(com.koniukhov.cinecircle.feature.movie_details.R.layout.item_movie_image, RECYCLER_SKELETON_ITEM_COUNT)
-        castRecyclerSkeleton = binding.recyclerCast.applySkeleton(com.koniukhov.cinecircle.feature.movie_details.R.layout.item_person, RECYCLER_SKELETON_ITEM_COUNT)
-        crewRecyclerSkeleton = binding.recyclerCrew.applySkeleton(com.koniukhov.cinecircle.feature.movie_details.R.layout.item_person, RECYCLER_SKELETON_ITEM_COUNT)
-        reviewsRecyclerSkeleton = binding.recyclerReviews.applySkeleton(com.koniukhov.cinecircle.feature.movie_details.R.layout.item_review, RECYCLER_SKELETON_ITEM_COUNT)
+        imagesRecyclerSkeleton = binding.recyclerImages.applySkeleton(item_movie_image, RECYCLER_SKELETON_ITEM_COUNT)
+        trailersRecyclerSkeleton = binding.recyclerTrailers.applySkeleton(item_movie_image, RECYCLER_SKELETON_ITEM_COUNT)
+        castRecyclerSkeleton = binding.recyclerCast.applySkeleton(item_person, RECYCLER_SKELETON_ITEM_COUNT)
+        crewRecyclerSkeleton = binding.recyclerCrew.applySkeleton(item_person, RECYCLER_SKELETON_ITEM_COUNT)
+        reviewsRecyclerSkeleton = binding.recyclerReviews.applySkeleton(item_review, RECYCLER_SKELETON_ITEM_COUNT)
         recommendationsRecyclerSkeleton = binding.recyclerRecommendations.applySkeleton(R.layout.item_media, RECYCLER_SKELETON_ITEM_COUNT)
         similarRecyclerSkeleton = binding.recyclerSimilar.applySkeleton(R.layout.item_media, RECYCLER_SKELETON_ITEM_COUNT)
         aboutSkeleton = binding.skeletonAbout
