@@ -32,6 +32,7 @@ class MovieCastAdapter(
 
         with(holder.binding) {
             personName.text = castMember.name
+            personRole.text = castMember.character
 
             if (castMember.profilePath.isNotEmpty()) {
                 imgPerson.load(IMAGE_URL_TEMPLATE.format(castMember.profilePath)) {

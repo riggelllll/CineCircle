@@ -32,6 +32,7 @@ class MovieCrewAdapter(
 
         with(holder.binding) {
             personName.text = crewMember.name
+            personRole.text = crewMember.job
 
             if (crewMember.profilePath.isNotEmpty()) {
                 imgPerson.load(IMAGE_URL_TEMPLATE.format(crewMember.profilePath)) {
