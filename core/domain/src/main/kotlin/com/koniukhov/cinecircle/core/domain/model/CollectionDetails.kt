@@ -7,4 +7,6 @@ data class CollectionDetails(
     val posterPath: String,
     val backdropPath: String,
     val parts: List<CollectionMedia>
-)
+){
+    fun exists() = id != -1
+}

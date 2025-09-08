@@ -21,6 +21,7 @@ import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.chip.Chip
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs
 import com.koniukhov.cinecircle.core.design.R
+import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.domain.model.MediaImages
@@ -30,6 +31,7 @@ import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.MovieReview
 import com.koniukhov.cinecircle.core.domain.model.MovieVideos
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
+import com.koniukhov.cinecircle.feature.media.details.adapter.CollectionMediaAdapter
 import com.koniukhov.cinecircle.feature.media.details.ui.viewmodel.MovieDetailsViewModel
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieCastAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieCrewAdapter
@@ -62,6 +64,7 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var castAdapter: MovieCastAdapter
     private lateinit var crewAdapter: MovieCrewAdapter
     private lateinit var reviewsAdapter: MovieReviewsAdapter
+    private lateinit var collectionAdapter: CollectionMediaAdapter
     private lateinit var recommendationsAdapter: MovieRecommendationsAdapter
     private lateinit var similarMoviesAdapter: MovieRecommendationsAdapter
     private var isFullscreen = false
@@ -140,6 +143,11 @@ class MovieDetailsFragment : Fragment() {
             }
             recyclerReviews.adapter = reviewsAdapter
 
+            collectionAdapter = CollectionMediaAdapter { movieId ->
+                navigateToMovieDetails(movieId)
+            }
+            recyclerCollection.adapter = collectionAdapter
+
             recommendationsAdapter = MovieRecommendationsAdapter { movieId ->
                 navigateToMovieDetails(movieId)
             }
@@ -189,6 +197,7 @@ class MovieDetailsFragment : Fragment() {
                     updateImages(uiState.images)
                     updateCredits(uiState.credits)
                     updateReviews(uiState.reviews)
+                    updateCollection(uiState.collectionDetails)
                     updateRecommendations(uiState.recommendations)
                     updateSimilarMovies(uiState.similarMovies)
                     updateReviewsVisibility(uiState.reviews)
@@ -260,6 +269,19 @@ class MovieDetailsFragment : Fragment() {
 
     private fun updateReviews(reviews: List<MovieReview>) {
         reviewsAdapter.setReviews(reviews)
+    }
+
+    private fun updateCollection(collectionDetails: CollectionDetails?){
+        collectionDetails?.let { collectionDetails ->
+            if (collectionDetails.exists()){
+                with(binding){
+                    sectionCollection.root.visibility = View.VISIBLE
+                    recyclerCollection.visibility = View.VISIBLE
+                    sectionCollection.sectionTitle.text = collectionDetails.name
+                }
+                collectionAdapter.setMovies(collectionDetails.parts)
+            }
+        }
     }
 
     private fun updateRecommendations(recommendations: List<Movie>) {
