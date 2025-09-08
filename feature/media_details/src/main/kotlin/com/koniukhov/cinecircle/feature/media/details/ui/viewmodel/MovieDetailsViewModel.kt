@@ -2,6 +2,7 @@ package com.koniukhov.cinecircle.feature.media.details.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.koniukhov.cinecircle.core.common.Constants.ENGLISH_LANGUAGE_CODE
 import com.koniukhov.cinecircle.core.data.di.CountryCode
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
 import com.koniukhov.cinecircle.core.domain.usecase.GetCollectionDetailsUseCase
@@ -40,7 +41,6 @@ class MovieDetailsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(MovieDetailsUiState())
     val uiState: StateFlow<MovieDetailsUiState> = _uiState.asStateFlow()
     private var _movieId = MutableStateFlow(-1)
-    val movieId: StateFlow<Int> = _movieId.asStateFlow()
 
     fun setMovieId(id: Int) {
         _movieId.value = id
@@ -65,6 +65,7 @@ class MovieDetailsViewModel @Inject constructor(
                 val recommendations = getMovieRecommendationsUseCase(movieDetails.id, 1, languageCode)
                 val similarMovies = getSimilarMoviesUseCase(movieDetails.id, 1, languageCode)
                 val releaseDates = getMovieReleaseDatesUseCase(movieDetails.id)
+
                 _uiState.value = MovieDetailsUiState(
                     isLoading = false,
                     movieDetails = movieDetails,
@@ -85,9 +86,5 @@ class MovieDetailsViewModel @Inject constructor(
                 )
             }
         }
-    }
-
-    companion object {
-        const val ENGLISH_LANGUAGE_CODE = "en"
     }
 }
