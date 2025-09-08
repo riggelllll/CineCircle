@@ -12,13 +12,15 @@ import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.feature.home.databinding.ItemHomeGenreUiBinding
 
 
-class GenreUiAdapter(private val onItemClick: (Int, String) -> Unit) : RecyclerView.Adapter<GenreUiAdapter.GenreUiViewHolder>(){
+class GenreUiAdapter(private val onItemClick: (Int, String) -> Unit)
+    : RecyclerView.Adapter<GenreUiAdapter.GenreUiViewHolder>(){
     private var genres: List<GenreUi> = emptyList()
 
     class GenreUiViewHolder(val binding: ItemHomeGenreUiBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreUiViewHolder {
-        val binding = ItemHomeGenreUiBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemHomeGenreUiBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
         return GenreUiViewHolder(binding)
     }
 
