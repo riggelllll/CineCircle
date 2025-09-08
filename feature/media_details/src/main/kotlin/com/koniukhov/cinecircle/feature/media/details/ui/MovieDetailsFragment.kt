@@ -235,11 +235,12 @@ class MovieDetailsFragment : Fragment() {
 
     private fun updateVideos(movieVideos: MovieVideos?) {
         movieVideos?.let {
-            if (movieVideos.results.isEmpty()) {
+            val youTubeTrailers = movieVideos.getYouTubeTrailers()
+            if (movieVideos.results.isEmpty() || youTubeTrailers.isEmpty()) {
                 binding.recyclerTrailers.visibility = View.GONE
                 binding.containerNoTrailer.visibility = View.VISIBLE
             } else {
-                trailersAdapter.setTrailers(movieVideos.results)
+                trailersAdapter.setTrailers(youTubeTrailers)
                 binding.recyclerTrailers.visibility = View.VISIBLE
                 binding.containerNoTrailer.visibility = View.GONE
             }
