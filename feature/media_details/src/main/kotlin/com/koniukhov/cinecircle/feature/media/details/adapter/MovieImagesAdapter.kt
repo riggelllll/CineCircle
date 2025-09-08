@@ -8,6 +8,7 @@ import coil3.request.placeholder
 import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemMovieImageBinding
+import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image as placeholder_image
 
 class MovieImagesAdapter(
     private val onImageClick: (String) -> Unit
@@ -29,8 +30,12 @@ class MovieImagesAdapter(
             onImageClick(image.filePath)
         }
 
-        holder.binding.img.load(IMAGE_URL_TEMPLATE.format(image.filePath)) {
-            placeholder(com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image)
+        if (image.filePath.isNotEmpty()){
+            holder.binding.img.load(IMAGE_URL_TEMPLATE.format(image.filePath)) {
+                placeholder(placeholder_image)
+            }
+        }else{
+            holder.binding.img.load(placeholder_image)
         }
     }
 

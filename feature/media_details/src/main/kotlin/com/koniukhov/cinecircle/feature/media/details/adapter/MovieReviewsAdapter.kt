@@ -9,6 +9,7 @@ import coil3.request.placeholder
 import com.koniukhov.cinecircle.core.domain.model.MovieReview
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemReviewBinding
+import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image as placeholder_image
 
 class MovieReviewsAdapter(
     private val onReviewClick: (MovieReview) -> Unit
@@ -43,10 +44,10 @@ class MovieReviewsAdapter(
 
             if (review.authorDetails.avatarPath.isNotEmpty()) {
                 imgUserAvatar.load(IMAGE_URL_TEMPLATE.format(review.authorDetails.avatarPath)) {
-                    placeholder(com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image)
+                    placeholder(placeholder_image)
                 }
             } else {
-                imgUserAvatar.load(com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image)
+                imgUserAvatar.load(placeholder_image)
             }
         }
     }

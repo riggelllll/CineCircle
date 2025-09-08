@@ -7,12 +7,11 @@ import coil3.load
 import coil3.request.placeholder
 import coil3.request.transformations
 import coil3.transform.RoundedCornersTransformation
+import com.koniukhov.cinecircle.core.common.Constants.IMAGE_RADIUS
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
-
-private const val IMAGE_RADIUS = 20f
 
 class MovieRecommendationsAdapter(
     private val onItemClick: (Int) -> Unit

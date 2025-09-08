@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
+import com.koniukhov.cinecircle.core.common.Constants.VIDEO_SITE_YOUTUBE
+import com.koniukhov.cinecircle.core.common.Constants.VIDEO_TYPE_TRAILER
 import com.koniukhov.cinecircle.core.domain.model.Video
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemMovieTrailerBinding
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -23,8 +25,8 @@ class MovieTrailersAdapter(
     fun setTrailers(newTrailers: List<Video>) {
         trailers.clear()
         val filteredTrailers = newTrailers.filter {
-            it.site.equals("YouTube", ignoreCase = true) &&
-            it.type.equals("Trailer", ignoreCase = true)
+            it.site.equals(VIDEO_SITE_YOUTUBE, ignoreCase = true) &&
+            it.type.equals(VIDEO_TYPE_TRAILER, ignoreCase = true)
         }
         trailers.addAll(filteredTrailers)
         notifyDataSetChanged()
