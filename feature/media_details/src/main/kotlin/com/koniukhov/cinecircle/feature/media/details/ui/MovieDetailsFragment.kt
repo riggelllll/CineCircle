@@ -265,7 +265,14 @@ class MovieDetailsFragment : Fragment() {
 
     private fun updateCredits(credits: MovieCredits?) {
         credits?.cast?.let { castAdapter.setCastMembers(it) }
-        credits?.crew?.let { crewAdapter.setCrewMembers(it) }
+        credits?.crew?.let {
+            if (it.isEmpty()){
+                binding.sectionCrew.root.visibility = View.GONE
+                binding.recyclerCrew.visibility = View.GONE
+            }else{
+                crewAdapter.setCrewMembers(it)
+            }
+        }
     }
 
     private fun updateReviews(reviews: List<MovieReview>) {
