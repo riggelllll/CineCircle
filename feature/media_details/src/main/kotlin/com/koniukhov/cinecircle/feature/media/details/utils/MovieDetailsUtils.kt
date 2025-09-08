@@ -1,5 +1,6 @@
 package com.koniukhov.cinecircle.feature.media.details.utils
 
+import com.koniukhov.cinecircle.core.common.Constants.DEFAULT_COUNTRY_CODE
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.ReleaseDateResult
 import timber.log.Timber
@@ -37,7 +38,7 @@ object MovieDetailsUtils {
             return userCountryCertification
         }
         val usCertification = releaseDates
-            .find { it.countryCode == "US" }
+            .find { it.countryCode == DEFAULT_COUNTRY_CODE }
             ?.releaseDates
             ?.firstOrNull { it.certification.isNotEmpty() }
             ?.certification
