@@ -10,6 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.koniukhov.cinecircle.core.domain.model.MovieReview
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.feature.movie_details.databinding.BottomSheetReviewDetailBinding
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -68,6 +69,7 @@ class ReviewDetailBottomSheetDialog : BottomSheetDialogFragment() {
             val date = inputFormat.parse(dateString)
             date?.let { outputFormat.format(it) } ?: dateString
         } catch (e: Exception) {
+            Timber.d(e)
             dateString
         }
     }
