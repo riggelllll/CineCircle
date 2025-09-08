@@ -14,98 +14,104 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/container_backdrop"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_backdrop"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/img_backdrop"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_backdrop"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    tools:src="@drawable/movie_genre_action_poster" />
+                    android:layout_height="300dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:background="@drawable/bg_gradient_bottom"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    <ImageView
+                        android:id="@+id/img_backdrop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        tools:src="@drawable/movie_genre_action_poster" />
 
-                <TextView
-                    android:id="@+id/movie_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginBottom="48dp"
-                    android:gravity="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:text="Movie Title" />
-
-                <LinearLayout
-                    android:id="@+id/container_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:background="@drawable/bg_gradient_bottom"
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
                     <TextView
-                        android:id="@+id/rating"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/movie_title"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_rating"
-                        android:paddingHorizontal="8dp"
-                        android:paddingVertical="2dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginBottom="48dp"
+                        android:gravity="center"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
+                        android:textSize="24sp"
                         android:textStyle="bold"
-                        tools:text="8.7" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:text="Movie Title" />
 
-                    <TextView
-                        android:id="@+id/duration"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/container_info"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        tools:text="2h 15m" />
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent">
 
-                    <TextView
-                        android:id="@+id/age"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        tools:text="16+" />
+                        <TextView
+                            android:id="@+id/rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_rating"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="2dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:text="8.7" />
 
-                    <TextView
-                        android:id="@+id/country"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        tools:text="USA" />
+                        <TextView
+                            android:id="@+id/duration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            tools:text="2h 15m" />
 
-                    <TextView
-                        android:id="@+id/year"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        tools:text="2023" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/age"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            tools:text="16+" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                        <TextView
+                            android:id="@+id/country"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            tools:text="USA" />
+
+                        <TextView
+                            android:id="@+id/year"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            tools:text="2023" />
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
+
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group_genres"
@@ -113,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@id/container_backdrop" />
+                app:layout_constraintTop_toBottomOf="@id/skeleton_backdrop" />
 
             <TextView
                 android:id="@+id/plot_title"
@@ -127,24 +133,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/chip_group_genres" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/container_plot"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_plot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@id/plot_title">
-
-                <TextView
-                    android:id="@+id/plot_description"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_plot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:textSize="14sp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="A long description of the movie plot that spans multiple lines and will not be truncated when the maximum number of lines is reached." />
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/plot_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="A long description of the movie plot that spans multiple lines and will not be truncated when the maximum number of lines is reached." />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
 
             <include
                 android:id="@+id/section_images"
@@ -152,8 +163,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/container_plot" />
-
+                app:layout_constraintTop_toBottomOf="@id/skeleton_plot" />
             <LinearLayout
                 android:id="@+id/container_images"
                 android:layout_width="match_parent"
@@ -166,10 +176,10 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_images"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_movie_image" />
+                    tools:listitem="@layout/item_movie_image"/>
                 <LinearLayout
                     android:id="@+id/container_no_images"
                     android:layout_width="match_parent"
@@ -327,13 +337,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/container_reviews" />
 
-            <include
-                android:id="@+id/section_about"
-                layout="@layout/layout_section_about_movie"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_about"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/about_title" />
+                app:layout_constraintTop_toBottomOf="@id/about_title">
+                <include
+                    android:id="@+id/section_about"
+                    layout="@layout/layout_section_about_movie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
+
 
             <include
                 android:id="@+id/section_collections"
@@ -342,7 +358,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/section_about" />
+                app:layout_constraintTop_toBottomOf="@id/skeleton_about" />
 
             <include
                 android:id="@+id/section_recommendations"

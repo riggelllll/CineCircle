@@ -16,9 +16,12 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import coil3.load
 import coil3.request.placeholder
+import com.faltenreich.skeletonlayout.Skeleton
+import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.chip.Chip
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_MOVIE_ID
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.movieDetailsUri
+import com.koniukhov.cinecircle.core.design.R.layout.item_media
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
@@ -58,6 +61,17 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
     private var fullscreenVideoDialog: FullscreenVideoDialog? = null
 
+    private lateinit var containerBackdropSkeleton: Skeleton
+    private lateinit var imagesRecyclerSkeleton: Skeleton
+    private lateinit var trailersRecyclerSkeleton: Skeleton
+    private lateinit var castRecyclerSkeleton: Skeleton
+    private lateinit var crewRecyclerSkeleton: Skeleton
+    private lateinit var reviewsRecyclerSkeleton: Skeleton
+    private lateinit var recommendationsRecyclerSkeleton: Skeleton
+    private lateinit var similarRecyclerSkeleton: Skeleton
+    private lateinit var plotSkeleton: Skeleton
+    private lateinit var aboutSkeleton: Skeleton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupArgs()
@@ -70,6 +84,9 @@ class MovieDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
+        setupRecyclerViews()
+        setupSkeletons()
+        showSkeletons()
         return binding.root
     }
 
@@ -79,7 +96,6 @@ class MovieDetailsFragment : Fragment() {
         setupWindowInsets(view)
         setupToolbar()
         setupSectionHeaders()
-        setupRecyclerViews()
         observeUiState()
     }
 
@@ -158,6 +174,7 @@ class MovieDetailsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { uiState ->
                 if (!uiState.isLoading && uiState.error  == null){
+                    hideSkeletons()
                     uiState.movieDetails?.let { movieDetails ->
                         binding.apply {
                             imgBackdrop.load(IMAGE_URL_TEMPLATE.format(movieDetails.backdropPath)){
@@ -394,9 +411,49 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
+    private fun setupSkeletons() {
+        containerBackdropSkeleton = binding.skeletonBackdrop
+        plotSkeleton = binding.skeletonPlot
+        imagesRecyclerSkeleton = binding.recyclerImages.applySkeleton(R.layout.item_movie_image, RECYCLER_SKELETON_ITEM_COUNT)
+        trailersRecyclerSkeleton = binding.recyclerTrailers.applySkeleton(R.layout.item_movie_image, RECYCLER_SKELETON_ITEM_COUNT)
+        castRecyclerSkeleton = binding.recyclerCast.applySkeleton(R.layout.item_person, RECYCLER_SKELETON_ITEM_COUNT)
+        crewRecyclerSkeleton = binding.recyclerCrew.applySkeleton(R.layout.item_person, RECYCLER_SKELETON_ITEM_COUNT)
+        reviewsRecyclerSkeleton = binding.recyclerReviews.applySkeleton(R.layout.item_review, RECYCLER_SKELETON_ITEM_COUNT)
+        recommendationsRecyclerSkeleton = binding.recyclerRecommendations.applySkeleton(item_media, RECYCLER_SKELETON_ITEM_COUNT)
+        similarRecyclerSkeleton = binding.recyclerSimilar.applySkeleton(item_media, RECYCLER_SKELETON_ITEM_COUNT)
+        aboutSkeleton = binding.skeletonAbout
+    }
+
+    private fun showSkeletons() {
+        containerBackdropSkeleton.showSkeleton()
+        plotSkeleton.showSkeleton()
+        imagesRecyclerSkeleton.showSkeleton()
+        trailersRecyclerSkeleton.showSkeleton()
+        castRecyclerSkeleton.showSkeleton()
+        crewRecyclerSkeleton.showSkeleton()
+        reviewsRecyclerSkeleton.showSkeleton()
+        recommendationsRecyclerSkeleton.showSkeleton()
+        similarRecyclerSkeleton.showSkeleton()
+        aboutSkeleton.showSkeleton()
+    }
+
+    private fun hideSkeletons() {
+        containerBackdropSkeleton.showOriginal()
+        plotSkeleton.showOriginal()
+        imagesRecyclerSkeleton.showOriginal()
+        trailersRecyclerSkeleton.showOriginal()
+        castRecyclerSkeleton.showOriginal()
+        crewRecyclerSkeleton.showOriginal()
+        reviewsRecyclerSkeleton.showOriginal()
+        recommendationsRecyclerSkeleton.showOriginal()
+        similarRecyclerSkeleton.showOriginal()
+        aboutSkeleton.showOriginal()
+    }
+
     companion object{
         private const val FULLSCREEN_IMAGE_DIALOG_TAG = "FullscreenImageDialog"
         private const val FULLSCREEN_VIDEO_DIALOG_TAG = "FullscreenVideoDialog"
         private const val REVIEW_DETAIL_DIALOG_TAG = "ReviewDetailDialog"
+        private const val RECYCLER_SKELETON_ITEM_COUNT = 5
     }
 }
