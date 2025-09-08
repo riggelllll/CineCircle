@@ -9,6 +9,7 @@ import coil3.load
 import coil3.request.placeholder
 import coil3.request.transformations
 import coil3.transform.RoundedCornersTransformation
+import com.koniukhov.cinecircle.core.common.Constants.IMAGE_RADIUS
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.domain.model.MediaItem
 import com.koniukhov.cinecircle.core.domain.model.Movie
@@ -16,7 +17,9 @@ import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.feature.home.databinding.ItemMediaListBinding
 
-class PagingMediaAdapter(val onClick: (Int) -> Unit) : PagingDataAdapter<MediaItem, RecyclerView.ViewHolder>(DIFF) {
+class PagingMediaAdapter(
+    val onClick: (Int) -> Unit
+) : PagingDataAdapter<MediaItem, RecyclerView.ViewHolder>(DIFF) {
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
@@ -57,6 +60,8 @@ class PagingMediaAdapter(val onClick: (Int) -> Unit) : PagingDataAdapter<MediaIt
                     placeholder(R.drawable.placeholder_image)
                     transformations(RoundedCornersTransformation(IMAGE_RADIUS))
                 }
+            }else{
+                binding.poster.load(R.drawable.placeholder_image)
             }
         }
     }
