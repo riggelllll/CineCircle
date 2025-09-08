@@ -351,15 +351,27 @@
                     android:layout_height="wrap_content"/>
             </com.faltenreich.skeletonlayout.SkeletonLayout>
 
-
             <include
-                android:id="@+id/section_collections"
-                android:visibility="gone"
-                layout="@layout/layout_section_collections"
+                android:id="@+id/section_collection"
+                layout="@layout/layout_section_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/skeleton_about" />
+                app:layout_constraintTop_toBottomOf="@id/skeleton_about"
+                android:visibility="gone"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_collection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/section_collection"
+                tools:listitem="@layout/item_media"
+                android:visibility="gone"/>
 
             <include
                 android:id="@+id/section_recommendations"
@@ -367,7 +379,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/section_collections" />
+                app:layout_constraintTop_toBottomOf="@id/recycler_collection" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_recommendations"
