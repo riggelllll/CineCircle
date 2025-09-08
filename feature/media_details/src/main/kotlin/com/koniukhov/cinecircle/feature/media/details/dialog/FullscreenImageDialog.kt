@@ -44,10 +44,6 @@ class FullscreenImageDialog : DialogFragment() {
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT
             )
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
             WindowCompat.setDecorFitsSystemWindows(window, false)
             val controller = WindowInsetsControllerCompat(window, window.decorView)
             controller.hide(WindowInsetsCompat.Type.systemBars())
@@ -68,11 +64,14 @@ class FullscreenImageDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupNavigationListener()
+        loadImage()
+    }
+
+    private fun setupNavigationListener() {
         binding.toolbar.setNavigationOnClickListener {
             dismiss()
         }
-
-        loadImage()
     }
 
     private fun loadImage() {
