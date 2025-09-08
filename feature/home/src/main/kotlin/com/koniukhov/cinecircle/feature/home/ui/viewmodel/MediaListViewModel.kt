@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.home
+package com.koniukhov.cinecircle.feature.home.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,6 +6,7 @@ import androidx.paging.cachedIn
 import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
 import com.koniukhov.cinecircle.feature.home.repository.MediaRepository
+import com.koniukhov.cinecircle.feature.home.ui.state.MediaUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

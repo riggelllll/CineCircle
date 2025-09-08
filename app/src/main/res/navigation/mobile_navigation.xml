@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.koniukhov.cinecircle.feature.home.fragment.HomeFragment"
+        android:name="com.koniukhov.cinecircle.feature.home.ui.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
     <fragment

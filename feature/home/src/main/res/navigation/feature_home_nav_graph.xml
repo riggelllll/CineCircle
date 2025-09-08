@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/mediaListFragment"
-        android:name="com.koniukhov.cinecircle.feature.home.fragment.MediaListFragment"
+        android:name="com.koniukhov.cinecircle.feature.home.ui.MediaListFragment"
         android:label="MediaListFragment"
         tools:layout="@layout/fragment_media_list">
         <argument

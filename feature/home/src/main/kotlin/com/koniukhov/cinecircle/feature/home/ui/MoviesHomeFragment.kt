@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.home.fragment
+package com.koniukhov.cinecircle.feature.home.ui
 
 import android.net.Uri
 import android.os.Bundle
@@ -16,8 +16,8 @@ import com.faltenreich.skeletonlayout.applySkeleton
 import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.mediaListUri
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.movieDetailsUri
-import com.koniukhov.cinecircle.feature.home.HomeViewModel
-import com.koniukhov.cinecircle.feature.home.MoviesUiState
+import com.koniukhov.cinecircle.feature.home.ui.viewmodel.HomeViewModel
+import com.koniukhov.cinecircle.feature.home.ui.state.MoviesUiState
 import com.koniukhov.cinecircle.feature.home.R
 import com.koniukhov.cinecircle.feature.home.adapter.GenreUiAdapter
 import com.koniukhov.cinecircle.feature.home.adapter.MoviesAdapter

@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.home
+package com.koniukhov.cinecircle.feature.home.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,6 +17,8 @@ import com.koniukhov.cinecircle.core.domain.usecase.GetTrendingMoviesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetTrendingTvSeriesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetTvSeriesGenresUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetUpcomingMoviesUseCase
+import com.koniukhov.cinecircle.feature.home.ui.state.MoviesUiState
+import com.koniukhov.cinecircle.feature.home.ui.state.TvSeriesUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.home
+package com.koniukhov.cinecircle.feature.home.ui.state
 
 import androidx.paging.PagingData
 import com.koniukhov.cinecircle.core.domain.model.MediaItem

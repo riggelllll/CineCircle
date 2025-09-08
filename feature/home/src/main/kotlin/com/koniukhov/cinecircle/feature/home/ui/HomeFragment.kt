@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.home.fragment
+package com.koniukhov.cinecircle.feature.home.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

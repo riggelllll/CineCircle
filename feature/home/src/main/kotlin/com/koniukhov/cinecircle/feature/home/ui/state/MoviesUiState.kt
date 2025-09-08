@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.home
+package com.koniukhov.cinecircle.feature.home.ui.state
 
 import com.koniukhov.cinecircle.core.common.model.GenreUi
 import com.koniukhov.cinecircle.core.domain.model.Movie

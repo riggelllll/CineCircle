@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.home.fragment
+package com.koniukhov.cinecircle.feature.home.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_GENRE_ID
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_TITLE
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_TYPE
 import com.koniukhov.cinecircle.core.design.R
-import com.koniukhov.cinecircle.feature.home.MediaListViewModel
+import com.koniukhov.cinecircle.feature.home.ui.viewmodel.MediaListViewModel
 import com.koniukhov.cinecircle.feature.home.adapter.PagingMediaAdapter
 import com.koniukhov.cinecircle.feature.home.databinding.FragmentMediaListBinding
 import com.koniukhov.cinecircle.feature.home.util.GridSpacingItemDecoration
