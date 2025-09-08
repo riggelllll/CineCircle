@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.media.details
+package com.koniukhov.cinecircle.feature.media.details.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,6 +13,7 @@ import com.koniukhov.cinecircle.core.domain.usecase.GetMovieReleaseDatesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetMovieReviewsUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetMovieVideosUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetSimilarMoviesUseCase
+import com.koniukhov.cinecircle.feature.media.details.ui.state.MovieDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

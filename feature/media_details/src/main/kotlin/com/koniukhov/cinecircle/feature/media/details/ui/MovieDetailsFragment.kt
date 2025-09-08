@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.media.details
+package com.koniukhov.cinecircle.feature.media.details.ui
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -19,14 +19,14 @@ import coil3.request.placeholder
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.chip.Chip
-import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_MOVIE_ID
-import com.koniukhov.cinecircle.core.common.navigation.NavArgs.movieDetailsUri
-import com.koniukhov.cinecircle.core.design.R.layout.item_media
+import com.koniukhov.cinecircle.core.common.navigation.NavArgs
+import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.MovieReview
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
+import com.koniukhov.cinecircle.feature.media.details.ui.viewmodel.MovieDetailsViewModel
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieCastAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieCrewAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieImagesAdapter
@@ -37,7 +37,6 @@ import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenImageDial
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenVideoDialog
 import com.koniukhov.cinecircle.feature.media.details.dialog.ReviewDetailBottomSheetDialog
 import com.koniukhov.cinecircle.feature.media.details.utils.MovieDetailsUtils
-import com.koniukhov.cinecircle.feature.movie_details.R
 import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -145,12 +144,12 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun showReviewDetail(review: MovieReview) {
-        val dialog = ReviewDetailBottomSheetDialog.newInstance(review)
+        val dialog = ReviewDetailBottomSheetDialog.Companion.newInstance(review)
         dialog.show(parentFragmentManager, REVIEW_DETAIL_DIALOG_TAG)
     }
 
     private fun handleEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
-        val dialog = FullscreenVideoDialog.newInstance(fullscreenView, exitFullscreen)
+        val dialog = FullscreenVideoDialog.Companion.newInstance(fullscreenView, exitFullscreen)
         fullscreenVideoDialog = dialog
         dialog.show(parentFragmentManager, FULLSCREEN_VIDEO_DIALOG_TAG)
 
@@ -166,7 +165,7 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun showFullscreenImage(imagePath: String) {
-        val dialog = FullscreenImageDialog.newInstance(imagePath)
+        val dialog = FullscreenImageDialog.Companion.newInstance(imagePath)
         dialog.show(parentFragmentManager, FULLSCREEN_IMAGE_DIALOG_TAG)
     }
 
@@ -177,15 +176,15 @@ class MovieDetailsFragment : Fragment() {
                     hideSkeletons()
                     uiState.movieDetails?.let { movieDetails ->
                         binding.apply {
-                            imgBackdrop.load(IMAGE_URL_TEMPLATE.format(movieDetails.backdropPath)){
-                                placeholder(com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image)
+                            imgBackdrop.load(TMDBEndpoints.IMAGE_URL_TEMPLATE.format(movieDetails.backdropPath)){
+                                placeholder(R.drawable.placeholder_image)
                             }
                             movieTitle.text = movieDetails.title
                             rating.text = MovieDetailsUtils.formatRating(movieDetails.voteAverage)
                             duration.text = MovieDetailsUtils.formatRuntime(
                                 runtime = movieDetails.runtime,
-                                hoursLabel = getString(R.string.hours_short),
-                                minutesLabel = getString(R.string.minutes_short)
+                                hoursLabel = getString(com.koniukhov.cinecircle.feature.movie_details.R.string.hours_short),
+                                minutesLabel = getString(com.koniukhov.cinecircle.feature.movie_details.R.string.minutes_short)
                             )
                             age.text = MovieDetailsUtils.getAgeRating(movieDetails, uiState.releaseDates, viewModel.countryCode)
                             country.text = MovieDetailsUtils.getCountryCode(movieDetails)
@@ -240,7 +239,7 @@ class MovieDetailsFragment : Fragment() {
                         binding.containerNoReviews.visibility = View.GONE
                     }
                 }else{
-                    Timber.d(uiState.error)
+                    Timber.Forest.d(uiState.error)
                 }
             }
         }
@@ -260,7 +259,7 @@ class MovieDetailsFragment : Fragment() {
 
     private fun setupArgs(){
         val args = requireArguments()
-        val movieId = args.getInt(ARG_MOVIE_ID, -1)
+        val movieId = args.getInt(NavArgs.ARG_MOVIE_ID, -1)
         viewModel.setMovieId(movieId)
     }
 
@@ -268,7 +267,7 @@ class MovieDetailsFragment : Fragment() {
         setupNavigationClickListener()
         setOnMenuItemClickListener { item ->
             when (item.itemId) {
-                R.id.action_favorite -> {
+                com.koniukhov.cinecircle.feature.movie_details.R.id.action_favorite -> {
                     true
                 }
                 else -> false
@@ -283,13 +282,13 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun setupSectionHeaders() = with(binding) {
-        sectionImages.sectionTitle.setText(R.string.images_title)
-        sectionTrailers.sectionTitle.setText(R.string.trailers_teasers_title)
-        sectionCast.sectionTitle.setText(R.string.cast_title)
-        sectionCrew.sectionTitle.setText(R.string.crew_title)
-        sectionReviews.sectionTitle.setText(R.string.reviews_title)
-        sectionRecommendations.sectionTitle.setText(R.string.recommendations_title)
-        sectionSimilar.sectionTitle.setText(R.string.similar_title)
+        sectionImages.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.images_title)
+        sectionTrailers.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.trailers_teasers_title)
+        sectionCast.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.cast_title)
+        sectionCrew.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.crew_title)
+        sectionReviews.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.reviews_title)
+        sectionRecommendations.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.recommendations_title)
+        sectionSimilar.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.similar_title)
     }
 
     private fun setupAboutSection(movieDetails: MovieDetails) {
@@ -297,25 +296,25 @@ class MovieDetailsFragment : Fragment() {
             budgetValue.text = if (movieDetails.budget > 0) {
                 "$${String.format("%,d", movieDetails.budget)}"
             } else {
-                getString(R.string.not_available)
+                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
             }
 
             revenueValue.text = if (movieDetails.revenue > 0) {
                 "$${String.format("%,d", movieDetails.revenue)}"
             } else {
-                getString(R.string.not_available)
+                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
             }
 
             originalTitleValue.text = movieDetails.originalTitle.ifEmpty {
-                getString(R.string.not_available)
+                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
             }
 
             originalLanguageValue.text = movieDetails.originalLanguage.ifEmpty {
-                getString(R.string.not_available)
+                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
             }
 
             statusValue.text = movieDetails.status.ifEmpty {
-                getString(R.string.not_available)
+                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
             }
 
             popularityValue.text = String.format("%.1f", movieDetails.popularity)
@@ -323,17 +322,17 @@ class MovieDetailsFragment : Fragment() {
             productionCountriesValue.text = if (movieDetails.productionCountries.isNotEmpty()) {
                 movieDetails.productionCountries.joinToString(", ") { it.name }
             } else {
-                getString(R.string.not_available)
+                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
             }
 
             spokenLanguagesValue.text = if (movieDetails.spokenLanguages.isNotEmpty()) {
                 movieDetails.spokenLanguages.filter { it.name.isNotEmpty() }.joinToString(", ") { it.name }
             } else {
-                getString(R.string.not_available)
+                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
             }
 
             homepageValue.text = movieDetails.homePage.ifEmpty {
-                getString(R.string.not_available)
+                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
             }
 
             if (movieDetails.homePage.isNotEmpty()) {
@@ -347,21 +346,21 @@ class MovieDetailsFragment : Fragment() {
             }
 
             releaseDateValue.text = movieDetails.releaseDate.ifEmpty {
-                getString(R.string.not_available)
+                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
             }
 
             runtimeValue.text = if (movieDetails.runtime > 0) {
                 MovieDetailsUtils.formatRuntime(
                     runtime = movieDetails.runtime,
-                    hoursLabel = getString(R.string.hours_short),
-                    minutesLabel = getString(R.string.minutes_short)
+                    hoursLabel = getString(com.koniukhov.cinecircle.feature.movie_details.R.string.hours_short),
+                    minutesLabel = getString(com.koniukhov.cinecircle.feature.movie_details.R.string.minutes_short)
                 )
             } else {
-                getString(R.string.not_available)
+                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
             }
 
             taglineValue.text = movieDetails.tagline.ifEmpty {
-                getString(R.string.not_available)
+                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
             }
 
             voteCountValue.text = String.format("%,d", movieDetails.voteCount)
@@ -373,13 +372,13 @@ class MovieDetailsFragment : Fragment() {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             startActivity(intent)
         } catch (e: Exception) {
-            Timber.e(e, "Failed to open website: $url")
+            Timber.Forest.e(e, "Failed to open website: $url")
         }
     }
 
     private fun navigateToMovieDetails(movieId: Int) {
         val request = NavDeepLinkRequest.Builder
-            .fromUri(movieDetailsUri(movieId))
+            .fromUri(NavArgs.movieDetailsUri(movieId))
             .build()
         findNavController().navigate(request)
     }
@@ -414,13 +413,13 @@ class MovieDetailsFragment : Fragment() {
     private fun setupSkeletons() {
         containerBackdropSkeleton = binding.skeletonBackdrop
         plotSkeleton = binding.skeletonPlot
-        imagesRecyclerSkeleton = binding.recyclerImages.applySkeleton(R.layout.item_movie_image, RECYCLER_SKELETON_ITEM_COUNT)
-        trailersRecyclerSkeleton = binding.recyclerTrailers.applySkeleton(R.layout.item_movie_image, RECYCLER_SKELETON_ITEM_COUNT)
-        castRecyclerSkeleton = binding.recyclerCast.applySkeleton(R.layout.item_person, RECYCLER_SKELETON_ITEM_COUNT)
-        crewRecyclerSkeleton = binding.recyclerCrew.applySkeleton(R.layout.item_person, RECYCLER_SKELETON_ITEM_COUNT)
-        reviewsRecyclerSkeleton = binding.recyclerReviews.applySkeleton(R.layout.item_review, RECYCLER_SKELETON_ITEM_COUNT)
-        recommendationsRecyclerSkeleton = binding.recyclerRecommendations.applySkeleton(item_media, RECYCLER_SKELETON_ITEM_COUNT)
-        similarRecyclerSkeleton = binding.recyclerSimilar.applySkeleton(item_media, RECYCLER_SKELETON_ITEM_COUNT)
+        imagesRecyclerSkeleton = binding.recyclerImages.applySkeleton(com.koniukhov.cinecircle.feature.movie_details.R.layout.item_movie_image, RECYCLER_SKELETON_ITEM_COUNT)
+        trailersRecyclerSkeleton = binding.recyclerTrailers.applySkeleton(com.koniukhov.cinecircle.feature.movie_details.R.layout.item_movie_image, RECYCLER_SKELETON_ITEM_COUNT)
+        castRecyclerSkeleton = binding.recyclerCast.applySkeleton(com.koniukhov.cinecircle.feature.movie_details.R.layout.item_person, RECYCLER_SKELETON_ITEM_COUNT)
+        crewRecyclerSkeleton = binding.recyclerCrew.applySkeleton(com.koniukhov.cinecircle.feature.movie_details.R.layout.item_person, RECYCLER_SKELETON_ITEM_COUNT)
+        reviewsRecyclerSkeleton = binding.recyclerReviews.applySkeleton(com.koniukhov.cinecircle.feature.movie_details.R.layout.item_review, RECYCLER_SKELETON_ITEM_COUNT)
+        recommendationsRecyclerSkeleton = binding.recyclerRecommendations.applySkeleton(R.layout.item_media, RECYCLER_SKELETON_ITEM_COUNT)
+        similarRecyclerSkeleton = binding.recyclerSimilar.applySkeleton(R.layout.item_media, RECYCLER_SKELETON_ITEM_COUNT)
         aboutSkeleton = binding.skeletonAbout
     }
 

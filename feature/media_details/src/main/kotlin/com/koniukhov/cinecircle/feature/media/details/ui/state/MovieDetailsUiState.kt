@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.media.details
+package com.koniukhov.cinecircle.feature.media.details.ui.state
 
 import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
 import com.koniukhov.cinecircle.core.domain.model.MediaImages
