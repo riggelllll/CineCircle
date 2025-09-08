@@ -24,11 +24,7 @@ class MovieTrailersAdapter(
 
     fun setTrailers(newTrailers: List<Video>) {
         trailers.clear()
-        val filteredTrailers = newTrailers.filter {
-            it.site.equals(VIDEO_SITE_YOUTUBE, ignoreCase = true) &&
-            it.type.equals(VIDEO_TYPE_TRAILER, ignoreCase = true)
-        }
-        trailers.addAll(filteredTrailers)
+        trailers.addAll(newTrailers)
         notifyDataSetChanged()
     }
 
