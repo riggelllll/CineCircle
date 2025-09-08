@@ -1,0 +1,57 @@
+package com.koniukhov.cinecircle.feature.media.details.adapter
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import coil3.load
+import coil3.request.placeholder
+import coil3.request.transformations
+import coil3.transform.RoundedCornersTransformation
+import com.koniukhov.cinecircle.core.common.Constants.IMAGE_RADIUS
+import com.koniukhov.cinecircle.core.design.R
+import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
+import com.koniukhov.cinecircle.core.domain.model.CollectionMedia
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+
+class CollectionMediaAdapter(
+    private val onItemClick: (Int) -> Unit
+) : RecyclerView.Adapter<CollectionMediaAdapter.MediaViewHolder>() {
+
+    private var media: List<CollectionMedia> = emptyList()
+
+    class MediaViewHolder(val binding: ItemMediaBinding) : RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaViewHolder {
+        val binding = ItemMediaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MediaViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
+        val item = media[position]
+
+        holder.itemView.setOnClickListener {
+            onItemClick(item.id)
+        }
+
+        with(holder.binding) {
+            title.text = item.title
+            rating.text = String.format("%.1f", item.voteAverage).replace(',', '.')
+
+            if (item.posterPath.isNotEmpty()) {
+                poster.load(IMAGE_URL_TEMPLATE.format(item.posterPath)) {
+                    placeholder(R.drawable.placeholder_image)
+                    transformations(RoundedCornersTransformation(IMAGE_RADIUS))
+                }
+            } else {
+                poster.load(R.drawable.placeholder_image)
+            }
+        }
+    }
+
+    override fun getItemCount(): Int = media.size
+
+    fun setMovies(media: List<CollectionMedia>) {
+        this.media = media
+        notifyDataSetChanged()
+    }
+}
