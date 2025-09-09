@@ -215,12 +215,7 @@ class MovieDetailsFragment : Fragment() {
             }else {
                 imgBackdrop.load(design_R.drawable.placeholder_image)
             }
-            if (movieDetails.title.isNotEmpty()){
-                movieTitle.text = movieDetails.title
-            }else{
-                movieTitle.text = getString(R.string.not_available)
-            }
-
+            movieTitle.text = movieDetails.title
             rating.text = MovieDetailsUtils.formatRating(movieDetails.voteAverage)
             duration.text = MovieDetailsUtils.formatRuntime(
                 runtime = movieDetails.runtime,
@@ -230,7 +225,12 @@ class MovieDetailsFragment : Fragment() {
             age.text = MovieDetailsUtils.getAgeRating(movieDetails, uiState.releaseDates, viewModel.countryCode)
             country.text = MovieDetailsUtils.getCountryCode(movieDetails)
             year.text = MovieDetailsUtils.formatReleaseYear(movieDetails.releaseDate)
-            plotDescription.text = movieDetails.overview
+            if (movieDetails.overview.isNotEmpty()){
+                plotDescription.text = movieDetails.overview
+            }else{
+                plotDescription.text = getString(R.string.not_available)
+            }
+
         }
         setupGenres(movieDetails.genres)
         updateAboutSection(movieDetails)
@@ -267,13 +267,20 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun updateCredits(credits: MovieCredits?) {
-        credits?.cast?.let { castAdapter.setCastMembers(it) }
-        credits?.crew?.let {
-            if (it.isEmpty()){
-                binding.sectionCrew.root.visibility = View.GONE
-                binding.recyclerCrew.visibility = View.GONE
+        credits?.cast?.let {
+            if (it.isNotEmpty()){
+                castAdapter.setCastMembers(it)
             }else{
+                binding.recyclerCast.visibility = View.GONE
+                binding.containerNoCast.visibility = View.VISIBLE
+            }
+        }
+        credits?.crew?.let {
+            if (it.isNotEmpty()){
                 crewAdapter.setCrewMembers(it)
+            }else{
+                binding.recyclerCrew.visibility = View.GONE
+                binding.containerNoCrew.visibility = View.VISIBLE
             }
         }
     }
@@ -296,11 +303,21 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun updateRecommendations(recommendations: List<Movie>) {
-        recommendationsAdapter.setMovies(recommendations)
+        if (recommendations.isNotEmpty()){
+            recommendationsAdapter.setMovies(recommendations)
+        }else{
+            binding.recyclerRecommendations.visibility = View.GONE
+            binding.containerNoRecommendations.visibility = View.VISIBLE
+        }
     }
 
     private fun updateSimilarMovies(similarMovies: List<Movie>) {
-        similarMoviesAdapter.setMovies(similarMovies)
+        if (similarMovies.isNotEmpty()){
+            similarMoviesAdapter.setMovies(similarMovies)
+        }else{
+            binding.recyclerSimilar.visibility = View.GONE
+            binding.containerNoSimilar.visibility = View.VISIBLE
+        }
     }
 
     private fun updateReviewsVisibility(reviews: List<MovieReview>) {
