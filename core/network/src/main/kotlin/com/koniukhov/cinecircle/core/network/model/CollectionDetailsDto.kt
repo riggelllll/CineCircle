@@ -1,6 +1,7 @@
 package com.koniukhov.cinecircle.core.network.model
 
 import com.google.gson.annotations.SerializedName
+import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 
 data class CollectionDetailsDto(
     val id: Int,
@@ -14,7 +15,7 @@ data class CollectionDetailsDto(
 ){
     companion object{
         fun empty() = CollectionDetailsDto(
-            id = -1,
+            id = INVALID_ID,
             name = "",
             overview = "",
             posterPath = "",

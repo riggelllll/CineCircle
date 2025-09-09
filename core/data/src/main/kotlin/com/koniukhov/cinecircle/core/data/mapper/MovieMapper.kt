@@ -1,5 +1,6 @@
 package com.koniukhov.cinecircle.core.data.mapper
 
+import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.domain.model.CastMember
 import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
 import com.koniukhov.cinecircle.core.domain.model.CollectionMedia
@@ -86,7 +87,7 @@ fun GenreDto.toDomain(): Genre =
 fun MovieDetailsDto.toDomain(): MovieDetails = MovieDetails(
     adult = adult ?: false,
     backdropPath = backdropPath ?: "",
-    belongsToCollection = belongsToCollection?.toDomain() ?: MovieCollection(-1, "", "", ""),
+    belongsToCollection = belongsToCollection?.toDomain() ?: MovieCollection(INVALID_ID, "", "", ""),
     budget = budget ?: 0,
     genres = genres?.map { it.toDomain() } ?: emptyList(),
     homePage = homePage ?: "",

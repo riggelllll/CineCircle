@@ -19,6 +19,7 @@ import coil3.request.placeholder
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.chip.Chip
+import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs
 import com.koniukhov.cinecircle.core.design.R as design_R
 import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
@@ -344,7 +345,7 @@ class MovieDetailsFragment : Fragment() {
 
     private fun setupArgs(){
         val args = requireArguments()
-        val movieId = args.getInt(NavArgs.ARG_MOVIE_ID, -1)
+        val movieId = args.getInt(NavArgs.ARG_MOVIE_ID, INVALID_ID)
         viewModel.setMovieId(movieId)
     }
 

@@ -3,6 +3,7 @@ package com.koniukhov.cinecircle.feature.media.details.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.koniukhov.cinecircle.core.common.Constants.ENGLISH_LANGUAGE_CODE
+import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.data.di.CountryCode
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
 import com.koniukhov.cinecircle.core.domain.usecase.GetCollectionDetailsUseCase
@@ -40,7 +41,7 @@ class MovieDetailsViewModel @Inject constructor(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(MovieDetailsUiState())
     val uiState: StateFlow<MovieDetailsUiState> = _uiState.asStateFlow()
-    private var _movieId = MutableStateFlow(-1)
+    private var _movieId = MutableStateFlow(INVALID_ID)
 
     fun setMovieId(id: Int) {
         _movieId.value = id
