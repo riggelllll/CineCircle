@@ -7,4 +7,6 @@ object Constants {
 
     const val VIDEO_SITE_YOUTUBE = "YouTube"
     const val VIDEO_TYPE_TRAILER = "Trailer"
+
+    const val INVALID_ID = -1
 }

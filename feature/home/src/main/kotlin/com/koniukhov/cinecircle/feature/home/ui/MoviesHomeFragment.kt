@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
+import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.mediaListUri
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.movieDetailsUri
@@ -57,6 +58,10 @@ class MoviesHomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeMoviesState()
+    }
+
+    private fun observeMoviesState() {
         lifecycleScope.launch {
             viewModel.loadMoviesForAllCategories()
             viewModel.moviesUiState.collect {
@@ -216,7 +221,7 @@ class MoviesHomeFragment : Fragment() {
         view.setOnClickListener {
             val encodedTitle = Uri.encode(getString(titleRes))
             val request = NavDeepLinkRequest.Builder
-                .fromUri(mediaListUri(type, encodedTitle, -1))
+                .fromUri(mediaListUri(type, encodedTitle, INVALID_ID))
                 .build()
             findNavController().navigate(request)
         }
