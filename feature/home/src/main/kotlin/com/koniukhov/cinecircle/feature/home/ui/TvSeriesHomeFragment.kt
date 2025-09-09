@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
+import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.mediaListUri
 import com.koniukhov.cinecircle.feature.home.ui.viewmodel.HomeViewModel
@@ -53,11 +54,14 @@ class TvSeriesHomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeTvSeriesState()
+    }
 
+    private fun observeTvSeriesState() {
         lifecycleScope.launch {
             viewModel.loadTvSeriesForAllCategories(1)
             viewModel.tvSeriesUiState.collect {
-                if (!it.isLoading && it.error == null){
+                if (!it.isLoading && it.error == null) {
                     hideAllSkeletons()
                     setDataToRecyclers(it)
                 }
@@ -80,28 +84,34 @@ class TvSeriesHomeFragment : Fragment() {
     }
 
     private fun setupAiringTodaySkeleton() {
-        airingTodaySkeleton = binding.airingTodayRecyclerView.applySkeleton(R.layout.item_home_genre_ui,RECYCLER_SKELETON_ITEM_COUNT)
+        airingTodaySkeleton = binding.airingTodayRecyclerView
+            .applySkeleton(R.layout.item_home_genre_ui,RECYCLER_SKELETON_ITEM_COUNT)
 
     }
 
     private fun setupOnAirSkeleton() {
-        onAirSkeleton = binding.onAirRecyclerView.applySkeleton(R.layout.item_home_genre_ui,RECYCLER_SKELETON_ITEM_COUNT)
+        onAirSkeleton = binding.onAirRecyclerView
+            .applySkeleton(R.layout.item_home_genre_ui,RECYCLER_SKELETON_ITEM_COUNT)
     }
 
     private fun setupTrendingSkeleton() {
-        trendingSkeleton = binding.trendingRecyclerView.applySkeleton(R.layout.item_home_genre_ui,RECYCLER_SKELETON_ITEM_COUNT)
+        trendingSkeleton = binding.trendingRecyclerView
+            .applySkeleton(R.layout.item_home_genre_ui,RECYCLER_SKELETON_ITEM_COUNT)
     }
 
     private fun setupPopularSkeleton() {
-        popularSkeleton = binding.popularRecyclerView.applySkeleton(R.layout.item_home_genre_ui,RECYCLER_SKELETON_ITEM_COUNT)
+        popularSkeleton = binding.popularRecyclerView
+            .applySkeleton(R.layout.item_home_genre_ui,RECYCLER_SKELETON_ITEM_COUNT)
     }
 
     private fun setupTopRatedSkeleton() {
-        topRatedSkeleton = binding.topRatedRecyclerView.applySkeleton(R.layout.item_home_genre_ui,RECYCLER_SKELETON_ITEM_COUNT)
+        topRatedSkeleton = binding.topRatedRecyclerView
+            .applySkeleton(R.layout.item_home_genre_ui,RECYCLER_SKELETON_ITEM_COUNT)
     }
 
     private fun setupGenreSkeleton() {
-        genreSkeleton = binding.genreRecyclerView.applySkeleton(R.layout.item_home_genre_ui,RECYCLER_SKELETON_ITEM_COUNT)
+        genreSkeleton = binding.genreRecyclerView
+            .applySkeleton(R.layout.item_home_genre_ui,RECYCLER_SKELETON_ITEM_COUNT)
     }
 
     private fun setupAllRecyclerViews() {
@@ -241,7 +251,7 @@ class TvSeriesHomeFragment : Fragment() {
         view.setOnClickListener {
             val encodedTitle = Uri.encode(getString(titleRes))
             val request = NavDeepLinkRequest.Builder
-                .fromUri(mediaListUri(type, encodedTitle, -1))
+                .fromUri(mediaListUri(type, encodedTitle, INVALID_ID))
                 .build()
             findNavController().navigate(request)
         }
