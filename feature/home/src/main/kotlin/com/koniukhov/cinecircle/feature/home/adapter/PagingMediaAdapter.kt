@@ -16,6 +16,7 @@ import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.feature.home.databinding.ItemMediaListBinding
+import java.util.Locale
 
 class PagingMediaAdapter(
     val onClick: (Int) -> Unit
@@ -54,7 +55,7 @@ class PagingMediaAdapter(
             posterPath: String?
         ) {
             binding.title.text = title
-            binding.rating.text = String.format("%.1f", voteAverage).replace(',', '.')
+            binding.rating.text = String.format(Locale.US,"%.1f", voteAverage)
             if (posterPath != null && posterPath.isNotEmpty()) {
                 binding.poster.load(IMAGE_URL_TEMPLATE.format(posterPath)) {
                     placeholder(R.drawable.placeholder_image)

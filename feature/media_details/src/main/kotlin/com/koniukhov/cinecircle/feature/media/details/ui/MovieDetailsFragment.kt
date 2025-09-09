@@ -48,6 +48,7 @@ import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentMovieD
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.Locale
 import com.koniukhov.cinecircle.feature.movie_details.R.id.action_favorite as action_favorite
 import com.koniukhov.cinecircle.feature.movie_details.R.layout.item_movie_image as item_movie_image
 import com.koniukhov.cinecircle.feature.movie_details.R.layout.item_person as item_person
@@ -363,13 +364,13 @@ class MovieDetailsFragment : Fragment() {
     private fun setupAboutSection(movieDetails: MovieDetails) {
         with(binding.sectionAbout) {
             budgetValue.text = if (movieDetails.budget > 0) {
-                "$${String.format("%,d", movieDetails.budget)}"
+                "$${String.format(Locale.US,"%,d", movieDetails.budget)}"
             } else {
                 getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
             }
 
             revenueValue.text = if (movieDetails.revenue > 0) {
-                "$${String.format("%,d", movieDetails.revenue)}"
+                "$${String.format(Locale.US,"%,d", movieDetails.revenue)}"
             } else {
                 getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
             }
@@ -386,7 +387,7 @@ class MovieDetailsFragment : Fragment() {
                 getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
             }
 
-            popularityValue.text = String.format("%.1f", movieDetails.popularity)
+            popularityValue.text = String.format(Locale.US,"%.1f", movieDetails.popularity)
 
             productionCountriesValue.text = if (movieDetails.productionCountries.isNotEmpty()) {
                 movieDetails.productionCountries.joinToString(", ") { it.name }

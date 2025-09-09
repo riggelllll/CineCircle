@@ -12,6 +12,7 @@ import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
 import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import java.util.Locale
 
 class TvSeriesAdapter(
     private val onItemClick: (Int) -> Unit
@@ -31,7 +32,7 @@ class TvSeriesAdapter(
             onItemClick(tvSeries.id)
         }
         holder.binding.title.text = tvSeries.name
-        holder.binding.rating.text = String.format("%.1f", tvSeries.voteAverage).replace(',', '.')
+        holder.binding.rating.text = String.format(Locale.US,"%.1f", tvSeries.voteAverage)
         if (tvSeries.posterPath.isNotEmpty()){
             holder.binding.poster.load(IMAGE_URL_TEMPLATE.format(tvSeries.posterPath)){
                 placeholder(R.drawable.placeholder_image)

@@ -12,6 +12,7 @@ import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
+import java.util.Locale
 
 class MovieRecommendationsAdapter(
     private val onItemClick: (Int) -> Unit
@@ -35,7 +36,7 @@ class MovieRecommendationsAdapter(
 
         with(holder.binding) {
             title.text = movie.title
-            rating.text = String.format("%.1f", movie.voteAverage).replace(',', '.')
+            rating.text = String.format(Locale.US,"%.1f", movie.voteAverage)
 
             if (movie.posterPath.isNotEmpty()) {
                 poster.load(IMAGE_URL_TEMPLATE.format(movie.posterPath)) {

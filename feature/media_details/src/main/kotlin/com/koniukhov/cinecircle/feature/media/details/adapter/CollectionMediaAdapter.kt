@@ -12,6 +12,7 @@ import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
 import com.koniukhov.cinecircle.core.domain.model.CollectionMedia
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import java.util.Locale
 
 class CollectionMediaAdapter(
     private val onItemClick: (Int) -> Unit
@@ -35,7 +36,7 @@ class CollectionMediaAdapter(
 
         with(holder.binding) {
             title.text = item.title
-            rating.text = String.format("%.1f", item.voteAverage).replace(',', '.')
+            rating.text = String.format(Locale.US,"%.1f", item.voteAverage)
 
             if (item.posterPath.isNotEmpty()) {
                 poster.load(IMAGE_URL_TEMPLATE.format(item.posterPath)) {

@@ -24,7 +24,7 @@ object MovieDetailsUtils {
     }
 
     fun formatRating(voteAverage: Float): String {
-        return String.format("%.1f", voteAverage).replace(",", ".")
+        return String.format(Locale.US,"%.1f", voteAverage)
     }
 
     fun getAgeRating(movieDetails: MovieDetails, releaseDates: List<ReleaseDateResult>, userCountryCode: String): String {
