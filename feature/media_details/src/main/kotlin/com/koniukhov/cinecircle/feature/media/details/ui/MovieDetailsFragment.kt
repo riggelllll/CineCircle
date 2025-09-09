@@ -20,7 +20,7 @@ import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.chip.Chip
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs
-import com.koniukhov.cinecircle.core.design.R
+import com.koniukhov.cinecircle.core.design.R as design_R
 import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
@@ -44,15 +44,12 @@ import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenVideoDial
 import com.koniukhov.cinecircle.feature.media.details.dialog.ReviewDetailBottomSheetDialog
 import com.koniukhov.cinecircle.feature.media.details.ui.state.MovieDetailsUiState
 import com.koniukhov.cinecircle.feature.media.details.utils.MovieDetailsUtils
+import com.koniukhov.cinecircle.feature.movie_details.R
 import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Locale
-import com.koniukhov.cinecircle.feature.movie_details.R.id.action_favorite as action_favorite
-import com.koniukhov.cinecircle.feature.movie_details.R.layout.item_movie_image as item_movie_image
-import com.koniukhov.cinecircle.feature.movie_details.R.layout.item_person as item_person
-import com.koniukhov.cinecircle.feature.movie_details.R.layout.item_review as item_review
 
 @AndroidEntryPoint
 class MovieDetailsFragment : Fragment() {
@@ -213,17 +210,22 @@ class MovieDetailsFragment : Fragment() {
         with(binding){
             if (movieDetails.backdropPath.isNotEmpty()){
                 imgBackdrop.load(TMDBEndpoints.IMAGE_URL_TEMPLATE.format(movieDetails.backdropPath)){
-                    placeholder(R.drawable.placeholder_image)
+                    placeholder(design_R.drawable.placeholder_image)
                 }
             }else {
-                imgBackdrop.load(R.drawable.placeholder_image)
+                imgBackdrop.load(design_R.drawable.placeholder_image)
             }
-            movieTitle.text = movieDetails.title
+            if (movieDetails.title.isNotEmpty()){
+                movieTitle.text = movieDetails.title
+            }else{
+                movieTitle.text = getString(R.string.not_available)
+            }
+
             rating.text = MovieDetailsUtils.formatRating(movieDetails.voteAverage)
             duration.text = MovieDetailsUtils.formatRuntime(
                 runtime = movieDetails.runtime,
-                hoursLabel = getString(com.koniukhov.cinecircle.feature.movie_details.R.string.hours_short),
-                minutesLabel = getString(com.koniukhov.cinecircle.feature.movie_details.R.string.minutes_short)
+                hoursLabel = getString(R.string.hours_short),
+                minutesLabel = getString(R.string.minutes_short)
             )
             age.text = MovieDetailsUtils.getAgeRating(movieDetails, uiState.releaseDates, viewModel.countryCode)
             country.text = MovieDetailsUtils.getCountryCode(movieDetails)
@@ -231,7 +233,7 @@ class MovieDetailsFragment : Fragment() {
             plotDescription.text = movieDetails.overview
         }
         setupGenres(movieDetails.genres)
-        setupAboutSection(movieDetails)
+        updateAboutSection(movieDetails)
     }
 
     private fun updateVideos(movieVideos: MovieVideos?) {
@@ -334,7 +336,7 @@ class MovieDetailsFragment : Fragment() {
             setupNavigationClickListener()
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    action_favorite -> {
+                    R.id.action_favorite -> {
                         true
                     }
                     else -> false
@@ -361,7 +363,7 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun setupAboutSection(movieDetails: MovieDetails) {
+    private fun updateAboutSection(movieDetails: MovieDetails) {
         with(binding.sectionAbout) {
             budgetValue.text = if (movieDetails.budget > 0) {
                 "$${String.format(Locale.US,"%,d", movieDetails.budget)}"
@@ -481,13 +483,13 @@ class MovieDetailsFragment : Fragment() {
     private fun setupSkeletons() {
         containerBackdropSkeleton = binding.skeletonBackdrop
         plotSkeleton = binding.skeletonPlot
-        imagesRecyclerSkeleton = binding.recyclerImages.applySkeleton(item_movie_image, RECYCLER_SKELETON_ITEM_COUNT)
-        trailersRecyclerSkeleton = binding.recyclerTrailers.applySkeleton(item_movie_image, RECYCLER_SKELETON_ITEM_COUNT)
-        castRecyclerSkeleton = binding.recyclerCast.applySkeleton(item_person, RECYCLER_SKELETON_ITEM_COUNT)
-        crewRecyclerSkeleton = binding.recyclerCrew.applySkeleton(item_person, RECYCLER_SKELETON_ITEM_COUNT)
-        reviewsRecyclerSkeleton = binding.recyclerReviews.applySkeleton(item_review, RECYCLER_SKELETON_ITEM_COUNT)
-        recommendationsRecyclerSkeleton = binding.recyclerRecommendations.applySkeleton(R.layout.item_media, RECYCLER_SKELETON_ITEM_COUNT)
-        similarRecyclerSkeleton = binding.recyclerSimilar.applySkeleton(R.layout.item_media, RECYCLER_SKELETON_ITEM_COUNT)
+        imagesRecyclerSkeleton = binding.recyclerImages.applySkeleton(R.layout.item_movie_image, RECYCLER_SKELETON_ITEM_COUNT)
+        trailersRecyclerSkeleton = binding.recyclerTrailers.applySkeleton(R.layout.item_movie_image, RECYCLER_SKELETON_ITEM_COUNT)
+        castRecyclerSkeleton = binding.recyclerCast.applySkeleton(R.layout.item_person, RECYCLER_SKELETON_ITEM_COUNT)
+        crewRecyclerSkeleton = binding.recyclerCrew.applySkeleton(R.layout.item_person, RECYCLER_SKELETON_ITEM_COUNT)
+        reviewsRecyclerSkeleton = binding.recyclerReviews.applySkeleton(R.layout.item_review, RECYCLER_SKELETON_ITEM_COUNT)
+        recommendationsRecyclerSkeleton = binding.recyclerRecommendations.applySkeleton(design_R.layout.item_media, RECYCLER_SKELETON_ITEM_COUNT)
+        similarRecyclerSkeleton = binding.recyclerSimilar.applySkeleton(design_R.layout.item_media, RECYCLER_SKELETON_ITEM_COUNT)
         aboutSkeleton = binding.skeletonAbout
     }
 
