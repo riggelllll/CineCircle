@@ -57,6 +57,7 @@ class HomeViewModel @Inject constructor(
                 val popularMovies = getPopularMoviesUseCase(page, languageCode)
                 val topRatedMovies = getTopRatedMoviesUseCase(page, languageCode)
                 val upcomingMovies = getUpcomingMoviesUseCase(page, languageCode)
+
                 _moviesUiState.value = _moviesUiState.value.copy(
                     trendingMovies = trendingMovies,
                     nowPlayingMovies = nowPlayingMovies,
@@ -85,6 +86,7 @@ class HomeViewModel @Inject constructor(
                 val trendingTvSeries = getTrendingTvSeriesUseCase(page, languageCode)
                 val popularTvSeries = getPopularTvSeriesUseCase(page, languageCode)
                 val topRatedTvSeries = getTopRatedTvSeriesUseCase(page, languageCode)
+
                 _tvSeriesUiState.value = _tvSeriesUiState.value.copy(
                     airingTodayTvSeries = airingTodayTvSeries,
                     onTheAirTvSeries = onTheAirTvSeries,
