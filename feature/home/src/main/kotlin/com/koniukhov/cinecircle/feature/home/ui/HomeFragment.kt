@@ -34,10 +34,10 @@ class HomeFragment : Fragment() {
 
     private fun setupViewPager(){
         binding.viewPager.isUserInputEnabled = false
-        binding.viewPager.adapter = createAdapter()
+        binding.viewPager.adapter = setupAdapter()
     }
 
-    private fun createAdapter(): FragmentStateAdapter {
+    private fun setupAdapter(): FragmentStateAdapter {
         return object : FragmentStateAdapter(this) {
             override fun getItemCount() = 2
             override fun createFragment(position: Int): Fragment {
