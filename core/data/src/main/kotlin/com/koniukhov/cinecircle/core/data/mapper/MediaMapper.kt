@@ -15,7 +15,7 @@ import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.domain.model.MovieCollection
 import com.koniukhov.cinecircle.core.domain.model.MovieCredits
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
-import com.koniukhov.cinecircle.core.domain.model.MovieReview
+import com.koniukhov.cinecircle.core.domain.model.MediaReview
 import com.koniukhov.cinecircle.core.domain.model.MovieVideos
 import com.koniukhov.cinecircle.core.domain.model.Network
 import com.koniukhov.cinecircle.core.domain.model.ProductionCountry
@@ -39,7 +39,7 @@ import com.koniukhov.cinecircle.core.network.model.MediaImagesDto
 import com.koniukhov.cinecircle.core.network.model.MovieCollectionDto
 import com.koniukhov.cinecircle.core.network.model.MovieDetailsDto
 import com.koniukhov.cinecircle.core.network.model.MovieDto
-import com.koniukhov.cinecircle.core.network.model.MovieReviewDto
+import com.koniukhov.cinecircle.core.network.model.MediaReviewDto
 import com.koniukhov.cinecircle.core.network.model.MovieVideosDto
 import com.koniukhov.cinecircle.core.network.model.ProductionCountryDto
 import com.koniukhov.cinecircle.core.network.model.ReviewAuthorDto
@@ -217,7 +217,7 @@ fun ReviewAuthorDto.toDomain(): ReviewAuthor = ReviewAuthor(
     rating = rating ?: ""
 )
 
-fun MovieReviewDto.toDomain(): MovieReview = MovieReview(
+fun MediaReviewDto.toDomain(): MediaReview = MediaReview(
     author = author ?: "",
     authorDetails = authorDetails?.toDomain() ?: ReviewAuthor.empty(),
     content = content ?: "",

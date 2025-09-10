@@ -8,7 +8,7 @@ data class MovieReviewsResponseDto (
     @SerializedName("page")
     val page: Int,
     @SerializedName("results")
-    val results: List<MovieReviewDto>,
+    val results: List<MediaReviewDto>,
     @SerializedName("total_pages")
     val totalPages: Int,
     @SerializedName("total_results")

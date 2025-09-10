@@ -29,7 +29,7 @@ import com.koniukhov.cinecircle.core.domain.model.MediaImages
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.domain.model.MovieCredits
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
-import com.koniukhov.cinecircle.core.domain.model.MovieReview
+import com.koniukhov.cinecircle.core.domain.model.MediaReview
 import com.koniukhov.cinecircle.core.domain.model.MovieVideos
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
 import com.koniukhov.cinecircle.feature.media.details.adapter.CollectionMediaAdapter
@@ -160,7 +160,7 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun showReviewDetail(review: MovieReview) {
+    private fun showReviewDetail(review: MediaReview) {
         val dialog = ReviewDetailBottomSheetDialog.Companion.newInstance(review)
         dialog.show(parentFragmentManager, REVIEW_DETAIL_DIALOG_TAG)
     }
@@ -287,7 +287,7 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateReviews(reviews: List<MovieReview>) {
+    private fun updateReviews(reviews: List<MediaReview>) {
         reviewsAdapter.setReviews(reviews)
     }
 
@@ -322,7 +322,7 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateReviewsVisibility(reviews: List<MovieReview>) {
+    private fun updateReviewsVisibility(reviews: List<MediaReview>) {
         if (reviews.isEmpty()) {
             binding.recyclerReviews.visibility = View.GONE
             binding.containerNoReviews.visibility = View.VISIBLE

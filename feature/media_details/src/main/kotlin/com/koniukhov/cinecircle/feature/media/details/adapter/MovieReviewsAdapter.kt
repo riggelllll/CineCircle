@@ -6,16 +6,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.placeholder
-import com.koniukhov.cinecircle.core.domain.model.MovieReview
+import com.koniukhov.cinecircle.core.domain.model.MediaReview
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemReviewBinding
 import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image as placeholder_image
 
 class MovieReviewsAdapter(
-    private val onReviewClick: (MovieReview) -> Unit
+    private val onReviewClick: (MediaReview) -> Unit
 ) : RecyclerView.Adapter<MovieReviewsAdapter.ReviewViewHolder>() {
 
-    private var reviews: List<MovieReview> = emptyList()
+    private var reviews: List<MediaReview> = emptyList()
 
     class ReviewViewHolder(val binding: ItemReviewBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -54,7 +54,7 @@ class MovieReviewsAdapter(
 
     override fun getItemCount(): Int = reviews.size
 
-    fun setReviews(newReviews: List<MovieReview>) {
+    fun setReviews(newReviews: List<MediaReview>) {
         reviews = newReviews
         notifyDataSetChanged()
     }

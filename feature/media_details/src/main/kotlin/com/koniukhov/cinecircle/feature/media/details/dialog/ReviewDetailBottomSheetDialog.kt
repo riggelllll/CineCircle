@@ -9,7 +9,7 @@ import coil3.request.placeholder
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.koniukhov.cinecircle.core.common.util.DateUtils.formatDate
 import com.koniukhov.cinecircle.core.design.R
-import com.koniukhov.cinecircle.core.domain.model.MovieReview
+import com.koniukhov.cinecircle.core.domain.model.MediaReview
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.feature.movie_details.databinding.BottomSheetReviewDetailBinding
 
@@ -33,11 +33,11 @@ class ReviewDetailBottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     private fun initReviewFromArguments() {
-        val review = arguments?.getSerializable(ARG_REVIEW) as? MovieReview
+        val review = arguments?.getSerializable(ARG_REVIEW) as? MediaReview
         review?.let { setupReviewData(it) }
     }
 
-    private fun setupReviewData(review: MovieReview) {
+    private fun setupReviewData(review: MediaReview) {
         with(binding) {
             username.text = review.authorDetails.username.ifEmpty { review.author }
             reviewText.text = review.content
@@ -69,7 +69,7 @@ class ReviewDetailBottomSheetDialog : BottomSheetDialogFragment() {
     companion object {
         private const val ARG_REVIEW = "arg_review"
 
-        fun newInstance(review: MovieReview): ReviewDetailBottomSheetDialog {
+        fun newInstance(review: MediaReview): ReviewDetailBottomSheetDialog {
             return ReviewDetailBottomSheetDialog().apply {
                 arguments = Bundle().apply {
                     putSerializable(ARG_REVIEW, review)
