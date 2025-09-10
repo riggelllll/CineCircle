@@ -16,12 +16,13 @@ import com.faltenreich.skeletonlayout.applySkeleton
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.mediaListUri
-import com.koniukhov.cinecircle.feature.home.ui.viewmodel.HomeViewModel
+import com.koniukhov.cinecircle.core.common.navigation.NavArgs.tvSeriesDetailsUri
 import com.koniukhov.cinecircle.feature.home.R
-import com.koniukhov.cinecircle.feature.home.ui.state.TvSeriesUiState
 import com.koniukhov.cinecircle.feature.home.adapter.GenreUiAdapter
 import com.koniukhov.cinecircle.feature.home.adapter.TvSeriesAdapter
 import com.koniukhov.cinecircle.feature.home.databinding.FragmentTvSeriesHomeBinding
+import com.koniukhov.cinecircle.feature.home.ui.state.TvSeriesUiState
+import com.koniukhov.cinecircle.feature.home.ui.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -129,7 +130,8 @@ class TvSeriesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.airingTodayRecyclerView.adapter = TvSeriesAdapter(){
+        binding.airingTodayRecyclerView.adapter = TvSeriesAdapter{
+            navigateToTvSeriesDetails(it)
         }
     }
 
@@ -139,7 +141,8 @@ class TvSeriesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.onAirRecyclerView.adapter = TvSeriesAdapter(){
+        binding.onAirRecyclerView.adapter = TvSeriesAdapter{
+            navigateToTvSeriesDetails(it)
         }
     }
 
@@ -149,7 +152,8 @@ class TvSeriesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.trendingRecyclerView.adapter = TvSeriesAdapter(){
+        binding.trendingRecyclerView.adapter = TvSeriesAdapter{
+            navigateToTvSeriesDetails(it)
         }
     }
 
@@ -159,7 +163,8 @@ class TvSeriesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.popularRecyclerView.adapter = TvSeriesAdapter(){
+        binding.popularRecyclerView.adapter = TvSeriesAdapter{
+            navigateToTvSeriesDetails(it)
         }
     }
 
@@ -169,7 +174,8 @@ class TvSeriesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.topRatedRecyclerView.adapter = TvSeriesAdapter(){
+        binding.topRatedRecyclerView.adapter = TvSeriesAdapter{
+            navigateToTvSeriesDetails(it)
         }
     }
 
@@ -255,6 +261,13 @@ class TvSeriesHomeFragment : Fragment() {
                 .build()
             findNavController().navigate(request)
         }
+    }
+
+    private fun navigateToTvSeriesDetails(tvSeriesId: Int) {
+        val request = NavDeepLinkRequest.Builder
+            .fromUri(tvSeriesDetailsUri(tvSeriesId))
+            .build()
+        findNavController().navigate(request)
     }
 
     companion object{
