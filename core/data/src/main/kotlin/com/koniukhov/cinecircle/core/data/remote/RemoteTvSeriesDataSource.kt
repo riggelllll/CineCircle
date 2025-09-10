@@ -3,6 +3,7 @@ package com.koniukhov.cinecircle.core.data.remote
 import com.koniukhov.cinecircle.core.data.BuildConfig
 import com.koniukhov.cinecircle.core.domain.datasource.TvSeriesDataSource
 import com.koniukhov.cinecircle.core.network.api.TMDBApi
+import com.koniukhov.cinecircle.core.network.model.TvSeriesDetailsDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesResponseDto
 import javax.inject.Inject
 
@@ -34,5 +35,12 @@ class RemoteTvSeriesDataSource @Inject constructor(private val api: TMDBApi) : T
         language: String
     ): TvSeriesResponseDto {
         return api.getTvSeriesByGenre(BuildConfig.API_KEY, genreId, page, language).body() ?: TvSeriesResponseDto.empty()
+    }
+
+    override suspend fun getTvSeriesDetails(
+        id: Int,
+        language: String
+    ): TvSeriesDetailsDto {
+        return api.getTvSeriesDetails(id, BuildConfig.API_KEY, language).body() ?: TvSeriesDetailsDto.empty()
     }
 }

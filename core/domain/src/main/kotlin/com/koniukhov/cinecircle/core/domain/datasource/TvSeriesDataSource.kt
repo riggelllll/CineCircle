@@ -1,5 +1,6 @@
 package com.koniukhov.cinecircle.core.domain.datasource
 
+import com.koniukhov.cinecircle.core.network.model.TvSeriesDetailsDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesResponseDto
 
 interface TvSeriesDataSource {
@@ -9,4 +10,5 @@ interface TvSeriesDataSource {
     suspend fun getPopularTvSeries(page: Int, language: String): TvSeriesResponseDto
     suspend fun getTopRatedTvSeries(page: Int, language: String): TvSeriesResponseDto
     suspend fun getTvSeriesByGenre(genreId: Int, page: Int, language: String): TvSeriesResponseDto
+    suspend fun getTvSeriesDetails(id: Int, language: String): TvSeriesDetailsDto
 }
