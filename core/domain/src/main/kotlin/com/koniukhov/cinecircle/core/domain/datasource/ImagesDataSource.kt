@@ -4,4 +4,5 @@ import com.koniukhov.cinecircle.core.network.model.MediaImagesDto
 
 interface ImagesDataSource {
     suspend fun getMovieImages(movieId: Int, language: String): MediaImagesDto
+    suspend fun getTvSeriesImages(tvSeriesId: Int, language: String): MediaImagesDto
 }
