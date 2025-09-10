@@ -21,7 +21,6 @@ import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.chip.Chip
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs
-import com.koniukhov.cinecircle.core.common.util.DateUtils
 import com.koniukhov.cinecircle.core.common.util.DateUtils.formatDate
 import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
 import com.koniukhov.cinecircle.core.domain.model.Genre
