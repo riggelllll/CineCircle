@@ -22,7 +22,7 @@ data class TvEpisodeDetailsDto(
     @SerializedName("still_path")
     val stillPath: String,
     @SerializedName("vote_average")
-    val voteAverage: Double,
+    val voteAverage: Float,
     @SerializedName("vote_count")
     val voteCount: Int
 ){
@@ -39,7 +39,7 @@ data class TvEpisodeDetailsDto(
             runtime = 0,
             seasonNumber = 0,
             stillPath = "",
-            voteAverage = 0.0,
+            voteAverage = 0.0f,
             voteCount = 0
         )
     }
