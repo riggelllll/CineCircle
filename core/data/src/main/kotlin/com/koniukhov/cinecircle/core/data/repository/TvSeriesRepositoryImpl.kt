@@ -2,6 +2,7 @@ package com.koniukhov.cinecircle.core.data.repository
 
 import com.koniukhov.cinecircle.core.data.mapper.toDomain
 import com.koniukhov.cinecircle.core.domain.datasource.TvSeriesDataSource
+import com.koniukhov.cinecircle.core.domain.model.TvSeasonDetails
 import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.domain.model.TvSeriesDetails
 import com.koniukhov.cinecircle.core.domain.repository.TvSeriesRepository
@@ -45,6 +46,15 @@ class TvSeriesRepositoryImpl @Inject constructor(
         language: String
     ): TvSeriesDetails {
         val dto = remoteDataSource.getTvSeriesDetails(id, language)
+        return dto.toDomain()
+    }
+
+    override suspend fun getTvSeasonDetails(
+        tvSeriesId: Int,
+        seasonNumber: Int,
+        language: String
+    ): TvSeasonDetails {
+        val dto = remoteDataSource.getTvSeasonDetails(tvSeriesId, seasonNumber, language)
         return dto.toDomain()
     }
 }
