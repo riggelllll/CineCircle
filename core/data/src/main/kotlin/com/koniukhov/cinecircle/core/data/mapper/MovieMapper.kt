@@ -25,7 +25,7 @@ import com.koniukhov.cinecircle.core.domain.model.Video
 import com.koniukhov.cinecircle.core.network.model.CastMemberDto
 import com.koniukhov.cinecircle.core.network.model.CollectionDetailsDto
 import com.koniukhov.cinecircle.core.network.model.CollectionMediaDto
-import com.koniukhov.cinecircle.core.network.model.CompanyDto
+import com.koniukhov.cinecircle.core.network.model.ProductionCompanyDto
 import com.koniukhov.cinecircle.core.network.model.GenreDto
 import com.koniukhov.cinecircle.core.network.model.ImageDto
 import com.koniukhov.cinecircle.core.network.model.LanguageDto
@@ -112,7 +112,7 @@ fun MovieDetailsDto.toDomain(): MovieDetails = MovieDetails(
     voteCount = voteCount ?: 0
 )
 
-fun CompanyDto.toDomain(): Company = Company(
+fun ProductionCompanyDto.toDomain(): Company = Company(
     id = id ?: 0,
     logoPath = logoPath ?: "",
     name = name ?: "",

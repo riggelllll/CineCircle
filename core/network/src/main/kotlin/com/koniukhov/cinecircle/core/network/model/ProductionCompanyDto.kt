@@ -2,7 +2,7 @@ package com.koniukhov.cinecircle.core.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class CompanyDto(
+data class ProductionCompanyDto(
     val id: Int,
     @SerializedName("logo_path")
     val logoPath: String,
