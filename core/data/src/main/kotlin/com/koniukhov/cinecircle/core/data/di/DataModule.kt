@@ -4,7 +4,7 @@ import com.koniukhov.cinecircle.core.data.remote.RemoteCollectionsDataSource
 import com.koniukhov.cinecircle.core.data.remote.RemoteGenresDataSource
 import com.koniukhov.cinecircle.core.data.remote.RemoteImagesDataSource
 import com.koniukhov.cinecircle.core.data.remote.RemoteMovieCreditsDataSource
-import com.koniukhov.cinecircle.core.data.remote.RemoteMovieReviewsDataSource
+import com.koniukhov.cinecircle.core.data.remote.RemoteReviewsDataSource
 import com.koniukhov.cinecircle.core.data.remote.RemoteVideosDataSource
 import com.koniukhov.cinecircle.core.data.remote.RemoteMoviesDataSource
 import com.koniukhov.cinecircle.core.data.remote.RemoteReleaseDatesDataSource
@@ -120,7 +120,7 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindReviewsDataSource(
-        remoteMovieReviewsDataSource: RemoteMovieReviewsDataSource
+        remoteReviewsDataSource: RemoteReviewsDataSource
     ): ReviewsDataSource
 
     @Binds
