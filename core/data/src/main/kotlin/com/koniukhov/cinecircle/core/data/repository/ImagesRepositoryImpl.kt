@@ -14,4 +14,12 @@ class ImagesRepositoryImpl @Inject constructor(private val remoteImagesDataSourc
         val dto = remoteImagesDataSource.getMovieImages(movieId, language)
         return dto.toDomain()
     }
+
+    override suspend fun getTvSeriesImages(
+        tvSeriesId: Int,
+        language: String
+    ): MediaImages {
+        val dto = remoteImagesDataSource.getTvSeriesImages(tvSeriesId, language)
+        return dto.toDomain()
+    }
 }
