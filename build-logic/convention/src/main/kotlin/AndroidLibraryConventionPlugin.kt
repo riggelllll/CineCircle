@@ -1,8 +1,10 @@
 import com.android.build.gradle.LibraryExtension
+import com.koniukhov.cinecircle.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.extra
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
@@ -34,7 +36,9 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             extensions.configure<KotlinAndroidProjectExtension> {
                 jvmToolchain(17)
             }
-
+            dependencies {
+                "implementation"(libs.findLibrary("timber").get())
+            }
         }
 
     }

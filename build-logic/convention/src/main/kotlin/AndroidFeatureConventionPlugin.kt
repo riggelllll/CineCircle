@@ -27,7 +27,6 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("androidx-lifecycle-viewmodel-ktx").get())
                 "implementation"(libs.findLibrary("androidx-navigation-fragment-ktx").get())
                 "implementation"(libs.findLibrary("androidx-constraintlayout").get())
-                "implementation"(libs.findLibrary("timber").get())
             }
         }
     }
