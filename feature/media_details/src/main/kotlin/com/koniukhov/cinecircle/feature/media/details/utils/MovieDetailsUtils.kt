@@ -49,18 +49,6 @@ object MovieDetailsUtils {
         return if (movieDetails.adult) "18+" else "PG-13"
     }
 
-    fun formatReleaseYear(releaseDate: String): String {
-        return try {
-            val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            val date = format.parse(releaseDate)
-            val yearFormat = SimpleDateFormat("yyyy", Locale.getDefault())
-            yearFormat.format(date!!)
-        } catch (e: Exception) {
-            Timber.d(e)
-            releaseDate.take(4)
-        }
-    }
-
     fun getCountryCode(movieDetails: MovieDetails): String {
         return movieDetails.productionCountries.firstOrNull()?.isoName ?: "None"
     }
