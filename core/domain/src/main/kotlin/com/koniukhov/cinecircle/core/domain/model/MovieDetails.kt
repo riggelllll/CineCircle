@@ -14,7 +14,7 @@ data class MovieDetails(
     val overview: String,
     val popularity: Float,
     val posterPath: String,
-    val productionCompanies: List<Company>,
+    val productionCompanies: List<ProductionCompany>,
     val productionCountries: List<ProductionCountry>,
     val releaseDate: String,
     val revenue: Long,

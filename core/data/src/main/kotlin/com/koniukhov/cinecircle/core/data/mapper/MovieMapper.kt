@@ -4,7 +4,7 @@ import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.domain.model.CastMember
 import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
 import com.koniukhov.cinecircle.core.domain.model.CollectionMedia
-import com.koniukhov.cinecircle.core.domain.model.Company
+import com.koniukhov.cinecircle.core.domain.model.ProductionCompany
 import com.koniukhov.cinecircle.core.domain.model.CrewMember
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
@@ -112,7 +112,7 @@ fun MovieDetailsDto.toDomain(): MovieDetails = MovieDetails(
     voteCount = voteCount ?: 0
 )
 
-fun ProductionCompanyDto.toDomain(): Company = Company(
+fun ProductionCompanyDto.toDomain(): ProductionCompany = ProductionCompany(
     id = id ?: 0,
     logoPath = logoPath ?: "",
     name = name ?: "",

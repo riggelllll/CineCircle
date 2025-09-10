@@ -1,6 +1,6 @@
 package com.koniukhov.cinecircle.core.domain.model
 
-data class Company(
+data class ProductionCompany(
     val id: Int,
     val name: String,
     val logoPath: String,
