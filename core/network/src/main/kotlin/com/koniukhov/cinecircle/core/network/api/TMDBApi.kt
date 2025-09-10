@@ -217,4 +217,12 @@ interface TMDBApi {
         @Query(API_KEY) apiKey: String,
         @Query("language") language: String
     ): Response<MovieVideosDto>
+
+    @GET(TVSeries.REVIEWS)
+    suspend fun getTvSeriesReviews(
+        @Path(TV_SERIES_ID) tvSeriesId: Int,
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<MovieReviewsResponseDto>
 }
