@@ -1,6 +1,7 @@
 package com.koniukhov.cinecircle.core.domain.repository
 
 import com.koniukhov.cinecircle.core.domain.model.TvSeries
+import com.koniukhov.cinecircle.core.domain.model.TvSeriesDetails
 
 interface TvSeriesRepository {
     suspend fun getAiringTodayTvSeries(page: Int = 1, language: String): List<TvSeries>
@@ -9,4 +10,5 @@ interface TvSeriesRepository {
     suspend fun getPopularTvSeries(page: Int = 1, language: String): List<TvSeries>
     suspend fun getTopRatedTvSeries(page: Int = 1, language: String): List<TvSeries>
     suspend fun getTvSeriesByGenre(genreId: Int, page: Int = 1, language: String): List<TvSeries>
+    suspend fun getTvSeriesDetails(id: Int, language: String): TvSeriesDetails
 }
