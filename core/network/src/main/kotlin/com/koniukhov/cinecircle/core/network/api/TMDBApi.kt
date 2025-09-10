@@ -210,4 +210,11 @@ interface TMDBApi {
         @Query(API_KEY) apiKey: String,
         @Query("language") language: String
     ): Response<MediaImagesDto>
+
+    @GET(TVSeries.VIDEOS)
+    suspend fun getTvSeriesVideos(
+        @Path(TV_SERIES_ID) tvSeriesId: Int,
+        @Query(API_KEY) apiKey: String,
+        @Query("language") language: String
+    ): Response<MovieVideosDto>
 }
