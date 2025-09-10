@@ -7,6 +7,9 @@ object TMDBEndpoints {
     // Query parameters
     const val API_KEY = "api_key"
     const val MOVIE_ID = "movie_id"
+    const val TV_SERIES_ID = "series_id"
+    const val TV_SEASON_NUMBER = "season_number"
+    const val TV_EPISODE_NUMBER = "episode_number"
     const val COLLECTION_ID = "collection_id"
 
     // Endpoints
@@ -37,4 +40,15 @@ object TMDBEndpoints {
     const val MOVIE_RECOMMENDATIONS = "movie/{$MOVIE_ID}/recommendations"
     const val MOVIE_SIMILAR = "movie/{$MOVIE_ID}/similar"
     const val MOVIE_RELEASE_DATES = "movie/{$MOVIE_ID}/release_dates"
+
+    const val TV_SERIES_DETAILS = "tv/{$TV_SERIES_ID}"
+    const val TV_SEASON_DETAILS = "tv/{$TV_SERIES_ID}/season/{$TV_SEASON_NUMBER}"
+    const val TV_EPISODE_DETAILS = "tv/{$TV_SERIES_ID}/season/{$TV_SEASON_NUMBER}/episode/{$TV_EPISODE_NUMBER}"
+    const val TV_SERIES_IMAGES = "tv/{$TV_SERIES_ID}/images"
+    const val TV_SERIES_VIDEOS = "tv/{$TV_SERIES_ID}/videos"
+    const val TV_SERIES_REVIEWS = "tv/{$TV_SERIES_ID}/reviews"
+    const val TV_SERIES_CREDITS = "tv/{$TV_SERIES_ID}/credits"
+    const val TV_SERIES_CONTENT_RATINGS = "tv/{$TV_SERIES_ID}/content_ratings"
+    const val TV_SERIES_RECOMMENDATIONS = "tv/{$TV_SERIES_ID}/recommendations"
+    const val TV_SERIES_SIMILAR = "tv/{$TV_SERIES_ID}/similar"
 }
