@@ -2,7 +2,7 @@ package com.koniukhov.cinecircle.core.domain.model
 
 import java.io.Serializable
 
-data class MovieReview(
+data class MediaReview(
     val author: String,
     val authorDetails: ReviewAuthor,
     val content: String,
