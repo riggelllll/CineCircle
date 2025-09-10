@@ -4,6 +4,7 @@ import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.Movies
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.QueryParams.API_KEY
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.QueryParams.COLLECTION_ID
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.QueryParams.MOVIE_ID
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.QueryParams.TV_SERIES_ID
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.TVSeries
 import com.koniukhov.cinecircle.core.network.model.CollectionDetailsDto
 import com.koniukhov.cinecircle.core.network.model.GenreResponseDto
@@ -14,6 +15,7 @@ import com.koniukhov.cinecircle.core.network.model.MovieReviewsResponseDto
 import com.koniukhov.cinecircle.core.network.model.MovieVideosDto
 import com.koniukhov.cinecircle.core.network.model.MoviesResponseDto
 import com.koniukhov.cinecircle.core.network.model.ReleaseDatesResponseDto
+import com.koniukhov.cinecircle.core.network.model.TvSeriesDetailsDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesResponseDto
 import retrofit2.Response
 import retrofit2.http.GET
@@ -184,4 +186,11 @@ interface TMDBApi {
         @Path(MOVIE_ID) movieId: Int,
         @Query(API_KEY) apiKey: String
     ): Response<ReleaseDatesResponseDto>
+    
+    @GET(TVSeries.DETAILS)
+    suspend fun getTvSeriesDetails(
+        @Path(TV_SERIES_ID) tvSeriesId: Int,
+        @Query(API_KEY) apiKey: String,
+        @Query("language") language: String
+    ): Response<TvSeriesDetailsDto>
 }
