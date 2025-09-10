@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import coil3.load
 import coil3.request.placeholder
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.koniukhov.cinecircle.core.common.util.DateUtils.formatDate
+import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.domain.model.MovieReview
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.feature.movie_details.databinding.BottomSheetReviewDetailBinding
-import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class ReviewDetailBottomSheetDialog : BottomSheetDialogFragment() {
 
@@ -54,23 +53,11 @@ class ReviewDetailBottomSheetDialog : BottomSheetDialogFragment() {
 
             if (review.authorDetails.avatarPath.isNotEmpty()) {
                 imgUserAvatar.load(IMAGE_URL_TEMPLATE.format(review.authorDetails.avatarPath)) {
-                    placeholder(com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image)
+                    placeholder(R.drawable.placeholder_image)
                 }
             } else {
-                imgUserAvatar.load(com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image)
+                imgUserAvatar.load(R.drawable.placeholder_image)
             }
-        }
-    }
-
-    private fun formatDate(dateString: String): String {
-        return try {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-            val outputFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
-            val date = inputFormat.parse(dateString)
-            date?.let { outputFormat.format(it) } ?: dateString
-        } catch (e: Exception) {
-            Timber.d(e)
-            dateString
         }
     }
 
