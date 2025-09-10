@@ -1,36 +1,15 @@
 package com.koniukhov.cinecircle.core.network.api
 
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.AIRING_TODAY_TV_SERIES
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.API_KEY
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.COLLECTION_DETAILS
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.COLLECTION_ID
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.DISCOVER_MOVIES
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.DISCOVER_TV_SERIES
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_CREDITS
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_DETAILS
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_GENRES
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_ID
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_IMAGES
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_RECOMMENDATIONS
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_RELEASE_DATES
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_REVIEWS
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_SIMILAR
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.MOVIE_VIDEOS
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.NOW_PLAYING_MOVIES
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ON_THE_AIR_TV_SERIES
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.POPULAR_MOVIES
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.POPULAR_TV_SERIES
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.TOP_RATED_MOVIES
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.TOP_RATED_TV_SERIES
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.TRENDING_MOVIES
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.TRENDING_TV_SERIES
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.TV_SERIES_GENRES
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.UPCOMING_MOVIES
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.Movies
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.QueryParams.API_KEY
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.QueryParams.COLLECTION_ID
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.QueryParams.MOVIE_ID
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.TVSeries
 import com.koniukhov.cinecircle.core.network.model.CollectionDetailsDto
 import com.koniukhov.cinecircle.core.network.model.GenreResponseDto
-import com.koniukhov.cinecircle.core.network.model.MovieDetailsDto
 import com.koniukhov.cinecircle.core.network.model.MediaImagesDto
 import com.koniukhov.cinecircle.core.network.model.MovieCreditsDto
+import com.koniukhov.cinecircle.core.network.model.MovieDetailsDto
 import com.koniukhov.cinecircle.core.network.model.MovieReviewsResponseDto
 import com.koniukhov.cinecircle.core.network.model.MovieVideosDto
 import com.koniukhov.cinecircle.core.network.model.MoviesResponseDto
@@ -43,89 +22,89 @@ import retrofit2.http.Query
 
 interface TMDBApi {
 
-    @GET(TRENDING_MOVIES)
+    @GET(Movies.TRENDING)
     suspend fun getTrendingMovies(
         @Query(API_KEY) apiKey: String,
         @Query("page") page: Int,
         @Query("language") language: String
     ): Response<MoviesResponseDto>
 
-    @GET(NOW_PLAYING_MOVIES)
+    @GET(Movies.NOW_PLAYING)
     suspend fun getNowPlayingMovies(
         @Query(API_KEY) apiKey: String,
         @Query("page") page: Int,
         @Query("language") language: String
     ): Response<MoviesResponseDto>
 
-    @GET(POPULAR_MOVIES)
+    @GET(Movies.POPULAR)
     suspend fun getPopularMovies(
         @Query(API_KEY) apiKey: String,
         @Query("page") page: Int,
         @Query("language") language: String
     ): Response<MoviesResponseDto>
 
-    @GET(TOP_RATED_MOVIES)
+    @GET(Movies.TOP_RATED)
     suspend fun getTopRatedMovies(
         @Query(API_KEY) apiKey: String,
         @Query("page") page: Int,
         @Query("language") language: String
     ): Response<MoviesResponseDto>
 
-    @GET(UPCOMING_MOVIES)
+    @GET(Movies.UPCOMING)
     suspend fun getUpcomingMovies(
         @Query(API_KEY) apiKey: String,
         @Query("page") page: Int,
         @Query("language") language: String
     ): Response<MoviesResponseDto>
 
-    @GET(AIRING_TODAY_TV_SERIES)
+    @GET(TVSeries.AIRING_TODAY)
     suspend fun getAiringTodayTvSeries(
         @Query(API_KEY) apiKey: String,
         @Query("page") page: Int,
         @Query("language") language: String
     ): Response<TvSeriesResponseDto>
 
-    @GET(ON_THE_AIR_TV_SERIES)
+    @GET(TVSeries.ON_THE_AIR)
     suspend fun getOnTheAirTvSeries(
         @Query(API_KEY) apiKey: String,
         @Query("page") page: Int,
         @Query("language") language: String
     ): Response<TvSeriesResponseDto>
 
-    @GET(TRENDING_TV_SERIES)
+    @GET(TVSeries.TRENDING)
     suspend fun getTrendingTvSeries(
         @Query(API_KEY) apiKey: String,
         @Query("page") page: Int,
         @Query("language") language: String
     ): Response<TvSeriesResponseDto>
 
-    @GET(POPULAR_TV_SERIES)
+    @GET(TVSeries.POPULAR)
     suspend fun getPopularTvSeries(
         @Query(API_KEY) apiKey: String,
         @Query("page") page: Int,
         @Query("language") language: String
     ): Response<TvSeriesResponseDto>
 
-    @GET(TOP_RATED_TV_SERIES)
+    @GET(TVSeries.TOP_RATED)
     suspend fun getTopRatedTvSeries(
         @Query(API_KEY) apiKey: String,
         @Query("page") page: Int,
         @Query("language") language: String
     ): Response<TvSeriesResponseDto>
 
-    @GET(MOVIE_GENRES)
+    @GET(Movies.GENRES)
     suspend fun getMovieGenres(
         @Query(API_KEY) apiKey: String,
         @Query("language") language: String
     ): Response<GenreResponseDto>
 
-    @GET(TV_SERIES_GENRES)
+    @GET(TVSeries.GENRES)
     suspend fun getTvSeriesGenres(
         @Query(API_KEY) apiKey: String,
         @Query("language") language: String
     ): Response<GenreResponseDto>
 
-    @GET(DISCOVER_MOVIES)
+    @GET(Movies.DISCOVER)
     suspend fun getMoviesByGenre(
         @Query(API_KEY) apiKey: String,
         @Query("with_genres") genreId: Int,
@@ -133,7 +112,7 @@ interface TMDBApi {
         @Query("language") language: String
     ): Response<MoviesResponseDto>
 
-    @GET(DISCOVER_TV_SERIES)
+    @GET(TVSeries.DISCOVER)
     suspend fun getTvSeriesByGenre(
         @Query(API_KEY) apiKey: String,
         @Query("with_genres") genreId: Int,
@@ -141,35 +120,35 @@ interface TMDBApi {
         @Query("language") language: String
     ): Response<TvSeriesResponseDto>
 
-    @GET(MOVIE_DETAILS)
+    @GET(Movies.DETAILS)
     suspend fun getMovieDetails(
         @Path(MOVIE_ID) movieId: Int,
         @Query(API_KEY) apiKey: String,
         @Query("language") language: String
     ): Response<MovieDetailsDto>
 
-    @GET(COLLECTION_DETAILS)
+    @GET(Movies.COLLECTION_DETAILS)
     suspend fun getCollectionDetails(
         @Path(COLLECTION_ID) collectionId: Int,
         @Query(API_KEY) apiKey: String,
         @Query("language") language: String
     ): Response<CollectionDetailsDto>
 
-    @GET(MOVIE_IMAGES)
+    @GET(Movies.IMAGES)
     suspend fun getMovieImages(
         @Path(MOVIE_ID) movieId: Int,
         @Query(API_KEY) apiKey: String,
         @Query("language") language: String
     ): Response<MediaImagesDto>
 
-    @GET(MOVIE_VIDEOS)
+    @GET(Movies.VIDEOS)
     suspend fun getMovieVideos(
         @Path(MOVIE_ID) movieId: Int,
         @Query(API_KEY) apiKey: String,
         @Query("language") language: String
     ): Response<MovieVideosDto>
 
-    @GET(MOVIE_REVIEWS)
+    @GET(Movies.REVIEWS)
     suspend fun getMovieReviews(
         @Path(MOVIE_ID) movieId: Int,
         @Query(API_KEY) apiKey: String,
@@ -177,14 +156,14 @@ interface TMDBApi {
         @Query("language") language: String
     ): Response<MovieReviewsResponseDto>
 
-    @GET(MOVIE_CREDITS)
+    @GET(Movies.CREDITS)
     suspend fun getMovieCredits(
         @Path(MOVIE_ID) movieId: Int,
         @Query(API_KEY) apiKey: String,
         @Query("language") language: String
     ): Response<MovieCreditsDto>
 
-    @GET(MOVIE_RECOMMENDATIONS)
+    @GET(Movies.RECOMMENDATIONS)
     suspend fun getMovieRecommendations(
         @Path(MOVIE_ID) movieId: Int,
         @Query(API_KEY) apiKey: String,
@@ -192,7 +171,7 @@ interface TMDBApi {
         @Query("language") language: String
     ): Response<MoviesResponseDto>
 
-    @GET(MOVIE_SIMILAR)
+    @GET(Movies.SIMILAR)
     suspend fun getSimilarMovies(
         @Path(MOVIE_ID) movieId: Int,
         @Query(API_KEY) apiKey: String,
@@ -200,7 +179,7 @@ interface TMDBApi {
         @Query("language") language: String
     ): Response<MoviesResponseDto>
 
-    @GET(MOVIE_RELEASE_DATES)
+    @GET(Movies.RELEASE_DATES)
     suspend fun getMovieReleaseDates(
         @Path(MOVIE_ID) movieId: Int,
         @Query(API_KEY) apiKey: String
