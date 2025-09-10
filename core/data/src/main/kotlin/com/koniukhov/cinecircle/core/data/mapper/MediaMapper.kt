@@ -279,7 +279,7 @@ fun CreatorDto.toDomain(): Creator = Creator(
     id = id ?: INVALID_ID,
     creditId = creditId ?: "",
     name = name ?: "",
-    gender = gender,
+    gender = gender ?: 0,
     profilePath = profilePath ?: ""
 )
 
@@ -291,19 +291,19 @@ fun NetworkDto.toDomain(): Network = Network(
 )
 
 fun TvEpisodeDetailsDto.toDomain(): TvEpisodeDetails = TvEpisodeDetails(
-    airDate = airDate,
-    crew = crew.map { it.toDomain() },
-    episodeNumber = episodeNumber,
-    guestStars = guestStars.map { it.toDomain() },
-    name = name,
-    overview = overview,
-    id = id,
-    productionCode = productionCode,
-    runtime = runtime,
-    seasonNumber = seasonNumber,
-    stillPath = stillPath,
-    voteAverage = voteAverage.toFloat(),
-    voteCount = voteCount
+    airDate = airDate ?: "",
+    crew = crew?.map { it.toDomain() } ?: emptyList(),
+    episodeNumber = episodeNumber ?: 0,
+    guestStars = guestStars?.map { it.toDomain() } ?: emptyList(),
+    name = name ?: "",
+    overview = overview ?: "",
+    id = id ?: INVALID_ID,
+    productionCode = productionCode ?: "",
+    runtime = runtime ?: 0,
+    seasonNumber = seasonNumber ?: 0,
+    stillPath = stillPath ?: "",
+    voteAverage = voteAverage ?: 0f,
+    voteCount = voteCount ?: 0
 )
 
 fun TvSeasonDetailsDto.toDomain(): TvSeasonDetails = TvSeasonDetails(
