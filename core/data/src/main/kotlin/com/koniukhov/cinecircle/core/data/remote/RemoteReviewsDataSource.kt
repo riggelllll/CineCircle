@@ -6,12 +6,20 @@ import com.koniukhov.cinecircle.core.network.api.TMDBApi
 import com.koniukhov.cinecircle.core.network.model.MovieReviewsResponseDto
 import javax.inject.Inject
 
-class RemoteMovieReviewsDataSource @Inject constructor(private val api: TMDBApi) : ReviewsDataSource {
+class RemoteReviewsDataSource @Inject constructor(private val api: TMDBApi) : ReviewsDataSource {
     override suspend fun getMovieReviews(
         movieId: Int,
         page: Int,
         language: String
     ): MovieReviewsResponseDto {
         return api.getMovieReviews(movieId, BuildConfig.API_KEY, page, language).body() ?: MovieReviewsResponseDto.empty()
+    }
+
+    override suspend fun getTvSeriesReviews(
+        tvSeriesId: Int,
+        page: Int,
+        language: String
+    ): MovieReviewsResponseDto {
+        return api.getTvSeriesReviews(tvSeriesId, BuildConfig.API_KEY, page, language).body() ?: MovieReviewsResponseDto.empty()
     }
 }
