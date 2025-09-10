@@ -4,6 +4,7 @@ import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.domain.model.CastMember
 import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
 import com.koniukhov.cinecircle.core.domain.model.CollectionMedia
+import com.koniukhov.cinecircle.core.domain.model.Creator
 import com.koniukhov.cinecircle.core.domain.model.ProductionCompany
 import com.koniukhov.cinecircle.core.domain.model.CrewMember
 import com.koniukhov.cinecircle.core.domain.model.Genre
@@ -16,15 +17,20 @@ import com.koniukhov.cinecircle.core.domain.model.MovieCredits
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.MovieReview
 import com.koniukhov.cinecircle.core.domain.model.MovieVideos
+import com.koniukhov.cinecircle.core.domain.model.Network
 import com.koniukhov.cinecircle.core.domain.model.ProductionCountry
 import com.koniukhov.cinecircle.core.domain.model.ReleaseDate
 import com.koniukhov.cinecircle.core.domain.model.ReleaseDateResult
 import com.koniukhov.cinecircle.core.domain.model.ReviewAuthor
+import com.koniukhov.cinecircle.core.domain.model.TvEpisodeDetails
+import com.koniukhov.cinecircle.core.domain.model.TvSeasonDetails
 import com.koniukhov.cinecircle.core.domain.model.TvSeries
+import com.koniukhov.cinecircle.core.domain.model.TvSeriesDetails
 import com.koniukhov.cinecircle.core.domain.model.Video
 import com.koniukhov.cinecircle.core.network.model.CastMemberDto
 import com.koniukhov.cinecircle.core.network.model.CollectionDetailsDto
 import com.koniukhov.cinecircle.core.network.model.CollectionMediaDto
+import com.koniukhov.cinecircle.core.network.model.CreatorDto
 import com.koniukhov.cinecircle.core.network.model.ProductionCompanyDto
 import com.koniukhov.cinecircle.core.network.model.GenreDto
 import com.koniukhov.cinecircle.core.network.model.ImageDto
@@ -41,8 +47,12 @@ import com.koniukhov.cinecircle.core.network.model.TvSeriesDto
 import com.koniukhov.cinecircle.core.network.model.VideoDto
 import com.koniukhov.cinecircle.core.network.model.CrewMemberDto
 import com.koniukhov.cinecircle.core.network.model.MovieCreditsDto
+import com.koniukhov.cinecircle.core.network.model.NetworkDto
 import com.koniukhov.cinecircle.core.network.model.ReleaseDatesDto
 import com.koniukhov.cinecircle.core.network.model.ReleaseDatesResultDto
+import com.koniukhov.cinecircle.core.network.model.TvEpisodeDetailsDto
+import com.koniukhov.cinecircle.core.network.model.TvSeasonDetailsDto
+import com.koniukhov.cinecircle.core.network.model.TvSeriesDetailsDto
 
 fun MovieDto.toDomain(): Movie = Movie(
     adult = adult ?: false,
@@ -263,4 +273,82 @@ fun ReleaseDatesDto.toDomain(): ReleaseDate = ReleaseDate(
 fun ReleaseDatesResultDto.toDomain(): ReleaseDateResult = ReleaseDateResult(
     countryCode = countryCode ?: "",
     releaseDates = releaseDates?.map { it.toDomain() } ?: emptyList()
+)
+
+fun CreatorDto.toDomain(): Creator = Creator(
+    id = id ?: INVALID_ID,
+    creditId = creditId ?: "",
+    name = name ?: "",
+    gender = gender,
+    profilePath = profilePath ?: ""
+)
+
+fun NetworkDto.toDomain(): Network = Network(
+    name = name ?: "",
+    id = id ?: INVALID_ID,
+    logoPath = logoPath ?: "",
+    originCountry = originCountry ?: ""
+)
+
+fun TvEpisodeDetailsDto.toDomain(): TvEpisodeDetails = TvEpisodeDetails(
+    airDate = airDate,
+    crew = crew.map { it.toDomain() },
+    episodeNumber = episodeNumber,
+    guestStars = guestStars.map { it.toDomain() },
+    name = name,
+    overview = overview,
+    id = id,
+    productionCode = productionCode,
+    runtime = runtime,
+    seasonNumber = seasonNumber,
+    stillPath = stillPath,
+    voteAverage = voteAverage.toFloat(),
+    voteCount = voteCount
+)
+
+fun TvSeasonDetailsDto.toDomain(): TvSeasonDetails = TvSeasonDetails(
+    _id = _id ?: "",
+    airDate = airDate ?: "",
+    episodes = episodes?.map { it.toDomain() } ?: emptyList(),
+    name = name ?: "",
+    overview = overview ?: "",
+    id = id ?: INVALID_ID,
+    posterPath = posterPath ?: "",
+    seasonNumber = seasonNumber ?: 0,
+    voteAverage = voteAverage ?: 0f
+)
+
+fun TvSeriesDetailsDto.toDomain(): TvSeriesDetails = TvSeriesDetails(
+    adult = adult ?: false,
+    backdropPath = backdropPath ?: "",
+    createdBy = createdBy?.map { it.toDomain() } ?: emptyList(),
+    episodeRunTime = episodeRunTime ?: emptyList(),
+    firstAirDate = firstAirDate ?: "",
+    genres = genres?.map { it.toDomain() } ?: emptyList(),
+    homepage = homepage ?: "",
+    id = id ?: 0,
+    inProduction = inProduction ?: false,
+    languages = languages ?: emptyList(),
+    lastAirDate = lastAirDate ?: "",
+    lastEpisodeToAir = lastEpisodeToAir?.toDomain() ?: TvEpisodeDetails.empty(),
+    name = name ?: "",
+    nextEpisodeToAir = nextEpisodeToAir?.toDomain() ?: TvEpisodeDetails.empty(),
+    networks = networks?.map { it.toDomain() } ?: emptyList(),
+    numberOfEpisodes = numberOfEpisodes ?: 0,
+    numberOfSeasons = numberOfSeasons ?: 0,
+    originCountry = originCountry ?: emptyList(),
+    originalLanguage = originalLanguage ?: "",
+    originalName = originalName ?: "",
+    overview = overview ?: "",
+    popularity = popularity ?: 0f,
+    posterPath = posterPath ?: "",
+    productionCompanies = productionCompanies?.map { it.toDomain() } ?: emptyList(),
+    seasons = seasons?.map { it.toDomain() } ?: emptyList(),
+    spokenLanguages = spokenLanguages?.map { it.toDomain() } ?: emptyList(),
+    status = status ?: "",
+    tagline = tagline ?: "",
+    type = type ?: "",
+    voteAverage = voteAverage ?: 0f,
+    voteCount = voteCount ?: 0,
+    productionCountries = productionCountries?.map { it.toDomain() } ?: emptyList()
 )
