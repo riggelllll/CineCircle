@@ -16,6 +16,7 @@ import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_GENRE_ID
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_TITLE
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_TYPE
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.movieDetailsUri
+import com.koniukhov.cinecircle.core.common.navigation.NavArgs.tvSeriesDetailsUri
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.feature.home.ui.viewmodel.MediaListViewModel
 import com.koniukhov.cinecircle.feature.home.adapter.PagingMediaAdapter
@@ -70,6 +71,8 @@ class MediaListFragment : Fragment() {
         adapter = PagingMediaAdapter{ mediaId, mediaType ->
             if (mediaType == MediaType.MOVIE){
                 navigateToMovieDetails(mediaId)
+            }else if (mediaType == MediaType.TV_SERIES){
+                navigateToTvSeriesDetails(mediaId)
             }
         }
         binding.mediaRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -114,6 +117,13 @@ class MediaListFragment : Fragment() {
     private fun navigateToMovieDetails(movieId: Int) {
         val request = NavDeepLinkRequest.Builder
             .fromUri(movieDetailsUri(movieId))
+            .build()
+        findNavController().navigate(request)
+    }
+
+    private fun navigateToTvSeriesDetails(tvSeriesId: Int) {
+        val request = NavDeepLinkRequest.Builder
+            .fromUri(tvSeriesDetailsUri(tvSeriesId))
             .build()
         findNavController().navigate(request)
     }
