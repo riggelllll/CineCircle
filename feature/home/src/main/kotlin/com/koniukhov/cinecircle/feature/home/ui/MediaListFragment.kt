@@ -7,11 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.koniukhov.cinecircle.core.common.Constants.MediaType
 import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_GENRE_ID
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_TITLE
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_TYPE
+import com.koniukhov.cinecircle.core.common.navigation.NavArgs.movieDetailsUri
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.feature.home.ui.viewmodel.MediaListViewModel
 import com.koniukhov.cinecircle.feature.home.adapter.PagingMediaAdapter
@@ -63,8 +67,10 @@ class MediaListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = PagingMediaAdapter{
-
+        adapter = PagingMediaAdapter{ mediaId, mediaType ->
+            if (mediaType == MediaType.MOVIE){
+                navigateToMovieDetails(mediaId)
+            }
         }
         binding.mediaRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         val spacing = resources.getDimensionPixelSize(R.dimen.grid_spacing)
@@ -103,5 +109,12 @@ class MediaListFragment : Fragment() {
         if (currentType != null) {
             viewModel.loadMedia(currentType, genreId)
         }
+    }
+
+    private fun navigateToMovieDetails(movieId: Int) {
+        val request = NavDeepLinkRequest.Builder
+            .fromUri(movieDetailsUri(movieId))
+            .build()
+        findNavController().navigate(request)
     }
 }
