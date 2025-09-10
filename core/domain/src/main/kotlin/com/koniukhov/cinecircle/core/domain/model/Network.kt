@@ -1,0 +1,8 @@
+package com.koniukhov.cinecircle.core.domain.model
+
+data class Network(
+    val id: Int,
+    val name: String,
+    val logoPath: String,
+    val originCountry: String
+)
