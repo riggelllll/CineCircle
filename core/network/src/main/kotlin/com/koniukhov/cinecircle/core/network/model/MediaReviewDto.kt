@@ -2,7 +2,7 @@ package com.koniukhov.cinecircle.core.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieReviewDto(
+data class MediaReviewDto(
     @SerializedName("author")
     val author: String,
     @SerializedName("author_details")
