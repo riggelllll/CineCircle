@@ -13,4 +13,13 @@
         <deepLink
             app:uri="app://cinecircle/movie_details?movie_id={movie_id}" />
     </fragment>
+    <fragment
+        android:id="@+id/tvSeriesDetailsFragment"
+        android:name="com.koniukhov.cinecircle.feature.media.details.ui.TvSeriesDetailsFragment"
+        android:label="TvSeriesDetailsFragment">
+        <argument android:name="tv_series_id"
+            app:argType="integer" />
+        <deepLink
+            app:uri="app://cinecircle/tv_series_details?tv_series_id={tv_series_id}" />
+    </fragment>
 </navigation>
