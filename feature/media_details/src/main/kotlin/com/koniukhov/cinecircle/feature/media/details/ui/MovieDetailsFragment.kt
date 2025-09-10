@@ -21,7 +21,8 @@ import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.chip.Chip
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs
-import com.koniukhov.cinecircle.core.design.R as design_R
+import com.koniukhov.cinecircle.core.common.util.DateUtils
+import com.koniukhov.cinecircle.core.common.util.DateUtils.formatDate
 import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
@@ -33,7 +34,6 @@ import com.koniukhov.cinecircle.core.domain.model.MovieReview
 import com.koniukhov.cinecircle.core.domain.model.MovieVideos
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
 import com.koniukhov.cinecircle.feature.media.details.adapter.CollectionMediaAdapter
-import com.koniukhov.cinecircle.feature.media.details.ui.viewmodel.MovieDetailsViewModel
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieCastAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieCrewAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieImagesAdapter
@@ -44,6 +44,7 @@ import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenImageDial
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenVideoDialog
 import com.koniukhov.cinecircle.feature.media.details.dialog.ReviewDetailBottomSheetDialog
 import com.koniukhov.cinecircle.feature.media.details.ui.state.MovieDetailsUiState
+import com.koniukhov.cinecircle.feature.media.details.ui.viewmodel.MovieDetailsViewModel
 import com.koniukhov.cinecircle.feature.media.details.utils.MovieDetailsUtils
 import com.koniukhov.cinecircle.feature.movie_details.R
 import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentMovieDetailsBinding
@@ -51,6 +52,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Locale
+import com.koniukhov.cinecircle.core.design.R as design_R
 
 @AndroidEntryPoint
 class MovieDetailsFragment : Fragment() {
@@ -225,7 +227,7 @@ class MovieDetailsFragment : Fragment() {
             )
             age.text = MovieDetailsUtils.getAgeRating(movieDetails, uiState.releaseDates, viewModel.countryCode)
             country.text = MovieDetailsUtils.getCountryCode(movieDetails)
-            year.text = MovieDetailsUtils.formatReleaseYear(movieDetails.releaseDate)
+            year.text = formatDate(movieDetails.releaseDate)
             if (movieDetails.overview.isNotEmpty()){
                 plotDescription.text = movieDetails.overview
             }else{
@@ -386,25 +388,25 @@ class MovieDetailsFragment : Fragment() {
             budgetValue.text = if (movieDetails.budget > 0) {
                 "$${String.format(Locale.US,"%,d", movieDetails.budget)}"
             } else {
-                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
+                getString(R.string.not_available)
             }
 
             revenueValue.text = if (movieDetails.revenue > 0) {
                 "$${String.format(Locale.US,"%,d", movieDetails.revenue)}"
             } else {
-                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
+                getString(R.string.not_available)
             }
 
             originalTitleValue.text = movieDetails.originalTitle.ifEmpty {
-                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
+                getString(R.string.not_available)
             }
 
             originalLanguageValue.text = movieDetails.originalLanguage.ifEmpty {
-                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
+                getString(R.string.not_available)
             }
 
             statusValue.text = movieDetails.status.ifEmpty {
-                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
+                getString(R.string.not_available)
             }
 
             popularityValue.text = String.format(Locale.US,"%.1f", movieDetails.popularity)
@@ -412,17 +414,17 @@ class MovieDetailsFragment : Fragment() {
             productionCountriesValue.text = if (movieDetails.productionCountries.isNotEmpty()) {
                 movieDetails.productionCountries.joinToString(", ") { it.name }
             } else {
-                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
+                getString(R.string.not_available)
             }
 
             spokenLanguagesValue.text = if (movieDetails.spokenLanguages.isNotEmpty()) {
                 movieDetails.spokenLanguages.filter { it.name.isNotEmpty() }.joinToString(", ") { it.name }
             } else {
-                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
+                getString(R.string.not_available)
             }
 
             homepageValue.text = movieDetails.homePage.ifEmpty {
-                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
+                getString(R.string.not_available)
             }
 
             if (movieDetails.homePage.isNotEmpty()) {
@@ -435,22 +437,22 @@ class MovieDetailsFragment : Fragment() {
                 homepageValue.isClickable = false
             }
 
-            releaseDateValue.text = movieDetails.releaseDate.ifEmpty {
-                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
+            releaseDateValue.text = formatDate(movieDetails.releaseDate).ifEmpty {
+                getString(R.string.not_available)
             }
 
             runtimeValue.text = if (movieDetails.runtime > 0) {
                 MovieDetailsUtils.formatRuntime(
                     runtime = movieDetails.runtime,
-                    hoursLabel = getString(com.koniukhov.cinecircle.feature.movie_details.R.string.hours_short),
-                    minutesLabel = getString(com.koniukhov.cinecircle.feature.movie_details.R.string.minutes_short)
+                    hoursLabel = getString(R.string.hours_short),
+                    minutesLabel = getString(R.string.minutes_short)
                 )
             } else {
-                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
+                getString(R.string.not_available)
             }
 
             taglineValue.text = movieDetails.tagline.ifEmpty {
-                getString(com.koniukhov.cinecircle.feature.movie_details.R.string.not_available)
+                getString(R.string.not_available)
             }
 
             voteCountValue.text = String.format("%,d", movieDetails.voteCount)
