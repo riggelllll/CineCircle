@@ -37,4 +37,9 @@
     <string name="no_images_yet">No images yet</string>
     <string name="no_videos_yet">No videos yet</string>
     <string name="no_information_available">No information available</string>
+
+    <plurals name="seasons_count">
+        <item quantity="one">%d season</item>
+        <item quantity="other">%d seasons</item>
+    </plurals>
 </resources>
