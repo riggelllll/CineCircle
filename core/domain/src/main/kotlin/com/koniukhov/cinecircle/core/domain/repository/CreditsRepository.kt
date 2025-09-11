@@ -4,4 +4,5 @@ import com.koniukhov.cinecircle.core.domain.model.MovieCredits
 
 interface CreditsRepository {
     suspend fun getMovieCredits(movieId: Int, language: String): MovieCredits
+    suspend fun getTvSeriesCredits(tvSeriesId: Int, language: String): MovieCredits
 }
