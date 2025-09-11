@@ -20,6 +20,7 @@ import com.koniukhov.cinecircle.core.domain.usecase.GetUpcomingMoviesUseCase
 import com.koniukhov.cinecircle.feature.home.ui.state.MoviesUiState
 import com.koniukhov.cinecircle.feature.home.ui.state.TvSeriesUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -51,12 +52,19 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _moviesUiState.value = _moviesUiState.value.copy(isLoading = true, error = null)
             try {
-                val movieGenres = getMovieGenresUseCase(languageCode)
-                val trendingMovies = getTrendingMoviesUseCase(page, languageCode)
-                val nowPlayingMovies = getNowPlayingMoviesUseCase(page, languageCode)
-                val popularMovies = getPopularMoviesUseCase(page, languageCode)
-                val topRatedMovies = getTopRatedMoviesUseCase(page, languageCode)
-                val upcomingMovies = getUpcomingMoviesUseCase(page, languageCode)
+                val movieGenresDeferred = async { getMovieGenresUseCase(languageCode) }
+                val trendingMoviesDeferred = async { getTrendingMoviesUseCase(page, languageCode) }
+                val nowPlayingMoviesDeferred = async { getNowPlayingMoviesUseCase(page, languageCode) }
+                val popularMoviesDeferred = async { getPopularMoviesUseCase(page, languageCode) }
+                val topRatedMoviesDeferred = async { getTopRatedMoviesUseCase(page, languageCode) }
+                val upcomingMoviesDeferred = async { getUpcomingMoviesUseCase(page, languageCode) }
+
+                val movieGenres = movieGenresDeferred.await()
+                val trendingMovies = trendingMoviesDeferred.await()
+                val nowPlayingMovies = nowPlayingMoviesDeferred.await()
+                val popularMovies = popularMoviesDeferred.await()
+                val topRatedMovies = topRatedMoviesDeferred.await()
+                val upcomingMovies = upcomingMoviesDeferred.await()
 
                 _moviesUiState.value = _moviesUiState.value.copy(
                     trendingMovies = trendingMovies,
@@ -80,12 +88,19 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _tvSeriesUiState.value = _tvSeriesUiState.value.copy(isLoading = true, error = null)
             try {
-                val tvSeriesGenres = getTvSeriesGenresUseCase(languageCode)
-                val airingTodayTvSeries = getAiringTodayTvSeriesUseCase(page, languageCode)
-                val onTheAirTvSeries = getOnAirTvSeriesUseCase(page, languageCode)
-                val trendingTvSeries = getTrendingTvSeriesUseCase(page, languageCode)
-                val popularTvSeries = getPopularTvSeriesUseCase(page, languageCode)
-                val topRatedTvSeries = getTopRatedTvSeriesUseCase(page, languageCode)
+                val tvSeriesGenresDeferred = async { getTvSeriesGenresUseCase(languageCode) }
+                val airingTodayTvSeriesDeferred = async { getAiringTodayTvSeriesUseCase(page, languageCode) }
+                val onTheAirTvSeriesDeferred = async { getOnAirTvSeriesUseCase(page, languageCode) }
+                val trendingTvSeriesDeferred = async { getTrendingTvSeriesUseCase(page, languageCode) }
+                val popularTvSeriesDeferred = async { getPopularTvSeriesUseCase(page, languageCode) }
+                val topRatedTvSeriesDeferred = async { getTopRatedTvSeriesUseCase(page, languageCode) }
+
+                val tvSeriesGenres = tvSeriesGenresDeferred.await()
+                val airingTodayTvSeries = airingTodayTvSeriesDeferred.await()
+                val onTheAirTvSeries = onTheAirTvSeriesDeferred.await()
+                val trendingTvSeries = trendingTvSeriesDeferred.await()
+                val popularTvSeries = popularTvSeriesDeferred.await()
+                val topRatedTvSeries = topRatedTvSeriesDeferred.await()
 
                 _tvSeriesUiState.value = _tvSeriesUiState.value.copy(
                     airingTodayTvSeries = airingTodayTvSeries,
