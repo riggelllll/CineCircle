@@ -4,6 +4,7 @@ import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.domain.model.CastMember
 import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
 import com.koniukhov.cinecircle.core.domain.model.CollectionMedia
+import com.koniukhov.cinecircle.core.domain.model.ContentRating
 import com.koniukhov.cinecircle.core.domain.model.Creator
 import com.koniukhov.cinecircle.core.domain.model.ProductionCompany
 import com.koniukhov.cinecircle.core.domain.model.CrewMember
@@ -30,6 +31,7 @@ import com.koniukhov.cinecircle.core.domain.model.Video
 import com.koniukhov.cinecircle.core.network.model.CastMemberDto
 import com.koniukhov.cinecircle.core.network.model.CollectionDetailsDto
 import com.koniukhov.cinecircle.core.network.model.CollectionMediaDto
+import com.koniukhov.cinecircle.core.network.model.ContentRatingDto
 import com.koniukhov.cinecircle.core.network.model.CreatorDto
 import com.koniukhov.cinecircle.core.network.model.ProductionCompanyDto
 import com.koniukhov.cinecircle.core.network.model.GenreDto
@@ -351,4 +353,10 @@ fun TvSeriesDetailsDto.toDomain(): TvSeriesDetails = TvSeriesDetails(
     voteAverage = voteAverage ?: 0f,
     voteCount = voteCount ?: 0,
     productionCountries = productionCountries?.map { it.toDomain() } ?: emptyList()
+)
+
+fun ContentRatingDto.toDomain(): ContentRating = ContentRating(
+    descriptors = descriptors ?: emptyList(),
+    languageCode = languageCode ?: "",
+    rating = rating ?: ""
 )
