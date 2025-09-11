@@ -247,4 +247,12 @@ interface TMDBApi {
         @Query("page") page: Int,
         @Query("language") language: String
     ): Response<TvSeriesResponseDto>
+
+    @GET(TVSeries.SIMILAR)
+    suspend fun getSimilarTvSeries(
+        @Path(TV_SERIES_ID) tvSeriesId: Int,
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): Response<TvSeriesResponseDto>
 }
