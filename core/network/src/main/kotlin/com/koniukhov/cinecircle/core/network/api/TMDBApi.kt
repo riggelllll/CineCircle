@@ -225,4 +225,11 @@ interface TMDBApi {
         @Query("page") page: Int,
         @Query("language") language: String
     ): Response<MovieReviewsResponseDto>
+
+    @GET(TVSeries.CREDITS)
+    suspend fun getTvSeriesCredits(
+        @Path(TV_SERIES_ID) tvSeriesId: Int,
+        @Query(API_KEY) apiKey: String,
+        @Query("language") language: String
+    ): Response<MovieCreditsDto>
 }
