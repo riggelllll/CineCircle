@@ -60,4 +60,12 @@ class RemoteTvSeriesDataSource @Inject constructor(private val api: TMDBApi) : T
     ): TvSeriesResponseDto {
         return api.getTvSeriesRecommendations(id, BuildConfig.API_KEY, page, language).body() ?: TvSeriesResponseDto.empty()
     }
+
+    override suspend fun getSimilarTvSeries(
+        id: Int,
+        page: Int,
+        language: String
+    ): TvSeriesResponseDto {
+        return api.getSimilarTvSeries(id, BuildConfig.API_KEY, page, language).body() ?: TvSeriesResponseDto.empty()
+    }
 }
