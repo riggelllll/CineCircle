@@ -57,4 +57,13 @@ class TvSeriesRepositoryImpl @Inject constructor(
         val dto = remoteDataSource.getTvSeasonDetails(tvSeriesId, seasonNumber, language)
         return dto.toDomain()
     }
+
+    override suspend fun getTvSeriesRecommendations(
+        tvSeriesId: Int,
+        page: Int,
+        language: String
+    ): List<TvSeries> {
+        val dto = remoteDataSource.getTvSeriesRecommendations(tvSeriesId, page, language)
+        return dto.results.map { it.toDomain() }
+    }
 }

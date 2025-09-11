@@ -13,4 +13,5 @@ interface TvSeriesRepository {
     suspend fun getTvSeriesByGenre(genreId: Int, page: Int = 1, language: String): List<TvSeries>
     suspend fun getTvSeriesDetails(id: Int, language: String): TvSeriesDetails
     suspend fun getTvSeasonDetails(tvSeriesId: Int, seasonNumber: Int, language: String): TvSeasonDetails
+    suspend fun getTvSeriesRecommendations(tvSeriesId: Int, page: Int = 1, language: String): List<TvSeries>
 }
