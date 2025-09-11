@@ -3,7 +3,7 @@ package com.koniukhov.cinecircle.feature.media.details.ui.state
 import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
 import com.koniukhov.cinecircle.core.domain.model.MediaImages
 import com.koniukhov.cinecircle.core.domain.model.Movie
-import com.koniukhov.cinecircle.core.domain.model.MovieCredits
+import com.koniukhov.cinecircle.core.domain.model.MediaCredits
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.MediaReview
 import com.koniukhov.cinecircle.core.domain.model.MovieVideos
@@ -16,7 +16,7 @@ data class MovieDetailsUiState(
     val images: MediaImages? = null,
     val videos: MovieVideos? = null,
     val reviews: List<MediaReview> = emptyList(),
-    val credits: MovieCredits? = null,
+    val credits: MediaCredits? = null,
     val recommendations: List<Movie> = emptyList(),
     val similarMovies: List<Movie> = emptyList(),
     val releaseDates: List<ReleaseDateResult> = emptyList(),

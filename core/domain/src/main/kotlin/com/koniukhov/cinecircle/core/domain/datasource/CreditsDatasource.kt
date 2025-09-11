@@ -1,8 +1,8 @@
 package com.koniukhov.cinecircle.core.domain.datasource
 
-import com.koniukhov.cinecircle.core.network.model.MovieCreditsDto
+import com.koniukhov.cinecircle.core.network.model.MediaCreditsDto
 
 interface CreditsDatasource {
-    suspend fun getMovieCredits(movieId: Int, language: String): MovieCreditsDto
-    suspend fun getTvSeriesCredits(tvSeriesId: Int, language: String): MovieCreditsDto
+    suspend fun getMovieCredits(movieId: Int, language: String): MediaCreditsDto
+    suspend fun getTvSeriesCredits(tvSeriesId: Int, language: String): MediaCreditsDto
 }

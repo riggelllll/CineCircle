@@ -27,7 +27,7 @@ import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.domain.model.MediaImages
 import com.koniukhov.cinecircle.core.domain.model.Movie
-import com.koniukhov.cinecircle.core.domain.model.MovieCredits
+import com.koniukhov.cinecircle.core.domain.model.MediaCredits
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.MediaReview
 import com.koniukhov.cinecircle.core.domain.model.MovieVideos
@@ -268,7 +268,7 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateCredits(credits: MovieCredits?) {
+    private fun updateCredits(credits: MediaCredits?) {
         credits?.cast?.let {
             if (it.isNotEmpty()){
                 castAdapter.setCastMembers(it)

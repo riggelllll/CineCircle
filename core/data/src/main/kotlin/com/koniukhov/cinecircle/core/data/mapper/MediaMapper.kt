@@ -13,7 +13,7 @@ import com.koniukhov.cinecircle.core.domain.model.Language
 import com.koniukhov.cinecircle.core.domain.model.MediaImages
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.domain.model.MovieCollection
-import com.koniukhov.cinecircle.core.domain.model.MovieCredits
+import com.koniukhov.cinecircle.core.domain.model.MediaCredits
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.MediaReview
 import com.koniukhov.cinecircle.core.domain.model.MovieVideos
@@ -46,7 +46,7 @@ import com.koniukhov.cinecircle.core.network.model.ReviewAuthorDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesDto
 import com.koniukhov.cinecircle.core.network.model.VideoDto
 import com.koniukhov.cinecircle.core.network.model.CrewMemberDto
-import com.koniukhov.cinecircle.core.network.model.MovieCreditsDto
+import com.koniukhov.cinecircle.core.network.model.MediaCreditsDto
 import com.koniukhov.cinecircle.core.network.model.NetworkDto
 import com.koniukhov.cinecircle.core.network.model.ReleaseDatesDto
 import com.koniukhov.cinecircle.core.network.model.ReleaseDatesResultDto
@@ -256,7 +256,7 @@ fun CrewMemberDto.toDomain(): CrewMember = CrewMember(
     job = job ?: ""
 )
 
-fun MovieCreditsDto.toDomain(): MovieCredits = MovieCredits(
+fun MediaCreditsDto.toDomain(): MediaCredits = MediaCredits(
     cast = cast?.map { it.toDomain() } ?: emptyList(),
     crew = crew?.map { it.toDomain() } ?: emptyList()
 )
