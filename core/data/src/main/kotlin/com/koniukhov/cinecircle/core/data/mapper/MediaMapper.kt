@@ -357,6 +357,6 @@ fun TvSeriesDetailsDto.toDomain(): TvSeriesDetails = TvSeriesDetails(
 
 fun ContentRatingDto.toDomain(): ContentRating = ContentRating(
     descriptors = descriptors ?: emptyList(),
-    languageCode = languageCode ?: "",
+    countryCode = countryCode ?: "",
     rating = rating ?: ""
 )

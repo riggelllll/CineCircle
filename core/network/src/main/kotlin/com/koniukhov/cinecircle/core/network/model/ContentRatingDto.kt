@@ -5,6 +5,6 @@ import com.google.gson.annotations.SerializedName
 data class ContentRatingDto (
     val descriptors: List<String>,
     @SerializedName("iso_3166_1")
-    val languageCode: String,
+    val countryCode: String,
     val rating: String
 )
