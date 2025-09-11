@@ -1,6 +1,7 @@
 package com.koniukhov.cinecircle.core.data.di
 
 import com.koniukhov.cinecircle.core.data.remote.RemoteCollectionsDataSource
+import com.koniukhov.cinecircle.core.data.remote.RemoteContentRatingsDataSource
 import com.koniukhov.cinecircle.core.data.remote.RemoteGenresDataSource
 import com.koniukhov.cinecircle.core.data.remote.RemoteImagesDataSource
 import com.koniukhov.cinecircle.core.data.remote.RemoteCreditsDataSource
@@ -10,6 +11,7 @@ import com.koniukhov.cinecircle.core.data.remote.RemoteMoviesDataSource
 import com.koniukhov.cinecircle.core.data.remote.RemoteReleaseDatesDataSource
 import com.koniukhov.cinecircle.core.data.remote.RemoteTvSeriesDataSource
 import com.koniukhov.cinecircle.core.data.repository.CollectionsRepositoryImpl
+import com.koniukhov.cinecircle.core.data.repository.ContentRatingsRepositoryImpl
 import com.koniukhov.cinecircle.core.data.repository.CreditsRepositoryImpl
 import com.koniukhov.cinecircle.core.data.repository.GenresRepositoryImpl
 import com.koniukhov.cinecircle.core.data.repository.ImagesRepositoryImpl
@@ -19,6 +21,7 @@ import com.koniukhov.cinecircle.core.data.repository.ReviewsRepositoryImpl
 import com.koniukhov.cinecircle.core.data.repository.TvSeriesRepositoryImpl
 import com.koniukhov.cinecircle.core.data.repository.VideosRepositoryImpl
 import com.koniukhov.cinecircle.core.domain.datasource.CollectionsDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.ContentRatingsDataSource
 import com.koniukhov.cinecircle.core.domain.datasource.CreditsDatasource
 import com.koniukhov.cinecircle.core.domain.datasource.GenresDataSource
 import com.koniukhov.cinecircle.core.domain.datasource.ImagesDataSource
@@ -28,6 +31,7 @@ import com.koniukhov.cinecircle.core.domain.datasource.ReviewsDataSource
 import com.koniukhov.cinecircle.core.domain.datasource.TvSeriesDataSource
 import com.koniukhov.cinecircle.core.domain.datasource.VideosDataSource
 import com.koniukhov.cinecircle.core.domain.repository.CollectionsRepository
+import com.koniukhov.cinecircle.core.domain.repository.ContentRatingsRepository
 import com.koniukhov.cinecircle.core.domain.repository.CreditsRepository
 import com.koniukhov.cinecircle.core.domain.repository.GenresRepository
 import com.koniukhov.cinecircle.core.domain.repository.ImagesRepository
@@ -152,4 +156,16 @@ abstract class DataModule {
     abstract fun bindReleaseDatesRepository(
         releaseDatesRepositoryImpl: ReleaseDatesRepositoryImpl
     ): ReleaseDatesRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindContentRatingsDataSource(
+        remoteContentRatingsDataSource: RemoteContentRatingsDataSource
+    ): ContentRatingsDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindContentRatingsRepository(
+        contentRatingsRepositoryImpl: ContentRatingsRepositoryImpl
+    ): ContentRatingsRepository
 }
