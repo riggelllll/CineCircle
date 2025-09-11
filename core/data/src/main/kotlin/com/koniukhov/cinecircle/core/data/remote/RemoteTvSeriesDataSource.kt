@@ -52,4 +52,12 @@ class RemoteTvSeriesDataSource @Inject constructor(private val api: TMDBApi) : T
     ): TvSeasonDetailsDto {
         return api.getTvSeasonDetails(tvSeriesId, seasonNumber, BuildConfig.API_KEY, language).body() ?: TvSeasonDetailsDto.empty()
     }
+
+    override suspend fun getTvSeriesRecommendations(
+        id: Int,
+        page: Int,
+        language: String
+    ): TvSeriesResponseDto {
+        return api.getTvSeriesRecommendations(id, BuildConfig.API_KEY, page, language).body() ?: TvSeriesResponseDto.empty()
+    }
 }

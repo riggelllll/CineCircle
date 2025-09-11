@@ -13,4 +13,5 @@ interface TvSeriesDataSource {
     suspend fun getTvSeriesByGenre(genreId: Int, page: Int, language: String): TvSeriesResponseDto
     suspend fun getTvSeriesDetails(id: Int, language: String): TvSeriesDetailsDto
     suspend fun getTvSeasonDetails(tvSeriesId: Int, seasonNumber: Int, language: String): TvSeasonDetailsDto
+    suspend fun getTvSeriesRecommendations(id: Int, page: Int, language: String): TvSeriesResponseDto
 }
