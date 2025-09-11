@@ -17,6 +17,7 @@ import com.koniukhov.cinecircle.core.domain.usecase.GetMovieVideosUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetSimilarMoviesUseCase
 import com.koniukhov.cinecircle.feature.media.details.ui.state.MovieDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -52,20 +53,55 @@ class MovieDetailsViewModel @Inject constructor(
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             try {
                 val movieDetails = getMovieDetailsUseCase(_movieId.value, languageCode)
-                val collectionDetails = getCollectionDetailsUseCase(movieDetails.belongsToCollection.id, languageCode)
-                var images = getMovieImagesUseCase(movieDetails.id, languageCode)
-                if ((images.posters.isEmpty() && images.backdrops.isEmpty()) && languageCode != ENGLISH_LANGUAGE_CODE) {
-                    images = getMovieImagesUseCase(movieDetails.id, ENGLISH_LANGUAGE_CODE)
+
+                val collectionDetailsDeferred = async {
+                    getCollectionDetailsUseCase(movieDetails.belongsToCollection.id, languageCode)
                 }
-                var videos = getMovieVideosUseCase(movieDetails.id, languageCode)
-                if (videos.results.isEmpty() && languageCode != ENGLISH_LANGUAGE_CODE) {
-                    videos = getMovieVideosUseCase(movieDetails.id, ENGLISH_LANGUAGE_CODE)
+
+                val imagesDeferred = async {
+                    var images = getMovieImagesUseCase(movieDetails.id, languageCode)
+                    if ((images.posters.isEmpty() && images.backdrops.isEmpty()) && languageCode != ENGLISH_LANGUAGE_CODE) {
+                        images = getMovieImagesUseCase(movieDetails.id, ENGLISH_LANGUAGE_CODE)
+                    }
+                    images
                 }
-                val reviews = getMovieReviewsUseCase(movieDetails.id, 1, languageCode)
-                val credits = getMovieCreditsUseCase(movieDetails.id, languageCode)
-                val recommendations = getMovieRecommendationsUseCase(movieDetails.id, 1, languageCode)
-                val similarMovies = getSimilarMoviesUseCase(movieDetails.id, 1, languageCode)
-                val releaseDates = getMovieReleaseDatesUseCase(movieDetails.id)
+
+                val videosDeferred = async {
+                    var videos = getMovieVideosUseCase(movieDetails.id, languageCode)
+                    if (videos.results.isEmpty() && languageCode != ENGLISH_LANGUAGE_CODE) {
+                        videos = getMovieVideosUseCase(movieDetails.id, ENGLISH_LANGUAGE_CODE)
+                    }
+                    videos
+                }
+
+                val reviewsDeferred = async {
+                    getMovieReviewsUseCase(movieDetails.id, 1, languageCode)
+                }
+
+                val creditsDeferred = async {
+                    getMovieCreditsUseCase(movieDetails.id, languageCode)
+                }
+
+                val recommendationsDeferred = async {
+                    getMovieRecommendationsUseCase(movieDetails.id, 1, languageCode)
+                }
+
+                val similarMoviesDeferred = async {
+                    getSimilarMoviesUseCase(movieDetails.id, 1, languageCode)
+                }
+
+                val releaseDatesDeferred = async {
+                    getMovieReleaseDatesUseCase(movieDetails.id)
+                }
+
+                val collectionDetails = collectionDetailsDeferred.await()
+                val images = imagesDeferred.await()
+                val videos = videosDeferred.await()
+                val reviews = reviewsDeferred.await()
+                val credits = creditsDeferred.await()
+                val recommendations = recommendationsDeferred.await()
+                val similarMovies = similarMoviesDeferred.await()
+                val releaseDates = releaseDatesDeferred.await()
 
                 _uiState.value = MovieDetailsUiState(
                     isLoading = false,
