@@ -8,6 +8,7 @@ import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.QueryParams.TV_SE
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.QueryParams.TV_SERIES_ID
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.TVSeries
 import com.koniukhov.cinecircle.core.network.model.CollectionDetailsDto
+import com.koniukhov.cinecircle.core.network.model.ContentRatingsResponseDto
 import com.koniukhov.cinecircle.core.network.model.GenreResponseDto
 import com.koniukhov.cinecircle.core.network.model.MediaImagesDto
 import com.koniukhov.cinecircle.core.network.model.MediaCreditsDto
@@ -232,4 +233,10 @@ interface TMDBApi {
         @Query(API_KEY) apiKey: String,
         @Query("language") language: String
     ): Response<MediaCreditsDto>
+
+    @GET(TVSeries.CONTENT_RATINGS)
+    suspend fun getTvSeriesContentRatings(
+        @Path(TV_SERIES_ID) tvSeriesId: Int,
+        @Query(API_KEY) apiKey: String
+    ): Response<ContentRatingsResponseDto>
 }
