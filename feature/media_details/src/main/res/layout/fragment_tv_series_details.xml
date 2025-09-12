@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_backdrop"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:layout_constraintTop_toTopOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_backdrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+                    <ImageView
+                        android:id="@+id/img_backdrop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        tools:src="@drawable/movie_genre_action_poster" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:background="@drawable/bg_gradient_bottom"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginBottom="48dp"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:text="Tv Series Title" />
+
+                    <LinearLayout
+                        android:id="@+id/container_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent">
+
+                        <TextView
+                            android:id="@+id/rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_rating"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="2dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:text="8.7" />
+
+                        <TextView
+                            android:id="@+id/seasons"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            tools:text="4 seasons" />
+
+                        <TextView
+                            android:id="@+id/age"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            tools:text="16+" />
+
+                        <TextView
+                            android:id="@+id/country"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            tools:text="USA" />
+
+                        <TextView
+                            android:id="@+id/year"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            tools:text="2023" />
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
+
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_genres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/skeleton_backdrop" />
+
+            <TextView
+                android:id="@+id/plot_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/plot"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chip_group_genres" />
+
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_plot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/plot_title">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_plot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/plot_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="A long description of the Tv Series plot." />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
+
+            <TextView
+                android:id="@+id/images_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/skeleton_plot"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/images_title"
+                tools:text="Images"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:paddingHorizontal="16dp"/>
+            <LinearLayout
+                android:id="@+id/container_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/images_title">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_images"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_movie_image"/>
+                <LinearLayout
+                    android:id="@+id/container_no_images"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/no_images_yet"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/trailers_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/container_images"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/trailers_teasers_title"
+                tools:text="Images"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:paddingHorizontal="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/container_trailers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/trailers_title">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_trailers"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_movie_trailer" />
+                <LinearLayout
+                    android:id="@+id/container_no_trailer"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/no_videos_yet"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/cast_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/container_trailers"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/cast_title"
+                tools:text="Images"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:paddingHorizontal="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/container_cast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/cast_title">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_cast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_person" />
+                <LinearLayout
+                    android:id="@+id/container_no_cast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/not_available"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/crew_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/container_cast"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/crew_title"
+                tools:text="Images"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:paddingHorizontal="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/container_crew"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/crew_title">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_crew"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_person" />
+                <LinearLayout
+                    android:id="@+id/container_no_crew"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/not_available"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/reviews_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/container_crew"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/reviews_title"
+                tools:text="Images"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:paddingHorizontal="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/container_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/reviews_title">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_reviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_review" />
+                <LinearLayout
+                    android:id="@+id/container_no_reviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:visibility="gone"
+                    tools:visibility="invisible">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/no_reviews_yet"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/about_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/about_title"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/container_reviews" />
+
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/about_title">
+                <include
+                    android:id="@+id/section_about"
+                    layout="@layout/layout_section_about_tv_series"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
+
+            <TextView
+                android:id="@+id/seasons_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/skeleton_about"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/seasons"
+                tools:text="Images"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:paddingHorizontal="16dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_seasons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/seasons_title"
+                tools:listitem="@layout/item_media"/>
+
+            <TextView
+                android:id="@+id/recommendations_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/recycler_seasons"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/recommendations_title"
+                tools:text="Images"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:paddingHorizontal="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/container_recommendations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/recommendations_title">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_recommendations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_media" />
+                <LinearLayout
+                    android:id="@+id/container_no_recommendations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/not_available"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/similar_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/container_recommendations"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/similar_title"
+                tools:text="Images"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:paddingHorizontal="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/container_similar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:clipToPadding="false"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/similar_title">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_similar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:listitem="@layout/item_media" />
+                <LinearLayout
+                    android:id="@+id/container_no_similar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/not_available"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        app:elevation="0dp"
+        android:fitsSystemWindows="true"
+        app:liftOnScroll="false">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/top_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            app:contentInsetStartWithNavigation="0dp"
+            app:navigationIcon="@drawable/ic_back_24"
+            app:titleTextColor="@android:color/white"
+            android:theme="@style/ThemeOverlay.Material3.Toolbar.CircleNavigationButton"
+            app:layout_scrollFlags="scroll">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_favorite"
+                style="@style/Widget.Material3.Button.IconButton.Filled"
+                app:backgroundTint="?attr/colorSurfaceContainer"
+                app:iconTint="?attr/colorOnSurfaceVariant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="end"
+                app:icon="@drawable/ic_favorite_24"
+                app:iconSize="24dp" />
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
