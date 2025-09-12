@@ -9,26 +9,26 @@ import coil3.request.transformations
 import coil3.transform.RoundedCornersTransformation
 import com.koniukhov.cinecircle.core.common.Constants.IMAGE_RADIUS
 import com.koniukhov.cinecircle.core.design.R
-import com.koniukhov.cinecircle.core.domain.model.Movie
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
+import com.koniukhov.cinecircle.core.domain.model.MediaItem
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import java.util.Locale
 
-class MovieRecommendationsAdapter(
+class MediaAdapter(
     private val onItemClick: (Int) -> Unit
-) : RecyclerView.Adapter<MovieRecommendationsAdapter.MovieViewHolder>() {
+) : RecyclerView.Adapter<MediaAdapter.MediaViewHolder>() {
 
-    private var movies: List<Movie> = emptyList()
+    private var mediaItems: List<MediaItem> = emptyList()
 
-    class MovieViewHolder(val binding: ItemMediaBinding) : RecyclerView.ViewHolder(binding.root)
+    class MediaViewHolder(val binding: ItemMediaBinding) : RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaViewHolder {
         val binding = ItemMediaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MovieViewHolder(binding)
+        return MediaViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val movie = movies[position]
+    override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
+        val movie = mediaItems[position]
 
         holder.itemView.setOnClickListener {
             onItemClick(movie.id)
@@ -49,10 +49,10 @@ class MovieRecommendationsAdapter(
         }
     }
 
-    override fun getItemCount(): Int = movies.size
+    override fun getItemCount(): Int = mediaItems.size
 
-    fun setMovies(movies: List<Movie>) {
-        this.movies = movies
+    fun setMediaItems(movies: List<MediaItem>) {
+        this.mediaItems = movies
         notifyDataSetChanged()
     }
 }
