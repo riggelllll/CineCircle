@@ -47,6 +47,10 @@
     <string name="no_videos_yet">No videos yet</string>
     <string name="no_information_available">No information available</string>
 
+    <string name="episodes_count">%d episodes</string>
+    <string name="episode_title_format">%d. %s</string>
+    <string name="runtime_format">%d min</string>
+
     <plurals name="seasons_count">
         <item quantity="one">%d season</item>
         <item quantity="other">%d seasons</item>
