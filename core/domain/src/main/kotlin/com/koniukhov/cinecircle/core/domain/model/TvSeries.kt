@@ -10,9 +10,9 @@ data class TvSeries(
     val originalName: String,
     val overview: String,
     val popularity: Float,
-    val posterPath: String,
+    override val posterPath: String,
     val firstAirDate: String,
-    val name: String,
-    val voteAverage: Float,
+    override val title: String,
+    override val voteAverage: Float,
     val voteCount: Int
 ) : MediaItem()

@@ -9,10 +9,10 @@ data class Movie (
     val originalTitle: String,
     val overview: String,
     val popularity: Float,
-    val posterPath: String,
+    override val posterPath: String,
     val releaseDate: String,
-    val title: String,
+    override val title: String,
     val video: Boolean,
-    val voteAverage: Float,
+    override val voteAverage: Float,
     val voteCount: Int
 ) : MediaItem()

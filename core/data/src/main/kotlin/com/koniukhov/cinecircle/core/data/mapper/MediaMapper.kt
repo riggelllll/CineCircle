@@ -85,7 +85,7 @@ fun TvSeriesDto.toDomain(): TvSeries = TvSeries(
     popularity = popularity ?: 0.0f,
     posterPath = posterPath ?: "",
     firstAirDate = firstAirDate ?: "",
-    name = name ?: "",
+    title = name ?: "",
     voteAverage = voteAverage ?: 0.0f,
     voteCount = voteCount ?: 0
 )
