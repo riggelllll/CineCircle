@@ -36,7 +36,7 @@ import com.koniukhov.cinecircle.feature.media.details.adapter.CollectionMediaAda
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieCastAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieCrewAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieImagesAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MovieRecommendationsAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MediaAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieReviewsAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieTrailersAdapter
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenImageDialog
@@ -44,7 +44,7 @@ import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenVideoDial
 import com.koniukhov.cinecircle.feature.media.details.dialog.ReviewDetailBottomSheetDialog
 import com.koniukhov.cinecircle.feature.media.details.ui.state.MovieDetailsUiState
 import com.koniukhov.cinecircle.feature.media.details.ui.viewmodel.MovieDetailsViewModel
-import com.koniukhov.cinecircle.feature.media.details.utils.MovieDetailsUtils
+import com.koniukhov.cinecircle.feature.media.details.utils.MediaDetailsUtils
 import com.koniukhov.cinecircle.feature.movie_details.R
 import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,8 +65,8 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var crewAdapter: MovieCrewAdapter
     private lateinit var reviewsAdapter: MovieReviewsAdapter
     private lateinit var collectionAdapter: CollectionMediaAdapter
-    private lateinit var recommendationsAdapter: MovieRecommendationsAdapter
-    private lateinit var similarMoviesAdapter: MovieRecommendationsAdapter
+    private lateinit var recommendationsAdapter: MediaAdapter
+    private lateinit var similarMoviesAdapter: MediaAdapter
     private var isFullscreen = false
     private var currentExitFullscreenFunction: (() -> Unit)? = null
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
@@ -148,12 +148,12 @@ class MovieDetailsFragment : Fragment() {
             }
             recyclerCollection.adapter = collectionAdapter
 
-            recommendationsAdapter = MovieRecommendationsAdapter { movieId ->
+            recommendationsAdapter = MediaAdapter { movieId ->
                 navigateToMovieDetails(movieId)
             }
             recyclerRecommendations.adapter = recommendationsAdapter
 
-            similarMoviesAdapter = MovieRecommendationsAdapter { movieId ->
+            similarMoviesAdapter = MediaAdapter { movieId ->
                 navigateToMovieDetails(movieId)
             }
             recyclerSimilar.adapter = similarMoviesAdapter
@@ -218,14 +218,14 @@ class MovieDetailsFragment : Fragment() {
                 imgBackdrop.load(design_R.drawable.placeholder_image)
             }
             movieTitle.text = movieDetails.title
-            rating.text = MovieDetailsUtils.formatRating(movieDetails.voteAverage)
-            duration.text = MovieDetailsUtils.formatRuntime(
+            rating.text = MediaDetailsUtils.formatRating(movieDetails.voteAverage)
+            duration.text = MediaDetailsUtils.formatRuntime(
                 runtime = movieDetails.runtime,
                 hoursLabel = getString(R.string.hours_short),
                 minutesLabel = getString(R.string.minutes_short)
             )
-            age.text = MovieDetailsUtils.getAgeRating(movieDetails, uiState.releaseDates, viewModel.countryCode)
-            country.text = MovieDetailsUtils.getCountryCode(movieDetails)
+            age.text = MediaDetailsUtils.getAgeRating(movieDetails, uiState.releaseDates, viewModel.countryCode)
+            country.text = MediaDetailsUtils.getCountryCode(movieDetails)
             year.text = formatDate(movieDetails.releaseDate)
             if (movieDetails.overview.isNotEmpty()){
                 plotDescription.text = movieDetails.overview
@@ -306,7 +306,7 @@ class MovieDetailsFragment : Fragment() {
 
     private fun updateRecommendations(recommendations: List<Movie>) {
         if (recommendations.isNotEmpty()){
-            recommendationsAdapter.setMovies(recommendations)
+            recommendationsAdapter.setMediaItems(recommendations)
         }else{
             binding.recyclerRecommendations.visibility = View.GONE
             binding.containerNoRecommendations.visibility = View.VISIBLE
@@ -315,7 +315,7 @@ class MovieDetailsFragment : Fragment() {
 
     private fun updateSimilarMovies(similarMovies: List<Movie>) {
         if (similarMovies.isNotEmpty()){
-            similarMoviesAdapter.setMovies(similarMovies)
+            similarMoviesAdapter.setMediaItems(similarMovies)
         }else{
             binding.recyclerSimilar.visibility = View.GONE
             binding.containerNoSimilar.visibility = View.VISIBLE
@@ -441,7 +441,7 @@ class MovieDetailsFragment : Fragment() {
             }
 
             runtimeValue.text = if (movieDetails.runtime > 0) {
-                MovieDetailsUtils.formatRuntime(
+                MediaDetailsUtils.formatRuntime(
                     runtime = movieDetails.runtime,
                     hoursLabel = getString(R.string.hours_short),
                     minutesLabel = getString(R.string.minutes_short)
