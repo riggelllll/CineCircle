@@ -31,7 +31,7 @@ class TvSeriesAdapter(
         holder.itemView.setOnClickListener {
             onItemClick(tvSeries.id)
         }
-        holder.binding.title.text = tvSeries.name
+        holder.binding.title.text = tvSeries.title
         holder.binding.rating.text = String.format(Locale.US,"%.1f", tvSeries.voteAverage)
         if (tvSeries.posterPath.isNotEmpty()){
             holder.binding.poster.load(IMAGE_URL_TEMPLATE.format(tvSeries.posterPath)){
