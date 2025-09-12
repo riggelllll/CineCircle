@@ -3,6 +3,7 @@ package com.koniukhov.cinecircle.feature.media.details.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
+import com.koniukhov.cinecircle.core.data.di.CountryCode
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
 import com.koniukhov.cinecircle.core.domain.usecase.GetSimilarTvSeriesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetTvSeasonDetails
@@ -37,6 +38,8 @@ class TvSeriesDetailsViewModel @Inject constructor(
     private val getSimilarTvSeriesUseCase: GetSimilarTvSeriesUseCase,
     @LanguageCode
     private val languageCode: String,
+    @CountryCode
+    val countryCode: String
 ): ViewModel(){
     private var _tvSeriesId = MutableStateFlow(INVALID_ID)
     private var _uiState = MutableStateFlow(TvSeriesDetailsUiState())
