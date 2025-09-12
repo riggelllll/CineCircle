@@ -1,13 +1,15 @@
 package com.koniukhov.cinecircle.feature.media.details.utils
 
 import com.koniukhov.cinecircle.core.common.Constants.DEFAULT_COUNTRY_CODE
+import com.koniukhov.cinecircle.core.domain.model.ContentRating
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.ReleaseDateResult
-import timber.log.Timber
-import java.text.SimpleDateFormat
+import com.koniukhov.cinecircle.core.domain.model.TvSeriesDetails
 import java.util.Locale
+import kotlin.collections.find
+import kotlin.collections.firstOrNull
 
-object MovieDetailsUtils {
+object MediaDetailsUtils {
 
     fun formatRuntime(
         runtime: Int,
@@ -49,7 +51,32 @@ object MovieDetailsUtils {
         return if (movieDetails.adult) "18+" else "PG-13"
     }
 
+    fun getTvSeriesAgeRating(contentRatings: List<ContentRating>, userCountryCode: String): String {
+        val userCountryCertification = contentRatings
+            .find { it.countryCode == userCountryCode }
+            ?.rating
+
+        if (!userCountryCertification.isNullOrBlank()) {
+            return userCountryCertification
+        }
+
+        val usCertification = contentRatings
+            .find { it.countryCode == DEFAULT_COUNTRY_CODE }
+            ?.rating
+
+        if (!usCertification.isNullOrBlank()) {
+            return usCertification
+        }
+
+        return contentRatings.firstOrNull()?.rating ?: "NR"
+    }
+
+
     fun getCountryCode(movieDetails: MovieDetails): String {
         return movieDetails.productionCountries.firstOrNull()?.isoName ?: "None"
+    }
+
+    fun getTvSeriesCountryCode(tvSeriesDetails: TvSeriesDetails): String {
+        return tvSeriesDetails.productionCountries.firstOrNull()?.isoName ?: "None"
     }
 }
