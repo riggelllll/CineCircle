@@ -10,13 +10,12 @@ import coil3.transform.RoundedCornersTransformation
 import com.koniukhov.cinecircle.core.common.Constants.IMAGE_RADIUS
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
-import com.koniukhov.cinecircle.core.domain.model.TvEpisodeDetails
 import com.koniukhov.cinecircle.core.domain.model.TvSeasonDetails
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import java.util.Locale
 
 class SeasonAdapter(
-    private val onItemClick: (List<TvEpisodeDetails>) -> Unit
+    private val onItemClick: (TvSeasonDetails) -> Unit
 ) : RecyclerView.Adapter<SeasonAdapter.SeasonsViewHolder>() {
 
     private var seasonDetails: List<TvSeasonDetails> = emptyList()
@@ -32,7 +31,7 @@ class SeasonAdapter(
         val details = seasonDetails[position]
 
         holder.itemView.setOnClickListener {
-            onItemClick(details.episodes)
+            onItemClick(details)
         }
 
         with(holder.binding) {
