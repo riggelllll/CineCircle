@@ -36,6 +36,7 @@ import com.koniukhov.cinecircle.feature.media.details.adapter.MovieImagesAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieReviewsAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieTrailersAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.SeasonAdapter
+import com.koniukhov.cinecircle.feature.media.details.dialog.EpisodesBottomSheetDialog
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenImageDialog
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenVideoDialog
 import com.koniukhov.cinecircle.feature.media.details.dialog.ReviewDetailBottomSheetDialog
@@ -368,8 +369,8 @@ class TvSeriesDetailsFragment : Fragment() {
             }
             recyclerSimilar.adapter = similarMoviesAdapter
 
-            seasonAdapter = SeasonAdapter{
-
+            seasonAdapter = SeasonAdapter { seasonDetails ->
+                showEpisodesDialog(seasonDetails)
             }
             recyclerSeasons.adapter = seasonAdapter
         }
@@ -399,6 +400,12 @@ class TvSeriesDetailsFragment : Fragment() {
     private fun showReviewDetail(review: MediaReview) {
         val dialog = ReviewDetailBottomSheetDialog.Companion.newInstance(review)
         dialog.show(parentFragmentManager, REVIEW_DETAIL_DIALOG_TAG)
+    }
+
+    private fun showEpisodesDialog(seasonDetails: TvSeasonDetails) {
+        val dialog = EpisodesBottomSheetDialog.newInstance()
+        dialog.setSeasonDetails(seasonDetails)
+        dialog.show(parentFragmentManager, EPISODES_DIALOG_TAG)
     }
 
     private fun navigateToTvSeriesDetails(tvSeriesId: Int) {
@@ -432,6 +439,7 @@ class TvSeriesDetailsFragment : Fragment() {
         private const val FULLSCREEN_IMAGE_DIALOG_TAG = "FullscreenImageDialog"
         private const val FULLSCREEN_VIDEO_DIALOG_TAG = "FullscreenVideoDialog"
         private const val REVIEW_DETAIL_DIALOG_TAG = "ReviewDetailDialog"
+        private const val EPISODES_DIALOG_TAG = "EpisodesDialog"
         private const val RECYCLER_SKELETON_ITEM_COUNT = 5
     }
 }
