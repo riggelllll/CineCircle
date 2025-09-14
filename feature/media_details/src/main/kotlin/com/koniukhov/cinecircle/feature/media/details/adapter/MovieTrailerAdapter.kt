@@ -5,8 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
-import com.koniukhov.cinecircle.core.common.Constants.VIDEO_SITE_YOUTUBE
-import com.koniukhov.cinecircle.core.common.Constants.VIDEO_TYPE_TRAILER
 import com.koniukhov.cinecircle.core.domain.model.Video
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemMovieTrailerBinding
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -14,11 +12,11 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.FullscreenListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 
-class MovieTrailersAdapter(
+class MovieTrailerAdapter(
     private val lifecycle: Lifecycle,
     private val onFullscreenEnter: (View, () -> Unit) -> Unit,
     private val onFullscreenExit: () -> Unit
-) : RecyclerView.Adapter<MovieTrailersAdapter.TrailerViewHolder>() {
+) : RecyclerView.Adapter<MovieTrailerAdapter.TrailerViewHolder>() {
 
     private val trailers = mutableListOf<Video>()
 
