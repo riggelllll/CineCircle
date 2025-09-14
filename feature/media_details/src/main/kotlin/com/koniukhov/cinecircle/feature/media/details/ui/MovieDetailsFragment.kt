@@ -35,10 +35,10 @@ import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
 import com.koniukhov.cinecircle.feature.media.details.adapter.CollectionMediaAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieCastAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MovieCrewAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MovieImagesAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MovieImageAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MovieReviewsAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MovieTrailersAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MovieReviewAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MovieTrailerAdapter
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenImageDialog
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenVideoDialog
 import com.koniukhov.cinecircle.feature.media.details.dialog.ReviewDetailBottomSheetDialog
@@ -59,11 +59,11 @@ class MovieDetailsFragment : Fragment() {
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MovieDetailsViewModel by viewModels()
-    private lateinit var trailersAdapter: MovieTrailersAdapter
-    private lateinit var imagesAdapter: MovieImagesAdapter
+    private lateinit var trailerAdapter: MovieTrailerAdapter
+    private lateinit var imageAdapter: MovieImageAdapter
     private lateinit var castAdapter: MovieCastAdapter
     private lateinit var crewAdapter: MovieCrewAdapter
-    private lateinit var reviewsAdapter: MovieReviewsAdapter
+    private lateinit var reviewAdapter: MovieReviewAdapter
     private lateinit var collectionAdapter: CollectionMediaAdapter
     private lateinit var recommendationsAdapter: MediaAdapter
     private lateinit var similarMoviesAdapter: MediaAdapter
@@ -116,7 +116,7 @@ class MovieDetailsFragment : Fragment() {
 
     private fun setupRecyclerViews() {
         with(binding){
-            trailersAdapter = MovieTrailersAdapter(
+            trailerAdapter = MovieTrailerAdapter(
                 lifecycle = lifecycle,
                 onFullscreenEnter = { fullscreenView, exitFullscreen ->
                     handleEnterFullscreen(fullscreenView, exitFullscreen)
@@ -125,12 +125,12 @@ class MovieDetailsFragment : Fragment() {
                     handleExitFullscreen()
                 }
             )
-            recyclerTrailers.adapter = trailersAdapter
+            recyclerTrailers.adapter = trailerAdapter
 
-            imagesAdapter = MovieImagesAdapter { imagePath ->
+            imageAdapter = MovieImageAdapter { imagePath ->
                 showFullscreenImage(imagePath)
             }
-            recyclerImages.adapter = imagesAdapter
+            recyclerImages.adapter = imageAdapter
 
             castAdapter = MovieCastAdapter()
             recyclerCast.adapter = castAdapter
@@ -138,10 +138,10 @@ class MovieDetailsFragment : Fragment() {
             crewAdapter = MovieCrewAdapter()
             recyclerCrew.adapter = crewAdapter
 
-            reviewsAdapter = MovieReviewsAdapter { review ->
+            reviewAdapter = MovieReviewAdapter { review ->
                 showReviewDetail(review)
             }
-            recyclerReviews.adapter = reviewsAdapter
+            recyclerReviews.adapter = reviewAdapter
 
             collectionAdapter = CollectionMediaAdapter { movieId ->
                 navigateToMovieDetails(movieId)
@@ -191,16 +191,15 @@ class MovieDetailsFragment : Fragment() {
                 if (!uiState.isLoading && uiState.error  == null){
                     hideSkeletons()
                     uiState.movieDetails?.let { movieDetails ->
-                        updateMovieDetails(movieDetails, uiState)
+                        updateMovieDetailsSection(movieDetails, uiState)
                     }
-                    updateVideos(uiState.videos)
-                    updateImages(uiState.images)
-                    updateCredits(uiState.credits)
-                    updateReviews(uiState.reviews)
-                    updateCollection(uiState.collectionDetails)
-                    updateRecommendations(uiState.recommendations)
-                    updateSimilarMovies(uiState.similarMovies)
-                    updateReviewsVisibility(uiState.reviews)
+                    updateTrailersSection(uiState.videos)
+                    updateImagesSection(uiState.images)
+                    updateCreditsSection(uiState.credits)
+                    updateReviewsSection(uiState.reviews)
+                    updateCollectionSection(uiState.collectionDetails)
+                    updateRecommendationsSection(uiState.recommendations)
+                    updateSimilarSection(uiState.similarMovies)
                 }else{
                     Timber.Forest.d(uiState.error)
                 }
@@ -208,7 +207,7 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateMovieDetails(movieDetails: MovieDetails, uiState: MovieDetailsUiState) {
+    private fun updateMovieDetailsSection(movieDetails: MovieDetails, uiState: MovieDetailsUiState) {
         with(binding){
             if (movieDetails.backdropPath.isNotEmpty()){
                 imgBackdrop.load(TMDBEndpoints.IMAGE_URL_TEMPLATE.format(movieDetails.backdropPath)){
@@ -238,21 +237,21 @@ class MovieDetailsFragment : Fragment() {
         updateAboutSection(movieDetails)
     }
 
-    private fun updateVideos(movieVideos: MovieVideos?) {
+    private fun updateTrailersSection(movieVideos: MovieVideos?) {
         movieVideos?.let {
             val youTubeTrailers = movieVideos.getYouTubeTrailers()
             if (movieVideos.results.isEmpty() || youTubeTrailers.isEmpty()) {
                 binding.recyclerTrailers.visibility = View.GONE
                 binding.containerNoTrailer.visibility = View.VISIBLE
             } else {
-                trailersAdapter.setTrailers(youTubeTrailers)
+                trailerAdapter.setTrailers(youTubeTrailers)
                 binding.recyclerTrailers.visibility = View.VISIBLE
                 binding.containerNoTrailer.visibility = View.GONE
             }
         }
     }
 
-    private fun updateImages(mediaImages: MediaImages?) {
+    private fun updateImagesSection(mediaImages: MediaImages?) {
         mediaImages?.let {
             val allImages = mutableListOf<Image>()
             allImages.addAll(mediaImages.backdrops)
@@ -261,14 +260,14 @@ class MovieDetailsFragment : Fragment() {
                 binding.recyclerImages.visibility = View.GONE
                 binding.containerNoImages.visibility = View.VISIBLE
             } else {
-                imagesAdapter.setImages(allImages)
+                imageAdapter.setImages(allImages)
                 binding.recyclerImages.visibility = View.VISIBLE
                 binding.containerNoImages.visibility = View.GONE
             }
         }
     }
 
-    private fun updateCredits(credits: MediaCredits?) {
+    private fun updateCreditsSection(credits: MediaCredits?) {
         credits?.cast?.let {
             if (it.isNotEmpty()){
                 castAdapter.setCastMembers(it)
@@ -287,11 +286,16 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateReviews(reviews: List<MediaReview>) {
-        reviewsAdapter.setReviews(reviews)
+    private fun updateReviewsSection(reviews: List<MediaReview>) {
+        if (reviews.isEmpty()) {
+            binding.recyclerReviews.visibility = View.GONE
+            binding.containerNoReviews.visibility = View.VISIBLE
+        } else {
+            reviewAdapter.setReviews(reviews)
+        }
     }
 
-    private fun updateCollection(collectionDetails: CollectionDetails?){
+    private fun updateCollectionSection(collectionDetails: CollectionDetails?){
         collectionDetails?.let { collectionDetails ->
             if (collectionDetails.exists()){
                 with(binding){
@@ -304,7 +308,7 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateRecommendations(recommendations: List<Movie>) {
+    private fun updateRecommendationsSection(recommendations: List<Movie>) {
         if (recommendations.isNotEmpty()){
             recommendationsAdapter.setMediaItems(recommendations)
         }else{
@@ -313,22 +317,12 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateSimilarMovies(similarMovies: List<Movie>) {
+    private fun updateSimilarSection(similarMovies: List<Movie>) {
         if (similarMovies.isNotEmpty()){
             similarMoviesAdapter.setMediaItems(similarMovies)
         }else{
             binding.recyclerSimilar.visibility = View.GONE
             binding.containerNoSimilar.visibility = View.VISIBLE
-        }
-    }
-
-    private fun updateReviewsVisibility(reviews: List<MediaReview>) {
-        if (reviews.isEmpty()) {
-            binding.recyclerReviews.visibility = View.GONE
-            binding.containerNoReviews.visibility = View.VISIBLE
-        } else {
-            binding.recyclerReviews.visibility = View.VISIBLE
-            binding.containerNoReviews.visibility = View.GONE
         }
     }
 
