@@ -8,11 +8,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.koniukhov.cinecircle.core.domain.model.TvSeasonDetails
 import com.koniukhov.cinecircle.feature.media.details.adapter.EpisodeAdapter
 import com.koniukhov.cinecircle.feature.movie_details.R
-import com.koniukhov.cinecircle.feature.movie_details.databinding.DialogEpisodesBottomSheetBinding
+import com.koniukhov.cinecircle.feature.movie_details.databinding.BottomSheetEpisodesBinding
 
 class EpisodesBottomSheetDialog : BottomSheetDialogFragment() {
 
-    private var _binding: DialogEpisodesBottomSheetBinding? = null
+    private var _binding: BottomSheetEpisodesBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var episodeAdapter: EpisodeAdapter
@@ -23,7 +23,7 @@ class EpisodesBottomSheetDialog : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DialogEpisodesBottomSheetBinding.inflate(inflater, container, false)
+        _binding = BottomSheetEpisodesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
