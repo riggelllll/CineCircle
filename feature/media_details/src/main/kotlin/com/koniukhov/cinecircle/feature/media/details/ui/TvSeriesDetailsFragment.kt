@@ -32,11 +32,11 @@ import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.domain.model.TvSeriesDetails
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MovieCastAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MovieCrewAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MovieImageAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MovieReviewAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MovieTrailerAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCastAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCrewAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MediaImageAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MediaReviewAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MediaTrailerAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.SeasonAdapter
 import com.koniukhov.cinecircle.feature.media.details.dialog.EpisodesBottomSheetDialog
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenImageDialog
@@ -60,11 +60,11 @@ class TvSeriesDetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: TvSeriesDetailsViewModel by viewModels()
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
-    private lateinit var imagesAdapter: MovieImageAdapter
-    private lateinit var trailersAdapter: MovieTrailerAdapter
-    private lateinit var castAdapter: MovieCastAdapter
-    private lateinit var crewAdapter: MovieCrewAdapter
-    private lateinit var reviewAdapter: MovieReviewAdapter
+    private lateinit var imagesAdapter: MediaImageAdapter
+    private lateinit var trailersAdapter: MediaTrailerAdapter
+    private lateinit var castAdapter: MediaCastAdapter
+    private lateinit var crewAdapter: MediaCrewAdapter
+    private lateinit var reviewAdapter: MediaReviewAdapter
     private lateinit var recommendationsAdapter: MediaAdapter
     private lateinit var similarMoviesAdapter: MediaAdapter
     private lateinit var seasonAdapter: SeasonAdapter
@@ -409,7 +409,7 @@ class TvSeriesDetailsFragment : Fragment() {
 
     private fun setupRecyclerViews() {
         with(binding){
-            trailersAdapter = MovieTrailerAdapter(
+            trailersAdapter = MediaTrailerAdapter(
                 lifecycle = lifecycle,
                 onFullscreenEnter = { fullscreenView, exitFullscreen ->
                     handleEnterFullscreen(fullscreenView, exitFullscreen)
@@ -419,17 +419,17 @@ class TvSeriesDetailsFragment : Fragment() {
                 }
             )
             recyclerTrailers.adapter = trailersAdapter
-            imagesAdapter = MovieImageAdapter { imagePath ->
+            imagesAdapter = MediaImageAdapter { imagePath ->
                 showFullscreenImage(imagePath)
             }
             recyclerImages.adapter = imagesAdapter
-            castAdapter = MovieCastAdapter()
+            castAdapter = MediaCastAdapter()
             recyclerCast.adapter = castAdapter
 
-            crewAdapter = MovieCrewAdapter()
+            crewAdapter = MediaCrewAdapter()
             recyclerCrew.adapter = crewAdapter
 
-            reviewAdapter = MovieReviewAdapter { review ->
+            reviewAdapter = MediaReviewAdapter { review ->
                 showReviewDetail(review)
             }
             recyclerReviews.adapter = reviewAdapter

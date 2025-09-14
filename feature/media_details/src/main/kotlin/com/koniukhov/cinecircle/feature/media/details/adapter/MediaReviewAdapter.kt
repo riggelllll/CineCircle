@@ -11,9 +11,9 @@ import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLAT
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemReviewBinding
 import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image as placeholder_image
 
-class MovieReviewAdapter(
+class MediaReviewAdapter(
     private val onReviewClick: (MediaReview) -> Unit
-) : RecyclerView.Adapter<MovieReviewAdapter.ReviewViewHolder>() {
+) : RecyclerView.Adapter<MediaReviewAdapter.ReviewViewHolder>() {
 
     private var reviews: List<MediaReview> = emptyList()
 

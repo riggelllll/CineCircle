@@ -10,9 +10,9 @@ import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLAT
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemPersonBinding
 import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image as placeholder_image
 
-class MovieCastAdapter(
+class MediaCastAdapter(
     private val onCastMemberClick: (CastMember) -> Unit = {}
-) : RecyclerView.Adapter<MovieCastAdapter.CastViewHolder>() {
+) : RecyclerView.Adapter<MediaCastAdapter.CastViewHolder>() {
 
     private var castMembers: List<CastMember> = emptyList()
 

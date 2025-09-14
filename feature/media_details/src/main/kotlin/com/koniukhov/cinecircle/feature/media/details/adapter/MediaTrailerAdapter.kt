@@ -12,11 +12,11 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.FullscreenListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 
-class MovieTrailerAdapter(
+class MediaTrailerAdapter(
     private val lifecycle: Lifecycle,
     private val onFullscreenEnter: (View, () -> Unit) -> Unit,
     private val onFullscreenExit: () -> Unit
-) : RecyclerView.Adapter<MovieTrailerAdapter.TrailerViewHolder>() {
+) : RecyclerView.Adapter<MediaTrailerAdapter.TrailerViewHolder>() {
 
     private val trailers = mutableListOf<Video>()
 

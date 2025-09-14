@@ -10,9 +10,9 @@ import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLAT
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemPersonBinding
 import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image as placeholder_image
 
-class MovieCrewAdapter(
+class MediaCrewAdapter(
     private val onCrewMemberClick: (CrewMember) -> Unit = {}
-) : RecyclerView.Adapter<MovieCrewAdapter.CrewViewHolder>() {
+) : RecyclerView.Adapter<MediaCrewAdapter.CrewViewHolder>() {
 
     private var crewMembers: List<CrewMember> = emptyList()
 
