@@ -200,15 +200,15 @@ class TvSeriesDetailsFragment : Fragment() {
                 if (!uiState.isLoading && uiState.error  == null){
                     hideSkeletons()
                     uiState.details?.let { details ->
-                        updateDetails(details, uiState)
+                        updateDetailsSection(details, uiState)
                     }
-                    updateVideos(uiState.videos)
-                    updateImages(uiState.images)
-                    updateCredits(uiState.credits)
-                    updateReviews(uiState.reviews)
+                    updateVideosSection(uiState.videos)
+                    updateImagesSection(uiState.images)
+                    updateCreditsSection(uiState.credits)
+                    updateReviewsSection(uiState.reviews)
                     updateSeasons(uiState.seasons)
-                    updateRecommendations(uiState.recommendations)
-                    updateSimilarMovies(uiState.similar)
+                    updateRecommendationsSection(uiState.recommendations)
+                    updateSimilarSection(uiState.similar)
                 }else{
                     Timber.Forest.d(uiState.error)
                 }
@@ -216,7 +216,7 @@ class TvSeriesDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateDetails(details: TvSeriesDetails, uiState: TvSeriesDetailsUiState) {
+    private fun updateDetailsSection(details: TvSeriesDetails, uiState: TvSeriesDetailsUiState) {
         with(binding){
             if (details.backdropPath.isNotEmpty()){
                 imgBackdrop.load(TMDBEndpoints.IMAGE_URL_TEMPLATE.format(details.backdropPath)){
@@ -259,7 +259,7 @@ class TvSeriesDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateImages(mediaImages: MediaImages?) {
+    private fun updateImagesSection(mediaImages: MediaImages?) {
         mediaImages?.let {
             val allImages = mutableListOf<Image>()
             allImages.addAll(mediaImages.backdrops)
@@ -275,7 +275,7 @@ class TvSeriesDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateVideos(movieVideos: MovieVideos?) {
+    private fun updateVideosSection(movieVideos: MovieVideos?) {
         movieVideos?.let {
             val youTubeTrailers = movieVideos.getYouTubeTrailers()
             if (movieVideos.results.isEmpty() || youTubeTrailers.isEmpty()) {
@@ -289,7 +289,7 @@ class TvSeriesDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateCredits(credits: MediaCredits?) {
+    private fun updateCreditsSection(credits: MediaCredits?) {
         credits?.cast?.let {
             if (it.isNotEmpty()){
                 castAdapter.setCastMembers(it)
@@ -308,7 +308,7 @@ class TvSeriesDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateReviews(reviews: List<MediaReview>) {
+    private fun updateReviewsSection(reviews: List<MediaReview>) {
         if (reviews.isEmpty()) {
             binding.recyclerReviews.visibility = View.GONE
             binding.containerNoReviews.visibility = View.VISIBLE
@@ -317,7 +317,7 @@ class TvSeriesDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateRecommendations(recommendations: List<TvSeries>) {
+    private fun updateRecommendationsSection(recommendations: List<TvSeries>) {
         if (recommendations.isNotEmpty()){
             recommendationsAdapter.setMediaItems(recommendations)
         }else{
@@ -326,7 +326,7 @@ class TvSeriesDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateSimilarMovies(similarMovies: List<TvSeries>) {
+    private fun updateSimilarSection(similarMovies: List<TvSeries>) {
         if (similarMovies.isNotEmpty()){
             similarMoviesAdapter.setMediaItems(similarMovies)
         }else{
