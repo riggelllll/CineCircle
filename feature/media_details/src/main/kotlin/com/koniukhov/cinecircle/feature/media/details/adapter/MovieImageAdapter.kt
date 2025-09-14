@@ -10,9 +10,9 @@ import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLAT
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemMovieImageBinding
 import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image as placeholder_image
 
-class MovieImagesAdapter(
+class MovieImageAdapter(
     private val onImageClick: (String) -> Unit
-) : RecyclerView.Adapter<MovieImagesAdapter.ImageViewHolder>() {
+) : RecyclerView.Adapter<MovieImageAdapter.ImageViewHolder>() {
 
     private var images: List<Image> = emptyList()
 
