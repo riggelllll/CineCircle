@@ -15,6 +15,8 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import coil3.load
 import coil3.request.placeholder
+import com.faltenreich.skeletonlayout.Skeleton
+import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.chip.Chip
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs
@@ -70,6 +72,18 @@ class TvSeriesDetailsFragment : Fragment() {
     private var isFullscreen = false
     private var currentExitFullscreenFunction: (() -> Unit)? = null
 
+    private lateinit var containerBackdropSkeleton: Skeleton
+    private lateinit var imagesRecyclerSkeleton: Skeleton
+    private lateinit var trailersRecyclerSkeleton: Skeleton
+    private lateinit var castRecyclerSkeleton: Skeleton
+    private lateinit var crewRecyclerSkeleton: Skeleton
+    private lateinit var reviewsRecyclerSkeleton: Skeleton
+    private lateinit var recommendationsRecyclerSkeleton: Skeleton
+    private lateinit var similarRecyclerSkeleton: Skeleton
+    private lateinit var plotSkeleton: Skeleton
+    private lateinit var aboutSkeleton: Skeleton
+    private lateinit var seasonsRecyclerSkeleton: Skeleton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupArgs()
@@ -83,6 +97,8 @@ class TvSeriesDetailsFragment : Fragment() {
     ): View? {
         _binding = FragmentTvSeriesDetailsBinding.inflate(inflater, container, false)
         setupRecyclerViews()
+        setupSkeletons()
+        showSkeletons()
         return binding.root
     }
 
@@ -119,11 +135,70 @@ class TvSeriesDetailsFragment : Fragment() {
         }
     }
 
+    private fun setupSkeletons() {
+        containerBackdropSkeleton = binding.skeletonBackdrop
+        plotSkeleton = binding.skeletonPlot
+        imagesRecyclerSkeleton = binding.recyclerImages.applySkeleton(R.layout.item_movie_image,
+            RECYCLER_SKELETON_ITEM_COUNT
+        )
+        trailersRecyclerSkeleton = binding.recyclerTrailers.applySkeleton(R.layout.item_movie_image,
+            RECYCLER_SKELETON_ITEM_COUNT
+        )
+        castRecyclerSkeleton = binding.recyclerCast.applySkeleton(R.layout.item_person,
+            RECYCLER_SKELETON_ITEM_COUNT
+        )
+        crewRecyclerSkeleton = binding.recyclerCrew.applySkeleton(R.layout.item_person,
+            RECYCLER_SKELETON_ITEM_COUNT
+        )
+        reviewsRecyclerSkeleton = binding.recyclerReviews.applySkeleton(R.layout.item_review,
+            RECYCLER_SKELETON_ITEM_COUNT
+        )
+        recommendationsRecyclerSkeleton = binding.recyclerRecommendations.applySkeleton(design_R.layout.item_media,
+            RECYCLER_SKELETON_ITEM_COUNT
+        )
+        similarRecyclerSkeleton = binding.recyclerSimilar.applySkeleton(design_R.layout.item_media,
+            RECYCLER_SKELETON_ITEM_COUNT
+        )
+        aboutSkeleton = binding.skeletonAbout
+
+        seasonsRecyclerSkeleton = binding.recyclerSeasons.applySkeleton(design_R.layout.item_media,
+            RECYCLER_SKELETON_ITEM_COUNT
+        )
+    }
+
+    private fun showSkeletons() {
+        containerBackdropSkeleton.showSkeleton()
+        plotSkeleton.showSkeleton()
+        imagesRecyclerSkeleton.showSkeleton()
+        trailersRecyclerSkeleton.showSkeleton()
+        castRecyclerSkeleton.showSkeleton()
+        crewRecyclerSkeleton.showSkeleton()
+        reviewsRecyclerSkeleton.showSkeleton()
+        recommendationsRecyclerSkeleton.showSkeleton()
+        similarRecyclerSkeleton.showSkeleton()
+        aboutSkeleton.showSkeleton()
+        seasonsRecyclerSkeleton.showSkeleton()
+    }
+
+    private fun hideSkeletons() {
+        containerBackdropSkeleton.showOriginal()
+        plotSkeleton.showOriginal()
+        imagesRecyclerSkeleton.showOriginal()
+        trailersRecyclerSkeleton.showOriginal()
+        castRecyclerSkeleton.showOriginal()
+        crewRecyclerSkeleton.showOriginal()
+        reviewsRecyclerSkeleton.showOriginal()
+        recommendationsRecyclerSkeleton.showOriginal()
+        similarRecyclerSkeleton.showOriginal()
+        aboutSkeleton.showOriginal()
+        seasonsRecyclerSkeleton.showOriginal()
+    }
+
     private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collect { uiState ->
                 if (!uiState.isLoading && uiState.error  == null){
-                    //hideSkeletons()
+                    hideSkeletons()
                     uiState.details?.let { details ->
                         updateDetails(details, uiState)
                     }
