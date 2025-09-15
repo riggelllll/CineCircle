@@ -14,7 +14,7 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/navigation_collections"
-        android:name="com.koniukhov.cinecircle.feature.lists.CollectionsFragment"
+        android:name="com.koniukhov.cinecircle.feature.lists.ui.CollectionsFragment"
         android:label="CollectionsFragment"
         tools:layout="@layout/collections_fragment"/>
     <fragment
