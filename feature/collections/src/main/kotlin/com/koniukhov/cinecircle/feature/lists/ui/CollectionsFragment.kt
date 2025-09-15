@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.koniukhov.cinecircle.core.database.model.MediaListWithCount
@@ -52,6 +53,13 @@ class CollectionsFragment : Fragment() {
             adapter = collectionsAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
+
+        val swipeCallback = SwipeToDeleteCallback(requireContext()) { position ->
+            val collection = collectionsAdapter.currentList[position]
+            showDeleteConfirmationDialog(collection)
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeCallback)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerCollections)
     }
 
     private fun setupFab() {
@@ -85,6 +93,28 @@ class CollectionsFragment : Fragment() {
         }
 
         dialogBinding.editTextCollectionName.requestFocus()
+    }
+
+    private fun showDeleteConfirmationDialog(collection: MediaListWithCount) {
+        if (collection.isDefault) {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.delete_collection_title)
+                .setMessage(R.string.cannot_delete_default_collection)
+                .setPositiveButton(android.R.string.ok, null)
+                .setCancelable(false)
+                .show()
+            return
+        }
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.delete_collection_title)
+            .setMessage(getString(R.string.delete_collection_message, collection.name))
+            .setPositiveButton(R.string.delete) { _, _ ->
+                viewModel.deleteCollection(collection.id)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .setCancelable(false)
+            .show()
     }
 
     private fun observeViewModel() {
