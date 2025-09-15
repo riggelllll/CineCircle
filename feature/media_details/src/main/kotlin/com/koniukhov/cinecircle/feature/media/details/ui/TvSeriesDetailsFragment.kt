@@ -1,7 +1,5 @@
 package com.koniukhov.cinecircle.feature.media.details.ui
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -278,7 +276,7 @@ class TvSeriesDetailsFragment : Fragment() {
 
     private fun updateVideosSection(movieVideos: MovieVideos?) {
         movieVideos?.let {
-            val youTubeTrailers = movieVideos.getYouTubeTrailers()
+            val youTubeTrailers = movieVideos.getYouTubeTrailersAndTeasers()
             if (movieVideos.results.isEmpty() || youTubeTrailers.isEmpty()) {
                 binding.recyclerTrailers.visibility = View.GONE
                 binding.containerNoTrailer.visibility = View.VISIBLE
