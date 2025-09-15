@@ -51,6 +51,16 @@
     <string name="episode_title_format">%d. %s</string>
     <string name="runtime_format">%d min</string>
 
+    <string name="add_to_collection">Add to Collection</string>
+    <string name="select_collection_to_add">Select a collection to add this movie</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
+    <string name="movie_added_to_collection">Movie added to %s</string>
+    <string name="movie_removed_from_collections">Movie removed from collections</string>
+    <string name="remove_from_collection">Remove from Collection</string>
+    <string name="movie_is_in_collections">This movie is already in your collections</string>
+    <string name="no_collections_available">No collections available</string>
+
     <plurals name="seasons_count">
         <item quantity="one">%d season</item>
         <item quantity="other">%d seasons</item>
