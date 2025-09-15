@@ -51,9 +51,9 @@ class MovieDetailsViewModel @Inject constructor(
     val uiState: StateFlow<MovieDetailsUiState> = _uiState.asStateFlow()
     private var _movieId = MutableStateFlow(INVALID_ID)
 
-    private val _movieCollection = MutableStateFlow<MediaListEntity?>(null)
+    private val _mediaCollection = MutableStateFlow<MediaListEntity?>(null)
 
-    val isMovieInCollection: StateFlow<Boolean> = _movieCollection.asStateFlow().map { it != null }.stateIn(
+    val isMovieInCollection: StateFlow<Boolean> = _mediaCollection.asStateFlow().map { it != null }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = false
@@ -67,18 +67,18 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     fun checkAndLoadCollections(){
-        checkMovieCollection()
+        checkMediaCollection()
         loadAllCollections()
     }
 
-    private fun checkMovieCollection() {
+    private fun checkMediaCollection() {
         viewModelScope.launch {
             try {
                 val collections = mediaListRepository.getListsContainingMovie(_movieId.value)
-                _movieCollection.value = collections.firstOrNull()
+                _mediaCollection.value = collections.firstOrNull()
             } catch (e: Exception) {
                 Timber.e(e)
-                _movieCollection.value = null
+                _mediaCollection.value = null
             }
         }
     }
@@ -108,7 +108,7 @@ class MovieDetailsViewModel @Inject constructor(
 
             val success = mediaListRepository.addMovieToList(collectionId, _movieId.value)
             if (success) {
-                checkMovieCollection()
+                checkMediaCollection()
             }
             collectionName
         } catch (e: Exception) {
@@ -120,9 +120,9 @@ class MovieDetailsViewModel @Inject constructor(
     fun removeMovieFromCollection() {
         viewModelScope.launch {
             try {
-                _movieCollection.value?.let { currentCollection ->
+                _mediaCollection.value?.let { currentCollection ->
                     mediaListRepository.removeMovieFromList(currentCollection.id, _movieId.value)
-                    checkMovieCollection()
+                    checkMediaCollection()
                 }
             } catch (e: Exception) {
                 Timber.e(e)
