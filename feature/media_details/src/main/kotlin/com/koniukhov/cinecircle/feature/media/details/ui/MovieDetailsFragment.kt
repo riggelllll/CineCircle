@@ -36,7 +36,7 @@ import com.koniukhov.cinecircle.feature.media.details.adapter.CollectionMediaAda
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCastAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCrewAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaImageAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MediaAdapter
+import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaReviewAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaTrailerAdapter
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenImageDialog

@@ -17,11 +17,11 @@ import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.mediaListUri
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.movieDetailsUri
+import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
 import com.koniukhov.cinecircle.feature.home.ui.viewmodel.HomeViewModel
 import com.koniukhov.cinecircle.feature.home.ui.state.MoviesUiState
 import com.koniukhov.cinecircle.feature.home.R
 import com.koniukhov.cinecircle.feature.home.adapter.GenreUiAdapter
-import com.koniukhov.cinecircle.feature.home.adapter.MoviesAdapter
 import com.koniukhov.cinecircle.feature.home.databinding.FragmentMoviesHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -92,7 +92,7 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.trendingRecyclerView.adapter = MoviesAdapter{
+        binding.trendingRecyclerView.adapter = MediaAdapter {
             navigateToMovieDetails(it)
         }
     }
@@ -102,7 +102,7 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.nowPlayingRecyclerView.adapter = MoviesAdapter {
+        binding.nowPlayingRecyclerView.adapter = MediaAdapter {
             navigateToMovieDetails(it)
         }
 
@@ -113,7 +113,7 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.popularRecyclerView.adapter = MoviesAdapter {
+        binding.popularRecyclerView.adapter = MediaAdapter {
             navigateToMovieDetails(it)
         }
 
@@ -124,7 +124,7 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.topRatedRecyclerView.adapter = MoviesAdapter {
+        binding.topRatedRecyclerView.adapter = MediaAdapter {
             navigateToMovieDetails(it)
         }
     }
@@ -134,7 +134,7 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.upcomingRecyclerView.adapter = MoviesAdapter {
+        binding.upcomingRecyclerView.adapter = MediaAdapter {
             navigateToMovieDetails(it)
         }
     }
@@ -177,11 +177,11 @@ class MoviesHomeFragment : Fragment() {
         genreSkeleton.showOriginal()
     }
     private fun setDataToRecyclers(ui: MoviesUiState){
-        (binding.trendingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.trendingMovies)
-        (binding.nowPlayingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.nowPlayingMovies)
-        (binding.popularRecyclerView.adapter as? MoviesAdapter)?.setData(ui.popularMovies)
-        (binding.topRatedRecyclerView.adapter as? MoviesAdapter)?.setData(ui.topRatedMovies)
-        (binding.upcomingRecyclerView.adapter as? MoviesAdapter)?.setData(ui.upcomingMovies)
+        (binding.trendingRecyclerView.adapter as? MediaAdapter)?.setMediaItems(ui.trendingMovies)
+        (binding.nowPlayingRecyclerView.adapter as? MediaAdapter)?.setMediaItems(ui.nowPlayingMovies)
+        (binding.popularRecyclerView.adapter as? MediaAdapter)?.setMediaItems(ui.popularMovies)
+        (binding.topRatedRecyclerView.adapter as? MediaAdapter)?.setMediaItems(ui.topRatedMovies)
+        (binding.upcomingRecyclerView.adapter as? MediaAdapter)?.setMediaItems(ui.upcomingMovies)
         (binding.genreRecyclerView.adapter as? GenreUiAdapter)?.setData(ui.genreUiMovies)
     }
 

@@ -31,7 +31,7 @@ import com.koniukhov.cinecircle.core.domain.model.TvSeasonDetails
 import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.domain.model.TvSeriesDetails
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
-import com.koniukhov.cinecircle.feature.media.details.adapter.MediaAdapter
+import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCastAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCrewAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaImageAdapter
