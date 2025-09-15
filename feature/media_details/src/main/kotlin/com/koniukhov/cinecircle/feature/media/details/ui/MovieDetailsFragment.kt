@@ -299,9 +299,9 @@ class MovieDetailsFragment : Fragment() {
         collectionDetails?.let { collectionDetails ->
             if (collectionDetails.exists()){
                 with(binding){
-                    sectionCollection.root.visibility = View.VISIBLE
+                    collectionTitle.visibility = View.VISIBLE
                     recyclerCollection.visibility = View.VISIBLE
-                    sectionCollection.sectionTitle.text = collectionDetails.name
+                    collectionTitle.text = collectionDetails.name
                 }
                 collectionAdapter.setMovies(collectionDetails.parts)
             }
@@ -366,13 +366,13 @@ class MovieDetailsFragment : Fragment() {
 
     private fun setupSectionHeaders() {
         with(binding) {
-            sectionImages.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.images_title)
-            sectionTrailers.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.trailers_teasers_title)
-            sectionCast.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.cast_title)
-            sectionCrew.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.crew_title)
-            sectionReviews.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.reviews_title)
-            sectionRecommendations.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.recommendations_title)
-            sectionSimilar.sectionTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.similar_title)
+            imagesTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.images_title)
+            trailersTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.trailers_teasers_title)
+            castTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.cast_title)
+            crewTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.crew_title)
+            reviewsTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.reviews_title)
+            recommendationsTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.recommendations_title)
+            similarTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.similar_title)
         }
     }
 
