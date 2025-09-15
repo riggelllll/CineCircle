@@ -8,8 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.koniukhov.cinecircle.core.database.model.MediaListWithCount
+import com.koniukhov.cinecircle.feature.collections.R
 import com.koniukhov.cinecircle.feature.collections.databinding.CollectionsFragmentBinding
+import com.koniukhov.cinecircle.feature.collections.databinding.DialogCreateCollectionBinding
 import com.koniukhov.cinecircle.feature.lists.adapter.CollectionsAdapter
 import com.koniukhov.cinecircle.feature.lists.viewmodel.CollectionsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +39,7 @@ class CollectionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupFab()
         observeViewModel()
     }
 
@@ -48,6 +52,39 @@ class CollectionsFragment : Fragment() {
             adapter = collectionsAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
+    }
+
+    private fun setupFab() {
+        binding.fabAdd.setOnClickListener {
+            showCreateCollectionDialog()
+        }
+    }
+
+    private fun showCreateCollectionDialog() {
+        val dialogBinding = DialogCreateCollectionBinding.inflate(layoutInflater)
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogBinding.root)
+            .setPositiveButton(R.string.create, null)
+            .setNegativeButton(R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+
+        dialog.show()
+
+        dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            val collectionName = dialogBinding.editTextCollectionName.text?.toString()?.trim()
+            if (collectionName.isNullOrEmpty()) {
+                dialogBinding.textInputLayout.error = getString(R.string.collection_name_error)
+            } else {
+                dialogBinding.textInputLayout.error = null
+                viewModel.createCollection(collectionName)
+                dialog.dismiss()
+            }
+        }
+
+        dialogBinding.editTextCollectionName.requestFocus()
     }
 
     private fun observeViewModel() {
