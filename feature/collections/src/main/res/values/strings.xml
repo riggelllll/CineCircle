@@ -10,4 +10,8 @@
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
     <string name="collection_name_error">Collection name cannot be empty</string>
+    <string name="delete_collection_title">Delete Collection</string>
+    <string name="delete_collection_message">Are you sure you want to delete \"%s\"? This action cannot be undone.</string>
+    <string name="delete">Delete</string>
+    <string name="cannot_delete_default_collection">Cannot delete the default collection</string>
 </resources>
