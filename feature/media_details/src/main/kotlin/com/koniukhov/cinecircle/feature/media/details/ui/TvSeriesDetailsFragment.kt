@@ -35,7 +35,7 @@ import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCastAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCrewAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaImageAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaReviewAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MediaTrailerAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MediaVideoAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.SeasonAdapter
 import com.koniukhov.cinecircle.feature.media.details.dialog.EpisodesBottomSheetDialog
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenImageDialog
@@ -60,7 +60,7 @@ class TvSeriesDetailsFragment : Fragment() {
     private val viewModel: TvSeriesDetailsViewModel by viewModels()
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
     private lateinit var imagesAdapter: MediaImageAdapter
-    private lateinit var trailersAdapter: MediaTrailerAdapter
+    private lateinit var trailersAdapter: MediaVideoAdapter
     private lateinit var castAdapter: MediaCastAdapter
     private lateinit var crewAdapter: MediaCrewAdapter
     private lateinit var reviewAdapter: MediaReviewAdapter
@@ -281,7 +281,7 @@ class TvSeriesDetailsFragment : Fragment() {
                 binding.recyclerTrailers.visibility = View.GONE
                 binding.containerNoTrailer.visibility = View.VISIBLE
             } else {
-                trailersAdapter.setTrailers(youTubeTrailers)
+                trailersAdapter.setVideos(youTubeTrailers)
                 binding.recyclerTrailers.visibility = View.VISIBLE
                 binding.containerNoTrailer.visibility = View.GONE
             }
@@ -408,7 +408,7 @@ class TvSeriesDetailsFragment : Fragment() {
 
     private fun setupRecyclerViews() {
         with(binding){
-            trailersAdapter = MediaTrailerAdapter(
+            trailersAdapter = MediaVideoAdapter(
                 lifecycle = lifecycle,
                 onFullscreenEnter = { fullscreenView, exitFullscreen ->
                     handleEnterFullscreen(fullscreenView, exitFullscreen)

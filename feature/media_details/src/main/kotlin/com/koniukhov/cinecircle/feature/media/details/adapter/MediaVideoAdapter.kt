@@ -12,43 +12,47 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.FullscreenListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 
-class MediaTrailerAdapter(
+class MediaVideoAdapter(
     private val lifecycle: Lifecycle,
     private val onFullscreenEnter: (View, () -> Unit) -> Unit,
     private val onFullscreenExit: () -> Unit
-) : RecyclerView.Adapter<MediaTrailerAdapter.TrailerViewHolder>() {
+) : RecyclerView.Adapter<MediaVideoAdapter.VideoViewHolder>() {
 
-    private val trailers = mutableListOf<Video>()
+    private val videos = mutableListOf<Video>()
 
-    fun setTrailers(newTrailers: List<Video>) {
-        trailers.clear()
-        trailers.addAll(newTrailers)
+    fun setVideos(newVideos: List<Video>) {
+        videos.clear()
+        videos.addAll(newVideos)
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrailerViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
         val binding = ItemMovieTrailerBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return TrailerViewHolder(binding)
+        return VideoViewHolder(lifecycle, binding)
     }
 
-    override fun onBindViewHolder(holder: TrailerViewHolder, position: Int) {
-        holder.bind(trailers[position])
+    override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
+        holder.cueVideo(videos[position])
     }
 
-    override fun getItemCount(): Int = trailers.size
+    override fun getItemCount(): Int = videos.size
 
-    inner class TrailerViewHolder(
-        private val binding: ItemMovieTrailerBinding
+    inner class VideoViewHolder(
+        lifecycle: Lifecycle,
+        binding: ItemMovieTrailerBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(video: Video) {
-            binding.youtubePlayerView.enableAutomaticInitialization = false
+        private var youTubePlayer: YouTubePlayer? = null
+        private var currentVideo: Video? = null
 
+        init {
             lifecycle.addObserver(binding.youtubePlayerView)
+
+            binding.youtubePlayerView.enableAutomaticInitialization = false
 
             val iFramePlayerOptions = IFramePlayerOptions.Builder()
                 .controls(1)
@@ -67,9 +71,16 @@ class MediaTrailerAdapter(
 
             binding.youtubePlayerView.initialize(object : AbstractYouTubePlayerListener() {
                 override fun onReady(youTubePlayer: YouTubePlayer) {
-                    youTubePlayer.cueVideo(video.key, 0f)
+                    this@VideoViewHolder.youTubePlayer = youTubePlayer
+                    currentVideo?.let { youTubePlayer.cueVideo(it.key, 0f) }
                 }
             }, iFramePlayerOptions)
+        }
+
+
+        fun cueVideo(video: Video) {
+            currentVideo = video
+            youTubePlayer?.cueVideo(video.key, 0f)
         }
     }
 }

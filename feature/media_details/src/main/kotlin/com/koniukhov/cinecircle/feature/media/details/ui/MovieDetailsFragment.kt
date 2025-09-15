@@ -40,7 +40,7 @@ import com.koniukhov.cinecircle.feature.media.details.adapter.MediaImageAdapter
 import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
 import com.koniukhov.cinecircle.core.ui.utils.openWebsite
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaReviewAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MediaTrailerAdapter
+import com.koniukhov.cinecircle.feature.media.details.adapter.MediaVideoAdapter
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenImageDialog
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenVideoDialog
 import com.koniukhov.cinecircle.feature.media.details.dialog.ReviewDetailBottomSheetDialog
@@ -62,7 +62,7 @@ class MovieDetailsFragment : Fragment() {
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MovieDetailsViewModel by viewModels()
-    private lateinit var trailerAdapter: MediaTrailerAdapter
+    private lateinit var trailerAdapter: MediaVideoAdapter
     private lateinit var imageAdapter: MediaImageAdapter
     private lateinit var castAdapter: MediaCastAdapter
     private lateinit var crewAdapter: MediaCrewAdapter
@@ -119,7 +119,7 @@ class MovieDetailsFragment : Fragment() {
 
     private fun setupRecyclerViews() {
         with(binding){
-            trailerAdapter = MediaTrailerAdapter(
+            trailerAdapter = MediaVideoAdapter(
                 lifecycle = lifecycle,
                 onFullscreenEnter = { fullscreenView, exitFullscreen ->
                     handleEnterFullscreen(fullscreenView, exitFullscreen)
@@ -247,7 +247,7 @@ class MovieDetailsFragment : Fragment() {
                 binding.recyclerTrailers.visibility = View.GONE
                 binding.containerNoTrailer.visibility = View.VISIBLE
             } else {
-                trailerAdapter.setTrailers(youTubeTrailers)
+                trailerAdapter.setVideos(youTubeTrailers)
                 binding.recyclerTrailers.visibility = View.VISIBLE
                 binding.containerNoTrailer.visibility = View.GONE
             }
