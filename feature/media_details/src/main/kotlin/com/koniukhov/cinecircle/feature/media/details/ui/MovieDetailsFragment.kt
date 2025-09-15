@@ -1,8 +1,6 @@
 package com.koniukhov.cinecircle.feature.media.details.ui
 
-import android.content.Intent
 import android.content.res.Configuration
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +17,9 @@ import coil3.request.placeholder
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.radiobutton.MaterialRadioButton
+import com.google.android.material.snackbar.Snackbar
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs
 import com.koniukhov.cinecircle.core.common.util.DateUtils.formatDate
@@ -47,6 +48,7 @@ import com.koniukhov.cinecircle.feature.media.details.ui.state.MovieDetailsUiSta
 import com.koniukhov.cinecircle.feature.media.details.ui.viewmodel.MovieDetailsViewModel
 import com.koniukhov.cinecircle.feature.media.details.utils.MediaDetailsUtils
 import com.koniukhov.cinecircle.feature.movie_details.R
+import com.koniukhov.cinecircle.feature.movie_details.databinding.DialogAddToCollectionBinding
 import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -343,26 +345,105 @@ class MovieDetailsFragment : Fragment() {
         val args = requireArguments()
         val movieId = args.getInt(NavArgs.ARG_MOVIE_ID, INVALID_ID)
         viewModel.setMovieId(movieId)
+        viewModel.checkAndLoadCollections()
     }
 
     private fun setupToolbar() {
-        with(binding.topAppBar) {
-            setupNavigationClickListener()
-            setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.action_favorite -> {
-                        true
-                    }
-                    else -> false
-                }
-            }
-        }
+        setupNavigationClickListener()
+        setupFavoriteButton()
     }
 
     private fun setupNavigationClickListener() {
         binding.topAppBar.setNavigationOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
+    }
+
+    private fun setupFavoriteButton() {
+        binding.btnFavorite.setOnClickListener {
+            handleFavoriteButtonClick()
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isMovieInCollection.collect { isInCollections ->
+                updateFavoriteButtonState(isInCollections)
+            }
+        }
+    }
+
+    private fun updateFavoriteButtonState(isInCollections: Boolean) {
+        binding.btnFavorite.apply {
+            if (isInCollections) {
+                setIconResource(design_R.drawable.ic_favorite_filled_24)
+            } else {
+                setIconResource(design_R.drawable.ic_favorite_24)
+            }
+        }
+    }
+
+    private fun handleFavoriteButtonClick() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val isInCollections = viewModel.isMovieInCollection.value
+
+            if (isInCollections) {
+                viewModel.removeMovieFromCollection()
+                showSnackbar(getString(R.string.movie_removed_from_collections))
+            } else {
+                showAddToCollectionDialog()
+            }
+        }
+    }
+
+    private fun showAddToCollectionDialog() {
+        val dialogBinding = DialogAddToCollectionBinding.inflate(layoutInflater)
+
+        val collections = viewModel.allCollections.value
+
+        if (collections.isEmpty()) {
+            showSnackbar(getString(R.string.no_collections_available))
+            return
+        }
+
+        collections.forEach { collection ->
+            val radioButton = MaterialRadioButton(requireContext())
+            radioButton.text = collection.name
+            radioButton.id = View.generateViewId()
+            radioButton.tag = collection.id
+            dialogBinding.radioGroupCollections.addView(radioButton)
+        }
+
+        if (collections.isNotEmpty()) {
+            dialogBinding.radioGroupCollections.check(dialogBinding.radioGroupCollections.getChildAt(0).id)
+        }
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogBinding.root)
+            .setPositiveButton(R.string.add) { _, _ ->
+                val selectedId = dialogBinding.radioGroupCollections.checkedRadioButtonId
+                if (selectedId != -1) {
+                    val selectedRadioButton = dialogBinding.radioGroupCollections.findViewById<MaterialRadioButton>(selectedId)
+                    val collectionId = selectedRadioButton.tag as Long
+
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        val collectionName = viewModel.addMovieToCollection(collectionId)
+                        if (collectionName.isNotEmpty()) {
+                            showSnackbar(getString(R.string.movie_added_to_collection, collectionName))
+                        }
+                    }
+                }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .create()
+
+        dialog.show()
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(
+            binding.root,
+            message,
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     private fun setupSectionHeaders() {
