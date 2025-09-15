@@ -55,7 +55,13 @@ class CollectionsViewModel @Inject constructor(
         }
     }
 
-    fun refreshCollections() {
-        loadCollections()
+    fun deleteCollection(collectionId: Long) {
+        viewModelScope.launch {
+            try {
+                mediaListRepository.deleteList(collectionId)
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
     }
 }
