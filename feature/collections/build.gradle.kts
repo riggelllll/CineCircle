@@ -7,6 +7,7 @@ android {
 }
 
 dependencies{
+    implementation(projects.core.database)
     implementation(projects.core.design)
     implementation(libs.material)
 }
