@@ -6,6 +6,8 @@ import com.koniukhov.cinecircle.core.common.Constants.ENGLISH_LANGUAGE_CODE
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.data.di.CountryCode
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
+import com.koniukhov.cinecircle.core.database.entity.MediaListEntity
+import com.koniukhov.cinecircle.core.database.model.MediaListWithCount
 import com.koniukhov.cinecircle.core.domain.usecase.GetCollectionDetailsUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetMovieCreditsUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetMovieDetailsUseCase
@@ -19,9 +21,13 @@ import com.koniukhov.cinecircle.feature.media.details.ui.state.MovieDetailsUiSta
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,6 +41,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val getMovieRecommendationsUseCase: GetMovieRecommendationsUseCase,
     private val getSimilarMoviesUseCase: GetSimilarMoviesUseCase,
     private val getMovieReleaseDatesUseCase: GetMovieReleaseDatesUseCase,
+    private val mediaListRepository: com.koniukhov.cinecircle.core.database.repository.MediaListRepository,
     @LanguageCode
     private val languageCode: String,
     @CountryCode
@@ -44,8 +51,83 @@ class MovieDetailsViewModel @Inject constructor(
     val uiState: StateFlow<MovieDetailsUiState> = _uiState.asStateFlow()
     private var _movieId = MutableStateFlow(INVALID_ID)
 
+    private val _movieCollection = MutableStateFlow<MediaListEntity?>(null)
+
+    val isMovieInCollection: StateFlow<Boolean> = _movieCollection.asStateFlow().map { it != null }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = false
+    )
+
+    private val _allCollections = MutableStateFlow<List<MediaListWithCount>>(emptyList())
+    val allCollections: StateFlow<List<MediaListWithCount>> = _allCollections.asStateFlow()
+
     fun setMovieId(id: Int) {
         _movieId.value = id
+    }
+
+    fun checkAndLoadCollections(){
+        checkMovieCollection()
+        loadAllCollections()
+    }
+
+    private fun checkMovieCollection() {
+        viewModelScope.launch {
+            try {
+                val collections = mediaListRepository.getListsContainingMovie(_movieId.value)
+                _movieCollection.value = collections.firstOrNull()
+            } catch (e: Exception) {
+                Timber.e(e)
+                _movieCollection.value = null
+            }
+        }
+    }
+
+    private fun loadAllCollections() {
+        viewModelScope.launch {
+            mediaListRepository.getAllLists().collect { lists ->
+                val collectionsWithCount = lists.map { list ->
+                    val itemCount = mediaListRepository.getMediaCountInList(list.id)
+                    MediaListWithCount(
+                        id = list.id,
+                        name = list.name,
+                        itemCount = itemCount,
+                        isDefault = list.isDefault
+                    )
+                }
+                _allCollections.value = collectionsWithCount
+            }
+        }
+    }
+
+    suspend fun addMovieToCollection(collectionId: Long): String {
+        return try {
+
+            val collection = mediaListRepository.getListById(collectionId)
+            val collectionName = collection?.name ?: ""
+
+            val success = mediaListRepository.addMovieToList(collectionId, _movieId.value)
+            if (success) {
+                checkMovieCollection()
+            }
+            collectionName
+        } catch (e: Exception) {
+            Timber.e(e)
+            ""
+        }
+    }
+
+    fun removeMovieFromCollection() {
+        viewModelScope.launch {
+            try {
+                _movieCollection.value?.let { currentCollection ->
+                    mediaListRepository.removeMovieFromList(currentCollection.id, _movieId.value)
+                    checkMovieCollection()
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
     }
 
     fun loadMovieDetails() {
