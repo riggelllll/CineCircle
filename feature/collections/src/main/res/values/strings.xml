@@ -4,5 +4,10 @@
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
     </plurals>
+    <string name="collections_title">Collections</string>
     <string name="create_collection">Create Collection</string>
+    <string name="collection_name_hint">Collection name</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
+    <string name="collection_name_error">Collection name cannot be empty</string>
 </resources>
