@@ -37,6 +37,7 @@ import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCastAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCrewAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaImageAdapter
 import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
+import com.koniukhov.cinecircle.core.ui.utils.openWebsite
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaReviewAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaTrailerAdapter
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenImageDialog
@@ -422,7 +423,7 @@ class MovieDetailsFragment : Fragment() {
 
             if (movieDetails.homePage.isNotEmpty()) {
                 homepageValue.setOnClickListener {
-                    openWebsite(movieDetails.homePage)
+                    requireContext().openWebsite(movieDetails.homePage)
                 }
                 homepageValue.isClickable = true
             } else {
@@ -449,15 +450,6 @@ class MovieDetailsFragment : Fragment() {
             }
 
             voteCountValue.text = String.format("%,d", movieDetails.voteCount)
-        }
-    }
-
-    private fun openWebsite(url: String) {
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(intent)
-        } catch (e: Exception) {
-            Timber.Forest.e(e, "Failed to open website: $url")
         }
     }
 

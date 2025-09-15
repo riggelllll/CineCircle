@@ -32,6 +32,7 @@ import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.domain.model.TvSeriesDetails
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
 import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
+import com.koniukhov.cinecircle.core.ui.utils.openWebsite
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCastAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCrewAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaImageAdapter
@@ -357,7 +358,7 @@ class TvSeriesDetailsFragment : Fragment() {
 
             if (tvSeriesDetails.homepage.isNotEmpty()) {
                 homepageValue.setOnClickListener {
-                    openWebsite(tvSeriesDetails.homepage)
+                    requireContext().openWebsite(tvSeriesDetails.homepage)
                 }
                 homepageValue.isClickable = true
             } else {
@@ -499,15 +500,6 @@ class TvSeriesDetailsFragment : Fragment() {
         val args = requireArguments()
         val tvSeriesId = args.getInt(NavArgs.ARG_TV_SERIES_ID, INVALID_ID)
         viewModel.setTvSeriesId(tvSeriesId)
-    }
-
-    private fun openWebsite(url: String) {
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(intent)
-        } catch (e: Exception) {
-            Timber.Forest.e(e, "Failed to open website: $url")
-        }
     }
 
     companion object{
