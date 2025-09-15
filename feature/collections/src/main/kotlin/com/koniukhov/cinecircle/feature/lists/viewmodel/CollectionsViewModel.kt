@@ -45,6 +45,16 @@ class CollectionsViewModel @Inject constructor(
         }
     }
 
+    fun createCollection(name: String) {
+        viewModelScope.launch {
+            try {
+                mediaListRepository.createList(name)
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
+    }
+
     fun refreshCollections() {
         loadCollections()
     }
