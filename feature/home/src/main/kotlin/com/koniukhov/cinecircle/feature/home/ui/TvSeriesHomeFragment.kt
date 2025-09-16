@@ -130,8 +130,8 @@ class TvSeriesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.airingTodayRecyclerView.adapter = MediaAdapter{
-            navigateToTvSeriesDetails(it)
+        binding.airingTodayRecyclerView.adapter = MediaAdapter{ id, _ ->
+            navigateToTvSeriesDetails(id)
         }
     }
 
@@ -141,8 +141,8 @@ class TvSeriesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.onAirRecyclerView.adapter = MediaAdapter{
-            navigateToTvSeriesDetails(it)
+        binding.onAirRecyclerView.adapter = MediaAdapter{ id, _ ->
+            navigateToTvSeriesDetails(id)
         }
     }
 
@@ -152,8 +152,8 @@ class TvSeriesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.trendingRecyclerView.adapter = MediaAdapter{
-            navigateToTvSeriesDetails(it)
+        binding.trendingRecyclerView.adapter = MediaAdapter{ id, _ ->
+            navigateToTvSeriesDetails(id)
         }
     }
 
@@ -163,8 +163,8 @@ class TvSeriesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.popularRecyclerView.adapter = MediaAdapter{
-            navigateToTvSeriesDetails(it)
+        binding.popularRecyclerView.adapter = MediaAdapter{ id, _ ->
+            navigateToTvSeriesDetails(id)
         }
     }
 
@@ -174,8 +174,8 @@ class TvSeriesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.topRatedRecyclerView.adapter = MediaAdapter{
-            navigateToTvSeriesDetails(it)
+        binding.topRatedRecyclerView.adapter = MediaAdapter{ id, _ ->
+            navigateToTvSeriesDetails(id)
         }
     }
 
