@@ -107,7 +107,6 @@ class MovieDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupWindowInsets(view)
         setupToolbar()
-        setupSectionHeaders()
         observeUiState()
     }
 
@@ -444,18 +443,6 @@ class MovieDetailsFragment : Fragment() {
             message,
             Snackbar.LENGTH_SHORT
         ).show()
-    }
-
-    private fun setupSectionHeaders() {
-        with(binding) {
-            imagesTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.images_title)
-            trailersTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.trailers_teasers_title)
-            castTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.cast_title)
-            crewTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.crew_title)
-            reviewsTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.reviews_title)
-            recommendationsTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.recommendations_title)
-            similarTitle.setText(com.koniukhov.cinecircle.feature.movie_details.R.string.similar_title)
-        }
     }
 
     private fun updateAboutSection(movieDetails: MovieDetails) {

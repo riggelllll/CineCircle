@@ -166,6 +166,7 @@
                 android:paddingHorizontal="16dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:text="@string/images_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/skeleton_plot" />
@@ -213,6 +214,7 @@
                 android:paddingHorizontal="16dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:text="@string/trailers_teasers_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/container_images" />
@@ -260,6 +262,7 @@
                 android:paddingHorizontal="16dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:text="@string/cast_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/container_trailers" />
@@ -307,6 +310,7 @@
                 android:paddingHorizontal="16dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:text="@string/crew_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/container_cast" />
@@ -354,6 +358,7 @@
                 android:paddingHorizontal="16dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:text="@string/reviews_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/container_crew" />
@@ -452,6 +457,7 @@
                 android:paddingHorizontal="16dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:text="@string/recommendations_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recycler_collection" />
@@ -499,6 +505,7 @@
                 android:paddingHorizontal="16dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:text="@string/similar_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/container_recommendations" />
