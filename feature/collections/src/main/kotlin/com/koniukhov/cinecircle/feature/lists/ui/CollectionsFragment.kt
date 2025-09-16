@@ -126,10 +126,19 @@ class CollectionsFragment : Fragment() {
     }
 
     private fun onCollectionClick(collection: MediaListWithCount) {
+        val bottomSheet = CollectionContentBottomSheetFragment.newInstance(
+            collectionId = collection.id,
+            collectionName = collection.name
+        )
+        bottomSheet.show(parentFragmentManager, TAG)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val TAG = "CollectionContentBottomSheet"
     }
 }
