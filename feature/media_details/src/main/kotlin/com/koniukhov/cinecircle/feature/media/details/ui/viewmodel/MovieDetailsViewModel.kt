@@ -8,6 +8,7 @@ import com.koniukhov.cinecircle.core.data.di.CountryCode
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
 import com.koniukhov.cinecircle.core.database.entity.MediaListEntity
 import com.koniukhov.cinecircle.core.database.model.MediaListWithCount
+import com.koniukhov.cinecircle.core.database.repository.MediaListRepository
 import com.koniukhov.cinecircle.core.domain.usecase.GetCollectionDetailsUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetMovieCreditsUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetMovieDetailsUseCase
@@ -41,7 +42,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val getMovieRecommendationsUseCase: GetMovieRecommendationsUseCase,
     private val getSimilarMoviesUseCase: GetSimilarMoviesUseCase,
     private val getMovieReleaseDatesUseCase: GetMovieReleaseDatesUseCase,
-    private val mediaListRepository: com.koniukhov.cinecircle.core.database.repository.MediaListRepository,
+    private val mediaListRepository: MediaListRepository,
     @LanguageCode
     private val languageCode: String,
     @CountryCode
