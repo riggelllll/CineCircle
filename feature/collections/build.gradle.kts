@@ -8,8 +8,12 @@ android {
 }
 
 dependencies{
+    implementation(projects.core.data)
     implementation(projects.core.database)
     implementation(projects.core.design)
+    implementation(projects.core.domain)
+    implementation(projects.core.common)
+    implementation(projects.core.ui)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.recyclerview)
