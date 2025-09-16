@@ -92,8 +92,8 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.trendingRecyclerView.adapter = MediaAdapter {
-            navigateToMovieDetails(it)
+        binding.trendingRecyclerView.adapter = MediaAdapter { id, _ ->
+            navigateToMovieDetails(id)
         }
     }
     private fun setupNowPlayingRecyclerView() {
@@ -102,8 +102,8 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.nowPlayingRecyclerView.adapter = MediaAdapter {
-            navigateToMovieDetails(it)
+        binding.nowPlayingRecyclerView.adapter = MediaAdapter { id, _ ->
+            navigateToMovieDetails(id)
         }
 
     }
@@ -113,8 +113,8 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.popularRecyclerView.adapter = MediaAdapter {
-            navigateToMovieDetails(it)
+        binding.popularRecyclerView.adapter = MediaAdapter { id, _ ->
+            navigateToMovieDetails(id)
         }
 
     }
@@ -124,8 +124,8 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.topRatedRecyclerView.adapter = MediaAdapter {
-            navigateToMovieDetails(it)
+        binding.topRatedRecyclerView.adapter = MediaAdapter { id, _ ->
+            navigateToMovieDetails(id)
         }
     }
     private fun setupUpcomingRecyclerView() {
@@ -134,8 +134,8 @@ class MoviesHomeFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        binding.upcomingRecyclerView.adapter = MediaAdapter {
-            navigateToMovieDetails(it)
+        binding.upcomingRecyclerView.adapter = MediaAdapter { id, _ ->
+            navigateToMovieDetails(id)
         }
     }
     private fun setupMoviesGenreRecyclerView() {
