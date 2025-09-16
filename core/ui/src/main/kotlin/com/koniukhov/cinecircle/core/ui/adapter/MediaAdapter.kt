@@ -8,14 +8,16 @@ import coil3.request.placeholder
 import coil3.request.transformations
 import coil3.transform.RoundedCornersTransformation
 import com.koniukhov.cinecircle.core.common.Constants.IMAGE_RADIUS
+import com.koniukhov.cinecircle.core.common.Constants.MediaType
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
 import com.koniukhov.cinecircle.core.domain.model.MediaItem
+import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
 import java.util.Locale
 
 class MediaAdapter(
-    private val onItemClick: (Int) -> Unit
+    private val onItemClick: (Int, Int) -> Unit
 ) : RecyclerView.Adapter<MediaAdapter.MediaViewHolder>() {
 
     private var mediaItems: List<MediaItem> = emptyList()
@@ -28,18 +30,19 @@ class MediaAdapter(
     }
 
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
-        val movie = mediaItems[position]
+        val mediaItem = mediaItems[position]
 
         holder.itemView.setOnClickListener {
-            onItemClick(movie.id)
+            val type = if (mediaItem is Movie) MediaType.MOVIE else MediaType.TV_SERIES
+            onItemClick(mediaItem.id, type)
         }
 
         with(holder.binding) {
-            title.text = movie.title
-            rating.text = String.format(Locale.US,"%.1f", movie.voteAverage)
+            title.text = mediaItem.title
+            rating.text = String.format(Locale.US,"%.1f", mediaItem.voteAverage)
 
-            if (movie.posterPath.isNotEmpty()) {
-                poster.load(IMAGE_URL_TEMPLATE.format(movie.posterPath)) {
+            if (mediaItem.posterPath.isNotEmpty()) {
+                poster.load(IMAGE_URL_TEMPLATE.format(mediaItem.posterPath)) {
                     placeholder(R.drawable.placeholder_image)
                     transformations(RoundedCornersTransformation(IMAGE_RADIUS))
                 }
