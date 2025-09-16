@@ -419,7 +419,7 @@ class MovieDetailsFragment : Fragment() {
             .setView(dialogBinding.root)
             .setPositiveButton(R.string.add) { _, _ ->
                 val selectedId = dialogBinding.radioGroupCollections.checkedRadioButtonId
-                if (selectedId != -1) {
+                if (selectedId != INVALID_ID) {
                     val selectedRadioButton = dialogBinding.radioGroupCollections.findViewById<MaterialRadioButton>(selectedId)
                     val collectionId = selectedRadioButton.tag as Long
 
