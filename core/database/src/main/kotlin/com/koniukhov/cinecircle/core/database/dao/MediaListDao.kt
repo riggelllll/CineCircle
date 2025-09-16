@@ -3,6 +3,7 @@ package com.koniukhov.cinecircle.core.database.dao
 import androidx.room.*
 import com.koniukhov.cinecircle.core.database.entity.MediaListEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListItemEntity
+import com.koniukhov.cinecircle.core.database.entity.MediaListWithCountResult
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -43,6 +44,18 @@ interface MediaListDao {
 
     @Query("SELECT COUNT(*) FROM media_list_items WHERE listId = :listId")
     suspend fun getMediaCountInList(listId: Long): Int
+
+    @Query("SELECT COUNT(*) FROM media_list_items WHERE listId = :listId")
+    fun getMediaCountInListAsFlow(listId: Long): Flow<Int>
+
+    @Query("""
+        SELECT ml.*, COUNT(mli.id) as itemCount 
+        FROM media_lists ml 
+        LEFT JOIN media_list_items mli ON ml.id = mli.listId 
+        GROUP BY ml.id 
+        ORDER BY ml.isDefault DESC
+    """)
+    fun getAllListsWithCount(): Flow<List<MediaListWithCountResult>>
 
     @Query("""
         SELECT ml.* FROM media_lists ml 
