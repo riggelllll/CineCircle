@@ -517,13 +517,13 @@ class TvSeriesDetailsFragment : Fragment() {
             }
             recyclerReviews.adapter = reviewAdapter
 
-            recommendationsAdapter = MediaAdapter { movieId ->
-                navigateToTvSeriesDetails(movieId)
+            recommendationsAdapter = MediaAdapter { id, _ ->
+                navigateToTvSeriesDetails(id)
             }
             recyclerRecommendations.adapter = recommendationsAdapter
 
-            similarMoviesAdapter = MediaAdapter { movieId ->
-                navigateToTvSeriesDetails(movieId)
+            similarMoviesAdapter = MediaAdapter { id, _ ->
+                navigateToTvSeriesDetails(id)
             }
             recyclerSimilar.adapter = similarMoviesAdapter
 
