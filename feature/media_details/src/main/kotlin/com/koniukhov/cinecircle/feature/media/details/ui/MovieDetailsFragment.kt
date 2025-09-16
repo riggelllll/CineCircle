@@ -150,13 +150,13 @@ class MovieDetailsFragment : Fragment() {
             }
             recyclerCollection.adapter = collectionAdapter
 
-            recommendationsAdapter = MediaAdapter { movieId ->
-                navigateToMovieDetails(movieId)
+            recommendationsAdapter = MediaAdapter { id, _ ->
+                navigateToMovieDetails(id)
             }
             recyclerRecommendations.adapter = recommendationsAdapter
 
-            similarMoviesAdapter = MediaAdapter { movieId ->
-                navigateToMovieDetails(movieId)
+            similarMoviesAdapter = MediaAdapter { id, _ ->
+                navigateToMovieDetails(id)
             }
             recyclerSimilar.adapter = similarMoviesAdapter
         }
