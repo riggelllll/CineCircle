@@ -27,16 +27,7 @@ class CollectionsViewModel @Inject constructor(
     private fun loadCollections() {
         viewModelScope.launch {
             try {
-                mediaListRepository.getAllLists().collect { lists ->
-                    val collectionsWithCount = lists.map { list ->
-                        val itemCount = mediaListRepository.getMediaCountInList(list.id)
-                        MediaListWithCount(
-                            id = list.id,
-                            name = list.name,
-                            itemCount = itemCount,
-                            isDefault = list.isDefault
-                        )
-                    }
+                mediaListRepository.getAllListsWithCount().collect { collectionsWithCount ->
                     _collections.value = collectionsWithCount
                 }
             } catch (e: Exception) {
