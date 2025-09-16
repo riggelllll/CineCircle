@@ -5,6 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.data.di.CountryCode
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
+import com.koniukhov.cinecircle.core.database.entity.MediaListEntity
+import com.koniukhov.cinecircle.core.database.model.MediaListWithCount
+import com.koniukhov.cinecircle.core.database.repository.MediaListRepository
 import com.koniukhov.cinecircle.core.domain.usecase.GetSimilarTvSeriesUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetTvSeasonDetails
 import com.koniukhov.cinecircle.core.domain.usecase.GetTvSeriesContentRatingsUseCase
@@ -19,8 +22,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -36,6 +42,7 @@ class TvSeriesDetailsViewModel @Inject constructor(
     private val getTvSeriesContentRatingsUseCase: GetTvSeriesContentRatingsUseCase,
     private val getTvSeriesRecommendationUseCase: GetTvSeriesRecommendationUseCase,
     private val getSimilarTvSeriesUseCase: GetSimilarTvSeriesUseCase,
+    private val mediaListRepository: MediaListRepository,
     @LanguageCode
     private val languageCode: String,
     @CountryCode
@@ -44,6 +51,17 @@ class TvSeriesDetailsViewModel @Inject constructor(
     private var _tvSeriesId = MutableStateFlow(INVALID_ID)
     private var _uiState = MutableStateFlow(TvSeriesDetailsUiState())
     val uiState: StateFlow<TvSeriesDetailsUiState> = _uiState.asStateFlow()
+
+    private val _mediaCollection = MutableStateFlow<MediaListEntity?>(null)
+
+    val isTvSeriesInCollection: StateFlow<Boolean> = _mediaCollection.asStateFlow().map { it != null }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = false
+    )
+
+    private val _allCollections = MutableStateFlow<List<MediaListWithCount>>(emptyList())
+    val allCollections: StateFlow<List<MediaListWithCount>> = _allCollections.asStateFlow()
 
     fun setTvSeriesId(id: Int) {
         _tvSeriesId.value = id
@@ -94,6 +112,70 @@ class TvSeriesDetailsViewModel @Inject constructor(
                     isLoading = false,
                     error = e.message ?: "Unknown error occurred"
                 )
+            }
+        }
+    }
+
+    fun checkAndLoadCollections(){
+        checkMediaCollection()
+        loadAllCollections()
+    }
+
+    private fun checkMediaCollection() {
+        viewModelScope.launch {
+            try {
+                val collections = mediaListRepository.getListsContainingTvSeries(_tvSeriesId.value)
+                _mediaCollection.value = collections.firstOrNull()
+            } catch (e: Exception) {
+                Timber.e(e)
+                _mediaCollection.value = null
+            }
+        }
+    }
+
+    private fun loadAllCollections() {
+        viewModelScope.launch {
+            mediaListRepository.getAllLists().collect { lists ->
+                val collectionsWithCount = lists.map { list ->
+                    val itemCount = mediaListRepository.getMediaCountInList(list.id)
+                    MediaListWithCount(
+                        id = list.id,
+                        name = list.name,
+                        itemCount = itemCount,
+                        isDefault = list.isDefault
+                    )
+                }
+                _allCollections.value = collectionsWithCount
+            }
+        }
+    }
+
+    suspend fun addTvSeriesToCollection(collectionId: Long): String {
+        return try {
+
+            val collection = mediaListRepository.getListById(collectionId)
+            val collectionName = collection?.name ?: ""
+
+            val success = mediaListRepository.addTvSeriesToList(collectionId, _tvSeriesId.value)
+            if (success) {
+                checkMediaCollection()
+            }
+            collectionName
+        } catch (e: Exception) {
+            Timber.e(e)
+            ""
+        }
+    }
+
+    fun removeTvSeriesFromCollection() {
+        viewModelScope.launch {
+            try {
+                _mediaCollection.value?.let { currentCollection ->
+                    mediaListRepository.removeTvSeriesFromList(currentCollection.id, _tvSeriesId.value)
+                    checkMediaCollection()
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
             }
         }
     }
