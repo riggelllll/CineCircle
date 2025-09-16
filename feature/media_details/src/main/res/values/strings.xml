@@ -56,7 +56,9 @@
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>
     <string name="movie_added_to_collection">Movie added to %s</string>
+    <string name="tv_series_added_to_collection">Tv Series added to %s</string>
     <string name="movie_removed_from_collections">Movie removed from collections</string>
+    <string name="tv_series_removed_from_collections">Tv Series removed from collections</string>
     <string name="remove_from_collection">Remove from Collection</string>
     <string name="movie_is_in_collections">This movie is already in your collections</string>
     <string name="no_collections_available">No collections available</string>
