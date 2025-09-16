@@ -16,6 +16,9 @@ import coil3.request.placeholder
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.radiobutton.MaterialRadioButton
+import com.google.android.material.snackbar.Snackbar
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs
 import com.koniukhov.cinecircle.core.common.util.DateUtils.formatDate
@@ -45,12 +48,14 @@ import com.koniukhov.cinecircle.feature.media.details.ui.state.TvSeriesDetailsUi
 import com.koniukhov.cinecircle.feature.media.details.ui.viewmodel.TvSeriesDetailsViewModel
 import com.koniukhov.cinecircle.feature.media.details.utils.MediaDetailsUtils
 import com.koniukhov.cinecircle.feature.movie_details.R
+import com.koniukhov.cinecircle.feature.movie_details.databinding.DialogAddToCollectionBinding
 import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentTvSeriesDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Locale
 import kotlin.collections.isNotEmpty
+import kotlin.text.isNotEmpty
 import com.koniukhov.cinecircle.core.design.R as design_R
 
 @AndroidEntryPoint
@@ -115,15 +120,94 @@ class TvSeriesDetailsFragment : Fragment() {
     }
 
     private fun setupToolbar() {
-        with(binding.topAppBar) {
-            setupNavigationClickListener()
-            setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.action_favorite -> {
-                        true
+        setupNavigationClickListener()
+        setupFavoriteButton()
+    }
+
+    private fun setupFavoriteButton() {
+        binding.btnFavorite.setOnClickListener {
+            handleFavoriteButtonClick()
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isTvSeriesInCollection.collect { isInCollections ->
+                updateFavoriteButtonState(isInCollections)
+            }
+        }
+    }
+
+    private fun handleFavoriteButtonClick() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val isInCollections = viewModel.isTvSeriesInCollection.value
+
+            if (isInCollections) {
+                viewModel.removeTvSeriesFromCollection()
+                showSnackbar(getString(R.string.tv_series_removed_from_collections))
+            } else {
+                showAddToCollectionDialog()
+            }
+        }
+    }
+
+    private fun showAddToCollectionDialog() {
+        val dialogBinding = DialogAddToCollectionBinding.inflate(layoutInflater)
+
+        val collections = viewModel.allCollections.value
+
+        if (collections.isEmpty()) {
+            showSnackbar(getString(R.string.no_collections_available))
+            return
+        }
+
+        collections.forEach { collection ->
+            val radioButton = MaterialRadioButton(requireContext())
+            radioButton.text = collection.name
+            radioButton.id = View.generateViewId()
+            radioButton.tag = collection.id
+            dialogBinding.radioGroupCollections.addView(radioButton)
+        }
+
+        if (collections.isNotEmpty()) {
+            dialogBinding.radioGroupCollections.check(dialogBinding.radioGroupCollections.getChildAt(0).id)
+        }
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogBinding.root)
+            .setPositiveButton(R.string.add) { _, _ ->
+                val selectedId = dialogBinding.radioGroupCollections.checkedRadioButtonId
+                if (selectedId != INVALID_ID) {
+                    val selectedRadioButton = dialogBinding.radioGroupCollections.findViewById<MaterialRadioButton>(selectedId)
+                    val collectionId = selectedRadioButton.tag as Long
+
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        val collectionName = viewModel.addTvSeriesToCollection(collectionId)
+                        if (collectionName.isNotEmpty()) {
+                            showSnackbar(getString(R.string.tv_series_added_to_collection, collectionName))
+                        }
                     }
-                    else -> false
                 }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .create()
+
+        dialog.show()
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(
+            binding.root,
+            message,
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
+
+
+    private fun updateFavoriteButtonState(isInCollections: Boolean) {
+        binding.btnFavorite.apply {
+            if (isInCollections) {
+                setIconResource(design_R.drawable.ic_favorite_filled_24)
+            } else {
+                setIconResource(design_R.drawable.ic_favorite_24)
             }
         }
     }
@@ -498,6 +582,8 @@ class TvSeriesDetailsFragment : Fragment() {
         val args = requireArguments()
         val tvSeriesId = args.getInt(NavArgs.ARG_TV_SERIES_ID, INVALID_ID)
         viewModel.setTvSeriesId(tvSeriesId)
+        viewModel.setTvSeriesId(tvSeriesId)
+        viewModel.checkAndLoadCollections()
     }
 
     companion object{
