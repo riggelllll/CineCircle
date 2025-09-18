@@ -19,7 +19,7 @@
         tools:layout="@layout/collections_fragment"/>
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.koniukhov.cinecircle.feature.search.SearchFragment"
+        android:name="com.koniukhov.cinecircle.feature.search.ui.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/search_fragment"/>
 
