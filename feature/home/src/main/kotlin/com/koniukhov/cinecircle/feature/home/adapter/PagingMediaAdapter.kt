@@ -55,7 +55,6 @@ class PagingMediaAdapter(
         }
     }
 
-
     companion object {
         val DIFF = object : DiffUtil.ItemCallback<MediaItem>() {
             override fun areItemsTheSame(oldItem: MediaItem, newItem: MediaItem) = oldItem.id == newItem.id
