@@ -5,13 +5,13 @@ import androidx.paging.PagingState
 import com.koniukhov.cinecircle.core.domain.model.MediaItem
 
 class MediaPagingSource(
-    private val getMediaPage: suspend (page: Int, language: String) -> List<MediaItem>,
+    private val useCase: suspend (page: Int, language: String) -> List<MediaItem>,
     private val language: String
 ) : PagingSource<Int, MediaItem>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MediaItem> {
         val page = params.key ?: 1
         return try {
-            val items = getMediaPage(page, language)
+            val items = useCase(page, language)
             LoadResult.Page(
                 data = items,
                 prevKey = if (page == 1) null else page - 1,
