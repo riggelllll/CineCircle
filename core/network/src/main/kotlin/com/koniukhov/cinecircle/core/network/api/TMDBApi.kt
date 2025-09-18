@@ -255,4 +255,20 @@ interface TMDBApi {
         @Query("page") page: Int,
         @Query("language") language: String
     ): Response<TvSeriesResponseDto>
+
+    @GET(Movies.SEARCH)
+    suspend fun searchMovies(
+        @Query(API_KEY) apiKey: String,
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("language") language: String,
+    ): Response<MoviesResponseDto>
+
+    @GET(TVSeries.SEARCH)
+    suspend fun searchTvSeries(
+        @Query(API_KEY) apiKey: String,
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("language") language: String,
+    ): Response<TvSeriesResponseDto>
 }

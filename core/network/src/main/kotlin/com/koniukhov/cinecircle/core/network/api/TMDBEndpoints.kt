@@ -32,6 +32,7 @@ object TMDBEndpoints {
         const val RECOMMENDATIONS = "${QueryParams.MOVIE}/{${QueryParams.MOVIE_ID}}/recommendations"
         const val SIMILAR = "${QueryParams.MOVIE}/{${QueryParams.MOVIE_ID}}/similar"
         const val RELEASE_DATES = "${QueryParams.MOVIE}/{${QueryParams.MOVIE_ID}}/release_dates"
+        const val SEARCH = "search/${QueryParams.MOVIE}"
     }
 
     object TVSeries {
@@ -52,5 +53,6 @@ object TMDBEndpoints {
         const val CONTENT_RATINGS = "${QueryParams.TV}/{${QueryParams.TV_SERIES_ID}}/content_ratings"
         const val RECOMMENDATIONS = "${QueryParams.TV}/{${QueryParams.TV_SERIES_ID}}/recommendations"
         const val SIMILAR = "${QueryParams.TV}/{${QueryParams.TV_SERIES_ID}}/similar"
+        const val SEARCH = "search/${QueryParams.TV}"
     }
 }
