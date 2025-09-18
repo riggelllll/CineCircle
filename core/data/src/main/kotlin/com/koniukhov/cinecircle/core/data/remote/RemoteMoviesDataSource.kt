@@ -61,4 +61,12 @@ class RemoteMoviesDataSource @Inject constructor(
     ): MoviesResponseDto {
         return api.getSimilarMovies(movieId, BuildConfig.API_KEY, page, language).body() ?: MoviesResponseDto.empty()
     }
+
+    override suspend fun getSearchedMovies(
+        query: String,
+        page: Int,
+        language: String
+    ): MoviesResponseDto {
+        return api.getSearchedMovies(BuildConfig.API_KEY, query, page, language).body() ?: MoviesResponseDto.empty()
+    }
 }
