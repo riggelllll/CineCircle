@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.home.adapter
+package com.koniukhov.cinecircle.core.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,13 +9,12 @@ import coil3.load
 import coil3.request.placeholder
 import coil3.request.transformations
 import coil3.transform.RoundedCornersTransformation
-import com.koniukhov.cinecircle.core.common.Constants.IMAGE_RADIUS
-import com.koniukhov.cinecircle.core.common.Constants.MediaType
+import com.koniukhov.cinecircle.core.common.Constants
 import com.koniukhov.cinecircle.core.design.R
+import com.koniukhov.cinecircle.core.design.databinding.ItemMediaListBinding
 import com.koniukhov.cinecircle.core.domain.model.MediaItem
 import com.koniukhov.cinecircle.core.domain.model.Movie
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
-import com.koniukhov.cinecircle.feature.home.databinding.ItemMediaListBinding
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
 import java.util.Locale
 
 class PagingMediaAdapter(
@@ -37,17 +36,17 @@ class PagingMediaAdapter(
 
         fun bind(item: MediaItem) {
             itemView.setOnClickListener {
-                val mediaType = if (item is Movie) MediaType.MOVIE else MediaType.TV_SERIES
+                val mediaType = if (item is Movie) Constants.MediaType.MOVIE else Constants.MediaType.TV_SERIES
                 onClick(item.id, mediaType)
             }
 
             binding.title.text = item.title
-            binding.rating.text = String.format(Locale.US,"%.1f", item.voteAverage)
+            binding.rating.text = String.Companion.format(Locale.US,"%.1f", item.voteAverage)
 
             if (item.posterPath.isNotEmpty()) {
-                binding.poster.load(IMAGE_URL_TEMPLATE.format(item.posterPath)) {
+                binding.poster.load(TMDBEndpoints.IMAGE_URL_TEMPLATE.format(item.posterPath)) {
                     placeholder(R.drawable.placeholder_image)
-                    transformations(RoundedCornersTransformation(IMAGE_RADIUS))
+                    transformations(RoundedCornersTransformation(Constants.IMAGE_RADIUS))
                 }
             } else {
                 binding.poster.load(R.drawable.placeholder_image)
