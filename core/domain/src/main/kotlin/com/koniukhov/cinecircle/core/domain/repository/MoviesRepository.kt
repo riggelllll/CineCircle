@@ -13,4 +13,5 @@ interface MoviesRepository {
     suspend fun getMovieDetails(movieId: Int, language: String): MovieDetails
     suspend fun getMovieRecommendations(movieId: Int, page: Int = 1, language: String): List<Movie>
     suspend fun getSimilarMovies(movieId: Int, page: Int = 1, language: String): List<Movie>
+    suspend fun getSearchedMovies(query: String, page: Int = 1, language: String): List<Movie>
 }
