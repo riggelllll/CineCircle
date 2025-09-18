@@ -19,7 +19,7 @@ import com.koniukhov.cinecircle.core.common.navigation.NavArgs.movieDetailsUri
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.tvSeriesDetailsUri
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.feature.home.ui.viewmodel.MediaListViewModel
-import com.koniukhov.cinecircle.feature.home.adapter.PagingMediaAdapter
+import com.koniukhov.cinecircle.core.ui.adapter.PagingMediaAdapter
 import com.koniukhov.cinecircle.feature.home.databinding.FragmentMediaListBinding
 import com.koniukhov.cinecircle.core.ui.utils.GridSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
