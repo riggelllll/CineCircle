@@ -6,7 +6,7 @@ import androidx.paging.cachedIn
 import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
 import com.koniukhov.cinecircle.feature.home.repository.MediaRepository
-import com.koniukhov.cinecircle.feature.home.ui.state.MediaUiState
+import com.koniukhov.cinecircle.core.ui.state.MediaPagingUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,8 +19,8 @@ class MediaListViewModel @Inject constructor(
     @LanguageCode
     private val languageCode: String
 ) : ViewModel() {
-    private val _uiState: MutableStateFlow<MediaUiState> = MutableStateFlow(MediaUiState())
-    val uiState: StateFlow<MediaUiState> get() = _uiState
+    private val _uiState: MutableStateFlow<MediaPagingUiState> = MutableStateFlow(MediaPagingUiState())
+    val uiState: StateFlow<MediaPagingUiState> get() = _uiState
 
     fun loadMedia(listType: MediaListType, genreId: Int? = null) {
         viewModelScope.launch {
