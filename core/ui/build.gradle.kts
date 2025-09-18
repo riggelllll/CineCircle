@@ -15,4 +15,5 @@ dependencies{
     implementation(libs.bundles.coil)
     implementation(libs.androidx.recyclerview)
     implementation(libs.material)
+    implementation(libs.androidx.paging.runtime)
 }
