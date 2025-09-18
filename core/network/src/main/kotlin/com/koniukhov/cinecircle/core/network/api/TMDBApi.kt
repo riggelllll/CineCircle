@@ -257,7 +257,7 @@ interface TMDBApi {
     ): Response<TvSeriesResponseDto>
 
     @GET(Movies.SEARCH)
-    suspend fun searchMovies(
+    suspend fun getSearchedMovies(
         @Query(API_KEY) apiKey: String,
         @Query("query") query: String,
         @Query("page") page: Int,
@@ -265,7 +265,7 @@ interface TMDBApi {
     ): Response<MoviesResponseDto>
 
     @GET(TVSeries.SEARCH)
-    suspend fun searchTvSeries(
+    suspend fun getSearchedTvSeries(
         @Query(API_KEY) apiKey: String,
         @Query("query") query: String,
         @Query("page") page: Int,
