@@ -7,10 +7,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.koniukhov.cinecircle.core.domain.model.Video
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemMovieTrailerBinding
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.FullscreenListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
+import timber.log.Timber
 
 class MediaVideoAdapter(
     private val lifecycle: Lifecycle,
@@ -73,6 +75,14 @@ class MediaVideoAdapter(
                 override fun onReady(youTubePlayer: YouTubePlayer) {
                     this@VideoViewHolder.youTubePlayer = youTubePlayer
                     currentVideo?.let { youTubePlayer.cueVideo(it.key, 0f) }
+                }
+
+                override fun onError(
+                    youTubePlayer: YouTubePlayer,
+                    error: PlayerConstants.PlayerError
+                ) {
+                    super.onError(youTubePlayer, error)
+                    Timber.d(error.toString())
                 }
             }, iFramePlayerOptions)
         }
