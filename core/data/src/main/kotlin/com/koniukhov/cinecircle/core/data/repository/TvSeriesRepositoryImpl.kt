@@ -84,4 +84,43 @@ class TvSeriesRepositoryImpl @Inject constructor(
         val dto = remoteDataSource.getSearchedTvSeries(query, page, language)
         return dto.results.map { it.toDomain() }
     }
+
+    override suspend fun getFilteredTvSeries(
+        page: Int,
+        language: String,
+        sortBy: String,
+        airDateGte: String?,
+        airDateLte: String?,
+        year: Int?,
+        firstAirDateGte: String?,
+        firstAirDateLte: String?,
+        genreId: String?,
+        minVoteAverage: Float?,
+        maxVoteAverage: Float?,
+        minVoteCount: Int?,
+        maxVoteCount: Int?,
+        withOriginCountry: String?,
+        withOriginalLanguage: String?,
+        withoutGenres: String?
+    ): List<TvSeries> {
+        val dto = remoteDataSource.getFilteredTvSeries(
+            page = page,
+            language = language,
+            sortBy = sortBy,
+            airDateGte = airDateGte,
+            airDateLte = airDateLte,
+            year = year,
+            firstAirDateGte = firstAirDateGte,
+            firstAirDateLte = firstAirDateLte,
+            genreId = genreId,
+            minVoteAverage = minVoteAverage,
+            maxVoteAverage = maxVoteAverage,
+            minVoteCount = minVoteCount,
+            maxVoteCount = maxVoteCount,
+            withOriginCountry = withOriginCountry,
+            withOriginalLanguage = withOriginalLanguage,
+            withoutGenres = withoutGenres
+        )
+        return dto.results.map { it.toDomain() }
+    }
 }

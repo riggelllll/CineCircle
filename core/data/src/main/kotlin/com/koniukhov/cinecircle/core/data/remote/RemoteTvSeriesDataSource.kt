@@ -76,4 +76,43 @@ class RemoteTvSeriesDataSource @Inject constructor(private val api: TMDBApi) : T
     ): TvSeriesResponseDto {
         return api.getSearchedTvSeries(BuildConfig.API_KEY, query, page, language).body() ?: TvSeriesResponseDto.empty()
     }
+
+    override suspend fun getFilteredTvSeries(
+        page: Int,
+        language: String,
+        sortBy: String,
+        airDateGte: String?,
+        airDateLte: String?,
+        year: Int?,
+        firstAirDateGte: String?,
+        firstAirDateLte: String?,
+        genreId: String?,
+        minVoteAverage: Float?,
+        maxVoteAverage: Float?,
+        minVoteCount: Int?,
+        maxVoteCount: Int?,
+        withOriginCountry: String?,
+        withOriginalLanguage: String?,
+        withoutGenres: String?
+    ): TvSeriesResponseDto {
+        return api.getFilteredTvSeries(
+            BuildConfig.API_KEY,
+            page,
+            language,
+            sortBy,
+            airDateGte,
+            airDateLte,
+            year,
+            firstAirDateGte,
+            firstAirDateLte,
+            genreId,
+            minVoteAverage,
+            maxVoteAverage,
+            minVoteCount,
+            maxVoteCount,
+            withOriginCountry,
+            withOriginalLanguage,
+            withoutGenres
+        ).body() ?: TvSeriesResponseDto.empty()
+    }
 }

@@ -16,4 +16,22 @@ interface TvSeriesDataSource {
     suspend fun getTvSeriesRecommendations(id: Int, page: Int, language: String): TvSeriesResponseDto
     suspend fun getSimilarTvSeries(id: Int, page: Int, language: String): TvSeriesResponseDto
     suspend fun getSearchedTvSeries(query: String, page: Int, language: String): TvSeriesResponseDto
+    suspend fun getFilteredTvSeries(
+        page: Int,
+        language: String,
+        sortBy: String,
+        airDateGte: String?,
+        airDateLte: String?,
+        year: Int?,
+        firstAirDateGte: String?,
+        firstAirDateLte: String?,
+        genreId: String?,
+        minVoteAverage: Float?,
+        maxVoteAverage: Float?,
+        minVoteCount: Int?,
+        maxVoteCount: Int?,
+        withOriginCountry: String?,
+        withOriginalLanguage: String?,
+        withoutGenres: String?
+    ): TvSeriesResponseDto
 }

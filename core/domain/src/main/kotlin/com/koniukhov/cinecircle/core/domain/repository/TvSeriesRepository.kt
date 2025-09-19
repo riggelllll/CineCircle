@@ -16,4 +16,22 @@ interface TvSeriesRepository {
     suspend fun getTvSeriesRecommendations(tvSeriesId: Int, page: Int = 1, language: String): List<TvSeries>
     suspend fun getSimilarTvSeries(tvSeriesId: Int, page: Int = 1, language: String): List<TvSeries>
     suspend fun getSearchedTvSeries(query: String, page: Int = 1, language: String): List<TvSeries>
+    suspend fun getFilteredTvSeries(
+        page: Int = 1,
+        language: String,
+        sortBy: String,
+        airDateGte: String? = null,
+        airDateLte: String? = null,
+        year: Int? = null,
+        firstAirDateGte: String? = null,
+        firstAirDateLte: String? = null,
+        genreId: String? = null,
+        minVoteAverage: Float? = null,
+        maxVoteAverage: Float? = null,
+        minVoteCount: Int? = null,
+        maxVoteCount: Int? = null,
+        withOriginCountry: String? = null,
+        withOriginalLanguage: String? = null,
+        withoutGenres: String? = null
+    ): List<TvSeries>
 }
