@@ -1,0 +1,31 @@
+<resources>
+    <string name="sort_original_title_asc">Original title (A→Z)</string>
+    <string name="sort_original_title_desc">Original title (Z→A)</string>
+
+    <string name="sort_popularity_asc">Popularity (low to high)</string>
+    <string name="sort_popularity_desc">Popularity (high to low)</string>
+
+    <string name="sort_revenue_asc">Revenue (low to high)</string>
+    <string name="sort_revenue_desc">Revenue (high to low)</string>
+
+    <string name="sort_primary_release_date_asc">Primary release date (oldest first)</string>
+    <string name="sort_primary_release_date_desc">Primary release date (newest first)</string>
+
+    <string name="sort_title_asc">Title (A→Z)</string>
+    <string name="sort_title_desc">Title (Z→A)</string>
+
+    <string name="sort_vote_average_asc">Rating (low to high)</string>
+    <string name="sort_vote_average_desc">Rating (high to low)</string>
+
+    <string name="sort_vote_count_asc">Vote count (low to high)</string>
+    <string name="sort_vote_count_desc">Vote count (high to low)</string>
+
+    <string name="sort_first_air_date_asc">First air date (oldest first)</string>
+    <string name="sort_first_air_date_desc">First air date (newest first)</string>
+
+    <string name="sort_name_asc">Name (A→Z)</string>
+    <string name="sort_name_desc">Name (Z→A)</string>
+
+    <string name="sort_original_name_asc">Original name (A→Z)</string>
+    <string name="sort_original_name_desc">Original name (Z→A)</string>
+</resources>
