@@ -19,4 +19,5 @@ dependencies {
     implementation(libs.material)
     implementation(libs.bundles.coil)
     implementation(libs.skeletonlayout)
+    implementation(libs.androidx.paging.runtime)
 }
