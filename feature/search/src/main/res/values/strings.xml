@@ -1,3 +1,14 @@
 <resources>
     <string name="search_hint_movies_and_tv">Search movies and TV Series…</string>
+    <string name="search_filters_title">Filters</string>
+    <string name="label_year">Year</string>
+    <string name="label_release_date_gte">From date</string>
+    <string name="label_release_date_lte">To date</string>
+    <string name="label_genres_include">Genres (include)</string>
+    <string name="label_genres_exclude">Genres (exclude)</string>
+    <string name="label_with_origin_country">Country of origin</string>
+    <string name="label_with_original_language">Original language</string>
+    <string name="label_vote_average_range">Rating (0–10)</string>
+    <string name="label_vote_count_range">Vote count</string>
+    <string name="action_search">SEARCH</string>
 </resources>
