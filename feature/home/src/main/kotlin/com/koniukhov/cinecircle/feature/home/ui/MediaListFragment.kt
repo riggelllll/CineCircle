@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.koniukhov.cinecircle.core.common.Constants.MediaType
@@ -15,13 +14,13 @@ import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_GENRE_ID
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_TITLE
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_TYPE
-import com.koniukhov.cinecircle.core.common.navigation.NavArgs.movieDetailsUri
-import com.koniukhov.cinecircle.core.common.navigation.NavArgs.tvSeriesDetailsUri
+import com.koniukhov.cinecircle.core.common.navigation.navigateToMovieDetails
+import com.koniukhov.cinecircle.core.common.navigation.navigateToTvSeriesDetails
 import com.koniukhov.cinecircle.core.design.R
-import com.koniukhov.cinecircle.feature.home.ui.viewmodel.MediaListViewModel
 import com.koniukhov.cinecircle.core.ui.adapter.PagingMediaAdapter
-import com.koniukhov.cinecircle.feature.home.databinding.FragmentMediaListBinding
 import com.koniukhov.cinecircle.core.ui.utils.GridSpacingItemDecoration
+import com.koniukhov.cinecircle.feature.home.databinding.FragmentMediaListBinding
+import com.koniukhov.cinecircle.feature.home.ui.viewmodel.MediaListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -70,9 +69,9 @@ class MediaListFragment : Fragment() {
     private fun setupRecyclerView() {
         adapter = PagingMediaAdapter{ mediaId, mediaType ->
             if (mediaType == MediaType.MOVIE){
-                navigateToMovieDetails(mediaId)
+                findNavController().navigateToMovieDetails(mediaId)
             }else if (mediaType == MediaType.TV_SERIES){
-                navigateToTvSeriesDetails(mediaId)
+                findNavController().navigateToTvSeriesDetails(mediaId)
             }
         }
         binding.mediaRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -112,19 +111,5 @@ class MediaListFragment : Fragment() {
         if (currentType != null) {
             viewModel.loadMedia(currentType, genreId)
         }
-    }
-
-    private fun navigateToMovieDetails(movieId: Int) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(movieDetailsUri(movieId))
-            .build()
-        findNavController().navigate(request)
-    }
-
-    private fun navigateToTvSeriesDetails(tvSeriesId: Int) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(tvSeriesDetailsUri(tvSeriesId))
-            .build()
-        findNavController().navigate(request)
     }
 }

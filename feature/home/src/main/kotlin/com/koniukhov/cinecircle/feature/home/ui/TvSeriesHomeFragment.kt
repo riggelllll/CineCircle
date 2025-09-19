@@ -16,7 +16,7 @@ import com.faltenreich.skeletonlayout.applySkeleton
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.mediaListUri
-import com.koniukhov.cinecircle.core.common.navigation.NavArgs.tvSeriesDetailsUri
+import com.koniukhov.cinecircle.core.common.navigation.navigateToTvSeriesDetails
 import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
 import com.koniukhov.cinecircle.feature.home.R
 import com.koniukhov.cinecircle.feature.home.adapter.GenreUiAdapter
@@ -131,7 +131,7 @@ class TvSeriesHomeFragment : Fragment() {
             false
         )
         binding.airingTodayRecyclerView.adapter = MediaAdapter{ id, _ ->
-            navigateToTvSeriesDetails(id)
+            findNavController().navigateToTvSeriesDetails(id)
         }
     }
 
@@ -142,7 +142,7 @@ class TvSeriesHomeFragment : Fragment() {
             false
         )
         binding.onAirRecyclerView.adapter = MediaAdapter{ id, _ ->
-            navigateToTvSeriesDetails(id)
+            findNavController().navigateToTvSeriesDetails(id)
         }
     }
 
@@ -153,7 +153,7 @@ class TvSeriesHomeFragment : Fragment() {
             false
         )
         binding.trendingRecyclerView.adapter = MediaAdapter{ id, _ ->
-            navigateToTvSeriesDetails(id)
+            findNavController().navigateToTvSeriesDetails(id)
         }
     }
 
@@ -164,7 +164,7 @@ class TvSeriesHomeFragment : Fragment() {
             false
         )
         binding.popularRecyclerView.adapter = MediaAdapter{ id, _ ->
-            navigateToTvSeriesDetails(id)
+            findNavController().navigateToTvSeriesDetails(id)
         }
     }
 
@@ -175,7 +175,7 @@ class TvSeriesHomeFragment : Fragment() {
             false
         )
         binding.topRatedRecyclerView.adapter = MediaAdapter{ id, _ ->
-            navigateToTvSeriesDetails(id)
+            findNavController().navigateToTvSeriesDetails(id)
         }
     }
 
@@ -261,13 +261,6 @@ class TvSeriesHomeFragment : Fragment() {
                 .build()
             findNavController().navigate(request)
         }
-    }
-
-    private fun navigateToTvSeriesDetails(tvSeriesId: Int) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(tvSeriesDetailsUri(tvSeriesId))
-            .build()
-        findNavController().navigate(request)
     }
 
     companion object{

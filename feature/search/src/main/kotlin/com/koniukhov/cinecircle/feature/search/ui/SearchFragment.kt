@@ -12,14 +12,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.koniukhov.cinecircle.core.common.Constants.MediaType
-import com.koniukhov.cinecircle.core.common.navigation.NavArgs.movieDetailsUri
-import com.koniukhov.cinecircle.core.common.navigation.NavArgs.tvSeriesDetailsUri
+import com.koniukhov.cinecircle.core.common.navigation.navigateToMovieDetails
+import com.koniukhov.cinecircle.core.common.navigation.navigateToTvSeriesDetails
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.ui.adapter.PagingMediaAdapter
 import com.koniukhov.cinecircle.core.ui.utils.GridSpacingItemDecoration
@@ -57,9 +56,9 @@ class SearchFragment : Fragment() {
     private fun setupRecyclerView() {
         adapter = PagingMediaAdapter { mediaId, mediaType ->
             if (mediaType == MediaType.MOVIE) {
-                navigateToMovieDetails(mediaId)
+                findNavController().navigateToMovieDetails(mediaId)
             } else if (mediaType == MediaType.TV_SERIES) {
-                navigateToTvSeriesDetails(mediaId)
+                findNavController().navigateToTvSeriesDetails(mediaId)
             }
         }
 
@@ -114,20 +113,6 @@ class SearchFragment : Fragment() {
                 adapter.submitData(pagingData)
             }
         }
-    }
-
-    private fun navigateToMovieDetails(movieId: Int) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(movieDetailsUri(movieId))
-            .build()
-        findNavController().navigate(request)
-    }
-
-    private fun navigateToTvSeriesDetails(tvSeriesId: Int) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(tvSeriesDetailsUri(tvSeriesId))
-            .build()
-        findNavController().navigate(request)
     }
 
     override fun onDestroyView() {

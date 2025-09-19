@@ -16,13 +16,13 @@ import com.faltenreich.skeletonlayout.applySkeleton
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.mediaListUri
-import com.koniukhov.cinecircle.core.common.navigation.NavArgs.movieDetailsUri
+import com.koniukhov.cinecircle.core.common.navigation.navigateToMovieDetails
 import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
-import com.koniukhov.cinecircle.feature.home.ui.viewmodel.HomeViewModel
-import com.koniukhov.cinecircle.feature.home.ui.state.MoviesUiState
 import com.koniukhov.cinecircle.feature.home.R
 import com.koniukhov.cinecircle.feature.home.adapter.GenreUiAdapter
 import com.koniukhov.cinecircle.feature.home.databinding.FragmentMoviesHomeBinding
+import com.koniukhov.cinecircle.feature.home.ui.state.MoviesUiState
+import com.koniukhov.cinecircle.feature.home.ui.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -93,7 +93,7 @@ class MoviesHomeFragment : Fragment() {
             false
         )
         binding.trendingRecyclerView.adapter = MediaAdapter { id, _ ->
-            navigateToMovieDetails(id)
+            findNavController().navigateToMovieDetails(id)
         }
     }
     private fun setupNowPlayingRecyclerView() {
@@ -103,7 +103,7 @@ class MoviesHomeFragment : Fragment() {
             false
         )
         binding.nowPlayingRecyclerView.adapter = MediaAdapter { id, _ ->
-            navigateToMovieDetails(id)
+            findNavController().navigateToMovieDetails(id)
         }
 
     }
@@ -114,7 +114,7 @@ class MoviesHomeFragment : Fragment() {
             false
         )
         binding.popularRecyclerView.adapter = MediaAdapter { id, _ ->
-            navigateToMovieDetails(id)
+            findNavController().navigateToMovieDetails(id)
         }
 
     }
@@ -125,7 +125,7 @@ class MoviesHomeFragment : Fragment() {
             false
         )
         binding.topRatedRecyclerView.adapter = MediaAdapter { id, _ ->
-            navigateToMovieDetails(id)
+            findNavController().navigateToMovieDetails(id)
         }
     }
     private fun setupUpcomingRecyclerView() {
@@ -135,7 +135,7 @@ class MoviesHomeFragment : Fragment() {
             false
         )
         binding.upcomingRecyclerView.adapter = MediaAdapter { id, _ ->
-            navigateToMovieDetails(id)
+            findNavController().navigateToMovieDetails(id)
         }
     }
     private fun setupMoviesGenreRecyclerView() {
@@ -225,13 +225,6 @@ class MoviesHomeFragment : Fragment() {
                 .build()
             findNavController().navigate(request)
         }
-    }
-
-    private fun navigateToMovieDetails(movieId: Int) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(movieDetailsUri(movieId))
-            .build()
-        findNavController().navigate(request)
     }
 
     companion object{

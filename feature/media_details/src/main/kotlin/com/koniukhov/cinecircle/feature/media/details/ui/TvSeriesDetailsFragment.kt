@@ -9,7 +9,6 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import coil3.load
 import coil3.request.placeholder
@@ -21,6 +20,7 @@ import com.google.android.material.radiobutton.MaterialRadioButton
 import com.google.android.material.snackbar.Snackbar
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs
+import com.koniukhov.cinecircle.core.common.navigation.navigateToTvSeriesDetails
 import com.koniukhov.cinecircle.core.common.util.DateUtils.formatDate
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
@@ -54,8 +54,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.Locale
-import kotlin.collections.isNotEmpty
-import kotlin.text.isNotEmpty
 import com.koniukhov.cinecircle.core.design.R as design_R
 
 @AndroidEntryPoint
@@ -518,12 +516,12 @@ class TvSeriesDetailsFragment : Fragment() {
             recyclerReviews.adapter = reviewAdapter
 
             recommendationsAdapter = MediaAdapter { id, _ ->
-                navigateToTvSeriesDetails(id)
+                findNavController().navigateToTvSeriesDetails(id)
             }
             recyclerRecommendations.adapter = recommendationsAdapter
 
             similarMoviesAdapter = MediaAdapter { id, _ ->
-                navigateToTvSeriesDetails(id)
+                findNavController().navigateToTvSeriesDetails(id)
             }
             recyclerSimilar.adapter = similarMoviesAdapter
 
@@ -564,13 +562,6 @@ class TvSeriesDetailsFragment : Fragment() {
         val dialog = EpisodesBottomSheetDialog.newInstance()
         dialog.setSeasonDetails(seasonDetails)
         dialog.show(parentFragmentManager, EPISODES_DIALOG_TAG)
-    }
-
-    private fun navigateToTvSeriesDetails(tvSeriesId: Int) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(NavArgs.tvSeriesDetailsUri(tvSeriesId))
-            .build()
-        findNavController().navigate(request)
     }
 
     override fun onDestroyView() {

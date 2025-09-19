@@ -10,7 +10,6 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import coil3.load
 import coil3.request.placeholder
@@ -22,23 +21,24 @@ import com.google.android.material.radiobutton.MaterialRadioButton
 import com.google.android.material.snackbar.Snackbar
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs
+import com.koniukhov.cinecircle.core.common.navigation.navigateToMovieDetails
 import com.koniukhov.cinecircle.core.common.util.DateUtils.formatDate
 import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
-import com.koniukhov.cinecircle.core.domain.model.MediaImages
-import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.domain.model.MediaCredits
-import com.koniukhov.cinecircle.core.domain.model.MovieDetails
+import com.koniukhov.cinecircle.core.domain.model.MediaImages
 import com.koniukhov.cinecircle.core.domain.model.MediaReview
+import com.koniukhov.cinecircle.core.domain.model.Movie
+import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.MovieVideos
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
+import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
+import com.koniukhov.cinecircle.core.ui.utils.openWebsite
 import com.koniukhov.cinecircle.feature.media.details.adapter.CollectionMediaAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCastAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCrewAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaImageAdapter
-import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
-import com.koniukhov.cinecircle.core.ui.utils.openWebsite
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaReviewAdapter
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaVideoAdapter
 import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenImageDialog
@@ -146,17 +146,17 @@ class MovieDetailsFragment : Fragment() {
             recyclerReviews.adapter = reviewAdapter
 
             collectionAdapter = CollectionMediaAdapter { movieId ->
-                navigateToMovieDetails(movieId)
+                findNavController().navigateToMovieDetails(movieId)
             }
             recyclerCollection.adapter = collectionAdapter
 
             recommendationsAdapter = MediaAdapter { id, _ ->
-                navigateToMovieDetails(id)
+                findNavController().navigateToMovieDetails(id)
             }
             recyclerRecommendations.adapter = recommendationsAdapter
 
             similarMoviesAdapter = MediaAdapter { id, _ ->
-                navigateToMovieDetails(id)
+                findNavController().navigateToMovieDetails(id)
             }
             recyclerSimilar.adapter = similarMoviesAdapter
         }
@@ -519,13 +519,6 @@ class MovieDetailsFragment : Fragment() {
 
             voteCountValue.text = String.format("%,d", movieDetails.voteCount)
         }
-    }
-
-    private fun navigateToMovieDetails(movieId: Int) {
-        val request = NavDeepLinkRequest.Builder
-            .fromUri(NavArgs.movieDetailsUri(movieId))
-            .build()
-        findNavController().navigate(request)
     }
 
     override fun onDestroyView() {
