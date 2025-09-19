@@ -79,4 +79,39 @@ class MoviesRepositoryImpl @Inject constructor(
         val dto = remoteDataSource.getSearchedMovies(query, page, language)
         return dto.results.map { it.toDomain() }
     }
+
+    override suspend fun getFilteredMovies(
+        page: Int,
+        language: String,
+        sortBy: String,
+        year: Int?,
+        releaseDateGte: String?,
+        releaseDateLte: String?,
+        genreId: String?,
+        minVoteAverage: Float?,
+        maxVoteAverage: Float?,
+        minVoteCount: Int?,
+        maxVoteCount: Int?,
+        withOriginCountry: String?,
+        withOriginalLanguage: String?,
+        withoutGenres: String?
+    ): List<Movie> {
+        val dto = remoteDataSource.getFilteredMovies(
+            page = page,
+            language = language,
+            sortBy = sortBy,
+            year = year,
+            releaseDateGte = releaseDateGte,
+            releaseDateLte = releaseDateLte,
+            genreId = genreId,
+            minVoteAverage = minVoteAverage,
+            maxVoteAverage = maxVoteAverage,
+            minVoteCount = minVoteCount,
+            maxVoteCount = maxVoteCount,
+            withOriginCountry = withOriginCountry,
+            withOriginalLanguage = withOriginalLanguage,
+            withoutGenres = withoutGenres
+        )
+        return dto.results.map { it.toDomain() }
+    }
 }

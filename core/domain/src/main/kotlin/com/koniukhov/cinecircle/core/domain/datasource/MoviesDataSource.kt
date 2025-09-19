@@ -14,4 +14,20 @@ interface MoviesDataSource {
     suspend fun getMovieRecommendations(movieId: Int, page: Int, language: String): MoviesResponseDto
     suspend fun getSimilarMovies(movieId: Int, page: Int, language: String): MoviesResponseDto
     suspend fun getSearchedMovies(query: String, page: Int, language: String): MoviesResponseDto
+    suspend fun getFilteredMovies(
+        page: Int,
+        language: String,
+        sortBy: String,
+        year: Int?,
+        releaseDateGte: String?,
+        releaseDateLte: String?,
+        genreId: String?,
+        minVoteAverage: Float?,
+        maxVoteAverage: Float?,
+        minVoteCount: Int?,
+        maxVoteCount: Int?,
+        withOriginCountry: String?,
+        withOriginalLanguage: String?,
+        withoutGenres: String?
+    ): MoviesResponseDto
 }

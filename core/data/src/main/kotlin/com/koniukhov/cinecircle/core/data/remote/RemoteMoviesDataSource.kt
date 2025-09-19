@@ -69,4 +69,39 @@ class RemoteMoviesDataSource @Inject constructor(
     ): MoviesResponseDto {
         return api.getSearchedMovies(BuildConfig.API_KEY, query, page, language).body() ?: MoviesResponseDto.empty()
     }
+
+    override suspend fun getFilteredMovies(
+        page: Int,
+        language: String,
+        sortBy: String,
+        year: Int?,
+        releaseDateGte: String?,
+        releaseDateLte: String?,
+        genreId: String?,
+        minVoteAverage: Float?,
+        maxVoteAverage: Float?,
+        minVoteCount: Int?,
+        maxVoteCount: Int?,
+        withOriginCountry: String?,
+        withOriginalLanguage: String?,
+        withoutGenres: String?
+    ): MoviesResponseDto {
+        return api.getFilteredMovies(
+            BuildConfig.API_KEY,
+            page,
+            language,
+            sortBy,
+            year,
+            releaseDateGte,
+            releaseDateLte,
+            genreId,
+            minVoteAverage,
+            maxVoteAverage,
+            minVoteCount,
+            maxVoteCount,
+            withOriginCountry,
+            withOriginalLanguage,
+            withoutGenres
+        ).body() ?: MoviesResponseDto.empty()
+    }
 }
