@@ -290,4 +290,25 @@ interface TMDBApi {
         @Query("with_original_language") withOriginalLanguage: String?,
         @Query("without_genres") withoutGenres: String?
     ): Response<MoviesResponseDto>
+
+    @GET(TVSeries.DISCOVER)
+    suspend fun getFilteredTvSeries(
+        @Query(API_KEY) apiKey: String,
+        @Query("page") page: Int,
+        @Query("language") language: String,
+        @Query("sort_by") sortBy: String,
+        @Query("air_date.gte") airDateGte: String?,
+        @Query("air_date.lte") airDateLte: String?,
+        @Query("first_air_date_year") year: Int?,
+        @Query("first_air_date.gte") firstAirDateGte: String?,
+        @Query("first_air_date.lte") firstAirDateLte: String?,
+        @Query("with_genres") genreId: String?,
+        @Query("vote_average.gte") minVoteAverage: Float?,
+        @Query("vote_average.lte") maxVoteAverage: Float?,
+        @Query("vote_count.gte") minVoteCount: Int?,
+        @Query("vote_count.lte") maxVoteCount: Int?,
+        @Query("with_origin_country") withOriginCountry: String?,
+        @Query("with_original_language") withOriginalLanguage: String?,
+        @Query("without_genres") withoutGenres: String?
+    ): Response<TvSeriesResponseDto>
 }
