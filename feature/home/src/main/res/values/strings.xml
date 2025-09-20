@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="movies_title">Movies</string>
-    <string name="tv_series_title">TV Series</string>
     <string name="now_playing_title">Now Playing</string>
     <string name="trending_title">Trending</string>
     <string name="popular_title">Popular</string>
