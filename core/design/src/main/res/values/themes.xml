@@ -51,4 +51,12 @@
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
         <item name="postSplashScreenTheme">@style/Theme.CineCircle</item>
     </style>
+    <style name="Theme.CineCircle.FullScreenDialog" parent="Theme.Material3.Light.Dialog">
+        <item name="colorPrimaryDark">@color/md_theme_primary</item>
+        <item name="colorAccent">@color/md_theme_secondary</item>
+        <item name="colorPrimary">@color/md_theme_primary</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="actionMenuTextColor">@color/md_theme_secondary</item>
+    </style>
 </resources>
