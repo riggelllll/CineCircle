@@ -1,4 +1,8 @@
 <resources>
+    <string name="movies_title">Movies</string>
+    <string name="tv_series_title">TV Series</string>
+
+
     <string name="sort_original_title_asc">Original title (A→Z)</string>
     <string name="sort_original_title_desc">Original title (Z→A)</string>
 
