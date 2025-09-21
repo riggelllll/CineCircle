@@ -10,5 +10,7 @@
     <string name="label_with_original_language">Original language</string>
     <string name="label_vote_average_range">Rating (0–10)</string>
     <string name="label_vote_count_range">Vote count</string>
-    <string name="action_search">SEARCH</string>
+    <string name="label_sort_by">Sort by</string>
+    <string name="action_reset">Reset</string>
+    <string name="action_search">Search</string>
 </resources>
