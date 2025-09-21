@@ -19,19 +19,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.koniukhov.cinecircle.core.common.Constants.MediaType
 import com.koniukhov.cinecircle.core.common.navigation.navigateToMovieDetails
 import com.koniukhov.cinecircle.core.common.navigation.navigateToTvSeriesDetails
-import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.ui.adapter.PagingMediaAdapter
 import com.koniukhov.cinecircle.core.ui.utils.GridSpacingItemDecoration
-import com.koniukhov.cinecircle.feature.search.databinding.SearchFragmentBinding
+import com.koniukhov.cinecircle.feature.search.databinding.FragmentSearchBinding
+import com.koniukhov.cinecircle.feature.search.ui.FiltersDialogFragment.Companion.TAG
 import com.koniukhov.cinecircle.feature.search.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import com.koniukhov.cinecircle.core.design.R as designR
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
 
-    private var _binding: SearchFragmentBinding? = null
+    private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SearchViewModel by viewModels ()
     private lateinit var adapter: PagingMediaAdapter
@@ -41,7 +42,7 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = SearchFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -50,6 +51,7 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupSearch()
+        setupFiltersDialog()
         observePagingData()
     }
 
@@ -66,7 +68,7 @@ class SearchFragment : Fragment() {
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         binding.searchRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        val spacing = resources.getDimensionPixelSize(R.dimen.grid_spacing)
+        val spacing = resources.getDimensionPixelSize(designR.dimen.grid_spacing)
         binding.searchRecyclerView.addItemDecoration(
             GridSpacingItemDecoration(2, spacing, true)
         )
@@ -99,6 +101,12 @@ class SearchFragment : Fragment() {
             } else {
                 false
             }
+        }
+    }
+
+    private fun setupFiltersDialog() {
+        binding.filterButton.setOnClickListener {
+            FiltersDialogFragment().show(parentFragmentManager, TAG)
         }
     }
 
