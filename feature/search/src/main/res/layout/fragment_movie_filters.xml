@@ -27,7 +27,6 @@
             android:valueFrom="1900"
             android:valueTo="2100"
             android:stepSize="1"
-            android:value="2000"
             style="@style/Widget.Material3.Slider"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
