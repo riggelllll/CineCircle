@@ -58,7 +58,7 @@
     </com.google.android.material.search.SearchView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/discover_recycler_view"
+        android:id="@+id/filters_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_media"
