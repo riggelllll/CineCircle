@@ -47,6 +47,8 @@ class SearchViewModel @Inject constructor(
         }
         .cachedIn(viewModelScope)
 
+    val filterPagingDataFlow = MutableStateFlow<String?>(null)
+
     init {
         setUpGenres()
         setupLanguagesAndCountries()
