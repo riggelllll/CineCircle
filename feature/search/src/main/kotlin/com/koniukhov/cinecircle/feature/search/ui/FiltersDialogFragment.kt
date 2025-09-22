@@ -73,7 +73,7 @@ class FiltersDialogFragment() : DialogFragment() {
             override fun getItemCount() = 2
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
-                    0 -> MovieFiltersDialogFragment()
+                    0 -> MovieFiltersDialogFragment{ dismiss() }
                     1 -> TvSeriesFiltersDialogFragment()
                     else -> throw IllegalStateException()
                 }
