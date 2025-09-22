@@ -25,13 +25,13 @@ interface TvSeriesRepository {
         year: Int? = null,
         firstAirDateGte: String? = null,
         firstAirDateLte: String? = null,
-        genreId: String? = null,
         minVoteAverage: Float? = null,
         maxVoteAverage: Float? = null,
         minVoteCount: Int? = null,
         maxVoteCount: Int? = null,
         withOriginCountry: String? = null,
         withOriginalLanguage: String? = null,
+        withGenres: String? = null,
         withoutGenres: String? = null
     ): List<TvSeries>
 }

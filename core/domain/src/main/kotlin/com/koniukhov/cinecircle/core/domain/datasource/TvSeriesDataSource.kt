@@ -25,13 +25,13 @@ interface TvSeriesDataSource {
         year: Int?,
         firstAirDateGte: String?,
         firstAirDateLte: String?,
-        genreId: String?,
         minVoteAverage: Float?,
         maxVoteAverage: Float?,
         minVoteCount: Int?,
         maxVoteCount: Int?,
         withOriginCountry: String?,
         withOriginalLanguage: String?,
+        withGenres: String?,
         withoutGenres: String?
     ): TvSeriesResponseDto
 }

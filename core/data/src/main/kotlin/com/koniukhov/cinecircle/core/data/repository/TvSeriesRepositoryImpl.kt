@@ -94,13 +94,13 @@ class TvSeriesRepositoryImpl @Inject constructor(
         year: Int?,
         firstAirDateGte: String?,
         firstAirDateLte: String?,
-        genreId: String?,
         minVoteAverage: Float?,
         maxVoteAverage: Float?,
         minVoteCount: Int?,
         maxVoteCount: Int?,
         withOriginCountry: String?,
         withOriginalLanguage: String?,
+        withGenres: String?,
         withoutGenres: String?
     ): List<TvSeries> {
         val dto = remoteDataSource.getFilteredTvSeries(
@@ -112,13 +112,13 @@ class TvSeriesRepositoryImpl @Inject constructor(
             year = year,
             firstAirDateGte = firstAirDateGte,
             firstAirDateLte = firstAirDateLte,
-            genreId = genreId,
             minVoteAverage = minVoteAverage,
             maxVoteAverage = maxVoteAverage,
             minVoteCount = minVoteCount,
             maxVoteCount = maxVoteCount,
             withOriginCountry = withOriginCountry,
             withOriginalLanguage = withOriginalLanguage,
+            withGenres = withGenres,
             withoutGenres = withoutGenres
         )
         return dto.results.map { it.toDomain() }
