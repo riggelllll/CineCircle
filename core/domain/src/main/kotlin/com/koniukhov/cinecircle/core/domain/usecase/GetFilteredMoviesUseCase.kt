@@ -18,6 +18,7 @@ class GetFilteredMoviesUseCase @Inject constructor(private val repository: Movie
         maxVoteCount: Int? = null,
         withOriginCountry: String? = null,
         withOriginalLanguage: String? = null,
+        withGenres: String? = null,
         withoutGenres: String? = null
     ) = repository.getFilteredMovies(
         page = page,
