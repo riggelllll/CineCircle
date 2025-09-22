@@ -35,7 +35,9 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SearchViewModel by activityViewModels ()
-    private lateinit var adapter: PagingMediaAdapter
+    private lateinit var searchAdapter: PagingMediaAdapter
+
+    private lateinit var filterAdapter: PagingMediaAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,14 +51,16 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
+        setupSearchRecyclerView()
+        setupFilterRecyclerView()
         setupSearch()
         setupFiltersDialog()
-        observePagingData()
+        observeSearchPagingData()
+        observeFilterEmptyState()
     }
 
-    private fun setupRecyclerView() {
-        adapter = PagingMediaAdapter { mediaId, mediaType ->
+    private fun setupSearchRecyclerView() {
+        searchAdapter = PagingMediaAdapter { mediaId, mediaType ->
             if (mediaType == MediaType.MOVIE) {
                 findNavController().navigateToMovieDetails(mediaId)
             } else if (mediaType == MediaType.TV_SERIES) {
@@ -64,7 +68,7 @@ class SearchFragment : Fragment() {
             }
         }
 
-        adapter.stateRestorationPolicy =
+        searchAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         binding.searchRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -72,9 +76,35 @@ class SearchFragment : Fragment() {
         binding.searchRecyclerView.addItemDecoration(
             GridSpacingItemDecoration(2, spacing, true)
         )
-        binding.searchRecyclerView.adapter = adapter
+        binding.searchRecyclerView.adapter = searchAdapter
 
-        adapter.addLoadStateListener { loadStates ->
+        searchAdapter.addLoadStateListener { loadStates ->
+            if (loadStates.refresh is LoadState.NotLoading) {
+                binding.searchRecyclerView.scrollToPosition(0)
+            }
+        }
+    }
+
+    private fun setupFilterRecyclerView() {
+        filterAdapter = PagingMediaAdapter { mediaId, mediaType ->
+            if (mediaType == MediaType.MOVIE) {
+                findNavController().navigateToMovieDetails(mediaId)
+            } else if (mediaType == MediaType.TV_SERIES) {
+                findNavController().navigateToTvSeriesDetails(mediaId)
+            }
+        }
+
+        filterAdapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+
+        binding.searchRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        val spacing = resources.getDimensionPixelSize(designR.dimen.grid_spacing)
+        binding.searchRecyclerView.addItemDecoration(
+            GridSpacingItemDecoration(2, spacing, true)
+        )
+        binding.searchRecyclerView.adapter = filterAdapter
+
+        filterAdapter.addLoadStateListener { loadStates ->
             if (loadStates.refresh is LoadState.NotLoading) {
                 binding.searchRecyclerView.scrollToPosition(0)
             }
@@ -115,10 +145,20 @@ class SearchFragment : Fragment() {
         imm?.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private fun observePagingData() {
+    private fun observeSearchPagingData() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.pagingDataFlow.collectLatest { pagingData ->
-                adapter.submitData(pagingData)
+            viewModel.searchPagingDataFlow.collectLatest { pagingData ->
+                searchAdapter.submitData(pagingData)
+            }
+        }
+    }
+
+    private fun observeFilterEmptyState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.filterPagingDataFlow.collect { state ->
+                val isEmpty = state.isNullOrBlank()
+                binding.emptyView.visibility = if (isEmpty) View.VISIBLE else View.GONE
+                binding.searchRecyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
             }
         }
     }
