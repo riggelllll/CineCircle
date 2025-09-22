@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -56,7 +57,7 @@ class SearchFragment : Fragment() {
         setupSearch()
         setupFiltersDialog()
         observeSearchPagingData()
-        observeFilterEmptyState()
+        observeFilterPagingData()
     }
 
     private fun setupSearchRecyclerView() {
@@ -94,20 +95,15 @@ class SearchFragment : Fragment() {
             }
         }
 
-        filterAdapter.stateRestorationPolicy =
-            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-
-        binding.searchRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.filtersRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         val spacing = resources.getDimensionPixelSize(designR.dimen.grid_spacing)
-        binding.searchRecyclerView.addItemDecoration(
+        binding.filtersRecyclerView.addItemDecoration(
             GridSpacingItemDecoration(2, spacing, true)
         )
-        binding.searchRecyclerView.adapter = filterAdapter
+        binding.filtersRecyclerView.adapter = filterAdapter
 
         filterAdapter.addLoadStateListener { loadStates ->
-            if (loadStates.refresh is LoadState.NotLoading) {
-                binding.searchRecyclerView.scrollToPosition(0)
-            }
+            updateEmptyState(loadStates)
         }
     }
 
@@ -153,16 +149,25 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun observeFilterEmptyState() {
+    private fun observeFilterPagingData() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.filterPagingDataFlow.collect { state ->
-                val isEmpty = state.isNullOrBlank()
-                binding.emptyView.visibility = if (isEmpty) View.VISIBLE else View.GONE
-                binding.searchRecyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
+            viewModel.moviesFilterPagingDataFlow.collectLatest { pagingData ->
+                filterAdapter.submitData(pagingData)
+
             }
         }
     }
 
+    private fun updateEmptyState(loadState: CombinedLoadStates) {
+        val isLoading = loadState.refresh is LoadState.Loading
+        val isError = loadState.refresh is LoadState.Error ||
+                loadState.append is LoadState.Error ||
+                loadState.prepend is LoadState.Error
+        val endReached = (loadState.append as? LoadState.NotLoading)?.endOfPaginationReached == true
+        val isEmpty = !isLoading && !isError && endReached && filterAdapter.itemCount == 0
+
+        binding.emptyView.visibility = if (isEmpty) View.VISIBLE else View.GONE
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
