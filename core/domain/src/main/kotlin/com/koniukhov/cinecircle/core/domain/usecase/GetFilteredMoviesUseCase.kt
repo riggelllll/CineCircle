@@ -34,6 +34,7 @@ class GetFilteredMoviesUseCase @Inject constructor(private val repository: Movie
         maxVoteCount = maxVoteCount,
         withOriginCountry = withOriginCountry,
         withOriginalLanguage = withOriginalLanguage,
+        withGenres = withGenres,
         withoutGenres = withoutGenres
     )
 }
