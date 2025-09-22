@@ -58,14 +58,14 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun setUpGenres() {
+    private fun setUpGenres() {
         viewModelScope.launch {
             movieGenres.value = movieGenresUseCase(languageCode).associate { it.id to it.name }
             tvSeriesGenres.value = tvSeriesGenresUseCase(languageCode).associate { it.id to it.name }
         }
     }
 
-    fun setupLanguagesAndCountries() {
+    private fun setupLanguagesAndCountries() {
         languages = Locale.getDefault().getLocalizedLanguageMap()
         countries = Locale.getDefault().getLocalizedCountryMap()
     }
