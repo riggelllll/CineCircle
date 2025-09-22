@@ -28,6 +28,7 @@ interface MoviesDataSource {
         maxVoteCount: Int?,
         withOriginCountry: String?,
         withOriginalLanguage: String?,
+        withGenres: String?,
         withoutGenres: String?
     ): MoviesResponseDto
 }
