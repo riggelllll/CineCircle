@@ -84,6 +84,7 @@ class RemoteMoviesDataSource @Inject constructor(
         maxVoteCount: Int?,
         withOriginCountry: String?,
         withOriginalLanguage: String?,
+        withGenres: String?,
         withoutGenres: String?
     ): MoviesResponseDto {
         return api.getFilteredMovies(
@@ -101,6 +102,7 @@ class RemoteMoviesDataSource @Inject constructor(
             maxVoteCount,
             withOriginCountry,
             withOriginalLanguage,
+            withGenres,
             withoutGenres
         ).body() ?: MoviesResponseDto.empty()
     }
