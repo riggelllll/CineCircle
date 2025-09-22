@@ -38,6 +38,11 @@ class MediaVideoAdapter(
         return VideoViewHolder(lifecycle, binding)
     }
 
+    override fun onViewRecycled(holder: VideoViewHolder) {
+        super.onViewRecycled(holder)
+        holder.release()
+    }
+
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
         holder.cueVideo(videos[position])
     }
@@ -45,8 +50,8 @@ class MediaVideoAdapter(
     override fun getItemCount(): Int = videos.size
 
     inner class VideoViewHolder(
-        lifecycle: Lifecycle,
-        binding: ItemMovieTrailerBinding
+        private val lifecycle: Lifecycle,
+        private val binding: ItemMovieTrailerBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private var youTubePlayer: YouTubePlayer? = null
@@ -54,10 +59,9 @@ class MediaVideoAdapter(
 
         init {
             lifecycle.addObserver(binding.youtubePlayerView)
-
             binding.youtubePlayerView.enableAutomaticInitialization = false
 
-            val iFramePlayerOptions = IFramePlayerOptions.Builder()
+            val iFramePlayerOptions = IFramePlayerOptions.Builder(binding.root.context)
                 .origin("https://${BuildConfig.LIBRARY_PACKAGE_NAME}")
                 .controls(1)
                 .fullscreen(1)
@@ -67,7 +71,6 @@ class MediaVideoAdapter(
                 override fun onEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
                     onFullscreenEnter(fullscreenView, exitFullscreen)
                 }
-
                 override fun onExitFullscreen() {
                     onFullscreenExit()
                 }
@@ -78,21 +81,23 @@ class MediaVideoAdapter(
                     this@VideoViewHolder.youTubePlayer = youTubePlayer
                     currentVideo?.let { youTubePlayer.cueVideo(it.key, 0f) }
                 }
-
                 override fun onError(
                     youTubePlayer: YouTubePlayer,
                     error: PlayerConstants.PlayerError
                 ) {
-                    super.onError(youTubePlayer, error)
                     Timber.d(error.toString())
                 }
             }, iFramePlayerOptions)
         }
 
-
         fun cueVideo(video: Video) {
             currentVideo = video
             youTubePlayer?.cueVideo(video.key, 0f)
+        }
+
+        fun release() {
+            youTubePlayer?.pause()
+            currentVideo = null
         }
     }
 }
