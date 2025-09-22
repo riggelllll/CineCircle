@@ -43,7 +43,7 @@
             android:layout_marginBottom="8dp">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_release_date_gte"
+                android:id="@+id/title_release_date_gte"
                 style="@style/Widget.Material3.TextInputLayout.FilledBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
                 android:layout_height="0dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_release_date_lte"
+                android:id="@+id/title_release_date_lte"
                 style="@style/Widget.Material3.TextInputLayout.FilledBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
             android:layout_marginBottom="8dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_origin_country"
+            android:id="@+id/title_origin_country"
             style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -134,14 +134,14 @@
             android:layout_marginBottom="8dp">
 
             <AutoCompleteTextView
-                android:id="@+id/actv_origin_country"
+                android:id="@+id/origin_country"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_original_language"
+            android:id="@+id/title_original_language"
             style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
             android:layout_marginBottom="8dp">
 
             <AutoCompleteTextView
-                android:id="@+id/actv_original_language"
+                android:id="@+id/original_language"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"/>
@@ -200,7 +200,7 @@
             android:layout_marginBottom="8dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_sort_by"
+            android:id="@+id/title_sort_by"
             style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -210,7 +210,7 @@
             android:layout_marginBottom="8dp">
 
             <AutoCompleteTextView
-                android:id="@+id/actv_sort_by"
+                android:id="@+id/sort_by"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"/>
