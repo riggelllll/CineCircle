@@ -37,7 +37,7 @@ class SearchViewModel @Inject constructor(
     var countries: Map<String, String> = emptyMap()
         private set
     private val searchQuery = MutableStateFlow("")
-    val pagingDataFlow = searchQuery
+    val searchPagingDataFlow = searchQuery
         .debounce(300)
         .distinctUntilChanged()
         .flatMapLatest { q ->
