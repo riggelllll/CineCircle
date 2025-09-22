@@ -21,7 +21,6 @@ interface MoviesRepository {
         year: Int? = null,
         releaseDateGte: String? = null,
         releaseDateLte: String? = null,
-        genreId: String? = null,
         minVoteAverage: Float? = null,
         maxVoteAverage: Float? = null,
         minVoteCount: Int? = null,

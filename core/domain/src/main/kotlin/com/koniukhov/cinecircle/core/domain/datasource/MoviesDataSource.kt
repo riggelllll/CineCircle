@@ -21,7 +21,6 @@ interface MoviesDataSource {
         year: Int?,
         releaseDateGte: String?,
         releaseDateLte: String?,
-        genreId: String?,
         minVoteAverage: Float?,
         maxVoteAverage: Float?,
         minVoteCount: Int?,
