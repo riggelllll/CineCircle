@@ -94,6 +94,7 @@ class MoviesRepositoryImpl @Inject constructor(
         maxVoteCount: Int?,
         withOriginCountry: String?,
         withOriginalLanguage: String?,
+        withGenres: String?,
         withoutGenres: String?
     ): List<Movie> {
         val dto = remoteDataSource.getFilteredMovies(
@@ -110,6 +111,7 @@ class MoviesRepositoryImpl @Inject constructor(
             maxVoteCount = maxVoteCount,
             withOriginCountry = withOriginCountry,
             withOriginalLanguage = withOriginalLanguage,
+            withGenres = withGenres,
             withoutGenres = withoutGenres
         )
         return dto.results.map { it.toDomain() }

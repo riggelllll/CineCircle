@@ -28,6 +28,7 @@ interface MoviesRepository {
         maxVoteCount: Int? = null,
         withOriginCountry: String? = null,
         withOriginalLanguage: String? = null,
+        withGenres: String? = null,
         withoutGenres: String? = null
     ): List<Movie>
 }
