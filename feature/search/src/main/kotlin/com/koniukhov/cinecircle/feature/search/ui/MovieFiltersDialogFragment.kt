@@ -15,6 +15,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.koniukhov.cinecircle.core.common.sort.MovieSortOption
 import com.koniukhov.cinecircle.feature.search.R
 import com.koniukhov.cinecircle.feature.search.databinding.FragmentMovieFiltersBinding
+import com.koniukhov.cinecircle.feature.search.model.MovieFilterParams
 import com.koniukhov.cinecircle.feature.search.viewmodel.SearchViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -56,7 +57,6 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
     private fun setupYearSlider() {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR).toFloat()
         binding.sliderYear.valueTo = currentYear
-        binding.sliderYear.value = currentYear
         if (binding.sliderYear.value < binding.sliderYear.valueFrom || binding.sliderYear.value > currentYear) {
             binding.sliderYear.value = currentYear
         }
@@ -80,21 +80,21 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
 
     private fun setupDatePickers() {
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-        binding.etReleaseDateGte.setOnClickListener {
+        binding.releaseDateGte.setOnClickListener {
             val picker = MaterialDatePicker.Builder.datePicker()
                 .setTitleText(R.string.label_release_date_gte)
                 .build()
             picker.addOnPositiveButtonClickListener { millis ->
-                binding.etReleaseDateGte.setText(formatter.format(Date(millis)))
+                binding.releaseDateGte.setText(formatter.format(Date(millis)))
             }
             picker.show(parentFragmentManager, DATE_GTE_TAG)
         }
-        binding.etReleaseDateLte.setOnClickListener {
+        binding.releaseDateLte.setOnClickListener {
             val picker = MaterialDatePicker.Builder.datePicker()
                 .setTitleText(R.string.label_release_date_lte)
                 .build()
             picker.addOnPositiveButtonClickListener { millis ->
-                binding.etReleaseDateLte.setText(formatter.format(Date(millis)))
+                binding.releaseDateLte.setText(formatter.format(Date(millis)))
             }
             picker.show(parentFragmentManager, DATE_LTE_TAG)
         }
@@ -138,6 +138,7 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
 
     private fun setupSearchBtn() {
         binding.btnApply.setOnClickListener {
+            viewModel.updateFilters(getEnteredFilters())
             onSearchClick.invoke()
         }
     }
@@ -170,6 +171,41 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
                 }
             }
         }
+    }
+
+    private fun getEnteredFilters(): MovieFilterParams {
+        val sortBy = MovieSortOption.apiFromDisplayText(binding.sortBy.text.toString(), requireContext())
+        val sliderYear = binding.sliderYear.value.toInt()
+        val year = if (sliderYear != binding.sliderYear.valueFrom.toInt()) sliderYear else null
+        val releaseDateGte = binding.releaseDateGte.text?.toString()?.ifBlank { null }
+        val releaseDateLte = binding.releaseDateLte.text?.toString()?.ifBlank { null }
+        val minVoteAverage = binding.rsVoteAverage.values.getOrNull(0)
+        val maxVoteAverage = binding.rsVoteAverage.values.getOrNull(1)
+        val minVoteCount = binding.rsVoteCount.values.getOrNull(0)?.toInt()
+        val maxVoteCount = binding.rsVoteCount.values.getOrNull(1)?.toInt()
+        val withOriginCountry = viewModel.countries[binding.originCountry.text?.toString()]
+        val withOriginalLanguage = viewModel.languages[binding.originalLanguage.text?.toString()]
+        val withGenres = binding.chipGroupInclude.checkedChipIds.mapNotNull { id ->
+            binding.chipGroupInclude.findViewById<Chip>(id)?.tag as? Int
+        }.takeIf { it.isNotEmpty() }?.joinToString(",")
+        val withoutGenres = binding.chipGroupExclude.checkedChipIds.map { id ->
+            binding.chipGroupExclude.findViewById<Chip>(id)?.tag as? Int
+        }.takeIf { it.isNotEmpty() }?.joinToString(",")
+
+        return MovieFilterParams(
+            sortBy = sortBy,
+            year = year,
+            releaseDateGte = releaseDateGte,
+            releaseDateLte = releaseDateLte,
+            minVoteAverage = minVoteAverage,
+            maxVoteAverage = maxVoteAverage,
+            minVoteCount = minVoteCount,
+            maxVoteCount = maxVoteCount,
+            withOriginCountry = withOriginCountry,
+            withOriginalLanguage = withOriginalLanguage,
+            withGenres = withGenres,
+            withoutGenres = withoutGenres
+        )
     }
 
     companion object {
