@@ -9,6 +9,8 @@ import com.koniukhov.cinecircle.core.common.util.getLocalizedLanguageMap
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
 import com.koniukhov.cinecircle.core.domain.usecase.GetMovieGenresUseCase
 import com.koniukhov.cinecircle.core.domain.usecase.GetTvSeriesGenresUseCase
+import com.koniukhov.cinecircle.feature.search.model.MovieFilterParams
+import com.koniukhov.cinecircle.feature.search.repository.FilteredMediaRepository
 import com.koniukhov.cinecircle.feature.search.repository.SearchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +24,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val repository: SearchRepository,
+    private val searchRepository: SearchRepository,
+    private val filteredMediaRepository: FilteredMediaRepository,
     private val movieGenresUseCase: GetMovieGenresUseCase,
     private val tvSeriesGenresUseCase: GetTvSeriesGenresUseCase,
     @LanguageCode
@@ -43,11 +46,35 @@ class SearchViewModel @Inject constructor(
         .flatMapLatest { q ->
             val query = q.trim()
             if (query.isBlank()) flowOf(PagingData.empty())
-            else repository.getSearchFlow(query, languageCode)
+            else searchRepository.getSearchFlow(query, languageCode)
         }
         .cachedIn(viewModelScope)
 
-    val filterPagingDataFlow = MutableStateFlow<String?>(null)
+    private val moviesFilterState = MutableStateFlow<MovieFilterParams?>(null)
+
+    val moviesFilterPagingDataFlow = moviesFilterState
+        .flatMapLatest { params ->
+            if (params == null) {
+                flowOf(PagingData.empty())
+            } else {
+                filteredMediaRepository.getFilteredMoviesFlow(
+                    language = languageCode,
+                    sortBy = params.sortBy,
+                    year = params.year,
+                    releaseDateGte = params.releaseDateGte,
+                    releaseDateLte = params.releaseDateLte,
+                    minVoteAverage = params.minVoteAverage,
+                    maxVoteAverage = params.maxVoteAverage,
+                    minVoteCount = params.minVoteCount,
+                    maxVoteCount = params.maxVoteCount,
+                    withOriginCountry = params.withOriginCountry,
+                    withOriginalLanguage = params.withOriginalLanguage,
+                    withGenres = params.withGenres,
+                    withoutGenres = params.withoutGenres
+                )
+            }
+        }
+        .cachedIn(viewModelScope)
 
     init {
         setUpGenres()
@@ -70,5 +97,9 @@ class SearchViewModel @Inject constructor(
     private fun setupLanguagesAndCountries() {
         languages = Locale.getDefault().getLocalizedLanguageMap()
         countries = Locale.getDefault().getLocalizedCountryMap()
+    }
+
+    fun updateFilters(params: MovieFilterParams?) {
+        viewModelScope.launch { moviesFilterState.emit(params) }
     }
 }
