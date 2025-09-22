@@ -4,7 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.koniukhov.cinecircle.core.common.util.getLocalizedCountryMap
+import com.koniukhov.cinecircle.core.common.util.getLocalizedLanguageMap
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
+import com.koniukhov.cinecircle.core.domain.usecase.GetMovieGenresUseCase
+import com.koniukhov.cinecircle.core.domain.usecase.GetTvSeriesGenresUseCase
 import com.koniukhov.cinecircle.feature.search.repository.SearchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,14 +17,25 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val repository: SearchRepository,
+    private val movieGenresUseCase: GetMovieGenresUseCase,
+    private val tvSeriesGenresUseCase: GetTvSeriesGenresUseCase,
     @LanguageCode
     private val languageCode: String
 ) : ViewModel() {
+    var movieGenres: MutableStateFlow<Map<Int, String>> = MutableStateFlow(emptyMap())
+        private set
+    var tvSeriesGenres: MutableStateFlow<Map<Int, String>> = MutableStateFlow(emptyMap())
+        private set
+    var languages: Map<String, String> = emptyMap()
+        private set
+    var countries: Map<String, String> = emptyMap()
+        private set
     private val searchQuery = MutableStateFlow("")
     val pagingDataFlow = searchQuery
         .debounce(300)
@@ -32,9 +47,26 @@ class SearchViewModel @Inject constructor(
         }
         .cachedIn(viewModelScope)
 
+    init {
+        setUpGenres()
+        setupLanguagesAndCountries()
+    }
+
     fun onSearchQueryChanged(query: String) {
         viewModelScope.launch {
             searchQuery.emit(query)
         }
+    }
+
+    fun setUpGenres() {
+        viewModelScope.launch {
+            movieGenres.value = movieGenresUseCase(languageCode).associate { it.id to it.name }
+            tvSeriesGenres.value = tvSeriesGenresUseCase(languageCode).associate { it.id to it.name }
+        }
+    }
+
+    fun setupLanguagesAndCountries() {
+        languages = Locale.getDefault().getLocalizedLanguageMap()
+        countries = Locale.getDefault().getLocalizedCountryMap()
     }
 }
