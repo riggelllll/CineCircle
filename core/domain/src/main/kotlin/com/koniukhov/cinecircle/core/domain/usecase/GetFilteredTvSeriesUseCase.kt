@@ -13,13 +13,13 @@ class GetFilteredTvSeriesUseCase @Inject constructor(private val repository: TvS
         year: Int? = null,
         firstAirDateGte: String? = null,
         firstAirDateLte: String? = null,
-        genreId: String? = null,
         minVoteAverage: Float? = null,
         maxVoteAverage: Float? = null,
         minVoteCount: Int? = null,
         maxVoteCount: Int? = null,
         withOriginCountry: String? = null,
         withOriginalLanguage: String? = null,
+        withGenres: String? = null,
         withoutGenres: String? = null
     ) = repository.getFilteredTvSeries(
         page = page,
@@ -30,13 +30,13 @@ class GetFilteredTvSeriesUseCase @Inject constructor(private val repository: TvS
         year = year,
         firstAirDateGte = firstAirDateGte,
         firstAirDateLte = firstAirDateLte,
-        genreId = genreId,
         minVoteAverage = minVoteAverage,
         maxVoteAverage = maxVoteAverage,
         minVoteCount = minVoteCount,
         maxVoteCount = maxVoteCount,
         withOriginCountry = withOriginCountry,
         withOriginalLanguage = withOriginalLanguage,
+        withGenres = withGenres,
         withoutGenres = withoutGenres
     )
 }
