@@ -86,13 +86,13 @@ class RemoteTvSeriesDataSource @Inject constructor(private val api: TMDBApi) : T
         year: Int?,
         firstAirDateGte: String?,
         firstAirDateLte: String?,
-        genreId: String?,
         minVoteAverage: Float?,
         maxVoteAverage: Float?,
         minVoteCount: Int?,
         maxVoteCount: Int?,
         withOriginCountry: String?,
         withOriginalLanguage: String?,
+        withGenres: String?,
         withoutGenres: String?
     ): TvSeriesResponseDto {
         return api.getFilteredTvSeries(
@@ -105,13 +105,13 @@ class RemoteTvSeriesDataSource @Inject constructor(private val api: TMDBApi) : T
             year,
             firstAirDateGte,
             firstAirDateLte,
-            genreId,
             minVoteAverage,
             maxVoteAverage,
             minVoteCount,
             maxVoteCount,
             withOriginCountry,
             withOriginalLanguage,
+            withGenres,
             withoutGenres
         ).body() ?: TvSeriesResponseDto.empty()
     }
