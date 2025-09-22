@@ -13,4 +13,5 @@
     <string name="label_sort_by">Sort by</string>
     <string name="action_reset">Reset</string>
     <string name="action_search">Search</string>
+    <string name="empty_discover_list">The list is empty. Adjust filters and get results.</string>
 </resources>
