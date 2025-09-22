@@ -73,7 +73,6 @@
         android:text="@string/empty_discover_list"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-        android:visibility="gone"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:visibility="visible"/>
+        android:visibility="visible"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
