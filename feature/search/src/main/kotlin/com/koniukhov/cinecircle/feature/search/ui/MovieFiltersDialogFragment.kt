@@ -286,6 +286,31 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
 
     private fun resetFilters() {
         viewModel.updateMovieFilters(null)
+
+
+        binding.sortBy.setText(getString(MovieSortOption.POPULARITY_DESC.labelRes), false)
+
+        binding.sliderYear.value = binding.sliderYear.valueFrom
+
+        binding.releaseDateGte.setText("")
+        binding.releaseDateLte.setText("")
+
+        binding.rsVoteAverage.setValues(0f, 10f)
+
+        binding.rsVoteCount.setValues(0f, 10000f)
+
+        binding.originCountry.setText("")
+        binding.originalLanguage.setText("")
+
+        clearAllChips(binding.chipGroupInclude)
+        clearAllChips(binding.chipGroupExclude)
+    }
+
+    private fun clearAllChips(chipGroup: ChipGroup) {
+        for (i in 0 until chipGroup.childCount) {
+            val chip = chipGroup.getChildAt(i) as? Chip
+            chip?.isChecked = false
+        }
     }
 
     companion object {
