@@ -14,6 +14,7 @@ import com.koniukhov.cinecircle.feature.search.repository.FilteredMediaRepositor
 import com.koniukhov.cinecircle.feature.search.repository.SearchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
@@ -50,9 +51,10 @@ class SearchViewModel @Inject constructor(
         }
         .cachedIn(viewModelScope)
 
-    private val moviesFilterState = MutableStateFlow<MovieFilterParams?>(null)
+    private var _moviesFilterParamsState = MutableStateFlow<MovieFilterParams?>(null)
+    val moviesFilterParamsState = _moviesFilterParamsState.asStateFlow()
 
-    val moviesFilterPagingDataFlow = moviesFilterState
+    val moviesFilterPagingDataFlow = _moviesFilterParamsState
         .flatMapLatest { params ->
             if (params == null) {
                 flowOf(PagingData.empty())
@@ -99,7 +101,7 @@ class SearchViewModel @Inject constructor(
         countries = Locale.getDefault().getLocalizedCountryMap()
     }
 
-    fun updateFilters(params: MovieFilterParams?) {
-        viewModelScope.launch { moviesFilterState.emit(params) }
+    fun updateMovieFilters(params: MovieFilterParams?) {
+        viewModelScope.launch { _moviesFilterParamsState.emit(params) }
     }
 }
