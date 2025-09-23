@@ -4,6 +4,11 @@
     <string name="label_year">Year</string>
     <string name="label_release_date_gte">From date</string>
     <string name="label_release_date_lte">To date</string>
+    <string name="label_first_air_date_year">First air date year</string>
+    <string name="label_first_air_date_gte">First air date from</string>
+    <string name="label_first_air_date_lte">First air date to</string>
+    <string name="label_air_date_gte">Air date from</string>
+    <string name="label_air_date_lte">Air date to</string>
     <string name="label_genres_include">Genres (include)</string>
     <string name="label_genres_exclude">Genres (exclude)</string>
     <string name="label_with_origin_country">Country of origin</string>
