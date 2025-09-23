@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.koniukhov.cinecircle.core.common.sort.MovieSortOption
 import com.koniukhov.cinecircle.feature.search.R
@@ -46,11 +47,12 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
         super.onViewCreated(view, savedInstanceState)
         setupDatePickers()
         setupDropdowns()
-        populateGenreChips()
+        populateGenreChipsAndLoadParams()
         setupYearSlider()
         setupVoteAverageRangeSlider()
         setupVoteCountRangeSlider()
         setupSearchBtn()
+        setupResetBtn()
     }
 
     override fun onDestroyView() {
@@ -140,14 +142,20 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
         )
     }
 
+    private fun setupResetBtn() {
+        binding.btnReset.setOnClickListener {
+            resetFilters()
+        }
+    }
+
     private fun setupSearchBtn() {
         binding.btnApply.setOnClickListener {
-            viewModel.updateFilters(getEnteredFilters())
+            viewModel.updateMovieFilters(getEnteredFilters())
             onSearchClick.invoke()
         }
     }
 
-    private fun populateGenreChips() {
+    private fun populateGenreChipsAndLoadParams() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(androidx.lifecycle.Lifecycle.State.STARTED) {
                 viewModel.movieGenres.collectLatest { map ->
@@ -172,6 +180,7 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
                         binding.chipGroupInclude.addView(chipInclude)
                         binding.chipGroupExclude.addView(chipExclude)
                     }
+                    loadFilterParams()
                 }
             }
         }
@@ -210,6 +219,73 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
             withGenres = withGenres,
             withoutGenres = withoutGenres
         )
+    }
+
+    private fun loadFilterParams() {
+        viewModel.moviesFilterParamsState.value?.let { params ->
+            params.sortBy?.let { sortBy ->
+                val sortOption = MovieSortOption.entries.find { it.apiValue == sortBy }
+                sortOption?.let { option ->
+                    val displayText = getString(option.labelRes)
+                    binding.sortBy.setText(displayText, false)
+                }
+            }
+
+            params.year?.let { year ->
+                binding.sliderYear.value = year.toFloat()
+            }
+
+            params.releaseDateGte?.let { date ->
+                binding.releaseDateGte.setText(date)
+            }
+            params.releaseDateLte?.let { date ->
+                binding.releaseDateLte.setText(date)
+            }
+
+            if (params.minVoteAverage != null && params.maxVoteAverage != null) {
+                binding.rsVoteAverage.setValues(params.minVoteAverage, params.maxVoteAverage)
+            }
+
+            if (params.minVoteCount != null && params.maxVoteCount != null) {
+                binding.rsVoteCount.setValues(params.minVoteCount.toFloat(), params.maxVoteCount.toFloat())
+            }
+
+            params.withOriginCountry?.let { countryCode ->
+                val countryName = viewModel.countries.entries.find { it.value == countryCode }?.key
+                countryName?.let { binding.originCountry.setText(it, false) }
+            }
+
+            params.withOriginalLanguage?.let { languageCode ->
+                val languageName = viewModel.languages.entries.find { it.value == languageCode }?.key
+                languageName?.let { binding.originalLanguage.setText(it, false) }
+            }
+
+            params.withGenres?.let { genresString ->
+                val genreIds = genresString.split(",").mapNotNull { it.toIntOrNull() }
+                loadGenreChips(genreIds, binding.chipGroupInclude)
+            }
+
+            params.withoutGenres?.let { genresString ->
+                val genreIds = genresString.split(",").mapNotNull { it.toIntOrNull() }
+                loadGenreChips(genreIds, binding.chipGroupExclude)
+            }
+        }
+    }
+
+    private fun loadGenreChips(genreIds: List<Int>, chipGroup: ChipGroup) {
+        for (i in 0 until chipGroup.childCount) {
+            val chip = chipGroup.getChildAt(i) as? Chip
+            chip?.let {
+                val chipGenreId = it.tag as? Int
+                if (chipGenreId in genreIds) {
+                    it.isChecked = true
+                }
+            }
+        }
+    }
+
+    private fun resetFilters() {
+        viewModel.updateMovieFilters(null)
     }
 
     companion object {
