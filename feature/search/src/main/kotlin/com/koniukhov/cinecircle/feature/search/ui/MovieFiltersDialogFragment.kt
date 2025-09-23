@@ -28,6 +28,10 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
     private var _binding: FragmentMovieFiltersBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SearchViewModel by activityViewModels()
+    private val collator = java.text.Collator.getInstance(Locale.getDefault())
+    private val pairComparator: Comparator<Pair<String, String>> =
+        Comparator { a, b -> collator.compare(a.first, b.first) }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -119,8 +123,8 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
     private fun setupOriginCountryDropdown() {
         val items = viewModel.countries
             .toList()
-            .sortedBy { it.first }
-            .map { it.first}
+            .sortedWith (pairComparator)
+            .map { it.first }
         binding.originCountry.setAdapter(
             ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, items)
         )
@@ -129,7 +133,7 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
     private fun setupOriginalLanguageDropdown() {
         val items = viewModel.languages
             .toList()
-            .sortedBy { it.first }
+            .sortedWith (pairComparator)
             .map { it.first }
         binding.originalLanguage.setAdapter(
             ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, items)
