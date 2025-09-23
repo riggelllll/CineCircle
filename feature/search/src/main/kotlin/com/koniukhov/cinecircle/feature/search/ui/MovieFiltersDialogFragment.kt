@@ -69,7 +69,7 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
     }
 
     private fun setupVoteAverageRangeSlider() {
-        with(binding.rsVoteAverage) {
+        with(binding.voteAverage) {
             setValues(0f, 10f)
             stepSize = 0.1f
             setLabelFormatter { value -> String.format(Locale.getDefault(), "%.1f", value) }
@@ -77,7 +77,7 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
     }
 
     private fun setupVoteCountRangeSlider() {
-        with(binding.rsVoteCount) {
+        with(binding.voteCount) {
             setValues(0f, 10000f)
             stepSize = 10f
             setLabelFormatter { value -> value.toInt().toString() }
@@ -192,10 +192,10 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
         val year = if (sliderYear != binding.sliderYear.valueFrom.toInt()) sliderYear else null
         val releaseDateGte = binding.releaseDateGte.text?.toString()?.ifBlank { null }
         val releaseDateLte = binding.releaseDateLte.text?.toString()?.ifBlank { null }
-        val minVoteAverage = binding.rsVoteAverage.values.getOrNull(0)
-        val maxVoteAverage = binding.rsVoteAverage.values.getOrNull(1)
-        val minVoteCount = binding.rsVoteCount.values.getOrNull(0)?.toInt()
-        val maxVoteCount = binding.rsVoteCount.values.getOrNull(1)?.toInt()
+        val minVoteAverage = binding.voteAverage.values.getOrNull(0)
+        val maxVoteAverage = binding.voteAverage.values.getOrNull(1)
+        val minVoteCount = binding.voteCount.values.getOrNull(0)?.toInt()
+        val maxVoteCount = binding.voteCount.values.getOrNull(1)?.toInt()
         val withOriginCountry = viewModel.countries[binding.originCountry.text?.toString()]
         val withOriginalLanguage = viewModel.languages[binding.originalLanguage.text?.toString()]
         val withGenres = binding.chipGroupInclude.checkedChipIds.mapNotNull { id ->
@@ -243,11 +243,11 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
             }
 
             if (params.minVoteAverage != null && params.maxVoteAverage != null) {
-                binding.rsVoteAverage.setValues(params.minVoteAverage, params.maxVoteAverage)
+                binding.voteAverage.setValues(params.minVoteAverage, params.maxVoteAverage)
             }
 
             if (params.minVoteCount != null && params.maxVoteCount != null) {
-                binding.rsVoteCount.setValues(params.minVoteCount.toFloat(), params.maxVoteCount.toFloat())
+                binding.voteCount.setValues(params.minVoteCount.toFloat(), params.maxVoteCount.toFloat())
             }
 
             params.withOriginCountry?.let { countryCode ->
@@ -295,9 +295,9 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
         binding.releaseDateGte.setText("")
         binding.releaseDateLte.setText("")
 
-        binding.rsVoteAverage.setValues(0f, 10f)
+        binding.voteAverage.setValues(0f, 10f)
 
-        binding.rsVoteCount.setValues(0f, 10000f)
+        binding.voteCount.setValues(0f, 10000f)
 
         binding.originCountry.setText("")
         binding.originalLanguage.setText("")
