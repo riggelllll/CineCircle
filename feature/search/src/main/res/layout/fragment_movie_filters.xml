@@ -165,7 +165,7 @@
             android:text="@string/label_vote_average_range"/>
 
         <com.google.android.material.slider.RangeSlider
-            android:id="@+id/rs_vote_average"
+            android:id="@+id/vote_average"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
@@ -186,7 +186,7 @@
             android:text="@string/label_vote_count_range"/>
 
         <com.google.android.material.slider.RangeSlider
-            android:id="@+id/rs_vote_count"
+            android:id="@+id/vote_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
