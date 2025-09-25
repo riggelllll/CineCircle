@@ -23,6 +23,11 @@ enum class TvSeriesSortOption(@StringRes val labelRes: Int, val apiValue: String
     VOTE_COUNT_DESC(R.string.sort_vote_count_desc, "vote_count.desc");
 
     companion object {
-        fun fromApiValue(value: String): TvSeriesSortOption? = entries.firstOrNull { it.apiValue == value }
+
+        fun apiFromDisplayText(displayText: String, context: android.content.Context): String {
+            return entries.firstOrNull { option ->
+                context.getString(option.labelRes) == displayText
+            }?.apiValue ?: POPULARITY_DESC.apiValue
+        }
     }
 }
