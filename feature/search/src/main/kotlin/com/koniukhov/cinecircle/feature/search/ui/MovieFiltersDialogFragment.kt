@@ -150,7 +150,7 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
 
     private fun setupSearchBtn() {
         binding.btnApply.setOnClickListener {
-            viewModel.updateMovieFilters(getEnteredFilters())
+            viewModel.selectMovieFilters(getEnteredFilters())
             onSearchClick.invoke()
         }
     }
@@ -285,7 +285,7 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
     }
 
     private fun resetFilters() {
-        viewModel.updateMovieFilters(null)
+        viewModel.resetMovieFilters()
 
 
         binding.sortBy.setText(getString(MovieSortOption.POPULARITY_DESC.labelRes), false)
