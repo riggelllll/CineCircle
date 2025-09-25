@@ -28,6 +28,7 @@ import com.koniukhov.cinecircle.feature.search.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import com.koniukhov.cinecircle.core.design.R as designR
 
 @AndroidEntryPoint
@@ -151,9 +152,13 @@ class SearchFragment : Fragment() {
 
     private fun observeFilterPagingData() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.moviesFilterPagingDataFlow.collectLatest { pagingData ->
+            viewModel.moviesFilterPagingDataFlow.collect { pagingData ->
                 filterAdapter.submitData(pagingData)
-
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.tvSeriesFilterPagingDataFlow.collect { pagingData ->
+                filterAdapter.submitData(pagingData)
             }
         }
     }
