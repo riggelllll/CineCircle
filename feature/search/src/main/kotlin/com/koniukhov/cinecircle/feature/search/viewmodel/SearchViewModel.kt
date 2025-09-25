@@ -135,7 +135,7 @@ class SearchViewModel @Inject constructor(
          updateMovieFilters(params)
     }
 
-    private fun resetTvSeriesFilters() {
+    fun resetTvSeriesFilters() {
         viewModelScope.launch { _tvSeriesFilterParamsState.emit(null) }
     }
 
@@ -148,7 +148,7 @@ class SearchViewModel @Inject constructor(
         updateTvSeriesFilters(params)
     }
 
-    private fun resetMovieFilters() {
+    fun resetMovieFilters() {
         viewModelScope.launch { _moviesFilterParamsState.emit(null) }
     }
 
