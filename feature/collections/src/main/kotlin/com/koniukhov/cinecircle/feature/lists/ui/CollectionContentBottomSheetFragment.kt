@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
-import com.koniukhov.cinecircle.core.common.Constants.MediaType
+import com.koniukhov.cinecircle.core.common.MediaType
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.movieDetailsUri
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.tvSeriesDetailsUri
 import com.koniukhov.cinecircle.core.design.R
@@ -75,11 +75,10 @@ class CollectionContentBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun navigateToDetails(mediaId: Int, mediaType: Int) {
+    private fun navigateToDetails(mediaId: Int, mediaType: MediaType) {
         val uri = when (mediaType) {
             MediaType.MOVIE -> movieDetailsUri(mediaId)
             MediaType.TV_SERIES -> tvSeriesDetailsUri(mediaId)
-            else -> return
         }
 
         val request = NavDeepLinkRequest.Builder

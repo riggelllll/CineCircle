@@ -1,6 +1,6 @@
 package com.koniukhov.cinecircle.core.database.repository
 
-import com.koniukhov.cinecircle.core.common.Constants.MediaType
+import com.koniukhov.cinecircle.core.common.MediaType
 import com.koniukhov.cinecircle.core.database.dao.MediaListDao
 import com.koniukhov.cinecircle.core.database.entity.MediaListEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListItemEntity

@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.koniukhov.cinecircle.core.common.MediaType
 
 @Entity(
     tableName = "media_list_items",
@@ -27,5 +28,5 @@ data class MediaListItemEntity(
     val id: Long = 0,
     val listId: Long,
     val mediaId: Int,
-    val mediaType: Int,
+    val mediaType: MediaType,
 )

@@ -17,7 +17,7 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.koniukhov.cinecircle.core.common.Constants.MediaType
+import com.koniukhov.cinecircle.core.common.MediaType
 import com.koniukhov.cinecircle.core.common.navigation.navigateToMovieDetails
 import com.koniukhov.cinecircle.core.common.navigation.navigateToTvSeriesDetails
 import com.koniukhov.cinecircle.core.ui.adapter.PagingMediaAdapter

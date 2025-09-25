@@ -10,9 +10,4 @@ object Constants {
     const val VIDEO_TYPE_TEASER = "Teaser"
 
     const val INVALID_ID = -1
-
-    object MediaType {
-        const val MOVIE = 0
-        const val TV_SERIES = 1
-    }
 }

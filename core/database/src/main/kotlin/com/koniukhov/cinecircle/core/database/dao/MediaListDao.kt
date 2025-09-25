@@ -1,6 +1,7 @@
 package com.koniukhov.cinecircle.core.database.dao
 
 import androidx.room.*
+import com.koniukhov.cinecircle.core.common.MediaType
 import com.koniukhov.cinecircle.core.database.entity.MediaListEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListItemEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListWithCountResult
@@ -31,13 +32,13 @@ interface MediaListDao {
     fun getMediaItemsInList(listId: Long): Flow<List<MediaListItemEntity>>
 
     @Query("SELECT COUNT(*) FROM media_list_items WHERE listId = :listId AND mediaId = :mediaId AND mediaType = :mediaType")
-    suspend fun isMediaInList(listId: Long, mediaId: Int, mediaType: Int): Int
+    suspend fun isMediaInList(listId: Long, mediaId: Int, mediaType: MediaType): Int
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addMediaToList(item: MediaListItemEntity): Long
 
     @Query("DELETE FROM media_list_items WHERE listId = :listId AND mediaId = :mediaId AND mediaType = :mediaType")
-    suspend fun removeMediaFromList(listId: Long, mediaId: Int, mediaType: Int)
+    suspend fun removeMediaFromList(listId: Long, mediaId: Int, mediaType: MediaType)
 
     @Query("DELETE FROM media_list_items WHERE listId = :listId")
     suspend fun clearList(listId: Long)
@@ -63,8 +64,8 @@ interface MediaListDao {
         WHERE mli.mediaId = :mediaId AND mli.mediaType = :mediaType
         ORDER BY ml.isDefault DESC
     """)
-    suspend fun getListsContainingMedia(mediaId: Int, mediaType: Int): List<MediaListEntity>
+    suspend fun getListsContainingMedia(mediaId: Int, mediaType: MediaType): List<MediaListEntity>
 
     @Query("SELECT * FROM media_list_items WHERE listId = :listId AND mediaType = :mediaType ORDER BY id DESC")
-    fun getMediaByTypeInList(listId: Long, mediaType: Int): Flow<List<MediaListItemEntity>>
+    fun getMediaByTypeInList(listId: Long, mediaType: MediaType): Flow<List<MediaListItemEntity>>
 }

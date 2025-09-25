@@ -8,7 +8,7 @@ import coil3.request.placeholder
 import coil3.request.transformations
 import coil3.transform.RoundedCornersTransformation
 import com.koniukhov.cinecircle.core.common.Constants.IMAGE_RADIUS
-import com.koniukhov.cinecircle.core.common.Constants.MediaType
+import com.koniukhov.cinecircle.core.common.MediaType
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
 import com.koniukhov.cinecircle.core.domain.model.MediaItem
@@ -17,7 +17,7 @@ import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLAT
 import java.util.Locale
 
 class MediaAdapter(
-    private val onItemClick: (Int, Int) -> Unit
+    private val onItemClick: (Int, MediaType) -> Unit
 ) : RecyclerView.Adapter<MediaAdapter.MediaViewHolder>() {
 
     private var mediaItems: List<MediaItem> = emptyList()
