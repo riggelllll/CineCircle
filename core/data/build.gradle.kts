@@ -11,6 +11,7 @@ dependencies{
     implementation(projects.core.domain)
     implementation(projects.core.network)
     implementation(projects.core.common)
+    implementation(projects.core.database)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
 }
