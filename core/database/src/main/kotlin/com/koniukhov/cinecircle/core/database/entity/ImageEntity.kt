@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class MediaItemEntity (
+data class ImageEntity (
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val mediaId: Long,
