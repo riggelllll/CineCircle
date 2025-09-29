@@ -1,5 +1,7 @@
 package com.koniukhov.cinecircle.core.data.di
 
+import com.koniukhov.cinecircle.core.data.local.LocalMoviesDataSource
+import com.koniukhov.cinecircle.core.data.local.LocalMoviesDataSourceImpl
 import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteCollectionsDataSourceImpl
 import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteContentRatingsDataSourceImpl
 import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteGenresDataSourceImpl
@@ -57,13 +59,13 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun bindMoviesDataSource(
+    abstract fun bindRemoteMoviesDataSource(
         remoteMovieDataSource: RemoteRemoteMoviesDataSourceImpl
     ): RemoteMoviesDataSource
 
     @Binds
     @Singleton
-    abstract fun bindTvSeriesDataSource(
+    abstract fun bindRemoteTvSeriesDataSource(
         remoteTvSeriesDataSourceImpl: RemoteRemoteTvSeriesDataSourceImpl
     ): RemoteTvSeriesDataSource
 
@@ -75,7 +77,7 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun bindGenresDataSource(
+    abstract fun bindRemoteGenresDataSource(
         remoteGenresDataSourceImpl: RemoteRemoteGenresDataSourceImpl
     ): RemoteGenresDataSource
 
@@ -87,7 +89,7 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun bindCollectionsDataSource(
+    abstract fun bindRemoteCollectionsDataSource(
         remoteCollectionsDataSourceImpl: RemoteRemoteCollectionsDataSourceImpl
     ): RemoteCollectionsDataSource
 
@@ -99,7 +101,7 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun bindImageDataSource(
+    abstract fun bindRemoteImageDataSource(
         remoteImageDataSource: RemoteRemoteImagesDataSourceImpl
     ): RemoteImagesDataSource
 
@@ -111,7 +113,7 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun bindVideosDataSource(
+    abstract fun bindRemoteVideosDataSource(
         remoteVideosDataSourceImpl: RemoteRemoteVideosDataSourceImpl
     ): RemoteVideosDataSource
 
@@ -123,7 +125,7 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun bindReviewsDataSource(
+    abstract fun bindRemoteReviewsDataSource(
         remoteReviewsDataSourceImpl: RemoteRemoteReviewsDataSourceImpl
     ): RemoteReviewsDataSource
 
@@ -135,7 +137,7 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun bindCreditsDataSource(
+    abstract fun bindRemoteCreditsDataSource(
         remoteCreditsDataSourceImpl: RemoteRemoteCreditsDataSourceImpl
     ): RemoteCreditsDatasource
 
@@ -147,7 +149,7 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun bindReleaseDatesDataSource(
+    abstract fun bindRemoteReleaseDatesDataSource(
         remoteReleaseDatesDataSourceImpl: RemoteRemoteReleaseDatesDataSourceImpl
     ): RemoteReleaseDatesDataSource
 
@@ -159,7 +161,7 @@ abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun bindContentRatingsDataSource(
+    abstract fun bindRemoteContentRatingsDataSource(
         remoteContentRatingsDataSourceImpl: RemoteRemoteContentRatingsDataSourceImpl
     ): RemoteContentRatingsDataSource
 
@@ -168,4 +170,10 @@ abstract class DataModule {
     abstract fun bindContentRatingsRepository(
         contentRatingsRepositoryImpl: ContentRatingsRepositoryImpl
     ): ContentRatingsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindLocalMoviesDataSource(
+        localMoviesDataSourceImpl: LocalMoviesDataSourceImpl
+    ): LocalMoviesDataSource
 }
