@@ -6,13 +6,17 @@ import androidx.room.TypeConverters
 import com.koniukhov.cinecircle.core.database.converter.ImageTypeConverter
 import com.koniukhov.cinecircle.core.database.converter.MediaTypeConverter
 import com.koniukhov.cinecircle.core.database.dao.MediaListDao
+import com.koniukhov.cinecircle.core.database.entity.GenreEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListItemEntity
+import com.koniukhov.cinecircle.core.database.entity.MovieDetailsEntity
 
 @Database(
     entities = [
         MediaListEntity::class,
-        MediaListItemEntity::class
+        MediaListItemEntity::class,
+        MovieDetailsEntity::class,
+        GenreEntity::class
     ],
     version = 1,
     exportSchema = false
