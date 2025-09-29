@@ -1,6 +1,11 @@
 package com.koniukhov.cinecircle.core.data.mapper
 
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
+import com.koniukhov.cinecircle.core.database.entity.GenreEntity
+import com.koniukhov.cinecircle.core.database.entity.ImageEntity
+import com.koniukhov.cinecircle.core.database.entity.ImageType
+import com.koniukhov.cinecircle.core.database.entity.MovieDetailsEntity
+import com.koniukhov.cinecircle.core.database.entity.MovieWithGenres
 import com.koniukhov.cinecircle.core.domain.model.CastMember
 import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
 import com.koniukhov.cinecircle.core.domain.model.CollectionMedia
@@ -359,4 +364,88 @@ fun ContentRatingDto.toDomain(): ContentRating = ContentRating(
     descriptors = descriptors ?: emptyList(),
     countryCode = countryCode ?: "",
     rating = rating ?: ""
+)
+
+fun ImageEntity.toDomain(): Image = Image(
+    aspectRatio = 0.0,
+    filePath = filePath,
+    height = 0,
+    countryCode = "",
+    voteAverage = 0.0,
+    voteCount = 0,
+    width = 0
+)
+
+fun Image.toEntity(mediaId: Long, imageType: ImageType): ImageEntity = ImageEntity(
+    id = 0,
+    mediaId = mediaId,
+    filePath = filePath,
+    imageType = imageType
+)
+
+fun Genre.toEntity(mediaId: Int): GenreEntity = GenreEntity(
+        uid = 0,
+        id = id,
+        mediaId = mediaId,
+        name = name
+)
+
+fun GenreEntity.toDomain(): Genre = Genre(
+    id = id,
+    name = name
+)
+
+fun MovieDetails.toMovieWithGenres(mediaId: Int): MovieWithGenres = MovieWithGenres(
+    movie = MovieDetailsEntity(
+        uid = 0,
+        mediaId = mediaId,
+        adult = adult,
+        backdropPath = backdropPath,
+        budget = budget,
+        homePage = homePage,
+        id = id,
+        imdbId = imdbId,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        overview = overview,
+        popularity = popularity,
+        posterPath = posterPath,
+        releaseDate = releaseDate,
+        revenue = revenue,
+        runtime = runtime,
+        status = status,
+        tagline = tagline,
+        title = title,
+        voteAverage = voteAverage,
+        voteCount = voteCount
+    ),
+    genres = genres.map { it.toEntity(mediaId) }
+)
+
+fun MovieWithGenres.toMovieDetails(): MovieDetails = MovieDetails(
+    adult = movie.adult,
+    backdropPath = movie.backdropPath,
+    belongsToCollection = MovieCollection.empty(),
+    budget = movie.budget,
+    genres = genres.map { it.toDomain() },
+    homePage = movie.homePage,
+    id = movie.id,
+    imdbId = movie.imdbId,
+    originalLanguage = movie.originalLanguage,
+    originalTitle = movie.originalTitle,
+    overview = movie.overview,
+    popularity = movie.popularity,
+    posterPath = movie.posterPath,
+    productionCompanies = emptyList(),
+    productionCountries = emptyList(),
+    releaseDate = movie.releaseDate,
+    revenue = movie.revenue,
+    runtime = movie.runtime,
+    spokenLanguages = emptyList(),
+    status = movie.status,
+    tagline = movie.tagline,
+    title = movie.title,
+    video = false,
+    voteAverage = movie.voteAverage,
+    voteCount = movie.voteCount
 )
