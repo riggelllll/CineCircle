@@ -1,7 +1,6 @@
 package com.koniukhov.cinecircle.core.data.remote
 
 import com.koniukhov.cinecircle.core.data.BuildConfig
-import com.koniukhov.cinecircle.core.domain.datasource.RemoteTvSeriesDataSource
 import com.koniukhov.cinecircle.core.network.api.TMDBApi
 import com.koniukhov.cinecircle.core.network.model.TvSeasonDetailsDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesDetailsDto

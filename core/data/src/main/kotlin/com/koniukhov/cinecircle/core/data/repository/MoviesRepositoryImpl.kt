@@ -1,7 +1,7 @@
 package com.koniukhov.cinecircle.core.data.repository
 
 import com.koniukhov.cinecircle.core.data.mapper.toDomain
-import com.koniukhov.cinecircle.core.domain.datasource.RemoteMoviesDataSource
+import com.koniukhov.cinecircle.core.data.remote.RemoteMoviesDataSource
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.repository.MoviesRepository

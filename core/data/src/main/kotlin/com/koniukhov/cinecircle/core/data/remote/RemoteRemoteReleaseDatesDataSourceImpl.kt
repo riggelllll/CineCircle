@@ -1,7 +1,6 @@
 package com.koniukhov.cinecircle.core.data.remote
 
 import com.koniukhov.cinecircle.core.data.BuildConfig
-import com.koniukhov.cinecircle.core.domain.datasource.RemoteReleaseDatesDataSource
 import com.koniukhov.cinecircle.core.network.api.TMDBApi
 import com.koniukhov.cinecircle.core.network.model.ReleaseDatesResponseDto
 import javax.inject.Inject

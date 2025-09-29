@@ -1,7 +1,7 @@
 package com.koniukhov.cinecircle.core.data.repository
 
 import com.koniukhov.cinecircle.core.data.mapper.toDomain
-import com.koniukhov.cinecircle.core.domain.datasource.RemoteTvSeriesDataSource
+import com.koniukhov.cinecircle.core.data.remote.RemoteTvSeriesDataSource
 import com.koniukhov.cinecircle.core.domain.model.TvSeasonDetails
 import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.domain.model.TvSeriesDetails

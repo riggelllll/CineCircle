@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.core.domain.datasource
+package com.koniukhov.cinecircle.core.data.remote
 
 import com.koniukhov.cinecircle.core.network.model.ReleaseDatesResponseDto
 
