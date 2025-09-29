@@ -2,9 +2,12 @@ package com.koniukhov.cinecircle.core.database.dao
 
 import androidx.room.*
 import com.koniukhov.cinecircle.core.common.MediaType
+import com.koniukhov.cinecircle.core.database.entity.GenreEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListItemEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListWithCountResult
+import com.koniukhov.cinecircle.core.database.entity.MovieDetailsEntity
+import com.koniukhov.cinecircle.core.database.entity.MovieWithGenres
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -68,4 +71,29 @@ interface MediaListDao {
 
     @Query("SELECT * FROM media_list_items WHERE listId = :listId AND mediaType = :mediaType ORDER BY id DESC")
     fun getMediaByTypeInList(listId: Long, mediaType: MediaType): Flow<List<MediaListItemEntity>>
+
+    @Transaction
+    suspend fun insertMovieWithGenres(movieWithGenres: MovieWithGenres) {
+        insertMovie(movieWithGenres.movie)
+        insertGenres(movieWithGenres.genres)
+    }
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMovie(movie: MovieDetailsEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertGenres(genres: List<GenreEntity>)
+
+    @Transaction
+    suspend fun deleteMovieWithGenres(mediaId: Int) {
+        deleteMovieByMediaId(mediaId)
+        deleteGenresByMediaId(mediaId)
+    }
+
+    @Query("DELETE FROM movie_details WHERE mediaId = :mediaId")
+    suspend fun deleteMovieByMediaId(mediaId: Int)
+
+    @Query("DELETE FROM genres WHERE mediaId = :mediaId")
+    suspend fun deleteGenresByMediaId(mediaId: Int)
+
 }
