@@ -1,12 +1,12 @@
 package com.koniukhov.cinecircle.core.data.remote
 
 import com.koniukhov.cinecircle.core.data.BuildConfig
-import com.koniukhov.cinecircle.core.domain.datasource.ReviewsDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.RemoteReviewsDataSource
 import com.koniukhov.cinecircle.core.network.api.TMDBApi
 import com.koniukhov.cinecircle.core.network.model.MovieReviewsResponseDto
 import javax.inject.Inject
 
-class RemoteReviewsDataSourceImpl @Inject constructor(private val api: TMDBApi) : ReviewsDataSource {
+class RemoteRemoteReviewsDataSourceImpl @Inject constructor(private val api: TMDBApi) : RemoteReviewsDataSource {
     override suspend fun getMovieReviews(
         movieId: Int,
         page: Int,

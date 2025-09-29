@@ -1,12 +1,12 @@
 package com.koniukhov.cinecircle.core.data.repository
 
 import com.koniukhov.cinecircle.core.data.mapper.toDomain
-import com.koniukhov.cinecircle.core.data.remote.RemoteImagesDataSourceImpl
+import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteImagesDataSourceImpl
 import com.koniukhov.cinecircle.core.domain.model.MediaImages
 import com.koniukhov.cinecircle.core.domain.repository.ImagesRepository
 import javax.inject.Inject
 
-class ImagesRepositoryImpl @Inject constructor(private val remoteImagesDataSourceImpl: RemoteImagesDataSourceImpl): ImagesRepository{
+class ImagesRepositoryImpl @Inject constructor(private val remoteImagesDataSourceImpl: RemoteRemoteImagesDataSourceImpl): ImagesRepository{
     override suspend fun getMovieImages(
         movieId: Int,
         language: String

@@ -1,15 +1,15 @@
 package com.koniukhov.cinecircle.core.data.di
 
-import com.koniukhov.cinecircle.core.data.remote.RemoteCollectionsDataSourceImpl
-import com.koniukhov.cinecircle.core.data.remote.RemoteContentRatingsDataSourceImpl
-import com.koniukhov.cinecircle.core.data.remote.RemoteGenresDataSourceImpl
-import com.koniukhov.cinecircle.core.data.remote.RemoteImagesDataSourceImpl
-import com.koniukhov.cinecircle.core.data.remote.RemoteCreditsDataSourceImpl
-import com.koniukhov.cinecircle.core.data.remote.RemoteReviewsDataSourceImpl
-import com.koniukhov.cinecircle.core.data.remote.RemoteVideosDataSourceImpl
-import com.koniukhov.cinecircle.core.data.remote.RemoteMoviesDataSourceImpl
-import com.koniukhov.cinecircle.core.data.remote.RemoteReleaseDatesDataSourceImpl
-import com.koniukhov.cinecircle.core.data.remote.RemoteTvSeriesDataSourceImpl
+import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteCollectionsDataSourceImpl
+import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteContentRatingsDataSourceImpl
+import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteGenresDataSourceImpl
+import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteImagesDataSourceImpl
+import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteCreditsDataSourceImpl
+import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteReviewsDataSourceImpl
+import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteVideosDataSourceImpl
+import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteMoviesDataSourceImpl
+import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteReleaseDatesDataSourceImpl
+import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteTvSeriesDataSourceImpl
 import com.koniukhov.cinecircle.core.data.repository.CollectionsRepositoryImpl
 import com.koniukhov.cinecircle.core.data.repository.ContentRatingsRepositoryImpl
 import com.koniukhov.cinecircle.core.data.repository.CreditsRepositoryImpl
@@ -20,16 +20,16 @@ import com.koniukhov.cinecircle.core.data.repository.ReleaseDatesRepositoryImpl
 import com.koniukhov.cinecircle.core.data.repository.ReviewsRepositoryImpl
 import com.koniukhov.cinecircle.core.data.repository.TvSeriesRepositoryImpl
 import com.koniukhov.cinecircle.core.data.repository.VideosRepositoryImpl
-import com.koniukhov.cinecircle.core.domain.datasource.CollectionsDataSource
-import com.koniukhov.cinecircle.core.domain.datasource.ContentRatingsDataSource
-import com.koniukhov.cinecircle.core.domain.datasource.CreditsDatasource
-import com.koniukhov.cinecircle.core.domain.datasource.GenresDataSource
-import com.koniukhov.cinecircle.core.domain.datasource.ImagesDataSource
-import com.koniukhov.cinecircle.core.domain.datasource.MoviesDataSource
-import com.koniukhov.cinecircle.core.domain.datasource.ReleaseDatesDataSource
-import com.koniukhov.cinecircle.core.domain.datasource.ReviewsDataSource
-import com.koniukhov.cinecircle.core.domain.datasource.TvSeriesDataSource
-import com.koniukhov.cinecircle.core.domain.datasource.VideosDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.RemoteCollectionsDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.RemoteContentRatingsDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.RemoteCreditsDatasource
+import com.koniukhov.cinecircle.core.domain.datasource.RemoteGenresDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.RemoteImagesDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.RemoteMoviesDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.RemoteReleaseDatesDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.RemoteReviewsDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.RemoteTvSeriesDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.RemoteVideosDataSource
 import com.koniukhov.cinecircle.core.domain.repository.CollectionsRepository
 import com.koniukhov.cinecircle.core.domain.repository.ContentRatingsRepository
 import com.koniukhov.cinecircle.core.domain.repository.CreditsRepository
@@ -58,14 +58,14 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindMoviesDataSource(
-        remoteMovieDataSource: RemoteMoviesDataSourceImpl
-    ): MoviesDataSource
+        remoteMovieDataSource: RemoteRemoteMoviesDataSourceImpl
+    ): RemoteMoviesDataSource
 
     @Binds
     @Singleton
     abstract fun bindTvSeriesDataSource(
-        remoteTvSeriesDataSourceImpl: RemoteTvSeriesDataSourceImpl
-    ): TvSeriesDataSource
+        remoteTvSeriesDataSourceImpl: RemoteRemoteTvSeriesDataSourceImpl
+    ): RemoteTvSeriesDataSource
 
     @Binds
     @Singleton
@@ -76,8 +76,8 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindGenresDataSource(
-        remoteGenresDataSourceImpl: RemoteGenresDataSourceImpl
-    ): GenresDataSource
+        remoteGenresDataSourceImpl: RemoteRemoteGenresDataSourceImpl
+    ): RemoteGenresDataSource
 
     @Binds
     @Singleton
@@ -88,8 +88,8 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindCollectionsDataSource(
-        remoteCollectionsDataSourceImpl: RemoteCollectionsDataSourceImpl
-    ): CollectionsDataSource
+        remoteCollectionsDataSourceImpl: RemoteRemoteCollectionsDataSourceImpl
+    ): RemoteCollectionsDataSource
 
     @Binds
     @Singleton
@@ -100,8 +100,8 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindImageDataSource(
-        remoteImageDataSource: RemoteImagesDataSourceImpl
-    ): ImagesDataSource
+        remoteImageDataSource: RemoteRemoteImagesDataSourceImpl
+    ): RemoteImagesDataSource
 
     @Binds
     @Singleton
@@ -112,8 +112,8 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindVideosDataSource(
-        remoteVideosDataSourceImpl: RemoteVideosDataSourceImpl
-    ): VideosDataSource
+        remoteVideosDataSourceImpl: RemoteRemoteVideosDataSourceImpl
+    ): RemoteVideosDataSource
 
     @Binds
     @Singleton
@@ -124,8 +124,8 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindReviewsDataSource(
-        remoteReviewsDataSourceImpl: RemoteReviewsDataSourceImpl
-    ): ReviewsDataSource
+        remoteReviewsDataSourceImpl: RemoteRemoteReviewsDataSourceImpl
+    ): RemoteReviewsDataSource
 
     @Binds
     @Singleton
@@ -136,8 +136,8 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindCreditsDataSource(
-        remoteCreditsDataSourceImpl: RemoteCreditsDataSourceImpl
-    ): CreditsDatasource
+        remoteCreditsDataSourceImpl: RemoteRemoteCreditsDataSourceImpl
+    ): RemoteCreditsDatasource
 
     @Binds
     @Singleton
@@ -148,8 +148,8 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindReleaseDatesDataSource(
-        remoteReleaseDatesDataSourceImpl: RemoteReleaseDatesDataSourceImpl
-    ): ReleaseDatesDataSource
+        remoteReleaseDatesDataSourceImpl: RemoteRemoteReleaseDatesDataSourceImpl
+    ): RemoteReleaseDatesDataSource
 
     @Binds
     @Singleton
@@ -160,8 +160,8 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun bindContentRatingsDataSource(
-        remoteContentRatingsDataSourceImpl: RemoteContentRatingsDataSourceImpl
-    ): ContentRatingsDataSource
+        remoteContentRatingsDataSourceImpl: RemoteRemoteContentRatingsDataSourceImpl
+    ): RemoteContentRatingsDataSource
 
     @Binds
     @Singleton

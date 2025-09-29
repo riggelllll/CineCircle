@@ -3,7 +3,7 @@ package com.koniukhov.cinecircle.core.domain.datasource
 import com.koniukhov.cinecircle.core.network.model.MovieDetailsDto
 import com.koniukhov.cinecircle.core.network.model.MoviesResponseDto
 
-interface MoviesDataSource {
+interface RemoteMoviesDataSource {
     suspend fun getTrendingMovies(page: Int, language: String): MoviesResponseDto
     suspend fun getNowPlayingMovies(page: Int, language: String): MoviesResponseDto
     suspend fun getPopularMovies(page: Int, language: String): MoviesResponseDto

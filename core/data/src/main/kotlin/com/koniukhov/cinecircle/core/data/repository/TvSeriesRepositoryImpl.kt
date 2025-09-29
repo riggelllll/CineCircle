@@ -1,7 +1,7 @@
 package com.koniukhov.cinecircle.core.data.repository
 
 import com.koniukhov.cinecircle.core.data.mapper.toDomain
-import com.koniukhov.cinecircle.core.domain.datasource.TvSeriesDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.RemoteTvSeriesDataSource
 import com.koniukhov.cinecircle.core.domain.model.TvSeasonDetails
 import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.domain.model.TvSeriesDetails
@@ -9,7 +9,7 @@ import com.koniukhov.cinecircle.core.domain.repository.TvSeriesRepository
 import javax.inject.Inject
 
 class TvSeriesRepositoryImpl @Inject constructor(
-    private val remoteDataSource: TvSeriesDataSource
+    private val remoteDataSource: RemoteTvSeriesDataSource
 ) : TvSeriesRepository{
     override suspend fun getAiringTodayTvSeries(page: Int, language: String): List<TvSeries> {
         val dto = remoteDataSource.getAiringTodayTvSeries(page, language)

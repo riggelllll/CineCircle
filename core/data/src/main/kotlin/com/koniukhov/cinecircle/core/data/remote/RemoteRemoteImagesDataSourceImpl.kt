@@ -1,12 +1,12 @@
 package com.koniukhov.cinecircle.core.data.remote
 
 import com.koniukhov.cinecircle.core.data.BuildConfig
-import com.koniukhov.cinecircle.core.domain.datasource.ImagesDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.RemoteImagesDataSource
 import com.koniukhov.cinecircle.core.network.api.TMDBApi
 import com.koniukhov.cinecircle.core.network.model.MediaImagesDto
 import javax.inject.Inject
 
-class RemoteImagesDataSourceImpl @Inject constructor(private val api: TMDBApi): ImagesDataSource {
+class RemoteRemoteImagesDataSourceImpl @Inject constructor(private val api: TMDBApi): RemoteImagesDataSource {
     override suspend fun getMovieImages(
         movieId: Int,
         language: String

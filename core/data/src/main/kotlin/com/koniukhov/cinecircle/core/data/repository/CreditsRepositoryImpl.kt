@@ -1,13 +1,13 @@
 package com.koniukhov.cinecircle.core.data.repository
 
 import com.koniukhov.cinecircle.core.data.mapper.toDomain
-import com.koniukhov.cinecircle.core.data.remote.RemoteCreditsDataSourceImpl
+import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteCreditsDataSourceImpl
 import com.koniukhov.cinecircle.core.domain.model.MediaCredits
 import com.koniukhov.cinecircle.core.domain.repository.CreditsRepository
 import javax.inject.Inject
 
 class CreditsRepositoryImpl @Inject constructor(
-    private val remoteCreditsDataSourceImpl: RemoteCreditsDataSourceImpl)
+    private val remoteCreditsDataSourceImpl: RemoteRemoteCreditsDataSourceImpl)
     : CreditsRepository{
     override suspend fun getMovieCredits(
         movieId: Int,

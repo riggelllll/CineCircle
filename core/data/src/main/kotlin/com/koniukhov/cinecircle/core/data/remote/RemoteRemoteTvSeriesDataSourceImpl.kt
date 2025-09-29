@@ -1,14 +1,14 @@
 package com.koniukhov.cinecircle.core.data.remote
 
 import com.koniukhov.cinecircle.core.data.BuildConfig
-import com.koniukhov.cinecircle.core.domain.datasource.TvSeriesDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.RemoteTvSeriesDataSource
 import com.koniukhov.cinecircle.core.network.api.TMDBApi
 import com.koniukhov.cinecircle.core.network.model.TvSeasonDetailsDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesDetailsDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesResponseDto
 import javax.inject.Inject
 
-class RemoteTvSeriesDataSourceImpl @Inject constructor(private val api: TMDBApi) : TvSeriesDataSource {
+class RemoteRemoteTvSeriesDataSourceImpl @Inject constructor(private val api: TMDBApi) : RemoteTvSeriesDataSource {
 
     override suspend fun getAiringTodayTvSeries(page: Int, language: String): TvSeriesResponseDto {
         return api.getAiringTodayTvSeries(BuildConfig.API_KEY, page, language).body() ?: TvSeriesResponseDto.empty()

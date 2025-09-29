@@ -1,12 +1,12 @@
 package com.koniukhov.cinecircle.core.data.remote
 
 import com.koniukhov.cinecircle.core.data.BuildConfig
-import com.koniukhov.cinecircle.core.domain.datasource.CollectionsDataSource
+import com.koniukhov.cinecircle.core.domain.datasource.RemoteCollectionsDataSource
 import com.koniukhov.cinecircle.core.network.api.TMDBApi
 import com.koniukhov.cinecircle.core.network.model.CollectionDetailsDto
 import javax.inject.Inject
 
-class RemoteCollectionsDataSourceImpl @Inject constructor(private val api: TMDBApi) : CollectionsDataSource {
+class RemoteRemoteCollectionsDataSourceImpl @Inject constructor(private val api: TMDBApi) : RemoteCollectionsDataSource {
     override suspend fun getCollectionDetails(
         collectionId: Int,
         language: String

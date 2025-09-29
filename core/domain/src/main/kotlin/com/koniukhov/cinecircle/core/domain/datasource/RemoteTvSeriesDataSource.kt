@@ -4,7 +4,7 @@ import com.koniukhov.cinecircle.core.network.model.TvSeasonDetailsDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesDetailsDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesResponseDto
 
-interface TvSeriesDataSource {
+interface RemoteTvSeriesDataSource {
     suspend fun getAiringTodayTvSeries(page: Int, language: String): TvSeriesResponseDto
     suspend fun getOnTheAirTvSeries(page: Int, language: String): TvSeriesResponseDto
     suspend fun getTrendingTvSeries(page: Int, language: String): TvSeriesResponseDto
