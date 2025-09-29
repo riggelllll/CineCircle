@@ -386,6 +386,7 @@ class MovieDetailsFragment : Fragment() {
 
             if (isInCollections) {
                 viewModel.removeMovieFromCollection()
+                viewModel.removeMovieDetailsFromCache()
                 showSnackbar(getString(R.string.movie_removed_from_collections))
             } else {
                 showAddToCollectionDialog()
@@ -425,6 +426,7 @@ class MovieDetailsFragment : Fragment() {
 
                     viewLifecycleOwner.lifecycleScope.launch {
                         val collectionName = viewModel.addMovieToCollection(collectionId)
+                        viewModel.cacheMovieDetails()
                         if (collectionName.isNotEmpty()) {
                             showSnackbar(getString(R.string.movie_added_to_collection, collectionName))
                         }
