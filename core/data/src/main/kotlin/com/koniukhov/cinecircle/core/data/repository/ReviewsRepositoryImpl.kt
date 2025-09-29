@@ -1,18 +1,18 @@
 package com.koniukhov.cinecircle.core.data.repository
 
 import com.koniukhov.cinecircle.core.data.mapper.toDomain
-import com.koniukhov.cinecircle.core.data.remote.RemoteReviewsDataSource
+import com.koniukhov.cinecircle.core.data.remote.RemoteReviewsDataSourceImpl
 import com.koniukhov.cinecircle.core.domain.model.MediaReview
 import com.koniukhov.cinecircle.core.domain.repository.ReviewsRepository
 import javax.inject.Inject
 
-class ReviewsRepositoryImpl @Inject constructor(private val remoteReviewsDataSource: RemoteReviewsDataSource) : ReviewsRepository {
+class ReviewsRepositoryImpl @Inject constructor(private val remoteReviewsDataSourceImpl: RemoteReviewsDataSourceImpl) : ReviewsRepository {
     override suspend fun getMovieReviews(
         movieId: Int,
         page: Int,
         language: String
     ): List<MediaReview> {
-        val tdo = remoteReviewsDataSource.getMovieReviews(movieId, page, language)
+        val tdo = remoteReviewsDataSourceImpl.getMovieReviews(movieId, page, language)
         return tdo.results.map { it.toDomain() }
     }
 
@@ -21,7 +21,7 @@ class ReviewsRepositoryImpl @Inject constructor(private val remoteReviewsDataSou
         page: Int,
         language: String
     ): List<MediaReview> {
-        val tdo = remoteReviewsDataSource.getTvSeriesReviews(tvSeriesId, page, language)
+        val tdo = remoteReviewsDataSourceImpl.getTvSeriesReviews(tvSeriesId, page, language)
         return tdo.results.map { it.toDomain() }
     }
 }

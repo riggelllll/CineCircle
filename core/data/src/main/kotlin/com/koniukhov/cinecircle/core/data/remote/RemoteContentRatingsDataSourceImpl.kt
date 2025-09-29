@@ -6,7 +6,7 @@ import com.koniukhov.cinecircle.core.network.api.TMDBApi
 import com.koniukhov.cinecircle.core.network.model.ContentRatingsResponseDto
 import javax.inject.Inject
 
-class RemoteContentRatingsDataSource @Inject constructor(private val api: TMDBApi) : ContentRatingsDataSource {
+class RemoteContentRatingsDataSourceImpl @Inject constructor(private val api: TMDBApi) : ContentRatingsDataSource {
     override suspend fun getTvSeriesContentRatings(
         tvSeriesId: Int
     ): ContentRatingsResponseDto {
