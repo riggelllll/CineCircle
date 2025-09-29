@@ -6,6 +6,7 @@ import com.koniukhov.cinecircle.core.common.Constants.ENGLISH_LANGUAGE_CODE
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.data.di.CountryCode
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
+import com.koniukhov.cinecircle.core.data.mapper.toMovieWithGenres
 import com.koniukhov.cinecircle.core.database.entity.MediaListEntity
 import com.koniukhov.cinecircle.core.database.model.MediaListWithCount
 import com.koniukhov.cinecircle.core.database.repository.MediaListRepository
@@ -205,6 +206,21 @@ class MovieDetailsViewModel @Inject constructor(
                     error = e.message ?: "Unknown error occurred"
                 )
             }
+        }
+    }
+
+    fun cacheMovieDetails() {
+        val movieDetails = _uiState.value.movieDetails
+        viewModelScope.launch {
+            movieDetails?.let {
+                mediaListRepository.insertMovieWithGenres(movieDetails.toMovieWithGenres(_movieId.value))
+            }
+        }
+    }
+
+    fun removeMovieDetailsFromCache() {
+        viewModelScope.launch {
+            mediaListRepository.deleteMovieWithGenres(_movieId.value)
         }
     }
 }
