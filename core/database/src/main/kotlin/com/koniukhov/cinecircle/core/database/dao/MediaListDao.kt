@@ -96,4 +96,7 @@ interface MediaListDao {
     @Query("DELETE FROM genres WHERE mediaId = :mediaId")
     suspend fun deleteGenresByMediaId(mediaId: Int)
 
+    @Transaction
+    @Query("SELECT * FROM movie_details WHERE id = :movieId")
+    suspend fun getMovieWithGenres(movieId: Int): MovieWithGenres?
 }
