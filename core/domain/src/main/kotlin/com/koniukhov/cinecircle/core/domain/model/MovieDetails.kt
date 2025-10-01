@@ -1,5 +1,7 @@
 package com.koniukhov.cinecircle.core.domain.model
 
+import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
+
 data class MovieDetails(
     val adult: Boolean,
     val backdropPath: String,
@@ -26,4 +28,34 @@ data class MovieDetails(
     val video: Boolean,
     val voteAverage: Float,
     val voteCount: Int
-)
+) {
+    companion object {
+        fun empty() = MovieDetails(
+            adult = false,
+            backdropPath = "",
+            belongsToCollection = MovieCollection.empty(),
+            budget = 0,
+            genres = emptyList(),
+            homePage = "",
+            id = INVALID_ID,
+            imdbId = "",
+            originalLanguage = "",
+            originalTitle = "",
+            overview = "",
+            popularity = 0f,
+            posterPath = "",
+            productionCompanies = emptyList(),
+            productionCountries = emptyList(),
+            releaseDate = "",
+            revenue = 0L,
+            runtime = 0,
+            spokenLanguages = emptyList(),
+            status = "",
+            tagline = "",
+            title = "",
+            video = false,
+            voteAverage = 0f,
+            voteCount = 0
+        )
+    }
+}
