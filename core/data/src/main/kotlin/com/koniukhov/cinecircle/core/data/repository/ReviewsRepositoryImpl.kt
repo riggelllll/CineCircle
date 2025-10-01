@@ -2,18 +2,28 @@ package com.koniukhov.cinecircle.core.data.repository
 
 import com.koniukhov.cinecircle.core.data.mapper.toDomain
 import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteReviewsDataSourceImpl
+import com.koniukhov.cinecircle.core.data.util.fetchWithLocalAndRetry
+import com.koniukhov.cinecircle.core.domain.NetworkStatusProvider
 import com.koniukhov.cinecircle.core.domain.model.MediaReview
 import com.koniukhov.cinecircle.core.domain.repository.ReviewsRepository
 import javax.inject.Inject
 
-class ReviewsRepositoryImpl @Inject constructor(private val remoteReviewsDataSourceImpl: RemoteRemoteReviewsDataSourceImpl) : ReviewsRepository {
+class ReviewsRepositoryImpl @Inject constructor(
+    private val remoteReviewsDataSourceImpl: RemoteRemoteReviewsDataSourceImpl,
+    private val networkStatusProvider: NetworkStatusProvider
+) : ReviewsRepository {
     override suspend fun getMovieReviews(
         movieId: Int,
         page: Int,
         language: String
     ): List<MediaReview> {
-        val tdo = remoteReviewsDataSourceImpl.getMovieReviews(movieId, page, language)
-        return tdo.results.map { it.toDomain() }
+        return fetchWithLocalAndRetry(
+            remoteCall = {
+                val tdo = remoteReviewsDataSourceImpl.getMovieReviews(movieId, page, language)
+                tdo.results.map { it.toDomain() } },
+            localCall = { emptyList() },
+            isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
+        ) ?: emptyList()
     }
 
     override suspend fun getTvSeriesReviews(
@@ -21,7 +31,12 @@ class ReviewsRepositoryImpl @Inject constructor(private val remoteReviewsDataSou
         page: Int,
         language: String
     ): List<MediaReview> {
-        val tdo = remoteReviewsDataSourceImpl.getTvSeriesReviews(tvSeriesId, page, language)
-        return tdo.results.map { it.toDomain() }
+        return fetchWithLocalAndRetry(
+            remoteCall = {
+                val tdo = remoteReviewsDataSourceImpl.getTvSeriesReviews(tvSeriesId, page, language)
+                tdo.results.map { it.toDomain() } },
+            localCall = { emptyList() },
+            isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
+        ) ?: emptyList()
     }
 }
