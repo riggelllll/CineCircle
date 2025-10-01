@@ -1,5 +1,6 @@
 package com.koniukhov.cinecircle.core.domain.model
 
+import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.Constants.VIDEO_SITE_YOUTUBE
 import com.koniukhov.cinecircle.core.common.Constants.VIDEO_TYPE_TEASER
 import com.koniukhov.cinecircle.core.common.Constants.VIDEO_TYPE_TRAILER
@@ -14,5 +15,9 @@ data class MovieVideos(
             (it.type.equals(VIDEO_TYPE_TRAILER, ignoreCase = true) ||
             it.type.equals(VIDEO_TYPE_TEASER, ignoreCase = true))
         }.sortedBy { it.type != VIDEO_TYPE_TRAILER }
+    }
+
+    companion object {
+        fun empty() = MovieVideos(INVALID_ID, emptyList())
     }
 }
