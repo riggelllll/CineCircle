@@ -85,18 +85,18 @@ interface MediaListDao {
     suspend fun insertGenres(genres: List<GenreEntity>)
 
     @Transaction
-    suspend fun deleteMovieWithGenres(mediaId: Int) {
-        deleteMovieByMediaId(mediaId)
-        deleteGenresByMediaId(mediaId)
+    suspend fun deleteMovieWithGenres(id: Int) {
+        deleteMovieById(id)
+        deleteGenresByMediaId(id)
     }
 
-    @Query("DELETE FROM movie_details WHERE mediaId = :mediaId")
-    suspend fun deleteMovieByMediaId(mediaId: Int)
+    @Query("DELETE FROM movie_details WHERE id = :id")
+    suspend fun deleteMovieById(id: Int)
 
     @Query("DELETE FROM genres WHERE mediaId = :mediaId")
     suspend fun deleteGenresByMediaId(mediaId: Int)
 
     @Transaction
-    @Query("SELECT * FROM movie_details WHERE id = :movieId")
-    suspend fun getMovieWithGenres(movieId: Int): MovieWithGenres?
+    @Query("SELECT * FROM movie_details WHERE id = :id")
+    suspend fun getMovieWithGenres(id: Int): MovieWithGenres?
 }

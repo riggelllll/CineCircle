@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey
 data class MovieDetailsEntity(
     @PrimaryKey(autoGenerate = true)
     val uid: Int = 0,
-    val mediaId: Int,
     val adult: Boolean,
     val backdropPath: String,
     val budget: Int,

@@ -380,7 +380,6 @@ fun GenreEntity.toDomain(): Genre = Genre(
 fun MovieDetails.toMovieWithGenres(mediaId: Int): MovieWithGenres = MovieWithGenres(
     movie = MovieDetailsEntity(
         uid = 0,
-        mediaId = mediaId,
         adult = adult,
         backdropPath = backdropPath,
         budget = budget,
