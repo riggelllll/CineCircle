@@ -2,13 +2,24 @@ package com.koniukhov.cinecircle.core.data.repository
 
 import com.koniukhov.cinecircle.core.data.mapper.toDomain
 import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteContentRatingsDataSourceImpl
+import com.koniukhov.cinecircle.core.data.util.fetchWithLocalAndRetry
+import com.koniukhov.cinecircle.core.domain.NetworkStatusProvider
+import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
 import com.koniukhov.cinecircle.core.domain.model.ContentRating
 import com.koniukhov.cinecircle.core.domain.repository.ContentRatingsRepository
 import javax.inject.Inject
 
-class ContentRatingsRepositoryImpl @Inject constructor(private val remoteContentRatingsDataSourceImpl: RemoteRemoteContentRatingsDataSourceImpl) : ContentRatingsRepository {
+class ContentRatingsRepositoryImpl @Inject constructor(
+    private val remoteContentRatingsDataSourceImpl: RemoteRemoteContentRatingsDataSourceImpl,
+    private val networkStatusProvider: NetworkStatusProvider
+) : ContentRatingsRepository {
     override suspend fun getTvSeriesContentRatings(tvSeriesId: Int): List<ContentRating> {
-        val dto = remoteContentRatingsDataSourceImpl.getTvSeriesContentRatings(tvSeriesId)
-        return dto.results.map { it.toDomain() }
+        return fetchWithLocalAndRetry(
+            remoteCall = {
+                val dto = remoteContentRatingsDataSourceImpl.getTvSeriesContentRatings(tvSeriesId)
+                dto.results.map { it.toDomain() } },
+            localCall = { null },
+            isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
+        ) ?: emptyList()
     }
 }
