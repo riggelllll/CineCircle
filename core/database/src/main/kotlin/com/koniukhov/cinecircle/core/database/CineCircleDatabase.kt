@@ -3,7 +3,6 @@ package com.koniukhov.cinecircle.core.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.koniukhov.cinecircle.core.database.converter.ImageTypeConverter
 import com.koniukhov.cinecircle.core.database.converter.MediaTypeConverter
 import com.koniukhov.cinecircle.core.database.dao.MediaListDao
 import com.koniukhov.cinecircle.core.database.entity.GenreEntity
@@ -21,7 +20,7 @@ import com.koniukhov.cinecircle.core.database.entity.MovieDetailsEntity
     version = 1,
     exportSchema = false
 )
-@TypeConverters(ImageTypeConverter::class, MediaTypeConverter::class)
+@TypeConverters(MediaTypeConverter::class)
 abstract class CineCircleDatabase : RoomDatabase() {
 
     abstract fun mediaListDao(): MediaListDao

@@ -2,8 +2,6 @@ package com.koniukhov.cinecircle.core.data.mapper
 
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.database.entity.GenreEntity
-import com.koniukhov.cinecircle.core.database.entity.ImageEntity
-import com.koniukhov.cinecircle.core.database.entity.ImageType
 import com.koniukhov.cinecircle.core.database.entity.MovieDetailsEntity
 import com.koniukhov.cinecircle.core.database.entity.MovieWithGenres
 import com.koniukhov.cinecircle.core.domain.model.CastMember
@@ -11,19 +9,19 @@ import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
 import com.koniukhov.cinecircle.core.domain.model.CollectionMedia
 import com.koniukhov.cinecircle.core.domain.model.ContentRating
 import com.koniukhov.cinecircle.core.domain.model.Creator
-import com.koniukhov.cinecircle.core.domain.model.ProductionCompany
 import com.koniukhov.cinecircle.core.domain.model.CrewMember
 import com.koniukhov.cinecircle.core.domain.model.Genre
 import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.domain.model.Language
+import com.koniukhov.cinecircle.core.domain.model.MediaCredits
 import com.koniukhov.cinecircle.core.domain.model.MediaImages
+import com.koniukhov.cinecircle.core.domain.model.MediaReview
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.domain.model.MovieCollection
-import com.koniukhov.cinecircle.core.domain.model.MediaCredits
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
-import com.koniukhov.cinecircle.core.domain.model.MediaReview
 import com.koniukhov.cinecircle.core.domain.model.MovieVideos
 import com.koniukhov.cinecircle.core.domain.model.Network
+import com.koniukhov.cinecircle.core.domain.model.ProductionCompany
 import com.koniukhov.cinecircle.core.domain.model.ProductionCountry
 import com.koniukhov.cinecircle.core.domain.model.ReleaseDate
 import com.koniukhov.cinecircle.core.domain.model.ReleaseDateResult
@@ -38,28 +36,28 @@ import com.koniukhov.cinecircle.core.network.model.CollectionDetailsDto
 import com.koniukhov.cinecircle.core.network.model.CollectionMediaDto
 import com.koniukhov.cinecircle.core.network.model.ContentRatingDto
 import com.koniukhov.cinecircle.core.network.model.CreatorDto
-import com.koniukhov.cinecircle.core.network.model.ProductionCompanyDto
+import com.koniukhov.cinecircle.core.network.model.CrewMemberDto
 import com.koniukhov.cinecircle.core.network.model.GenreDto
 import com.koniukhov.cinecircle.core.network.model.ImageDto
 import com.koniukhov.cinecircle.core.network.model.LanguageDto
+import com.koniukhov.cinecircle.core.network.model.MediaCreditsDto
 import com.koniukhov.cinecircle.core.network.model.MediaImagesDto
+import com.koniukhov.cinecircle.core.network.model.MediaReviewDto
 import com.koniukhov.cinecircle.core.network.model.MovieCollectionDto
 import com.koniukhov.cinecircle.core.network.model.MovieDetailsDto
 import com.koniukhov.cinecircle.core.network.model.MovieDto
-import com.koniukhov.cinecircle.core.network.model.MediaReviewDto
 import com.koniukhov.cinecircle.core.network.model.MovieVideosDto
-import com.koniukhov.cinecircle.core.network.model.ProductionCountryDto
-import com.koniukhov.cinecircle.core.network.model.ReviewAuthorDto
-import com.koniukhov.cinecircle.core.network.model.TvSeriesDto
-import com.koniukhov.cinecircle.core.network.model.VideoDto
-import com.koniukhov.cinecircle.core.network.model.CrewMemberDto
-import com.koniukhov.cinecircle.core.network.model.MediaCreditsDto
 import com.koniukhov.cinecircle.core.network.model.NetworkDto
+import com.koniukhov.cinecircle.core.network.model.ProductionCompanyDto
+import com.koniukhov.cinecircle.core.network.model.ProductionCountryDto
 import com.koniukhov.cinecircle.core.network.model.ReleaseDatesDto
 import com.koniukhov.cinecircle.core.network.model.ReleaseDatesResultDto
+import com.koniukhov.cinecircle.core.network.model.ReviewAuthorDto
 import com.koniukhov.cinecircle.core.network.model.TvEpisodeDetailsDto
 import com.koniukhov.cinecircle.core.network.model.TvSeasonDetailsDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesDetailsDto
+import com.koniukhov.cinecircle.core.network.model.TvSeriesDto
+import com.koniukhov.cinecircle.core.network.model.VideoDto
 
 fun MovieDto.toDomain(): Movie = Movie(
     adult = adult ?: false,
@@ -366,22 +364,6 @@ fun ContentRatingDto.toDomain(): ContentRating = ContentRating(
     rating = rating ?: ""
 )
 
-fun ImageEntity.toDomain(): Image = Image(
-    aspectRatio = 0.0,
-    filePath = filePath,
-    height = 0,
-    countryCode = "",
-    voteAverage = 0.0,
-    voteCount = 0,
-    width = 0
-)
-
-fun Image.toEntity(mediaId: Long, imageType: ImageType): ImageEntity = ImageEntity(
-    id = 0,
-    mediaId = mediaId,
-    filePath = filePath,
-    imageType = imageType
-)
 
 fun Genre.toEntity(mediaId: Int): GenreEntity = GenreEntity(
         uid = 0,
