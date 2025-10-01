@@ -1,5 +1,7 @@
 package com.koniukhov.cinecircle.core.domain.model
 
+import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
+
 data class TvSeriesDetails(
     val adult: Boolean,
     val backdropPath: String,
@@ -33,4 +35,41 @@ data class TvSeriesDetails(
     val type: String,
     val voteAverage: Float,
     val voteCount: Int
-)
+) {
+    companion object {
+        fun empty() = TvSeriesDetails(
+            adult = false,
+            backdropPath = "",
+            createdBy = emptyList(),
+            episodeRunTime = emptyList(),
+            firstAirDate = "",
+            genres = emptyList(),
+            homepage = "",
+            id = INVALID_ID,
+            inProduction = false,
+            languages = emptyList(),
+            lastAirDate = "",
+            lastEpisodeToAir = TvEpisodeDetails.empty(),
+            name = "",
+            nextEpisodeToAir = null,
+            networks = emptyList(),
+            numberOfEpisodes = 0,
+            numberOfSeasons = 0,
+            originCountry = emptyList(),
+            originalLanguage = "",
+            originalName = "",
+            overview = "",
+            popularity = 0f,
+            posterPath = "",
+            productionCompanies = emptyList(),
+            productionCountries = emptyList(),
+            seasons = emptyList(),
+            spokenLanguages = emptyList(),
+            status = "",
+            tagline = "",
+            type = "",
+            voteAverage = 0f,
+            voteCount = 0
+        )
+    }
+}
