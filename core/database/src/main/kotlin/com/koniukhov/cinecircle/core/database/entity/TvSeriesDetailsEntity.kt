@@ -22,6 +22,7 @@ data class TvSeriesDetailsEntity (
     val overview: String,
     val popularity: Float,
     val posterPath: String,
+    val productionCountries: String,
     val status: String,
     val tagline: String,
     val type: String,
