@@ -4,6 +4,8 @@ import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.database.entity.GenreEntity
 import com.koniukhov.cinecircle.core.database.entity.MovieDetailsEntity
 import com.koniukhov.cinecircle.core.database.entity.MovieWithGenres
+import com.koniukhov.cinecircle.core.database.entity.TvSeriesDetailsEntity
+import com.koniukhov.cinecircle.core.database.entity.TvSeriesWithGenres
 import com.koniukhov.cinecircle.core.domain.model.CastMember
 import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
 import com.koniukhov.cinecircle.core.domain.model.CollectionMedia
@@ -429,4 +431,66 @@ fun MovieWithGenres.toMovieDetails(): MovieDetails = MovieDetails(
     video = false,
     voteAverage = movie.voteAverage,
     voteCount = movie.voteCount
+)
+
+fun TvSeriesDetails.toTvSeriesWithGenres(mediaId: Int): TvSeriesWithGenres = TvSeriesWithGenres (
+    tvSeries = TvSeriesDetailsEntity(
+        uid = 0,
+        adult = adult,
+        backdropPath = backdropPath,
+        firstAirDate = firstAirDate,
+        homepage = homepage,
+        id = id,
+        inProduction = inProduction,
+        lastAirDate = lastAirDate,
+        name = name,
+        numberOfEpisodes = numberOfEpisodes,
+        numberOfSeasons = numberOfSeasons,
+        originalLanguage = originalLanguage,
+        originalName = originalName,
+        overview = overview,
+        popularity = popularity,
+        posterPath = posterPath,
+        status = status,
+        tagline = tagline,
+        type = type,
+        voteAverage = voteAverage,
+        voteCount = voteCount
+    ),
+    genres = genres.map { it.toEntity(mediaId) }
+)
+
+fun TvSeriesWithGenres.toTvSeriesDetails(): TvSeriesDetails = TvSeriesDetails(
+    adult = tvSeries.adult,
+    backdropPath = tvSeries.backdropPath,
+    createdBy = emptyList(),
+    episodeRunTime = emptyList(),
+    firstAirDate = tvSeries.firstAirDate,
+    genres = genres.map { it.toDomain() },
+    homepage = tvSeries.homepage,
+    id = tvSeries.id,
+    inProduction = tvSeries.inProduction,
+    languages = emptyList(),
+    lastAirDate = tvSeries.lastAirDate,
+    lastEpisodeToAir = TvEpisodeDetails.empty(),
+    name = tvSeries.name,
+    nextEpisodeToAir = null,
+    networks = emptyList(),
+    numberOfEpisodes = tvSeries.numberOfEpisodes,
+    numberOfSeasons = tvSeries.numberOfSeasons,
+    originCountry = emptyList(),
+    originalLanguage = tvSeries.originalLanguage,
+    originalName = tvSeries.originalName,
+    overview = tvSeries.overview,
+    popularity = tvSeries.popularity,
+    posterPath = tvSeries.posterPath,
+    productionCompanies = emptyList(),
+    seasons = emptyList(),
+    spokenLanguages = emptyList(),
+    status = tvSeries.status,
+    tagline = tvSeries.tagline,
+    type = tvSeries.type,
+    voteAverage = tvSeries.voteAverage,
+    voteCount = tvSeries.voteCount,
+    productionCountries = emptyList()
 )
