@@ -6,7 +6,7 @@ import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.domain.model.MediaCredits
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
 import com.koniukhov.cinecircle.core.domain.model.MediaReview
-import com.koniukhov.cinecircle.core.domain.model.MovieVideos
+import com.koniukhov.cinecircle.core.domain.model.MediaVideos
 import com.koniukhov.cinecircle.core.domain.model.ReleaseDateResult
 
 data class MovieDetailsUiState(
@@ -14,7 +14,7 @@ data class MovieDetailsUiState(
     val movieDetails: MovieDetails? = null,
     val collectionDetails: CollectionDetails? = null,
     val images: MediaImages? = null,
-    val videos: MovieVideos? = null,
+    val videos: MediaVideos? = null,
     val reviews: List<MediaReview> = emptyList(),
     val credits: MediaCredits? = null,
     val recommendations: List<Movie> = emptyList(),
