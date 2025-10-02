@@ -27,7 +27,7 @@ import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.domain.model.MediaCredits
 import com.koniukhov.cinecircle.core.domain.model.MediaImages
 import com.koniukhov.cinecircle.core.domain.model.MediaReview
-import com.koniukhov.cinecircle.core.domain.model.MovieVideos
+import com.koniukhov.cinecircle.core.domain.model.MediaVideos
 import com.koniukhov.cinecircle.core.domain.model.TvSeasonDetails
 import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.domain.model.TvSeriesDetails
@@ -358,10 +358,10 @@ class TvSeriesDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateVideosSection(movieVideos: MovieVideos?) {
-        movieVideos?.let {
-            val youTubeTrailers = movieVideos.getYouTubeTrailersAndTeasers()
-            if (movieVideos.results.isEmpty() || youTubeTrailers.isEmpty()) {
+    private fun updateVideosSection(mediaVideos: MediaVideos?) {
+        mediaVideos?.let {
+            val youTubeTrailers = mediaVideos.getYouTubeTrailersAndTeasers()
+            if (mediaVideos.results.isEmpty() || youTubeTrailers.isEmpty()) {
                 binding.recyclerTrailers.visibility = View.GONE
                 binding.containerNoTrailer.visibility = View.VISIBLE
             } else {
