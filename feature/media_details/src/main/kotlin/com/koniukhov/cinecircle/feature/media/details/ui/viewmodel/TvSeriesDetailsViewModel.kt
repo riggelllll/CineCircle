@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.data.di.CountryCode
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
+import com.koniukhov.cinecircle.core.data.mapper.toTvSeriesDetailsWithGenres
 import com.koniukhov.cinecircle.core.database.entity.MediaListEntity
 import com.koniukhov.cinecircle.core.database.model.MediaListWithCount
 import com.koniukhov.cinecircle.core.database.repository.MediaListRepository
@@ -177,6 +178,21 @@ class TvSeriesDetailsViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e)
             }
+        }
+    }
+
+    fun cacheTvSeriesDetails() {
+        val details = _uiState.value.details
+        viewModelScope.launch {
+            details?.let { details ->
+                mediaListRepository.insertTvSeriesWithGenres(details.toTvSeriesDetailsWithGenres(_tvSeriesId.value))
+            }
+        }
+    }
+
+    fun removeTvSeriesDetailsFromCache() {
+        viewModelScope.launch {
+            mediaListRepository.deleteTvSeriesWithGenres(_tvSeriesId.value)
         }
     }
 }
