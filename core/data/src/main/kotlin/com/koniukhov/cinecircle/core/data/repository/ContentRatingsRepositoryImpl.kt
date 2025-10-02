@@ -18,7 +18,7 @@ class ContentRatingsRepositoryImpl @Inject constructor(
             remoteCall = {
                 val dto = remoteContentRatingsDataSourceImpl.getTvSeriesContentRatings(tvSeriesId)
                 dto.results.map { it.toDomain() } },
-            localCall = { null },
+            localCall = { emptyList() },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
     }
