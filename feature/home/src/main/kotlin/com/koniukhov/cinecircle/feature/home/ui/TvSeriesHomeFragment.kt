@@ -45,16 +45,15 @@ class TvSeriesHomeFragment : Fragment() {
     ): View? {
         _binding = FragmentTvSeriesHomeBinding.inflate(inflater, container, false)
 
-        setupAllRecyclerViews()
-        setupAllRecyclerSkeletons()
-        showAllSkeletons()
-        setupSeeAllClickListeners()
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupAllRecyclerViews()
+        setupAllRecyclerSkeletons()
+        showAllSkeletons()
+        setupSeeAllClickListeners()
         observeTvSeriesState()
     }
 

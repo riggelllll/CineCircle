@@ -46,18 +46,16 @@ class MoviesHomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMoviesHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        setupAllRecyclerViews()
-        setupAllRecyclerSkeletons()
-        showAllSkeletons()
-        setupSeeAllClickListeners()
-
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupAllRecyclerViews()
+        setupAllRecyclerSkeletons()
+        showAllSkeletons()
+        setupSeeAllClickListeners()
         observeMoviesState()
     }
 
