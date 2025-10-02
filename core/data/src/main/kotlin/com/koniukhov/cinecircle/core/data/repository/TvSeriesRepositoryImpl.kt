@@ -1,6 +1,8 @@
 package com.koniukhov.cinecircle.core.data.repository
 
+import com.koniukhov.cinecircle.core.data.local.LocalTvSeriesDataSource
 import com.koniukhov.cinecircle.core.data.mapper.toDomain
+import com.koniukhov.cinecircle.core.data.mapper.toTvSeriesDetails
 import com.koniukhov.cinecircle.core.data.remote.RemoteTvSeriesDataSource
 import com.koniukhov.cinecircle.core.data.util.fetchWithLocalAndRetry
 import com.koniukhov.cinecircle.core.domain.NetworkStatusProvider
@@ -12,6 +14,7 @@ import javax.inject.Inject
 
 class TvSeriesRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteTvSeriesDataSource,
+    private val localDataSource: LocalTvSeriesDataSource,
     private val networkStatusProvider: NetworkStatusProvider
 ) : TvSeriesRepository{
     override suspend fun getAiringTodayTvSeries(page: Int, language: String): List<TvSeries> {
@@ -82,7 +85,7 @@ class TvSeriesRepositoryImpl @Inject constructor(
             remoteCall = {
                 val dto = remoteDataSource.getTvSeriesDetails(id, language)
                 dto.toDomain() },
-            localCall = { null },
+            localCall = { localDataSource.getTvSeriesWithGenres(id)?.toTvSeriesDetails() },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: TvSeriesDetails.empty()
     }
@@ -96,7 +99,7 @@ class TvSeriesRepositoryImpl @Inject constructor(
             remoteCall = {
                 val dto = remoteDataSource.getTvSeasonDetails(tvSeriesId, seasonNumber, language)
                 dto.toDomain() },
-            localCall = { null },
+            localCall = { TvSeasonDetails.empty() },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: TvSeasonDetails.empty()
     }
@@ -110,7 +113,7 @@ class TvSeriesRepositoryImpl @Inject constructor(
             remoteCall = {
                 val dto = remoteDataSource.getTvSeriesRecommendations(tvSeriesId, page, language)
                 dto.results.map { it.toDomain() } },
-            localCall = { null },
+            localCall = { emptyList() },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
     }
@@ -124,7 +127,7 @@ class TvSeriesRepositoryImpl @Inject constructor(
             remoteCall = {
                 val dto = remoteDataSource.getSimilarTvSeries(tvSeriesId, page, language)
                 dto.results.map { it.toDomain() } },
-            localCall = { null },
+            localCall = { emptyList() },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
     }
