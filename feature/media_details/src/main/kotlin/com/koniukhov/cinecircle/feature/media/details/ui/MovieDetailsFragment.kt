@@ -226,7 +226,7 @@ class MovieDetailsFragment : Fragment() {
                 minutesLabel = getString(R.string.minutes_short)
             )
             age.text = MediaDetailsUtils.getAgeRating(movieDetails, uiState.releaseDates, viewModel.countryCode)
-            country.text = MediaDetailsUtils.getCountryCode(movieDetails)
+            country.text = MediaDetailsUtils.getMovieCountryCode(movieDetails)
             year.text = formatDate(movieDetails.releaseDate)
             if (movieDetails.overview.isNotEmpty()){
                 plotDescription.text = movieDetails.overview
