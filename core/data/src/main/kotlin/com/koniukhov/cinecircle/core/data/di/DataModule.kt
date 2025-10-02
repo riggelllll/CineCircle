@@ -2,6 +2,8 @@ package com.koniukhov.cinecircle.core.data.di
 
 import com.koniukhov.cinecircle.core.data.local.LocalMoviesDataSource
 import com.koniukhov.cinecircle.core.data.local.LocalMoviesDataSourceImpl
+import com.koniukhov.cinecircle.core.data.local.LocalTvSeriesDataSource
+import com.koniukhov.cinecircle.core.data.local.LocalTvSeriesDataSourceImpl
 import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteCollectionsDataSourceImpl
 import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteContentRatingsDataSourceImpl
 import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteGenresDataSourceImpl
@@ -176,4 +178,10 @@ abstract class DataModule {
     abstract fun bindLocalMoviesDataSource(
         localMoviesDataSourceImpl: LocalMoviesDataSourceImpl
     ): LocalMoviesDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindLocalTvSeriesDataSource(
+        localTvSeriesDataSourceImpl: LocalTvSeriesDataSourceImpl
+    ): LocalTvSeriesDataSource
 }
