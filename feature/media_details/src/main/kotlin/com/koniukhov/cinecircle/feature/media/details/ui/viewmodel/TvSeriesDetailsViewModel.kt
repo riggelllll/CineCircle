@@ -2,6 +2,7 @@ package com.koniukhov.cinecircle.feature.media.details.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.koniukhov.cinecircle.core.common.Constants.ENGLISH_LANGUAGE_CODE
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.data.di.CountryCode
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
@@ -77,8 +78,21 @@ class TvSeriesDetailsViewModel @Inject constructor(
                 val seasonsDeferred = details.seasons.map { season ->
                     async { getTvSeasonDetails(_tvSeriesId.value, season.seasonNumber, languageCode) }
                 }
-                val imagesDeferred = async { getTvSeriesImagesUseCase(_tvSeriesId.value, languageCode) }
-                val videosDeferred = async { getTvSeriesVideosUseCase(_tvSeriesId.value, languageCode) }
+                val imagesDeferred = async {
+                    var images = getTvSeriesImagesUseCase(details.id, languageCode)
+                    if ((images.posters.isEmpty() && images.backdrops.isEmpty()) && languageCode != ENGLISH_LANGUAGE_CODE) {
+                        images = getTvSeriesImagesUseCase(details.id, ENGLISH_LANGUAGE_CODE)
+                    }
+                    images
+                }
+
+                val videosDeferred = async {
+                    var videos = getTvSeriesVideosUseCase(details.id, languageCode)
+                    if (videos.results.isEmpty() && languageCode != ENGLISH_LANGUAGE_CODE) {
+                        videos = getTvSeriesVideosUseCase(details.id, ENGLISH_LANGUAGE_CODE)
+                    }
+                    videos
+                }
                 val reviewsDeferred = async { getTvSeriesReviewsUseCase(_tvSeriesId.value, languageCode, 1) }
                 val creditsDeferred = async { getTvSeriesCreditsUseCase(_tvSeriesId.value, languageCode) }
                 val contentRatingsDeferred = async { getTvSeriesContentRatingsUseCase(_tvSeriesId.value) }
