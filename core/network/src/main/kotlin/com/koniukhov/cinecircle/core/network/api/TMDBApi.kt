@@ -14,7 +14,7 @@ import com.koniukhov.cinecircle.core.network.model.MediaImagesDto
 import com.koniukhov.cinecircle.core.network.model.MediaCreditsDto
 import com.koniukhov.cinecircle.core.network.model.MovieDetailsDto
 import com.koniukhov.cinecircle.core.network.model.MovieReviewsResponseDto
-import com.koniukhov.cinecircle.core.network.model.MovieVideosDto
+import com.koniukhov.cinecircle.core.network.model.MediaVideosDto
 import com.koniukhov.cinecircle.core.network.model.MoviesResponseDto
 import com.koniukhov.cinecircle.core.network.model.ReleaseDatesResponseDto
 import com.koniukhov.cinecircle.core.network.model.TvSeasonDetailsDto
@@ -151,7 +151,7 @@ interface TMDBApi {
         @Path(MOVIE_ID) movieId: Int,
         @Query(API_KEY) apiKey: String,
         @Query("language") language: String
-    ): Response<MovieVideosDto>
+    ): Response<MediaVideosDto>
 
     @GET(Movies.REVIEWS)
     suspend fun getMovieReviews(
@@ -217,7 +217,7 @@ interface TMDBApi {
         @Path(TV_SERIES_ID) tvSeriesId: Int,
         @Query(API_KEY) apiKey: String,
         @Query("language") language: String
-    ): Response<MovieVideosDto>
+    ): Response<MediaVideosDto>
 
     @GET(TVSeries.REVIEWS)
     suspend fun getTvSeriesReviews(
