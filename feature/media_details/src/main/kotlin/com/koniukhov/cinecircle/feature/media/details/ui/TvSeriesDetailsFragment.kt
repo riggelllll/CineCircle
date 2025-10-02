@@ -140,6 +140,7 @@ class TvSeriesDetailsFragment : Fragment() {
 
             if (isInCollections) {
                 viewModel.removeTvSeriesFromCollection()
+                viewModel.removeTvSeriesDetailsFromCache()
                 showSnackbar(getString(R.string.tv_series_removed_from_collections))
             } else {
                 showAddToCollectionDialog()
@@ -179,6 +180,7 @@ class TvSeriesDetailsFragment : Fragment() {
 
                     viewLifecycleOwner.lifecycleScope.launch {
                         val collectionName = viewModel.addTvSeriesToCollection(collectionId)
+                        viewModel.cacheTvSeriesDetails()
                         if (collectionName.isNotEmpty()) {
                             showSnackbar(getString(R.string.tv_series_added_to_collection, collectionName))
                         }
