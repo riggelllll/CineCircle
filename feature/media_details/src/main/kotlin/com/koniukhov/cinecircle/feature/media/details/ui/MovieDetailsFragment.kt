@@ -31,7 +31,7 @@ import com.koniukhov.cinecircle.core.domain.model.MediaImages
 import com.koniukhov.cinecircle.core.domain.model.MediaReview
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
-import com.koniukhov.cinecircle.core.domain.model.MovieVideos
+import com.koniukhov.cinecircle.core.domain.model.MediaVideos
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
 import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
 import com.koniukhov.cinecircle.core.ui.utils.openWebsite
@@ -195,7 +195,7 @@ class MovieDetailsFragment : Fragment() {
                     uiState.movieDetails?.let { movieDetails ->
                         updateMovieDetailsSection(movieDetails, uiState)
                     }
-                    updateTrailersSection(uiState.videos)
+                    updateVideosSection(uiState.videos)
                     updateImagesSection(uiState.images)
                     updateCreditsSection(uiState.credits)
                     updateReviewsSection(uiState.reviews)
@@ -239,10 +239,10 @@ class MovieDetailsFragment : Fragment() {
         updateAboutSection(movieDetails)
     }
 
-    private fun updateTrailersSection(movieVideos: MovieVideos?) {
-        movieVideos?.let {
-            val youTubeTrailers = movieVideos.getYouTubeTrailersAndTeasers()
-            if (movieVideos.results.isEmpty() || youTubeTrailers.isEmpty()) {
+    private fun updateVideosSection(mediaVideos: MediaVideos?) {
+        mediaVideos?.let {
+            val youTubeTrailers = mediaVideos.getYouTubeTrailersAndTeasers()
+            if (mediaVideos.results.isEmpty() || youTubeTrailers.isEmpty()) {
                 binding.recyclerTrailers.visibility = View.GONE
                 binding.containerNoTrailer.visibility = View.VISIBLE
             } else {
