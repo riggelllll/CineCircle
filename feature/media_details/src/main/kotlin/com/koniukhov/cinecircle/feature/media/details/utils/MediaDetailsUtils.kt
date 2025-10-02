@@ -72,7 +72,7 @@ object MediaDetailsUtils {
     }
 
 
-    fun getCountryCode(movieDetails: MovieDetails): String {
+    fun getMovieCountryCode(movieDetails: MovieDetails): String {
         return movieDetails.productionCountries.firstOrNull()?.isoName ?: "None"
     }
 
