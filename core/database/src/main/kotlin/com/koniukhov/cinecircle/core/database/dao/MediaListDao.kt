@@ -8,6 +8,8 @@ import com.koniukhov.cinecircle.core.database.entity.MediaListItemEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListWithCountResult
 import com.koniukhov.cinecircle.core.database.entity.MovieDetailsEntity
 import com.koniukhov.cinecircle.core.database.entity.MovieWithGenres
+import com.koniukhov.cinecircle.core.database.entity.TvSeriesDetailsEntity
+import com.koniukhov.cinecircle.core.database.entity.TvSeriesWithGenres
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -96,7 +98,27 @@ interface MediaListDao {
     @Query("DELETE FROM genres WHERE mediaId = :mediaId")
     suspend fun deleteGenresByMediaId(mediaId: Int)
 
-    @Transaction
     @Query("SELECT * FROM movie_details WHERE id = :id")
     suspend fun getMovieWithGenres(id: Int): MovieWithGenres?
+
+    @Transaction
+    suspend fun insertTvSeriesWithGenres(tvSeries: TvSeriesWithGenres) {
+        insertTvSeries(tvSeries.tvSeries)
+        insertGenres(tvSeries.genres)
+    }
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTvSeries(tvSeries: TvSeriesDetailsEntity)
+
+    @Transaction
+    suspend fun deleteTvSeriesWithGenres(id: Int) {
+        deleteTvSeriesById(id)
+        deleteGenresByMediaId(id)
+    }
+
+    @Query("DELETE FROM tv_series_details WHERE id = :id")
+    suspend fun deleteTvSeriesById(id: Int)
+
+    @Query("SELECT * FROM tv_series_details WHERE id = :id")
+    suspend fun getTvSeriesWithGenres(id: Int): TvSeriesWithGenres?
 }
