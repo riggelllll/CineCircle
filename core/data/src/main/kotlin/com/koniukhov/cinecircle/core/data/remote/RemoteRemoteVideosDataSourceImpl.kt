@@ -2,21 +2,21 @@ package com.koniukhov.cinecircle.core.data.remote
 
 import com.koniukhov.cinecircle.core.data.BuildConfig
 import com.koniukhov.cinecircle.core.network.api.TMDBApi
-import com.koniukhov.cinecircle.core.network.model.MovieVideosDto
+import com.koniukhov.cinecircle.core.network.model.MediaVideosDto
 import javax.inject.Inject
 
 class RemoteRemoteVideosDataSourceImpl @Inject constructor(private val api: TMDBApi) : RemoteVideosDataSource {
     override suspend fun getMovieVideos(
         movieId: Int,
         language: String
-    ): MovieVideosDto {
-        return api.getMovieVideos(movieId, BuildConfig.API_KEY, language).body() ?: MovieVideosDto.empty()
+    ): MediaVideosDto {
+        return api.getMovieVideos(movieId, BuildConfig.API_KEY, language).body() ?: MediaVideosDto.empty()
     }
 
     override suspend fun getTvSeriesVideos(
         tvSeriesId: Int,
         language: String
-    ): MovieVideosDto {
-        return api.getTvSeriesVideos(tvSeriesId, BuildConfig.API_KEY, language).body() ?: MovieVideosDto.empty()
+    ): MediaVideosDto {
+        return api.getTvSeriesVideos(tvSeriesId, BuildConfig.API_KEY, language).body() ?: MediaVideosDto.empty()
     }
 }
