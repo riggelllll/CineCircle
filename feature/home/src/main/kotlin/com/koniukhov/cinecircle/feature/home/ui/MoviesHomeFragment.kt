@@ -66,7 +66,9 @@ class MoviesHomeFragment : Fragment() {
             viewModel.loadMoviesForAllCategories()
             viewModel.moviesUiState.collect {
                 if (!it.isLoading && it.error == null){
-                    hideAllSkeletons()
+                    if (areAllMovieListsNotEmpty(it)) {
+                        hideAllSkeletons()
+                    }
                     setDataToRecyclers(it)
                 }
             }
@@ -225,6 +227,15 @@ class MoviesHomeFragment : Fragment() {
                 .build()
             findNavController().navigate(request)
         }
+    }
+
+    private fun areAllMovieListsNotEmpty(state: MoviesUiState): Boolean {
+        return state.trendingMovies.isNotEmpty() &&
+                state.nowPlayingMovies.isNotEmpty() &&
+                state.popularMovies.isNotEmpty() &&
+                state.topRatedMovies.isNotEmpty() &&
+                state.upcomingMovies.isNotEmpty() &&
+                state.genreUiMovies.isNotEmpty()
     }
 
     companion object{

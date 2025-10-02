@@ -63,7 +63,9 @@ class TvSeriesHomeFragment : Fragment() {
             viewModel.loadTvSeriesForAllCategories(1)
             viewModel.tvSeriesUiState.collect {
                 if (!it.isLoading && it.error == null) {
-                    hideAllSkeletons()
+                    if (areAllTvSeriesListsNotEmpty(it)) {
+                        hideAllSkeletons()
+                    }
                     setDataToRecyclers(it)
                 }
             }
@@ -261,6 +263,15 @@ class TvSeriesHomeFragment : Fragment() {
                 .build()
             findNavController().navigate(request)
         }
+    }
+
+    private fun areAllTvSeriesListsNotEmpty(state: TvSeriesUiState): Boolean {
+        return state.airingTodayTvSeries.isNotEmpty()
+                && state.onTheAirTvSeries.isNotEmpty()
+                && state.trendingTvSeries.isNotEmpty()
+                && state.popularTvSeries.isNotEmpty()
+                && state.topRatedTvSeries.isNotEmpty()
+                && state.genreUiTvSeries.isNotEmpty()
     }
 
     companion object{
