@@ -5,7 +5,7 @@ import com.koniukhov.cinecircle.core.common.Constants.VIDEO_SITE_YOUTUBE
 import com.koniukhov.cinecircle.core.common.Constants.VIDEO_TYPE_TEASER
 import com.koniukhov.cinecircle.core.common.Constants.VIDEO_TYPE_TRAILER
 
-data class MovieVideos(
+data class MediaVideos(
     val id: Int,
     val results: List<Video>
 ){
@@ -18,6 +18,6 @@ data class MovieVideos(
     }
 
     companion object {
-        fun empty() = MovieVideos(INVALID_ID, emptyList())
+        fun empty() = MediaVideos(INVALID_ID, emptyList())
     }
 }
