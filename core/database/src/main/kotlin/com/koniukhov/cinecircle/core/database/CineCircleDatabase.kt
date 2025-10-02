@@ -9,13 +9,15 @@ import com.koniukhov.cinecircle.core.database.entity.GenreEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListItemEntity
 import com.koniukhov.cinecircle.core.database.entity.MovieDetailsEntity
+import com.koniukhov.cinecircle.core.database.entity.TvSeriesDetailsEntity
 
 @Database(
     entities = [
         MediaListEntity::class,
         MediaListItemEntity::class,
         MovieDetailsEntity::class,
-        GenreEntity::class
+        GenreEntity::class,
+        TvSeriesDetailsEntity::class
     ],
     version = 1,
     exportSchema = false
