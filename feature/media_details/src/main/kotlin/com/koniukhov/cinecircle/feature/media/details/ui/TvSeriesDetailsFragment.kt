@@ -470,6 +470,12 @@ class TvSeriesDetailsFragment : Fragment() {
 
             popularityValue.text = String.format(Locale.US,"%.1f", tvSeriesDetails.popularity)
 
+            productionCountriesValue.text = if (tvSeriesDetails.productionCountries.isNotEmpty()) {
+                tvSeriesDetails.productionCountries.joinToString(", ") { it.name }
+            } else {
+                getString(R.string.not_available)
+            }
+
             statusValue.text = tvSeriesDetails.status.ifEmpty {
                 getString(R.string.not_available)
             }
