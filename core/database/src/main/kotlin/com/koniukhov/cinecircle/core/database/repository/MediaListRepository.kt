@@ -5,6 +5,7 @@ import com.koniukhov.cinecircle.core.database.dao.MediaListDao
 import com.koniukhov.cinecircle.core.database.entity.MediaListEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListItemEntity
 import com.koniukhov.cinecircle.core.database.entity.MovieWithGenres
+import com.koniukhov.cinecircle.core.database.entity.TvSeriesWithGenres
 import com.koniukhov.cinecircle.core.database.model.MediaListWithCount
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -121,5 +122,13 @@ class MediaListRepository(
 
     suspend fun deleteMovieWithGenres(movieId: Int) {
         mediaListDao.deleteMovieWithGenres(movieId)
+    }
+
+    suspend fun insertTvSeriesWithGenres(tvSeriesWithGenres: TvSeriesWithGenres) {
+        mediaListDao.insertTvSeriesWithGenres(tvSeriesWithGenres)
+    }
+
+    suspend fun deleteTvSeriesWithGenres(tvSeriesId: Int) {
+        mediaListDao.deleteTvSeriesWithGenres(tvSeriesId)
     }
 }
