@@ -21,7 +21,7 @@ import com.koniukhov.cinecircle.core.domain.model.MediaReview
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.domain.model.MovieCollection
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
-import com.koniukhov.cinecircle.core.domain.model.MovieVideos
+import com.koniukhov.cinecircle.core.domain.model.MediaVideos
 import com.koniukhov.cinecircle.core.domain.model.Network
 import com.koniukhov.cinecircle.core.domain.model.ProductionCompany
 import com.koniukhov.cinecircle.core.domain.model.ProductionCountry
@@ -48,7 +48,7 @@ import com.koniukhov.cinecircle.core.network.model.MediaReviewDto
 import com.koniukhov.cinecircle.core.network.model.MovieCollectionDto
 import com.koniukhov.cinecircle.core.network.model.MovieDetailsDto
 import com.koniukhov.cinecircle.core.network.model.MovieDto
-import com.koniukhov.cinecircle.core.network.model.MovieVideosDto
+import com.koniukhov.cinecircle.core.network.model.MediaVideosDto
 import com.koniukhov.cinecircle.core.network.model.NetworkDto
 import com.koniukhov.cinecircle.core.network.model.ProductionCompanyDto
 import com.koniukhov.cinecircle.core.network.model.ProductionCountryDto
@@ -212,7 +212,7 @@ fun VideoDto.toDomain(): Video = Video(
     id = id ?: ""
 )
 
-fun MovieVideosDto.toDomain(): MovieVideos = MovieVideos(
+fun MediaVideosDto.toDomain(): MediaVideos = MediaVideos(
     id = id ?: 0,
     results = results?.map { it.toDomain() } ?: emptyList()
 )
