@@ -17,7 +17,7 @@ import com.koniukhov.cinecircle.core.common.sort.TvSeriesSortOption
 import com.koniukhov.cinecircle.feature.search.R
 import com.koniukhov.cinecircle.feature.search.databinding.FragmentTvSeriesFiltersBinding
 import com.koniukhov.cinecircle.feature.search.model.TvSeriesFilterParams
-import com.koniukhov.cinecircle.feature.search.viewmodel.SearchViewModel
+import com.koniukhov.cinecircle.feature.search.ui.viewmodel.SearchViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat

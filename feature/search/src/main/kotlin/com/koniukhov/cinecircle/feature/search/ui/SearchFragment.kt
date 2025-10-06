@@ -24,11 +24,10 @@ import com.koniukhov.cinecircle.core.ui.adapter.PagingMediaAdapter
 import com.koniukhov.cinecircle.core.ui.utils.GridSpacingItemDecoration
 import com.koniukhov.cinecircle.feature.search.databinding.FragmentSearchBinding
 import com.koniukhov.cinecircle.feature.search.ui.FiltersDialogFragment.Companion.TAG
-import com.koniukhov.cinecircle.feature.search.viewmodel.SearchViewModel
+import com.koniukhov.cinecircle.feature.search.ui.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import com.koniukhov.cinecircle.core.design.R as designR
 
 @AndroidEntryPoint

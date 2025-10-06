@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.search.viewmodel
+package com.koniukhov.cinecircle.feature.search.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
