@@ -17,7 +17,7 @@ class ContentRatingsRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteContentRatingsDataSourceImpl.getTvSeriesContentRatings(tvSeriesId)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { emptyList() },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
