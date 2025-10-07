@@ -4,57 +4,57 @@ import com.google.gson.annotations.SerializedName
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 
 data class TvSeriesDetailsDto(
-    val adult: Boolean,
+    val adult: Boolean?,
     @SerializedName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerializedName("created_by")
-    val createdBy : List<CreatorDto>,
+    val createdBy : List<CreatorDto>?,
     @SerializedName("episode_run_time")
-    val episodeRunTime: List<Int>,
+    val episodeRunTime: List<Int>?,
     @SerializedName("first_air_date")
-    val firstAirDate: String,
-    val genres: List<GenreDto>,
-    val homepage: String,
-    val id: Int,
+    val firstAirDate: String?,
+    val genres: List<GenreDto>?,
+    val homepage: String?,
+    val id: Int?,
     @SerializedName("in_production")
-    val inProduction: Boolean,
-    val languages: List<String>,
+    val inProduction: Boolean?,
+    val languages: List<String>?,
     @SerializedName("last_air_date")
-    val lastAirDate: String,
+    val lastAirDate: String?,
     @SerializedName("last_episode_to_air")
-    val lastEpisodeToAir: TvEpisodeDetailsDto,
-    val name: String,
+    val lastEpisodeToAir: TvEpisodeDetailsDto?,
+    val name: String?,
     @SerializedName("next_episode_to_air")
-    val nextEpisodeToAir: TvEpisodeDetailsDto,
-    val networks: List<NetworkDto>,
+    val nextEpisodeToAir: TvEpisodeDetailsDto?,
+    val networks: List<NetworkDto>?,
     @SerializedName("number_of_episodes")
-    val numberOfEpisodes: Int,
+    val numberOfEpisodes: Int?,
     @SerializedName("number_of_seasons")
-    val numberOfSeasons: Int,
+    val numberOfSeasons: Int?,
     @SerializedName("origin_country")
-    val originCountry: List<String>,
+    val originCountry: List<String>?,
     @SerializedName("original_language")
-    val originalLanguage: String,
+    val originalLanguage: String?,
     @SerializedName("original_name")
-    val originalName: String,
-    val overview: String,
-    val popularity: Float,
+    val originalName: String?,
+    val overview: String?,
+    val popularity: Float?,
     @SerializedName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @SerializedName("production_companies")
-    val productionCompanies: List<ProductionCompanyDto>,
+    val productionCompanies: List<ProductionCompanyDto>?,
     @SerializedName("production_countries")
-    val productionCountries: List<ProductionCountryDto>,
-    val seasons: List<TvSeasonDetailsDto>,
+    val productionCountries: List<ProductionCountryDto>?,
+    val seasons: List<TvSeasonDetailsDto>?,
     @SerializedName("spoken_languages")
-    val spokenLanguages: List<LanguageDto>,
-    val status: String,
-    val tagline: String,
-    val type: String,
+    val spokenLanguages: List<LanguageDto>?,
+    val status: String?,
+    val tagline: String?,
+    val type: String?,
     @SerializedName("vote_average")
-    val voteAverage: Float,
+    val voteAverage: Float?,
     @SerializedName("vote_count")
-    val voteCount: Int
+    val voteCount: Int?
 ){
     companion object{
         fun empty() = TvSeriesDetailsDto(
