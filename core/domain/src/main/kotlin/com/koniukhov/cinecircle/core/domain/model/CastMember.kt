@@ -7,7 +7,7 @@ data class CastMember(
     val knownForDepartment: String,
     val name: String,
     val originalName: String,
-    val popularity: Double,
+    val popularity: Float,
     val profilePath: String,
     val castId: Int,
     val character: String,
