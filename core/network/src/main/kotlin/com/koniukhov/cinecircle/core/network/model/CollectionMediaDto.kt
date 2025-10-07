@@ -3,42 +3,28 @@ package com.koniukhov.cinecircle.core.network.model
 import com.google.gson.annotations.SerializedName
 
 data class CollectionMediaDto(
-    val adult: Boolean = true,
-
+    val adult: Boolean?,
     @SerializedName("backdrop_path")
-    val backdropPath: String? = null,
-
-    val id: Int = 0,
-
-    val title: String? = null,
-
+    val backdropPath: String?,
+    val id: Int?,
+    val title: String?,
     @SerializedName("original_language")
-    val originalLanguage: String? = null,
-
+    val originalLanguage: String?,
     @SerializedName("original_title")
-    val originalTitle: String? = null,
-
-    val overview: String? = null,
-
+    val originalTitle: String?,
+    val overview: String?,
     @SerializedName("poster_path")
-    val posterPath: String? = null,
-
+    val posterPath: String?,
     @SerializedName("media_type")
-    val mediaType: String? = null,
-
+    val mediaType: String?,
     @SerializedName("genre_ids")
-    val genreIds: List<Int>? = null,
-
-    val popularity: Double = 0.0,
-
+    val genreIds: List<Int>?,
+    val popularity: Float?,
     @SerializedName("release_date")
-    val releaseDate: String? = null,
-
-    val video: Boolean = true,
-
+    val releaseDate: String?,
+    val video: Boolean?,
     @SerializedName("vote_average")
-    val voteAverage: Double = 0.0,
-
+    val voteAverage: Float?,
     @SerializedName("vote_count")
-    val voteCount: Int = 0
+    val voteCount: Int?
 )
