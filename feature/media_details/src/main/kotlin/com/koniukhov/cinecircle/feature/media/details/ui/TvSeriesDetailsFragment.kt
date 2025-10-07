@@ -448,8 +448,8 @@ class TvSeriesDetailsFragment : Fragment() {
                 homepageValue.isClickable = false
             }
 
-            languagesValue.text = if (tvSeriesDetails.languages.isNotEmpty()) {
-                tvSeriesDetails.languages.joinToString(", ")
+            spokenLanguagesValue.text = if (tvSeriesDetails.spokenLanguages.isNotEmpty()) {
+                tvSeriesDetails.spokenLanguages.filter { it.name.isNotEmpty() }.joinToString(", ") { it.name }
             } else {
                 getString(R.string.not_available)
             }
@@ -467,6 +467,8 @@ class TvSeriesDetailsFragment : Fragment() {
             originalTitleValue.text = tvSeriesDetails.originalName.ifEmpty {
                 getString(R.string.not_available)
             }
+
+            originalLanguageValue.text = viewModel.languages.entries.firstOrNull { it.value == tvSeriesDetails.originalLanguage }?.key ?: getString(R.string.not_available)
 
             popularityValue.text = String.format(Locale.US,"%.1f", tvSeriesDetails.popularity)
 
