@@ -20,7 +20,7 @@ class ReviewsRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val tdo = remoteReviewsDataSourceImpl.getMovieReviews(movieId, page, language)
-                tdo.results.map { it.toDomain() } },
+                tdo.results?.map { it.toDomain() } },
             localCall = { emptyList() },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -34,7 +34,7 @@ class ReviewsRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val tdo = remoteReviewsDataSourceImpl.getTvSeriesReviews(tvSeriesId, page, language)
-                tdo.results.map { it.toDomain() } },
+                tdo.results?.map { it.toDomain() } },
             localCall = { emptyList() },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
