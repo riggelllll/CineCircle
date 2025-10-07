@@ -183,11 +183,11 @@ fun CollectionDetailsDto.toDomain(): CollectionDetails = CollectionDetails(
 )
 
 fun ImageDto.toDomain(): Image = Image(
-    aspectRatio = aspectRatio ?: 0.0,
+    aspectRatio = aspectRatio ?: 0.0f,
     filePath = filePath ?: "",
     height = height ?: 0,
     countryCode = countryCode ?: "",
-    voteAverage = voteAverage ?: 0.0,
+    voteAverage = voteAverage ?: 0.0f,
     voteCount = voteCount ?: 0,
     width = width ?: 0
 )
