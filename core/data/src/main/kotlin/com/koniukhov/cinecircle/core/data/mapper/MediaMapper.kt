@@ -65,7 +65,7 @@ fun MovieDto.toDomain(): Movie = Movie(
     adult = adult ?: false,
     backdropPath = backdropPath ?: "",
     genreIds = genreIds ?: emptyList(),
-    id = id ?: 0,
+    id = id ?: INVALID_ID,
     originalLanguage = originalLanguage ?: "",
     originalTitle = originalTitle ?: "",
     overview = overview ?: "",
@@ -82,7 +82,7 @@ fun TvSeriesDto.toDomain(): TvSeries = TvSeries(
     adult = adult ?: false,
     backdropPath = backdropPath ?: "",
     genreIds = genreIds ?: emptyList(),
-    id = id ?: 0,
+    id = id ?: INVALID_ID,
     originCountry = originCountry ?: emptyList(),
     originalLanguage = originalLanguage ?: "",
     originalName = originalName ?: "",
@@ -97,7 +97,7 @@ fun TvSeriesDto.toDomain(): TvSeries = TvSeries(
 
 fun GenreDto.toDomain(): Genre =
     Genre(
-        id = id ?: 0,
+        id = id ?: INVALID_ID,
         name = name ?: ""
 )
 
@@ -108,7 +108,7 @@ fun MovieDetailsDto.toDomain(): MovieDetails = MovieDetails(
     budget = budget ?: 0,
     genres = genres?.map { it.toDomain() } ?: emptyList(),
     homePage = homePage ?: "",
-    id = id ?: 0,
+    id = id ?: INVALID_ID,
     imdbId = imdbId ?: "",
     originalLanguage = originalLanguage ?: "",
     originalTitle = originalTitle ?: "",
@@ -130,7 +130,7 @@ fun MovieDetailsDto.toDomain(): MovieDetails = MovieDetails(
 )
 
 fun ProductionCompanyDto.toDomain(): ProductionCompany = ProductionCompany(
-    id = id ?: 0,
+    id = id ?: INVALID_ID,
     logoPath = logoPath ?: "",
     name = name ?: "",
     originCountry = originCountry ?: ""
@@ -158,7 +158,7 @@ fun MovieCollectionDto.toDomain(): MovieCollection =
 fun CollectionMediaDto.toDomain(): CollectionMedia = CollectionMedia(
     adult = adult ?: false,
     backdropPath = backdropPath ?: "",
-    id = id ?: 0,
+    id = id ?: INVALID_ID,
     title = title ?: "",
     originalLanguage = originalLanguage ?: "",
     originalTitle = originalTitle ?: "",
@@ -174,7 +174,7 @@ fun CollectionMediaDto.toDomain(): CollectionMedia = CollectionMedia(
 )
 
 fun CollectionDetailsDto.toDomain(): CollectionDetails = CollectionDetails(
-    id = id ?: 0,
+    id = id ?: INVALID_ID,
     name = name ?: "",
     overview = overview ?: "",
     posterPath = posterPath ?: "",
@@ -193,7 +193,7 @@ fun ImageDto.toDomain(): Image = Image(
 )
 
 fun MediaImagesDto.toDomain(): MediaImages = MediaImages(
-    id = id ?: 0,
+    id = id ?: INVALID_ID,
     backdrops = backdrops?.map { it.toDomain() } ?: emptyList(),
     posters = posters?.map { it.toDomain() } ?: emptyList(),
     logos = logos?.map { it.toDomain() } ?: emptyList()
@@ -213,7 +213,7 @@ fun VideoDto.toDomain(): Video = Video(
 )
 
 fun MediaVideosDto.toDomain(): MediaVideos = MediaVideos(
-    id = id ?: 0,
+    id = id ?: INVALID_ID,
     results = results?.map { it.toDomain() } ?: emptyList()
 )
 
@@ -237,7 +237,7 @@ fun MediaReviewDto.toDomain(): MediaReview = MediaReview(
 fun CastMemberDto.toDomain(): CastMember = CastMember(
     adult = adult ?: false,
     gender = gender ?: 0,
-    id = id ?: 0,
+    id = id ?: INVALID_ID,
     knownForDepartment = knownForDepartment ?: "",
     name = name ?: "",
     originalName = originalName ?: "",
@@ -252,7 +252,7 @@ fun CastMemberDto.toDomain(): CastMember = CastMember(
 fun CrewMemberDto.toDomain(): CrewMember = CrewMember(
     adult = adult ?: false,
     gender = gender ?: 0,
-    id = id ?: 0,
+    id = id ?: INVALID_ID,
     knownForDepartment = knownForDepartment ?: "",
     name = name ?: "",
     originalName = originalName ?: "",
@@ -333,7 +333,7 @@ fun TvSeriesDetailsDto.toDomain(): TvSeriesDetails = TvSeriesDetails(
     firstAirDate = firstAirDate ?: "",
     genres = genres?.map { it.toDomain() } ?: emptyList(),
     homepage = homepage ?: "",
-    id = id ?: 0,
+    id = id ?: INVALID_ID,
     inProduction = inProduction ?: false,
     languages = languages ?: emptyList(),
     lastAirDate = lastAirDate ?: "",
@@ -366,12 +366,11 @@ fun ContentRatingDto.toDomain(): ContentRating = ContentRating(
     rating = rating ?: ""
 )
 
-
 fun Genre.toEntity(mediaId: Int): GenreEntity = GenreEntity(
-        uid = 0,
-        id = id,
-        mediaId = mediaId,
-        name = name
+    uid = 0,
+    id = id,
+    mediaId = mediaId,
+    name = name
 )
 
 fun GenreEntity.toDomain(): Genre = Genre(
