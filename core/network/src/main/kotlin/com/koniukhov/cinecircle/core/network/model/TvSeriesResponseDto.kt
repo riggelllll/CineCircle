@@ -3,10 +3,10 @@ package com.koniukhov.cinecircle.core.network.model
 import com.google.gson.annotations.SerializedName
 
 data class TvSeriesResponseDto(
-    @SerializedName("page") val page: Int,
-    @SerializedName("results") val results: List<TvSeriesDto>,
-    @SerializedName("total_pages") val totalPages: Int,
-    @SerializedName("total_results") val totalResults: Int
+    @SerializedName("page") val page: Int?,
+    @SerializedName("results") val results: List<TvSeriesDto>?,
+    @SerializedName("total_pages") val totalPages: Int?,
+    @SerializedName("total_results") val totalResults: Int?
 ){
     companion object {
         fun empty() = TvSeriesResponseDto(

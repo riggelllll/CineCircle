@@ -21,7 +21,7 @@ class TvSeriesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getAiringTodayTvSeries(page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -30,7 +30,7 @@ class TvSeriesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getOnTheAirTvSeries(page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -39,7 +39,7 @@ class TvSeriesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getTrendingTvSeries(page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -48,7 +48,7 @@ class TvSeriesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getPopularTvSeries(page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -57,7 +57,7 @@ class TvSeriesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getTopRatedTvSeries(page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -71,7 +71,7 @@ class TvSeriesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getTvSeriesByGenre(genreId, page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -112,7 +112,7 @@ class TvSeriesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getTvSeriesRecommendations(tvSeriesId, page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { emptyList() },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -126,7 +126,7 @@ class TvSeriesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getSimilarTvSeries(tvSeriesId, page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { emptyList() },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -140,7 +140,7 @@ class TvSeriesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getSearchedTvSeries(query, page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -184,7 +184,7 @@ class TvSeriesRepositoryImpl @Inject constructor(
                     withGenres = withGenres,
                     withoutGenres = withoutGenres
                 )
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
