@@ -33,7 +33,7 @@ object MediaDetailsUtils {
         val userCountryCertification = releaseDates
             .find { it.countryCode == userCountryCode }
             ?.releaseDates
-            ?.firstOrNull { it.certification.isNotEmpty() }
+            ?.firstOrNull { it.certification?.isNotEmpty() == true }
             ?.certification
 
         if (!userCountryCertification.isNullOrBlank()) {
@@ -42,7 +42,7 @@ object MediaDetailsUtils {
         val usCertification = releaseDates
             .find { it.countryCode == DEFAULT_COUNTRY_CODE }
             ?.releaseDates
-            ?.firstOrNull { it.certification.isNotEmpty() }
+            ?.firstOrNull { it.certification?.isNotEmpty() == true }
             ?.certification
 
         if (!usCertification.isNullOrBlank()) {
