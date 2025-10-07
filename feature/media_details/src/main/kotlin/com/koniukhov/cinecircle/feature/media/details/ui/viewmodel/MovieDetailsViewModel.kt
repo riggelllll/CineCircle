@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.koniukhov.cinecircle.core.common.Constants.ENGLISH_LANGUAGE_CODE
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
+import com.koniukhov.cinecircle.core.common.util.getLocalizedLanguageMap
 import com.koniukhov.cinecircle.core.data.di.CountryCode
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
 import com.koniukhov.cinecircle.core.data.mapper.toMovieWithGenres
@@ -30,6 +31,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -63,6 +65,9 @@ class MovieDetailsViewModel @Inject constructor(
 
     private val _allCollections = MutableStateFlow<List<MediaListWithCount>>(emptyList())
     val allCollections: StateFlow<List<MediaListWithCount>> = _allCollections.asStateFlow()
+
+    var languages: Map<String, String> = Locale.getDefault().getLocalizedLanguageMap()
+        private set
 
     fun setMovieId(id: Int) {
         _movieId.value = id
