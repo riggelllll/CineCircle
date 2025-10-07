@@ -149,10 +149,10 @@ fun LanguageDto.toDomain(): Language = Language(
 
 fun MovieCollectionDto.toDomain(): MovieCollection =
     MovieCollection(
-        id = id,
-        name = name,
-        posterPath = posterPath,
-        backdropPath = backdropPath
+        id = id ?: INVALID_ID,
+        name = name ?: "",
+        posterPath = posterPath ?: "",
+        backdropPath = backdropPath ?: ""
 )
 
 fun CollectionMediaDto.toDomain(): CollectionMedia = CollectionMedia(
