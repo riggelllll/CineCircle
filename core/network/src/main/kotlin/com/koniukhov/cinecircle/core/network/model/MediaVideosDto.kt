@@ -1,12 +1,14 @@
 package com.koniukhov.cinecircle.core.network.model
 
+import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
+
 data class MediaVideosDto (
-    val id: Int,
-    val results: List<VideoDto>
+    val id: Int?,
+    val results: List<VideoDto>?
 ){
     companion object{
         fun empty() = MediaVideosDto(
-            id = 0,
+            id = INVALID_ID,
             results = emptyList()
         )
     }
