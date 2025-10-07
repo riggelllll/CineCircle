@@ -10,7 +10,7 @@ data class CollectionDetailsDto(
     @SerializedName("poster_path")
     val posterPath: String,
     @SerializedName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     val parts: List<CollectionMediaDto>
 ){
     companion object{
