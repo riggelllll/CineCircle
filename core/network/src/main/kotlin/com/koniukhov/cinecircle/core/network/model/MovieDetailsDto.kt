@@ -1,46 +1,47 @@
 package com.koniukhov.cinecircle.core.network.model
 
 import com.google.gson.annotations.SerializedName
+import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 
 data class MovieDetailsDto (
-    val adult: Boolean,
+    val adult: Boolean?,
     @SerializedName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerializedName("belongs_to_collection")
-    val belongsToCollection: MovieCollectionDto,
-    val budget: Int,
-    val genres: List<GenreDto>,
+    val belongsToCollection: MovieCollectionDto?,
+    val budget: Int?,
+    val genres: List<GenreDto>?,
     @SerializedName("homepage")
-    val homePage: String,
-    val id: Int,
+    val homePage: String?,
+    val id: Int?,
     @SerializedName("imdb_id")
-    val imdbId: String,
+    val imdbId: String?,
     @SerializedName("original_language")
-    val originalLanguage: String,
+    val originalLanguage: String?,
     @SerializedName("original_title")
-    val originalTitle: String,
-    val overview: String,
-    val popularity: Float,
+    val originalTitle: String?,
+    val overview: String?,
+    val popularity: Float?,
     @SerializedName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @SerializedName("production_companies")
-    val productionCompanies: List<ProductionCompanyDto>,
+    val productionCompanies: List<ProductionCompanyDto>?,
     @SerializedName("production_countries")
-    val productionCountries: List<ProductionCountryDto>,
+    val productionCountries: List<ProductionCountryDto>?,
     @SerializedName("release_date")
-    val releaseDate: String,
-    val revenue: Long,
-    val runtime: Int,
+    val releaseDate: String?,
+    val revenue: Long?,
+    val runtime: Int?,
     @SerializedName("spoken_languages")
-    val spokenLanguages: List<LanguageDto>,
-    val status: String,
-    val tagline: String,
-    val title: String,
-    val video: Boolean,
+    val spokenLanguages: List<LanguageDto>?,
+    val status: String?,
+    val tagline: String?,
+    val title: String?,
+    val video: Boolean?,
     @SerializedName("vote_average")
-    val voteAverage: Float,
+    val voteAverage: Float?,
     @SerializedName("vote_count")
-    val voteCount: Int
+    val voteCount: Int?
 ){
     companion object {
         fun empty() = MovieDetailsDto(
@@ -50,7 +51,7 @@ data class MovieDetailsDto (
             budget = 0,
             genres = emptyList(),
             homePage = "",
-            id = 0,
+            id = INVALID_ID,
             imdbId = "",
             originalLanguage = "",
             originalTitle = "",
