@@ -5,7 +5,7 @@ data class Image(
     val width: Int,
     val height: Int,
     val countryCode: String,
-    val aspectRatio: Double,
-    val voteAverage: Double,
+    val aspectRatio: Float,
+    val voteAverage: Float,
     val voteCount: Int
 )
