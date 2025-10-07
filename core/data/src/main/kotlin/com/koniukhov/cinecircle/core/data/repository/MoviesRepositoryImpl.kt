@@ -21,7 +21,7 @@ class MoviesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getTrendingMovies(page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -31,7 +31,7 @@ class MoviesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getNowPlayingMovies(page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -41,7 +41,7 @@ class MoviesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getPopularMovies(page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -51,7 +51,7 @@ class MoviesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getTopRatedMovies(page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -61,7 +61,7 @@ class MoviesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getUpcomingMovies(page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -75,7 +75,7 @@ class MoviesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getMoviesByGenre(genreId, page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -102,7 +102,7 @@ class MoviesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getMovieRecommendations(movieId, page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { emptyList() },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -116,7 +116,7 @@ class MoviesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getSimilarMovies(movieId, page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { emptyList() },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -130,7 +130,7 @@ class MoviesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteDataSource.getSearchedMovies(query, page, language)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
@@ -170,7 +170,7 @@ class MoviesRepositoryImpl @Inject constructor(
                     withGenres = withGenres,
                     withoutGenres = withoutGenres
                 )
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { null },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
