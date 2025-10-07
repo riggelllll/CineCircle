@@ -465,9 +465,7 @@ class MovieDetailsFragment : Fragment() {
                 getString(R.string.not_available)
             }
 
-            originalLanguageValue.text = movieDetails.originalLanguage.ifEmpty {
-                getString(R.string.not_available)
-            }
+            originalLanguageValue.text = viewModel.languages.entries.firstOrNull { it.value == movieDetails.originalLanguage }?.key ?: getString(R.string.not_available)
 
             statusValue.text = movieDetails.status.ifEmpty {
                 getString(R.string.not_available)
