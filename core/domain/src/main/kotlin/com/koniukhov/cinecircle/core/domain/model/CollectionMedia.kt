@@ -11,9 +11,9 @@ data class CollectionMedia(
     val posterPath: String,
     val mediaType: String,
     val genreIds: List<Int>,
-    val popularity: Double,
+    val popularity: Float,
     val releaseDate: String,
     val video: Boolean,
-    val voteAverage: Double,
+    val voteAverage: Float,
     val voteCount: Int
 )
