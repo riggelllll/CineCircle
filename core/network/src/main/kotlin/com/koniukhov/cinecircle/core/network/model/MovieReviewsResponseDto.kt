@@ -1,22 +1,23 @@
 package com.koniukhov.cinecircle.core.network.model
 
 import com.google.gson.annotations.SerializedName
+import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 
 data class MovieReviewsResponseDto (
     @SerializedName("id")
-    val id: Int,
+    val id: Int?,
     @SerializedName("page")
-    val page: Int,
+    val page: Int?,
     @SerializedName("results")
-    val results: List<MediaReviewDto>,
+    val results: List<MediaReviewDto>?,
     @SerializedName("total_pages")
-    val totalPages: Int,
+    val totalPages: Int?,
     @SerializedName("total_results")
-    val totalResults: Int
+    val totalResults: Int?
 ){
     companion object{
         fun empty() = MovieReviewsResponseDto(
-            id = 0,
+            id = INVALID_ID,
             page = 0,
             results = emptyList(),
             totalPages = 0,
