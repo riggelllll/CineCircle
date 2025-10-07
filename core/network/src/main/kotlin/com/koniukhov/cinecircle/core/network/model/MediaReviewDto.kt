@@ -4,17 +4,17 @@ import com.google.gson.annotations.SerializedName
 
 data class MediaReviewDto(
     @SerializedName("author")
-    val author: String,
+    val author: String?,
     @SerializedName("author_details")
-    val authorDetails: ReviewAuthorDto,
+    val authorDetails: ReviewAuthorDto?,
     @SerializedName("content")
-    val content: String,
+    val content: String?,
     @SerializedName("created_at")
-    val createdAt: String,
+    val createdAt: String?,
     @SerializedName("id")
-    val id: String,
+    val id: String?,
     @SerializedName("updated_at")
-    val updatedAt: String,
+    val updatedAt: String?,
     @SerializedName("url")
-    val url: String
+    val url: String?
 )
