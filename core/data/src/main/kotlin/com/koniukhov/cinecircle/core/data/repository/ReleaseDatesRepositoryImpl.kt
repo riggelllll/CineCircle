@@ -16,7 +16,7 @@ class ReleaseDatesRepositoryImpl @Inject constructor(
         return fetchWithLocalAndRetry(
             remoteCall = {
                 val dto = remoteReleaseDatesDataSourceImpl.getMovieReleaseDates(movieId)
-                dto.results.map { it.toDomain() } },
+                dto.results?.map { it.toDomain() } },
             localCall = { emptyList() },
             isNetworkAvailable = { networkStatusProvider.isNetworkAvailable() }
         ) ?: emptyList()
