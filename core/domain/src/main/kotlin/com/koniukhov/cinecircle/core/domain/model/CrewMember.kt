@@ -7,7 +7,7 @@ data class CrewMember(
     val knownForDepartment: String,
     val name: String,
     val originalName: String,
-    val popularity: Double,
+    val popularity: Float,
     val profilePath: String,
     val creditId: String,
     val department: String,
