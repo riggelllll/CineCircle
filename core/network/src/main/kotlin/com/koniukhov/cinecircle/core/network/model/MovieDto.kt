@@ -2,26 +2,26 @@ package com.koniukhov.cinecircle.core.network.model
 
 import com.google.gson.annotations.SerializedName
 data class MovieDto (
-    val adult: Boolean,
+    val adult: Boolean?,
     @SerializedName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerializedName("genre_ids")
-    val genreIds: List<Int>,
-    val id: Int,
+    val genreIds: List<Int>?,
+    val id: Int?,
     @SerializedName("original_language")
-    val originalLanguage: String,
+    val originalLanguage: String?,
     @SerializedName("original_title")
-    val originalTitle: String,
-    val overview: String,
-    val popularity: Float,
+    val originalTitle: String?,
+    val overview: String?,
+    val popularity: Float?,
     @SerializedName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @SerializedName("release_date")
-    val releaseDate: String,
-    val title: String,
-    val video: Boolean,
+    val releaseDate: String?,
+    val title: String?,
+    val video: Boolean?,
     @SerializedName("vote_average")
-    val voteAverage: Float,
+    val voteAverage: Float?,
     @SerializedName("vote_count")
-    val voteCount: Int
+    val voteCount: Int?
 )
