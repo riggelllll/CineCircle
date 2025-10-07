@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 
 data class MovieCollectionDto(
-    val id: Int,
-    val name: String,
+    val id: Int?,
+    val name: String?,
     @SerializedName("poster_path")
     val posterPath: String?,
     @SerializedName("backdrop_path")
