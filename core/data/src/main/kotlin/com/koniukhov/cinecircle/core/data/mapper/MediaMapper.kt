@@ -143,7 +143,7 @@ fun ProductionCountryDto.toDomain(): ProductionCountry = ProductionCountry(
 
 fun LanguageDto.toDomain(): Language = Language(
     englishName = englishName ?: "",
-    isoName = isoName ?: "",
+    languageCode = languageCode ?: "",
     name = name ?: ""
 )
 
