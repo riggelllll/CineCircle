@@ -137,7 +137,7 @@ fun ProductionCompanyDto.toDomain(): ProductionCompany = ProductionCompany(
 )
 
 fun ProductionCountryDto.toDomain(): ProductionCountry = ProductionCountry(
-    isoName = isoName ?: "",
+    countryCode = countryCode ?: "",
     name = name ?: ""
 )
 
