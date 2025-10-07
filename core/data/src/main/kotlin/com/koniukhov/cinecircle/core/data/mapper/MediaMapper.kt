@@ -166,10 +166,10 @@ fun CollectionMediaDto.toDomain(): CollectionMedia = CollectionMedia(
     posterPath = posterPath ?: "",
     mediaType = mediaType ?: "",
     genreIds = genreIds ?: emptyList(),
-    popularity = popularity?.toDouble() ?: 0.0,
+    popularity = popularity ?: 0.0f,
     releaseDate = releaseDate ?: "",
     video = video ?: false,
-    voteAverage = voteAverage ?: 0.0,
+    voteAverage = voteAverage ?: 0.0f,
     voteCount = voteCount ?: 0
 )
 
