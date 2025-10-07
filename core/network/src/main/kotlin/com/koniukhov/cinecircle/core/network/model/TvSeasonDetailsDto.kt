@@ -5,19 +5,19 @@ import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 
 data class TvSeasonDetailsDto(
     @SerializedName("_id")
-    val _id: String,
+    val _id: String?,
     @SerializedName("air_date")
-    val airDate: String,
-    val episodes: List<TvEpisodeDetailsDto>,
-    val name: String,
-    val overview: String,
-    val id: Int,
+    val airDate: String?,
+    val episodes: List<TvEpisodeDetailsDto>?,
+    val name: String?,
+    val overview: String?,
+    val id: Int?,
     @SerializedName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @SerializedName("season_number")
-    val seasonNumber: Int,
+    val seasonNumber: Int?,
     @SerializedName("vote_average")
-    val voteAverage: Float
+    val voteAverage: Float?
 ){
     companion object{
         fun empty() = TvSeasonDetailsDto(
