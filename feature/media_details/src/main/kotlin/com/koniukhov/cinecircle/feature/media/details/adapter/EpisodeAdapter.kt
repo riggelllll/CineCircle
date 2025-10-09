@@ -62,13 +62,29 @@ class EpisodeAdapter : RecyclerView.Adapter<EpisodeAdapter.EpisodeViewHolder>() 
                     else design_R.drawable.ic_expand_more_24
                 )
 
-                btnExpand.setOnClickListener {
-                    if (isExpanded) {
+                episodeCard.setOnClickListener {
+                    val nowExpanded = expandedPositions.contains(position)
+                    if (nowExpanded) {
                         expandedPositions.remove(position)
+                        overview.animate()
+                            .alpha(0f)
+                            .setDuration(150)
+                            .withEndAction {
+                                overview.visibility = View.GONE
+                                overview.alpha = 1f
+                            }
+                            .start()
+                        btnExpand.setImageResource(design_R.drawable.ic_expand_more_24)
                     } else {
                         expandedPositions.add(position)
+                        overview.alpha = 0f
+                        overview.visibility = View.VISIBLE
+                        overview.animate()
+                            .alpha(1f)
+                            .setDuration(150)
+                            .start()
+                        btnExpand.setImageResource(design_R.drawable.ic_expand_less_24)
                     }
-                    notifyItemChanged(position)
                 }
             }
         }
