@@ -86,7 +86,9 @@
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_expand_more_24"/>
+                android:src="@drawable/ic_expand_more_24"
+                android:clickable="false"
+                android:focusable="false"/>
 
         </LinearLayout>
 
