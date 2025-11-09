@@ -158,6 +158,34 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.faltenreich.skeletonlayout.SkeletonLayout>
 
+            <LinearLayout
+                android:id="@+id/rating_content"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                app:layout_constraintTop_toBottomOf="@id/skeleton_plot"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/rating_label"
+                    android:text="@string/rate_movie_title"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RatingBar
+                    android:id="@+id/rating_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:stepSize="0.5"
+                    android:layout_marginTop="8dp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/images_title"
                 android:layout_width="match_parent"
@@ -169,7 +197,7 @@
                 android:text="@string/images_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/skeleton_plot" />
+                app:layout_constraintTop_toBottomOf="@id/rating_content" />
 
             <LinearLayout
                 android:id="@+id/container_images"
