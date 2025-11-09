@@ -67,4 +67,7 @@
         <item quantity="one">%d season</item>
         <item quantity="other">%d seasons</item>
     </plurals>
+    
+    <string name="rate_movie_title">Rate the movie</string>
+    <string name="rate_tv_series_title">Rate the Tv Series</string>
 </resources>
