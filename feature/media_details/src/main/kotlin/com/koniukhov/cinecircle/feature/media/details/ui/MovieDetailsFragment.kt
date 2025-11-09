@@ -207,6 +207,20 @@ class MovieDetailsFragment : Fragment() {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.userRating.collect { rating ->
+                _binding.let {
+                    binding.ratingBar.rating = rating
+                }
+            }
+        }
+
+        binding.ratingBar.setOnRatingBarChangeListener { _, rating, fromUser ->
+            if (fromUser) {
+                viewModel.setUserRating(rating)
+            }
+        }
     }
 
     private fun updateMovieDetailsSection(movieDetails: MovieDetails, uiState: MovieDetailsUiState) {
@@ -343,7 +357,7 @@ class MovieDetailsFragment : Fragment() {
     private fun setupArgs(){
         val args = requireArguments()
         val movieId = args.getInt(NavArgs.ARG_MOVIE_ID, INVALID_ID)
-        viewModel.setMovieId(movieId)
+        viewModel.initMovie(movieId)
         viewModel.checkAndLoadCollections()
     }
 
