@@ -8,6 +8,8 @@ import com.koniukhov.cinecircle.core.common.util.getLocalizedLanguageMap
 import com.koniukhov.cinecircle.core.data.di.CountryCode
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
 import com.koniukhov.cinecircle.core.data.mapper.toTvSeriesWithGenres
+import com.koniukhov.cinecircle.core.database.dao.RatedMediaDao
+import com.koniukhov.cinecircle.core.database.entity.RatedMediaEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListEntity
 import com.koniukhov.cinecircle.core.database.model.MediaListWithCount
 import com.koniukhov.cinecircle.core.database.repository.MediaListRepository
@@ -50,7 +52,8 @@ class TvSeriesDetailsViewModel @Inject constructor(
     @LanguageCode
     private val languageCode: String,
     @CountryCode
-    val countryCode: String
+    val countryCode: String,
+    private val ratedMediaDao: RatedMediaDao
 ): ViewModel(){
     private var _tvSeriesId = MutableStateFlow(INVALID_ID)
     private var _uiState = MutableStateFlow(TvSeriesDetailsUiState())
@@ -67,9 +70,16 @@ class TvSeriesDetailsViewModel @Inject constructor(
     private val _allCollections = MutableStateFlow<List<MediaListWithCount>>(emptyList())
     val allCollections: StateFlow<List<MediaListWithCount>> = _allCollections.asStateFlow()
 
+    private val _userRating = MutableStateFlow(0f)
+    val userRating: StateFlow<Float> = _userRating.asStateFlow()
+
     var languages: Map<String, String> = Locale.getDefault().getLocalizedLanguageMap()
         private set
 
+    fun initTvSeries(id: Int) {
+        setTvSeriesId(id)
+        loadUserRating()
+    }
     fun setTvSeriesId(id: Int) {
         _tvSeriesId.value = id
     }
@@ -212,6 +222,33 @@ class TvSeriesDetailsViewModel @Inject constructor(
     fun removeTvSeriesDetailsFromCache() {
         viewModelScope.launch {
             mediaListRepository.deleteTvSeriesWithGenres(_tvSeriesId.value)
+        }
+    }
+
+    fun loadUserRating() {
+        val id = _tvSeriesId.value
+        if (id == INVALID_ID) return
+        viewModelScope.launch {
+            try {
+                val rated = ratedMediaDao.getRatedMedia(id.toLong())
+                _userRating.value = rated?.rating ?: 0f
+            } catch (e: Exception) {
+                Timber.e(e)
+                _userRating.value = 0f
+            }
+        }
+    }
+
+    fun setUserRating(rating: Float) {
+        val id = _tvSeriesId.value
+        if (id == INVALID_ID) return
+        viewModelScope.launch {
+            try {
+                ratedMediaDao.insertRatedMedia(RatedMediaEntity(mediaId = id.toLong(), rating = rating))
+                _userRating.value = rating
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
         }
     }
 }

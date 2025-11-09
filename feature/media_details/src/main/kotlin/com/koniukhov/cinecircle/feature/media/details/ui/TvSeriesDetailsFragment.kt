@@ -297,6 +297,20 @@ class TvSeriesDetailsFragment : Fragment() {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.userRating.collect { rating ->
+                _binding.let {
+                    binding.ratingBar.rating = rating
+                }
+            }
+        }
+
+        binding.ratingBar.setOnRatingBarChangeListener { _, rating, fromUser ->
+            if (fromUser) {
+                viewModel.setUserRating(rating)
+            }
+        }
     }
 
     private fun updateDetailsSection(details: TvSeriesDetails, uiState: TvSeriesDetailsUiState) {
@@ -582,8 +596,7 @@ class TvSeriesDetailsFragment : Fragment() {
     private fun setupArgs(){
         val args = requireArguments()
         val tvSeriesId = args.getInt(NavArgs.ARG_TV_SERIES_ID, INVALID_ID)
-        viewModel.setTvSeriesId(tvSeriesId)
-        viewModel.setTvSeriesId(tvSeriesId)
+        viewModel.initTvSeries(tvSeriesId)
         viewModel.checkAndLoadCollections()
     }
 
