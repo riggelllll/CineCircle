@@ -5,10 +5,12 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.koniukhov.cinecircle.core.database.converter.MediaTypeConverter
 import com.koniukhov.cinecircle.core.database.dao.MediaListDao
+import com.koniukhov.cinecircle.core.database.dao.RatedMediaDao
 import com.koniukhov.cinecircle.core.database.entity.GenreEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListEntity
 import com.koniukhov.cinecircle.core.database.entity.MediaListItemEntity
 import com.koniukhov.cinecircle.core.database.entity.MovieDetailsEntity
+import com.koniukhov.cinecircle.core.database.entity.RatedMediaEntity
 import com.koniukhov.cinecircle.core.database.entity.TvSeriesDetailsEntity
 
 @Database(
@@ -17,7 +19,8 @@ import com.koniukhov.cinecircle.core.database.entity.TvSeriesDetailsEntity
         MediaListItemEntity::class,
         MovieDetailsEntity::class,
         GenreEntity::class,
-        TvSeriesDetailsEntity::class
+        TvSeriesDetailsEntity::class,
+        RatedMediaEntity::class
     ],
     version = 1,
     exportSchema = false
@@ -26,4 +29,5 @@ import com.koniukhov.cinecircle.core.database.entity.TvSeriesDetailsEntity
 abstract class CineCircleDatabase : RoomDatabase() {
 
     abstract fun mediaListDao(): MediaListDao
+    abstract fun ratedMediaDao(): RatedMediaDao
 }

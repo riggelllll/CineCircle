@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.koniukhov.cinecircle.core.database.CineCircleDatabase
 import com.koniukhov.cinecircle.core.database.dao.MediaListDao
+import com.koniukhov.cinecircle.core.database.dao.RatedMediaDao
 import com.koniukhov.cinecircle.core.database.repository.MediaListRepository
 import dagger.Module
 import dagger.Provides
@@ -31,6 +32,11 @@ object DatabaseModule {
     @Provides
     fun provideMediaListDao(database: CineCircleDatabase): MediaListDao {
         return database.mediaListDao()
+    }
+
+    @Provides
+    fun provideRatedMediaDao(database: CineCircleDatabase): RatedMediaDao {
+        return database.ratedMediaDao()
     }
 
     @Provides
