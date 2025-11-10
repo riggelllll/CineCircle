@@ -14,7 +14,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import kotlin.collections.forEachIndexed
 
 @AndroidEntryPoint
 class RecommendationsFragment : Fragment() {
@@ -48,13 +47,17 @@ class RecommendationsFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { observeLoadingState() }
                 launch { observeRecommendations() }
+                launch { observeEmptyState() }
             }
         }
     }
 
     private suspend fun observeLoadingState() {
         viewModel.isLoading.collectLatest { isLoading ->
+            bindings.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             if (isLoading) {
+                bindings.emptyStateLayout.visibility = View.GONE
+                bindings.recommendationsRecyclerView.visibility = View.GONE
                 Timber.d("STATUS: Calculating recommendations...")
             } else {
                 Timber.d("STATUS: Calculation completed.")
@@ -65,20 +68,30 @@ class RecommendationsFragment : Fragment() {
     private suspend fun observeRecommendations() {
         viewModel.recommendations.collectLatest { recommendations ->
             if (recommendations.isNotEmpty()) {
+                bindings.recommendationsRecyclerView.visibility = View.VISIBLE
+                bindings.emptyStateLayout.visibility = View.GONE
                 logRecommendations(recommendations)
-            } else if (!viewModel.isLoading.value) {
+            } else if (!viewModel.isLoading.value && !viewModel.hasNoRatings.value) {
+                bindings.recommendationsRecyclerView.visibility = View.GONE
                 Timber.d("RESULT: Recommendations list is empty.")
             }
         }
     }
 
+    private suspend fun observeEmptyState() {
+        viewModel.hasNoRatings.collectLatest { hasNoRatings ->
+            if (hasNoRatings) {
+                bindings.emptyStateLayout.visibility = View.VISIBLE
+                bindings.recommendationsRecyclerView.visibility = View.GONE
+                Timber.d("STATUS: No ratings found in database.")
+            } else {
+                bindings.emptyStateLayout.visibility = View.GONE
+            }
+        }
+    }
+
     private fun startRecommendationCalculation() {
-        val userRatings = mapOf(
-            862 to 5.0f,
-            8844 to 4.0f,
-            278 to 4.5f
-        )
-        viewModel.generateRecommendations(userRatings, topN = 10)
+        viewModel.generateRecommendationsFromDatabase(topN = 10)
     }
 
     private fun logRecommendations(recommendations: List<Recommendation>) {
