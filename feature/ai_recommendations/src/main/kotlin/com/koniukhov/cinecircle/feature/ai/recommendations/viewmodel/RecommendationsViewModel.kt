@@ -2,6 +2,7 @@ package com.koniukhov.cinecircle.feature.ai.recommendations.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.koniukhov.cinecircle.core.database.dao.RatedMediaDao
 import com.koniukhov.cinecircle.feature.ai.recommendations.MediaRepository
 import com.koniukhov.cinecircle.feature.ai.recommendations.Recommendation
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,8 @@ import kotlin.math.sqrt
 
 @HiltViewModel
 class MovieRecommendationViewModel @Inject constructor(
-    private val repository: MediaRepository
+    private val repository: MediaRepository,
+    private val ratedMediaDao: RatedMediaDao
 ) : ViewModel() {
 
     private val _recommendations = MutableStateFlow<List<Recommendation>>(emptyList())
@@ -22,6 +24,9 @@ class MovieRecommendationViewModel @Inject constructor(
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
+
+    private val _hasNoRatings = MutableStateFlow(false)
+    val hasNoRatings: StateFlow<Boolean> = _hasNoRatings
 
 
     private fun calculateUserVector(userRatings: Map<Int, Float>): FloatArray? {
@@ -85,6 +90,50 @@ class MovieRecommendationViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.value = true
+
+            repository.initialize()
+
+            val userVector = calculateUserVector(userRatings)
+            if (userVector == null) {
+                _isLoading.value = false
+                return@launch
+            }
+
+            val allMovies = repository.getAllMovieVectors()
+            val userRatedTmdbIds = userRatings.keys
+
+            val scores = allMovies.mapNotNull { movie ->
+                if (userRatedTmdbIds.contains(movie.tmdbId)) null else {
+                    val sim = cosineSimilarity(userVector, movie.vector)
+                    Recommendation(movie.tmdbId, sim)
+                }
+            }
+
+            val topRecommendations = scores
+                .sortedByDescending { it.score }
+                .take(topN)
+
+            _recommendations.value = topRecommendations
+            _isLoading.value = false
+        }
+    }
+
+    fun generateRecommendationsFromDatabase(topN: Int = 10) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isLoading.value = true
+            _hasNoRatings.value = false
+
+            val ratedMedias = ratedMediaDao.getAllRatedMedias()
+
+            if (ratedMedias.isEmpty()) {
+                _isLoading.value = false
+                _hasNoRatings.value = true
+                return@launch
+            }
+
+            val userRatings = ratedMedias.associate { ratedMedia ->
+                ratedMedia.mediaId.toInt() to ratedMedia.rating
+            }
 
             repository.initialize()
 
