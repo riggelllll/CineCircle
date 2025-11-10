@@ -13,6 +13,11 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
     <fragment
+        android:id="@+id/navigation_ai_recommendations"
+        android:name="com.koniukhov.cinecircle.feature.ai.recommendations.ui.RecommendationsFragment"
+        android:label="@string/for_you"
+        tools:layout="@layout/fragment_recommendations" />
+    <fragment
         android:id="@+id/navigation_collections"
         android:name="com.koniukhov.cinecircle.feature.lists.ui.CollectionsFragment"
         android:label="CollectionsFragment"
