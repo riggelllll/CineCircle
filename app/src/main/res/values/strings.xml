@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">CineCircle</string>
     <string name="title_home">Home</string>
+    <string name="for_you">For You</string>
     <string name="title_search">Search</string>
     <string name="title_collections">Collections</string>
 </resources>
