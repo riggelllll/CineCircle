@@ -58,7 +58,7 @@ class MediaRepository @Inject constructor(
 
     @SuppressLint("NewApi")
     private fun loadNpyData(): Map<Int, FloatArray> {
-        val movieIdsFile = copyAssetToTempFile("movie_ids.npy")
+        val movieIdsFile = copyAssetToTempFile(MOVIE_IDS_FILE)
         val movieIdsArray = NpyFile.read(Paths.get(movieIdsFile.absolutePath))
 
         val movieIds: List<Int> = when (val data = movieIdsArray.data) {
@@ -68,7 +68,7 @@ class MediaRepository @Inject constructor(
         }
         movieIdsFile.delete()
 
-        val embeddingsFile = copyAssetToTempFile("movie_embeddings.npy")
+        val embeddingsFile = copyAssetToTempFile(MOVIE_EMBEDDINGS_FILE)
         val embeddingsArray = NpyFile.read(Paths.get(embeddingsFile.absolutePath))
 
         if (embeddingsArray.shape.size != 2) {
@@ -111,7 +111,7 @@ class MediaRepository @Inject constructor(
     }
 
     private fun loadLinksAndCombine(embeddingsMap: Map<Int, FloatArray>) {
-        val linksStream = getAssetStream("links.csv")
+        val linksStream = getAssetStream(LINKS_FILE)
         val links = linksStream.bufferedReader().useLines { lines ->
             lines.drop(1)
                 .mapNotNull { line ->
@@ -150,5 +150,11 @@ class MediaRepository @Inject constructor(
 
     fun getAllMovieVectors(): List<MediaVector> {
         return allMediaVectors ?: emptyList()
+    }
+
+    companion object {
+        private const val MOVIE_IDS_FILE = "movie_ids.npy"
+        private const val MOVIE_EMBEDDINGS_FILE = "movie_embeddings.npy"
+        private const val LINKS_FILE = "links.csv"
     }
 }
