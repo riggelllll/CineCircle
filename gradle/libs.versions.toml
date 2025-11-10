@@ -32,6 +32,7 @@ paging= "3.3.6"
 android-youtube-player = "13.0.0"
 navigationCommonKtx = "2.9.4"
 navigationRuntimeKtx = "2.9.4"
+jetbrainsBioNpy = "0.3.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -70,6 +71,7 @@ androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", 
 android-youtube-player = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "android-youtube-player" }
 androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common-ktx", version.ref = "navigationCommonKtx" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
+jetbrains-bio-npy = { module = "org.jetbrains.bio:npy", version.ref = "jetbrainsBioNpy" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

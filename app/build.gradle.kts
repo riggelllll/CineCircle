@@ -51,6 +51,7 @@ dependencies {
     implementation(projects.feature.mediaDetails)
     implementation(projects.feature.collections)
     implementation(projects.feature.search)
+    implementation(projects.feature.aiRecommendations)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
