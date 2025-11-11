@@ -1,14 +1,23 @@
 package com.koniukhov.cinecircle.feature.ai.recommendations.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.koniukhov.cinecircle.feature.ai.recommendations.Recommendation
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import com.koniukhov.cinecircle.core.common.MediaType
+import com.koniukhov.cinecircle.core.ui.utils.GridSpacingItemDecoration
+import com.koniukhov.cinecircle.core.common.navigation.navigateToMovieDetails
+import com.koniukhov.cinecircle.core.common.navigation.navigateToTvSeriesDetails
+import com.koniukhov.cinecircle.core.ui.adapter.MediaListAdapter
 import com.koniukhov.cinecircle.feature.ai.recommendations.viewmodel.MovieRecommendationViewModel
+import com.koniukhov.cinecircle.feature.ai_recommendations.R
 import com.koniukhov.cinecircle.feature.ai_recommendations.databinding.FragmentRecommendationsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -19,16 +28,22 @@ import timber.log.Timber
 class RecommendationsFragment : Fragment() {
 
     private var _binding: FragmentRecommendationsBinding? = null
-    private val bindings get() = _binding!!
+    private val binding get() = _binding!!
     private val viewModel: MovieRecommendationViewModel by viewModels()
 
+    private val mediaAdapter by lazy {
+        MediaListAdapter { mediaId, mediaType ->
+            navigateToDetails(mediaId, mediaType)
+        }
+    }
+
     override fun onCreateView(
-        inflater: android.view.LayoutInflater,
-        container: android.view.ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRecommendationsBinding.inflate(inflater, container, false)
-        return bindings.root
+        return binding.root
     }
 
     override fun onDestroyView() {
@@ -38,15 +53,25 @@ class RecommendationsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
         observeViewModel()
         startRecommendationCalculation()
+    }
+
+    private fun setupRecyclerView() {
+        binding.recommendationsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        val spacing = resources.getDimensionPixelSize(com.koniukhov.cinecircle.core.design.R.dimen.grid_spacing)
+        binding.recommendationsRecyclerView.addItemDecoration(
+            GridSpacingItemDecoration(2, spacing, true)
+        )
+        binding.recommendationsRecyclerView.adapter = mediaAdapter
     }
 
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { observeLoadingState() }
-                launch { observeRecommendations() }
+                launch { observeRecommendedMovies() }
                 launch { observeEmptyState() }
             }
         }
@@ -54,25 +79,30 @@ class RecommendationsFragment : Fragment() {
 
     private suspend fun observeLoadingState() {
         viewModel.isLoading.collectLatest { isLoading ->
-            bindings.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             if (isLoading) {
-                bindings.emptyStateLayout.visibility = View.GONE
-                bindings.recommendationsRecyclerView.visibility = View.GONE
+                binding.progressBar.visibility = View.VISIBLE
+                binding.emptyStateLayout.visibility = View.GONE
+                binding.recommendationsRecyclerView.visibility = View.GONE
+                binding.recommendationsTitle.visibility = View.GONE
                 Timber.d("STATUS: Calculating recommendations...")
             } else {
+                binding.progressBar.visibility = View.GONE
                 Timber.d("STATUS: Calculation completed.")
             }
         }
     }
 
-    private suspend fun observeRecommendations() {
-        viewModel.recommendations.collectLatest { recommendations ->
-            if (recommendations.isNotEmpty()) {
-                bindings.recommendationsRecyclerView.visibility = View.VISIBLE
-                bindings.emptyStateLayout.visibility = View.GONE
-                logRecommendations(recommendations)
+    private suspend fun observeRecommendedMovies() {
+        viewModel.recommendedMovies.collectLatest { movies ->
+            if (movies.isNotEmpty()) {
+                binding.recommendationsRecyclerView.visibility = View.VISIBLE
+                binding.recommendationsTitle.visibility = View.VISIBLE
+                binding.emptyStateLayout.visibility = View.GONE
+                mediaAdapter.setMediaItems(movies)
+                Timber.d("Displaying ${movies.size} recommended movies")
             } else if (!viewModel.isLoading.value && !viewModel.hasNoRatings.value) {
-                bindings.recommendationsRecyclerView.visibility = View.GONE
+                binding.recommendationsRecyclerView.visibility = View.GONE
+                binding.recommendationsTitle.visibility = View.GONE
                 Timber.d("RESULT: Recommendations list is empty.")
             }
         }
@@ -81,24 +111,23 @@ class RecommendationsFragment : Fragment() {
     private suspend fun observeEmptyState() {
         viewModel.hasNoRatings.collectLatest { hasNoRatings ->
             if (hasNoRatings) {
-                bindings.emptyStateLayout.visibility = View.VISIBLE
-                bindings.recommendationsRecyclerView.visibility = View.GONE
+                binding.emptyStateLayout.visibility = View.VISIBLE
+                binding.recommendationsRecyclerView.visibility = View.GONE
                 Timber.d("STATUS: No ratings found in database.")
             } else {
-                bindings.emptyStateLayout.visibility = View.GONE
+                binding.emptyStateLayout.visibility = View.GONE
             }
         }
     }
 
     private fun startRecommendationCalculation() {
-        viewModel.generateRecommendationsFromDatabase(topN = 10)
+        viewModel.generateRecommendationsFromDatabase(topN = 20)
     }
 
-    private fun logRecommendations(recommendations: List<Recommendation>) {
-        recommendations.forEachIndexed { index, reco ->
-            Timber.d(
-                "${index + 1}. TMDB ID: ${reco.tmdbId} | Similarity: ${"%.4f".format(reco.score)}"
-            )
+    private fun navigateToDetails(mediaId: Int, mediaType: MediaType) {
+        when (mediaType) {
+            MediaType.MOVIE -> findNavController().navigateToMovieDetails(mediaId)
+            MediaType.TV_SERIES -> findNavController().navigateToTvSeriesDetails(mediaId)
         }
     }
 }

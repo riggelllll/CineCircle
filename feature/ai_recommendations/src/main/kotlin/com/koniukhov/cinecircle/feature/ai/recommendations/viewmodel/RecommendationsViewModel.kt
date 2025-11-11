@@ -2,7 +2,10 @@ package com.koniukhov.cinecircle.feature.ai.recommendations.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.koniukhov.cinecircle.core.data.di.LanguageCode
 import com.koniukhov.cinecircle.core.database.dao.RatedMediaDao
+import com.koniukhov.cinecircle.core.domain.model.Movie
+import com.koniukhov.cinecircle.core.domain.repository.MoviesRepository
 import com.koniukhov.cinecircle.feature.ai.recommendations.MediaRepository
 import com.koniukhov.cinecircle.feature.ai.recommendations.Recommendation
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,17 +13,24 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.sqrt
 
 @HiltViewModel
 class MovieRecommendationViewModel @Inject constructor(
     private val repository: MediaRepository,
-    private val ratedMediaDao: RatedMediaDao
+    private val ratedMediaDao: RatedMediaDao,
+    private val moviesRepository: MoviesRepository,
+    @LanguageCode
+    private val languageCode: String,
 ) : ViewModel() {
 
     private val _recommendations = MutableStateFlow<List<Recommendation>>(emptyList())
     val recommendations: StateFlow<List<Recommendation>> = _recommendations
+
+    private val _recommendedMovies = MutableStateFlow<List<Movie>>(emptyList())
+    val recommendedMovies: StateFlow<List<Movie>> = _recommendedMovies
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
@@ -122,6 +132,7 @@ class MovieRecommendationViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.value = true
             _hasNoRatings.value = false
+            _recommendedMovies.value = emptyList()
 
             val ratedMedias = ratedMediaDao.getAllRatedMedias()
 
@@ -158,6 +169,39 @@ class MovieRecommendationViewModel @Inject constructor(
                 .take(topN)
 
             _recommendations.value = topRecommendations
+
+            val movies = mutableListOf<Movie>()
+            topRecommendations.forEach { recommendation ->
+                try {
+                    val movieDetails = moviesRepository.getMovieDetails(
+                        movieId = recommendation.tmdbId,
+                        language = languageCode
+                    )
+                    movies.add(
+                        Movie(
+                            id = movieDetails.id,
+                            title = movieDetails.title,
+                            posterPath = movieDetails.posterPath,
+                            backdropPath = movieDetails.backdropPath,
+                            overview = movieDetails.overview,
+                            releaseDate = movieDetails.releaseDate,
+                            voteAverage = movieDetails.voteAverage,
+                            voteCount = movieDetails.voteCount,
+                            genreIds = movieDetails.genres.map { it.id },
+                            originalLanguage = movieDetails.originalLanguage,
+                            originalTitle = movieDetails.originalTitle,
+                            popularity = movieDetails.popularity,
+                            adult = movieDetails.adult,
+                            video = movieDetails.video
+                        )
+                    )
+                    Timber.d("Loaded movie: ${movieDetails.title} (${recommendation.tmdbId})")
+                } catch (e: Exception) {
+                    Timber.e(e, "Failed to load movie details for TMDB ID: ${recommendation.tmdbId}")
+                }
+            }
+
+            _recommendedMovies.value = movies
             _isLoading.value = false
         }
     }
