@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="about_title">About</string>
+    <string name="share">Share</string>
     <string name="add_to_favorites">Add to Favorites</string>
     <string name="plot">Plot</string>
     <string name="read_more">Read more</string>
