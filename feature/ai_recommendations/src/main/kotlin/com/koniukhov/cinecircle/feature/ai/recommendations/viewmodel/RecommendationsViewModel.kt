@@ -46,7 +46,6 @@ class MovieRecommendationViewModel @Inject constructor(
     private var isRecommendationsCached = false
     private var cachedRatedMediasCount = 0
 
-
     private fun calculateUserVector(userRatings: Map<Int, Float>): FloatArray? {
         val userVectors = mutableListOf<FloatArray>()
         val weights = mutableListOf<Float>()
@@ -56,7 +55,6 @@ class MovieRecommendationViewModel @Inject constructor(
 
         for ((tmdbId, rating) in userRatings) {
             val movieVector = tmdbToVectorMap[tmdbId]
-
             if (movieVector != null) {
                 userVectors.add(movieVector.vector)
                 weights.add(rating)
@@ -98,10 +96,8 @@ class MovieRecommendationViewModel @Inject constructor(
         }
 
         val denominator = sqrt(normA) * sqrt(normB)
-
         return if (denominator < epsilon) 0f else dotProduct / denominator
     }
-
 
     fun generateRecommendations(userRatings: Map<Int, Float>, topN: Int = 10) {
         if (userRatings.isEmpty()) return
@@ -139,7 +135,7 @@ class MovieRecommendationViewModel @Inject constructor(
     fun generateRecommendationsFromDatabase(topN: Int = 10) {
         viewModelScope.launch(Dispatchers.IO) {
             val currentRatedMedias = ratedMediaDao.getAllRatedMedias()
-            if (isRecommendationsCached && 
+            if (isRecommendationsCached &&
                 cachedRatedMediasCount == currentRatedMedias.size &&
                 _recommendedMedia.value.isNotEmpty()) {
                 Timber.d("Using cached recommendations (Count: ${_recommendedMedia.value.size})")
@@ -160,99 +156,111 @@ class MovieRecommendationViewModel @Inject constructor(
 
             cachedRatedMediasCount = currentRatedMedias.size
 
-            val userRatings = currentRatedMedias.associate { ratedMedia ->
-                ratedMedia.mediaId.toInt() to ratedMedia.rating
-            }
-
-            repository.initialize()
-
-            val userVector = calculateUserVector(userRatings)
-            if (userVector == null) {
-                _isLoading.value = false
-                return@launch
-            }
-
-            val allMovies = repository.getAllMovieVectors()
-            val userRatedTmdbIds = userRatings.keys
-
-            val scores = allMovies.mapNotNull { movie ->
-                if (userRatedTmdbIds.contains(movie.tmdbId)) null else {
-                    val sim = cosineSimilarity(userVector, movie.vector)
-                    Recommendation(movie.tmdbId, sim)
+            try {
+                val userRatings = currentRatedMedias.associate { ratedMedia ->
+                    ratedMedia.mediaId.toInt() to ratedMedia.rating
                 }
-            }
 
-            val topRecommendations = scores
-                .sortedByDescending { it.score }
-                .take(topN)
+                Timber.d("Initializing repository...")
+                repository.initialize()
+                Timber.d("Repository initialized successfully")
 
-            _recommendations.value = topRecommendations
+                val userVector = calculateUserVector(userRatings)
+                if (userVector == null) {
+                    _isLoading.value = false
+                    Timber.w("User vector is null - no recommendations can be generated")
+                    return@launch
+                }
 
-            val mediaList = mutableListOf<MediaItem>()
-            topRecommendations.forEach { recommendation ->
-                try {
+                val allMovies = repository.getAllMovieVectors()
+                Timber.d("Got ${allMovies.size} movie vectors from repository")
+
+                val userRatedTmdbIds = userRatings.keys
+
+                val scores = allMovies.mapNotNull { movie ->
+                    if (userRatedTmdbIds.contains(movie.tmdbId)) null else {
+                        val sim = cosineSimilarity(userVector, movie.vector)
+                        Recommendation(movie.tmdbId, sim)
+                    }
+                }
+
+                val topRecommendations = scores
+                    .sortedByDescending { it.score }
+                    .take(topN)
+
+                _recommendations.value = topRecommendations
+                Timber.d("Calculated ${topRecommendations.size} top recommendations")
+
+                val mediaList = mutableListOf<MediaItem>()
+                topRecommendations.forEach { recommendation ->
                     try {
-                        val movieDetails = moviesRepository.getMovieDetails(
-                            movieId = recommendation.tmdbId,
-                            language = languageCode
-                        )
-                        mediaList.add(
-                            Movie(
-                                id = movieDetails.id,
-                                title = movieDetails.title,
-                                posterPath = movieDetails.posterPath,
-                                backdropPath = movieDetails.backdropPath,
-                                overview = movieDetails.overview,
-                                releaseDate = movieDetails.releaseDate,
-                                voteAverage = movieDetails.voteAverage,
-                                voteCount = movieDetails.voteCount,
-                                genreIds = movieDetails.genres.map { it.id },
-                                originalLanguage = movieDetails.originalLanguage,
-                                originalTitle = movieDetails.originalTitle,
-                                popularity = movieDetails.popularity,
-                                adult = movieDetails.adult,
-                                video = movieDetails.video
-                            )
-                        )
-                        Timber.d("Loaded movie: ${movieDetails.title} (${recommendation.tmdbId})")
-                    } catch (movieError: Exception) {
                         try {
-                            val tvSeriesDetails = tvSeriesRepository.getTvSeriesDetails(
-                                id = recommendation.tmdbId,
+                            val movieDetails = moviesRepository.getMovieDetails(
+                                movieId = recommendation.tmdbId,
                                 language = languageCode
                             )
                             mediaList.add(
-                                TvSeries(
-                                    id = tvSeriesDetails.id,
-                                    title = tvSeriesDetails.name,
-                                    posterPath = tvSeriesDetails.posterPath,
-                                    backdropPath = tvSeriesDetails.backdropPath,
-                                    overview = tvSeriesDetails.overview,
-                                    firstAirDate = tvSeriesDetails.firstAirDate,
-                                    voteAverage = tvSeriesDetails.voteAverage,
-                                    voteCount = tvSeriesDetails.voteCount,
-                                    genreIds = tvSeriesDetails.genres.map { it.id },
-                                    originalLanguage = tvSeriesDetails.originalLanguage,
-                                    originCountry = tvSeriesDetails.originCountry,
-                                    originalName = tvSeriesDetails.originalName,
-                                    popularity = tvSeriesDetails.popularity,
-                                    adult = tvSeriesDetails.adult
+                                Movie(
+                                    id = movieDetails.id,
+                                    title = movieDetails.title,
+                                    posterPath = movieDetails.posterPath,
+                                    backdropPath = movieDetails.backdropPath,
+                                    overview = movieDetails.overview,
+                                    releaseDate = movieDetails.releaseDate,
+                                    voteAverage = movieDetails.voteAverage,
+                                    voteCount = movieDetails.voteCount,
+                                    genreIds = movieDetails.genres.map { it.id },
+                                    originalLanguage = movieDetails.originalLanguage,
+                                    originalTitle = movieDetails.originalTitle,
+                                    popularity = movieDetails.popularity,
+                                    adult = movieDetails.adult,
+                                    video = movieDetails.video
                                 )
                             )
-                            Timber.d("Loaded TV series: ${tvSeriesDetails.name} (${recommendation.tmdbId})")
-                        } catch (tvError: Exception) {
-                            Timber.e(movieError, "Failed to load media details for TMDB ID: ${recommendation.tmdbId}")
-                            Timber.e(tvError, "Also failed as TV series")
+                            Timber.d("Loaded movie: ${movieDetails.title} (${recommendation.tmdbId})")
+                        } catch (movieError: Exception) {
+                            try {
+                                val tvSeriesDetails = tvSeriesRepository.getTvSeriesDetails(
+                                    id = recommendation.tmdbId,
+                                    language = languageCode
+                                )
+                                mediaList.add(
+                                    TvSeries(
+                                        id = tvSeriesDetails.id,
+                                        title = tvSeriesDetails.name,
+                                        posterPath = tvSeriesDetails.posterPath,
+                                        backdropPath = tvSeriesDetails.backdropPath,
+                                        overview = tvSeriesDetails.overview,
+                                        firstAirDate = tvSeriesDetails.firstAirDate,
+                                        voteAverage = tvSeriesDetails.voteAverage,
+                                        voteCount = tvSeriesDetails.voteCount,
+                                        genreIds = tvSeriesDetails.genres.map { it.id },
+                                        originalLanguage = tvSeriesDetails.originalLanguage,
+                                        originCountry = tvSeriesDetails.originCountry,
+                                        originalName = tvSeriesDetails.originalName,
+                                        popularity = tvSeriesDetails.popularity,
+                                        adult = tvSeriesDetails.adult
+                                    )
+                                )
+                                Timber.d("Loaded TV series: ${tvSeriesDetails.name} (${recommendation.tmdbId})")
+                            } catch (tvError: Exception) {
+                                Timber.e(movieError, "Failed to load media details for TMDB ID: ${recommendation.tmdbId}")
+                                Timber.e(tvError, "Also failed as TV series")
+                            }
                         }
+                    } catch (e: Exception) {
+                        Timber.e(e, "Unexpected error loading media for TMDB ID: ${recommendation.tmdbId}")
                     }
-                } catch (e: Exception) {
-                    Timber.e(e, "Unexpected error loading media for TMDB ID: ${recommendation.tmdbId}")
                 }
+                _recommendedMedia.value = mediaList.filter { it.id != INVALID_ID }
+                isRecommendationsCached = true
+                _isLoading.value = false
+                Timber.d("Recommendations loaded and cached: ${mediaList.size} items")
+            } catch (e: Exception) {
+                Timber.e(e, "Error generating recommendations")
+                _isLoading.value = false
+                _hasNoRatings.value = true
             }
-            _recommendedMedia.value = mediaList.filter { it.id != INVALID_ID }
-            isRecommendationsCached = true
-            _isLoading.value = false
-            Timber.d("Recommendations loaded and cached: ${mediaList.size} items")
         }
     }
 
