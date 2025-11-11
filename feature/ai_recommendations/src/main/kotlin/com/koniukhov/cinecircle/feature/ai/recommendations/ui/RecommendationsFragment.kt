@@ -57,6 +57,11 @@ class RecommendationsFragment : Fragment() {
         startRecommendationCalculation()
     }
 
+    override fun onResume() {
+        super.onResume()
+        startRecommendationCalculation()
+    }
+
     private fun setupRecyclerView() {
         binding.recommendationsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         val spacing = resources.getDimensionPixelSize(com.koniukhov.cinecircle.core.design.R.dimen.grid_spacing)
