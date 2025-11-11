@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.jetbrains.bio.npy.NpyFile
+import timber.log.Timber
 import java.io.File
 import java.io.InputStream
 import java.nio.file.Paths
@@ -18,13 +19,10 @@ data class MediaVector(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-
         other as MediaVector
-
         if (movieId != other.movieId) return false
         if (tmdbId != other.tmdbId) return false
         if (!vector.contentEquals(other.vector)) return false
-
         return true
     }
 
@@ -48,73 +46,86 @@ class MediaRepository @Inject constructor(
 
     private fun copyAssetToTempFile(fileName: String): File {
         val tempFile = File(context.cacheDir, fileName)
-        getAssetStream(fileName).use { input ->
-            tempFile.outputStream().use { output ->
-                input.copyTo(output)
-            }
+        if (tempFile.exists() && tempFile.length() > 0) {
+            Timber.d("Asset file already exists in cache: $fileName")
+            return tempFile
         }
-        return tempFile
+        try {
+            Timber.d("Copying asset file to cache: $fileName")
+            getAssetStream(fileName).use { input ->
+                tempFile.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
+            Timber.d("Successfully copied asset file: $fileName (${tempFile.length()} bytes)")
+            if (!tempFile.exists()) throw IllegalStateException("File was not created: $fileName")
+            if (tempFile.length() == 0L) throw IllegalStateException("File is empty: $fileName")
+            return tempFile
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to copy asset file: $fileName")
+            tempFile.delete()
+            throw e
+        }
     }
 
     @SuppressLint("NewApi")
     private fun loadNpyData(): Map<Int, FloatArray> {
-        val movieIdsFile = copyAssetToTempFile(MOVIE_IDS_FILE)
-        val movieIdsArray = NpyFile.read(Paths.get(movieIdsFile.absolutePath))
-
-        val movieIds: List<Int> = when (val data = movieIdsArray.data) {
-            is IntArray -> data.toList()
-            is LongArray -> data.map { it.toInt() }
-            else -> throw IllegalStateException("Expected IntArray or LongArray for movie_ids")
-        }
-        movieIdsFile.delete()
-
-        val embeddingsFile = copyAssetToTempFile(MOVIE_EMBEDDINGS_FILE)
-        val embeddingsArray = NpyFile.read(Paths.get(embeddingsFile.absolutePath))
-
-        if (embeddingsArray.shape.size != 2) {
-            embeddingsFile.delete()
-            throw IllegalStateException("Embeddings array must be 2D.")
-        }
-
-        val numMovies = embeddingsArray.shape[0]
-        val dim = embeddingsArray.shape[1]
-
-        if (numMovies != movieIds.size) {
-            embeddingsFile.delete()
-            throw IllegalStateException("Mismatch in number of movies in IDs and Embeddings.")
-        }
-
-        val embeddingsMap = mutableMapOf<Int, FloatArray>()
-        val rawData = when (val data = embeddingsArray.data) {
-            is FloatArray -> data
-            is DoubleArray -> data.map { it.toFloat() }.toFloatArray()
-            else -> {
-                embeddingsFile.delete()
-                throw IllegalStateException("Expected FloatArray or DoubleArray for embeddings")
+        try {
+            Timber.d("Starting NPY data loading...")
+            val movieIdsFile = copyAssetToTempFile(MOVIE_IDS_FILE)
+            Timber.d("Loading movie IDs from: ${movieIdsFile.absolutePath}")
+            val movieIdsArray = NpyFile.read(Paths.get(movieIdsFile.absolutePath))
+            val movieIds: List<Int> = when (val data = movieIdsArray.data) {
+                is IntArray -> data.toList()
+                is LongArray -> data.map { it.toInt() }
+                else -> throw IllegalStateException("Expected IntArray or LongArray for movie_ids")
             }
-        }
+            Timber.d("Loaded ${movieIds.size} movie IDs")
 
-        for (index in 0 until numMovies) {
-            val movieId = movieIds[index]
-            val vector = FloatArray(dim)
+            val embeddingsFile = copyAssetToTempFile(MOVIE_EMBEDDINGS_FILE)
+            Timber.d("Loading embeddings from: ${embeddingsFile.absolutePath}")
+            val embeddingsArray = NpyFile.read(Paths.get(embeddingsFile.absolutePath))
+            if (embeddingsArray.shape.size != 2) throw IllegalStateException("Embeddings array must be 2D.")
 
-            val offset = index * dim
-            for (i in 0 until dim) {
-                vector[i] = rawData[offset + i]
+            val numMovies = embeddingsArray.shape[0]
+            val dim = embeddingsArray.shape[1]
+            Timber.d("Embeddings shape: $numMovies x $dim")
+
+            if (numMovies != movieIds.size) {
+                throw IllegalStateException("Mismatch in number of movies in IDs ($numMovies) and Embeddings (${movieIds.size}).")
             }
 
-            embeddingsMap[movieId] = vector
-        }
+            val embeddingsMap = mutableMapOf<Int, FloatArray>()
+            val rawData = when (val data = embeddingsArray.data) {
+                is FloatArray -> data
+                is DoubleArray -> data.map { it.toFloat() }.toFloatArray()
+                else -> throw IllegalStateException("Expected FloatArray or DoubleArray for embeddings")
+            }
 
-        embeddingsFile.delete()
-        return embeddingsMap
+            for (index in 0 until numMovies) {
+                val movieId = movieIds[index]
+                val vector = FloatArray(dim)
+                val offset = index * dim
+                for (i in 0 until dim) {
+                    vector[i] = rawData[offset + i]
+                }
+                embeddingsMap[movieId] = vector
+            }
+
+            Timber.d("Successfully loaded embeddings for ${embeddingsMap.size} movies")
+            return embeddingsMap
+        } catch (e: Exception) {
+            Timber.e(e, "Error loading NPY data")
+            throw e
+        }
     }
 
     private fun loadLinksAndCombine(embeddingsMap: Map<Int, FloatArray>) {
-        val linksStream = getAssetStream(LINKS_FILE)
-        val links = linksStream.bufferedReader().useLines { lines ->
-            lines.drop(1)
-                .mapNotNull { line ->
+        try {
+            Timber.d("Loading links from CSV...")
+            val linksStream = getAssetStream(LINKS_FILE)
+            val links = linksStream.bufferedReader().useLines { lines ->
+                lines.drop(1).mapNotNull { line ->
                     val parts = line.split(',')
                     if (parts.size >= 3) {
                         try {
@@ -126,21 +137,36 @@ class MediaRepository @Inject constructor(
                         }
                     } else null
                 }.toMap()
-        }
+            }
+            Timber.d("Loaded ${links.size} TMDB links")
 
-        allMediaVectors = embeddingsMap.map { (movieId, vector) ->
-            MediaVector(
-                movieId = movieId,
-                tmdbId = links[movieId] ?: -1,
-                vector = vector
-            )
+            allMediaVectors = embeddingsMap.map { (movieId, vector) ->
+                MediaVector(
+                    movieId = movieId,
+                    tmdbId = links[movieId] ?: -1,
+                    vector = vector
+                )
+            }
+            Timber.d("Combined embeddings with TMDB links: ${allMediaVectors?.size} media vectors")
+        } catch (e: Exception) {
+            Timber.e(e, "Error loading links and combining data")
+            throw e
         }
     }
 
     fun initialize() {
         if (allMediaVectors == null) {
-            val embeddingsMap = loadNpyData()
-            loadLinksAndCombine(embeddingsMap)
+            try {
+                Timber.d("Initializing MediaRepository...")
+                val embeddingsMap = loadNpyData()
+                loadLinksAndCombine(embeddingsMap)
+                Timber.d("MediaRepository initialized successfully")
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to initialize MediaRepository")
+                throw e
+            }
+        } else {
+            Timber.d("MediaRepository already initialized with ${allMediaVectors?.size} vectors")
         }
     }
 
