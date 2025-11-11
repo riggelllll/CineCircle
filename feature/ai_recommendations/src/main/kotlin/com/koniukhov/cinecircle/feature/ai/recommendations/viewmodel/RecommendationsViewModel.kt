@@ -43,6 +43,9 @@ class MovieRecommendationViewModel @Inject constructor(
     private val _hasNoRatings = MutableStateFlow(false)
     val hasNoRatings: StateFlow<Boolean> = _hasNoRatings
 
+    private var isRecommendationsCached = false
+    private var cachedRatedMediasCount = 0
+
 
     private fun calculateUserVector(userRatings: Map<Int, Float>): FloatArray? {
         val userVectors = mutableListOf<FloatArray>()
@@ -135,19 +138,29 @@ class MovieRecommendationViewModel @Inject constructor(
 
     fun generateRecommendationsFromDatabase(topN: Int = 10) {
         viewModelScope.launch(Dispatchers.IO) {
+            val currentRatedMedias = ratedMediaDao.getAllRatedMedias()
+            if (isRecommendationsCached && 
+                cachedRatedMediasCount == currentRatedMedias.size &&
+                _recommendedMedia.value.isNotEmpty()) {
+                Timber.d("Using cached recommendations (Count: ${_recommendedMedia.value.size})")
+                return@launch
+            }
+
             _isLoading.value = true
             _hasNoRatings.value = false
             _recommendedMedia.value = emptyList()
 
-            val ratedMedias = ratedMediaDao.getAllRatedMedias()
-
-            if (ratedMedias.isEmpty()) {
+            if (currentRatedMedias.isEmpty()) {
                 _isLoading.value = false
                 _hasNoRatings.value = true
+                isRecommendationsCached = true
+                cachedRatedMediasCount = 0
                 return@launch
             }
 
-            val userRatings = ratedMedias.associate { ratedMedia ->
+            cachedRatedMediasCount = currentRatedMedias.size
+
+            val userRatings = currentRatedMedias.associate { ratedMedia ->
                 ratedMedia.mediaId.toInt() to ratedMedia.rating
             }
 
@@ -237,7 +250,15 @@ class MovieRecommendationViewModel @Inject constructor(
                 }
             }
             _recommendedMedia.value = mediaList.filter { it.id != INVALID_ID }
+            isRecommendationsCached = true
             _isLoading.value = false
+            Timber.d("Recommendations loaded and cached: ${mediaList.size} items")
         }
+    }
+
+    fun invalidateCache() {
+        isRecommendationsCached = false
+        cachedRatedMediasCount = 0
+        Timber.d("Cache invalidated")
     }
 }
