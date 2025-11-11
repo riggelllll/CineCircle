@@ -17,7 +17,6 @@ import com.koniukhov.cinecircle.core.common.navigation.navigateToMovieDetails
 import com.koniukhov.cinecircle.core.common.navigation.navigateToTvSeriesDetails
 import com.koniukhov.cinecircle.core.ui.adapter.MediaListAdapter
 import com.koniukhov.cinecircle.feature.ai.recommendations.viewmodel.MovieRecommendationViewModel
-import com.koniukhov.cinecircle.feature.ai_recommendations.R
 import com.koniukhov.cinecircle.feature.ai_recommendations.databinding.FragmentRecommendationsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -93,13 +92,13 @@ class RecommendationsFragment : Fragment() {
     }
 
     private suspend fun observeRecommendedMovies() {
-        viewModel.recommendedMovies.collectLatest { movies ->
-            if (movies.isNotEmpty()) {
+        viewModel.recommendedMedia.collectLatest { mediaItems ->
+            if (mediaItems.isNotEmpty()) {
                 binding.recommendationsRecyclerView.visibility = View.VISIBLE
                 binding.recommendationsTitle.visibility = View.VISIBLE
                 binding.emptyStateLayout.visibility = View.GONE
-                mediaAdapter.setMediaItems(movies)
-                Timber.d("Displaying ${movies.size} recommended movies")
+                mediaAdapter.setMediaItems(mediaItems)
+                Timber.d("Displaying ${mediaItems.size} recommended media items")
             } else if (!viewModel.isLoading.value && !viewModel.hasNoRatings.value) {
                 binding.recommendationsRecyclerView.visibility = View.GONE
                 binding.recommendationsTitle.visibility = View.GONE

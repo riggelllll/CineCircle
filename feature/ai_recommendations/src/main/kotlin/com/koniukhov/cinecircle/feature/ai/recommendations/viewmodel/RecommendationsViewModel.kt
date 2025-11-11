@@ -2,10 +2,14 @@ package com.koniukhov.cinecircle.feature.ai.recommendations.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.data.di.LanguageCode
 import com.koniukhov.cinecircle.core.database.dao.RatedMediaDao
+import com.koniukhov.cinecircle.core.domain.model.MediaItem
 import com.koniukhov.cinecircle.core.domain.model.Movie
+import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.domain.repository.MoviesRepository
+import com.koniukhov.cinecircle.core.domain.repository.TvSeriesRepository
 import com.koniukhov.cinecircle.feature.ai.recommendations.MediaRepository
 import com.koniukhov.cinecircle.feature.ai.recommendations.Recommendation
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +26,7 @@ class MovieRecommendationViewModel @Inject constructor(
     private val repository: MediaRepository,
     private val ratedMediaDao: RatedMediaDao,
     private val moviesRepository: MoviesRepository,
+    private val tvSeriesRepository: TvSeriesRepository,
     @LanguageCode
     private val languageCode: String,
 ) : ViewModel() {
@@ -29,8 +34,8 @@ class MovieRecommendationViewModel @Inject constructor(
     private val _recommendations = MutableStateFlow<List<Recommendation>>(emptyList())
     val recommendations: StateFlow<List<Recommendation>> = _recommendations
 
-    private val _recommendedMovies = MutableStateFlow<List<Movie>>(emptyList())
-    val recommendedMovies: StateFlow<List<Movie>> = _recommendedMovies
+    private val _recommendedMedia = MutableStateFlow<List<MediaItem>>(emptyList())
+    val recommendedMedia: StateFlow<List<MediaItem>> = _recommendedMedia
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
@@ -132,7 +137,7 @@ class MovieRecommendationViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.value = true
             _hasNoRatings.value = false
-            _recommendedMovies.value = emptyList()
+            _recommendedMedia.value = emptyList()
 
             val ratedMedias = ratedMediaDao.getAllRatedMedias()
 
@@ -170,38 +175,68 @@ class MovieRecommendationViewModel @Inject constructor(
 
             _recommendations.value = topRecommendations
 
-            val movies = mutableListOf<Movie>()
+            val mediaList = mutableListOf<MediaItem>()
             topRecommendations.forEach { recommendation ->
                 try {
-                    val movieDetails = moviesRepository.getMovieDetails(
-                        movieId = recommendation.tmdbId,
-                        language = languageCode
-                    )
-                    movies.add(
-                        Movie(
-                            id = movieDetails.id,
-                            title = movieDetails.title,
-                            posterPath = movieDetails.posterPath,
-                            backdropPath = movieDetails.backdropPath,
-                            overview = movieDetails.overview,
-                            releaseDate = movieDetails.releaseDate,
-                            voteAverage = movieDetails.voteAverage,
-                            voteCount = movieDetails.voteCount,
-                            genreIds = movieDetails.genres.map { it.id },
-                            originalLanguage = movieDetails.originalLanguage,
-                            originalTitle = movieDetails.originalTitle,
-                            popularity = movieDetails.popularity,
-                            adult = movieDetails.adult,
-                            video = movieDetails.video
+                    try {
+                        val movieDetails = moviesRepository.getMovieDetails(
+                            movieId = recommendation.tmdbId,
+                            language = languageCode
                         )
-                    )
-                    Timber.d("Loaded movie: ${movieDetails.title} (${recommendation.tmdbId})")
+                        mediaList.add(
+                            Movie(
+                                id = movieDetails.id,
+                                title = movieDetails.title,
+                                posterPath = movieDetails.posterPath,
+                                backdropPath = movieDetails.backdropPath,
+                                overview = movieDetails.overview,
+                                releaseDate = movieDetails.releaseDate,
+                                voteAverage = movieDetails.voteAverage,
+                                voteCount = movieDetails.voteCount,
+                                genreIds = movieDetails.genres.map { it.id },
+                                originalLanguage = movieDetails.originalLanguage,
+                                originalTitle = movieDetails.originalTitle,
+                                popularity = movieDetails.popularity,
+                                adult = movieDetails.adult,
+                                video = movieDetails.video
+                            )
+                        )
+                        Timber.d("Loaded movie: ${movieDetails.title} (${recommendation.tmdbId})")
+                    } catch (movieError: Exception) {
+                        try {
+                            val tvSeriesDetails = tvSeriesRepository.getTvSeriesDetails(
+                                id = recommendation.tmdbId,
+                                language = languageCode
+                            )
+                            mediaList.add(
+                                TvSeries(
+                                    id = tvSeriesDetails.id,
+                                    title = tvSeriesDetails.name,
+                                    posterPath = tvSeriesDetails.posterPath,
+                                    backdropPath = tvSeriesDetails.backdropPath,
+                                    overview = tvSeriesDetails.overview,
+                                    firstAirDate = tvSeriesDetails.firstAirDate,
+                                    voteAverage = tvSeriesDetails.voteAverage,
+                                    voteCount = tvSeriesDetails.voteCount,
+                                    genreIds = tvSeriesDetails.genres.map { it.id },
+                                    originalLanguage = tvSeriesDetails.originalLanguage,
+                                    originCountry = tvSeriesDetails.originCountry,
+                                    originalName = tvSeriesDetails.originalName,
+                                    popularity = tvSeriesDetails.popularity,
+                                    adult = tvSeriesDetails.adult
+                                )
+                            )
+                            Timber.d("Loaded TV series: ${tvSeriesDetails.name} (${recommendation.tmdbId})")
+                        } catch (tvError: Exception) {
+                            Timber.e(movieError, "Failed to load media details for TMDB ID: ${recommendation.tmdbId}")
+                            Timber.e(tvError, "Also failed as TV series")
+                        }
+                    }
                 } catch (e: Exception) {
-                    Timber.e(e, "Failed to load movie details for TMDB ID: ${recommendation.tmdbId}")
+                    Timber.e(e, "Unexpected error loading media for TMDB ID: ${recommendation.tmdbId}")
                 }
             }
-
-            _recommendedMovies.value = movies
+            _recommendedMedia.value = mediaList.filter { it.id != INVALID_ID }
             _isLoading.value = false
         }
     }
