@@ -1,7 +1,7 @@
 package com.koniukhov.cinecircle.core.data.repository
 
 import com.koniukhov.cinecircle.core.data.mapper.toDomain
-import com.koniukhov.cinecircle.core.data.remote.RemoteRemoteReviewsDataSourceImpl
+import com.koniukhov.cinecircle.core.data.remote.RemoteReviewsDataSourceImpl
 import com.koniukhov.cinecircle.core.data.util.fetchWithLocalAndRetry
 import com.koniukhov.cinecircle.core.domain.NetworkStatusProvider
 import com.koniukhov.cinecircle.core.domain.model.MediaReview
@@ -9,7 +9,7 @@ import com.koniukhov.cinecircle.core.domain.repository.ReviewsRepository
 import javax.inject.Inject
 
 class ReviewsRepositoryImpl @Inject constructor(
-    private val remoteReviewsDataSourceImpl: RemoteRemoteReviewsDataSourceImpl,
+    private val remoteReviewsDataSourceImpl: RemoteReviewsDataSourceImpl,
     private val networkStatusProvider: NetworkStatusProvider
 ) : ReviewsRepository {
     override suspend fun getMovieReviews(

@@ -5,7 +5,7 @@ import com.koniukhov.cinecircle.core.network.api.TMDBApi
 import com.koniukhov.cinecircle.core.network.model.GenreDto
 import javax.inject.Inject
 
-class RemoteRemoteGenresDataSourceImpl @Inject constructor(
+class RemoteGenresDataSourceImpl @Inject constructor(
     private val api: TMDBApi
 ) : RemoteGenresDataSource{
     override suspend fun getMoviesGenreList(language: String): List<GenreDto> {

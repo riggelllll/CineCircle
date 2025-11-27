@@ -7,7 +7,7 @@ import com.koniukhov.cinecircle.core.network.model.TvSeriesDetailsDto
 import com.koniukhov.cinecircle.core.network.model.TvSeriesResponseDto
 import javax.inject.Inject
 
-class RemoteRemoteTvSeriesDataSourceImpl @Inject constructor(private val api: TMDBApi) : RemoteTvSeriesDataSource {
+class RemoteTvSeriesDataSourceImpl @Inject constructor(private val api: TMDBApi) : RemoteTvSeriesDataSource {
 
     override suspend fun getAiringTodayTvSeries(page: Int, language: String): TvSeriesResponseDto {
         return api.getAiringTodayTvSeries(BuildConfig.API_KEY, page, language).body() ?: TvSeriesResponseDto.empty()

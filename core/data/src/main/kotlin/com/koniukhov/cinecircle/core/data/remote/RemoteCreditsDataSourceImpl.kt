@@ -5,7 +5,7 @@ import com.koniukhov.cinecircle.core.network.api.TMDBApi
 import com.koniukhov.cinecircle.core.network.model.MediaCreditsDto
 import javax.inject.Inject
 
-class RemoteRemoteCreditsDataSourceImpl @Inject constructor(private val api: TMDBApi) : RemoteCreditsDatasource {
+class RemoteCreditsDataSourceImpl @Inject constructor(private val api: TMDBApi) : RemoteCreditsDatasource {
     override suspend fun getMovieCredits(
         movieId: Int,
         language: String

@@ -6,7 +6,7 @@ import com.koniukhov.cinecircle.core.network.model.MovieDetailsDto
 import com.koniukhov.cinecircle.core.network.model.MoviesResponseDto
 import javax.inject.Inject
 
-class RemoteRemoteMoviesDataSourceImpl @Inject constructor(
+class RemoteMoviesDataSourceImpl @Inject constructor(
     private val api: TMDBApi
 ) : RemoteMoviesDataSource{
 
