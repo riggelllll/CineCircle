@@ -67,7 +67,7 @@ This app uses **The Movie Database (TMDB) API** to fetch movie and TV show data.
 
 2. Open the project in Android Studio
 
-3. **Get your TMDB API Key:**
+3. Get your TMDB API Key:
    - Go to [The Movie Database (TMDB)](https://www.themoviedb.org/)
    - Create a free account
    - Navigate to Settings → API
