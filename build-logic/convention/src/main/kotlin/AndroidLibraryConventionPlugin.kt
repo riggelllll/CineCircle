@@ -34,7 +34,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             }
             dependencies {
                 "implementation"(libs.findLibrary("timber").get())
-                "coreLibraryDesugaring"(libs.findLibrary("android.desugarJdkLibs").get())
             }
         }
 

@@ -15,6 +15,10 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 configureKotlinAndroid(this)
                 defaultConfig.targetSdk = 36
                 testOptions.animationsDisabled = true
+
+                compileOptions {
+                    isCoreLibraryDesugaringEnabled = true
+                }
             }
         }
     }
