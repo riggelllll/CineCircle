@@ -5,7 +5,6 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -13,14 +12,10 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             apply(plugin = "cinecircle.android.library")
 
             extensions.configure<LibraryExtension> {
-                testOptions.animationsDisabled = true
                 buildFeatures {
                     viewBinding = true
                     buildConfig = true
                 }
-            }
-            extensions.configure<KotlinAndroidProjectExtension> {
-                jvmToolchain(17)
             }
 
             dependencies {

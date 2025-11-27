@@ -18,15 +18,16 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
-    }
-    kotlinOptions {
-        jvmTarget = "17"
+        debug {
+            isMinifyEnabled = false
+        }
     }
     buildFeatures {
         viewBinding = true
