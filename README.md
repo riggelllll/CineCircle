@@ -74,10 +74,11 @@ This app uses **The Movie Database (TMDB) API** to fetch movie and TV show data.
    - Request an API key (choose "Developer" option)
    - Copy your API key
 
-4. Add your API key in `secrets.properties` file in the project root:
+4. Create a `secrets.properties` file in the project root directory and add your API key:
    ```properties
-   TMDB_API_KEY=your_api_key_here
+   API_KEY=your_api_key_here
    ```
+   Note: This file is not tracked by git (.gitignore) to keep your API key secure.
 
 5. Build and run
    ```bash
