@@ -1,21 +1,19 @@
 package com.koniukhov.cinecircle.feature.ai.recommendations.ui
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.koniukhov.cinecircle.core.common.MediaType
-import com.koniukhov.cinecircle.core.ui.utils.GridSpacingItemDecoration
 import com.koniukhov.cinecircle.core.common.navigation.navigateToMovieDetails
 import com.koniukhov.cinecircle.core.common.navigation.navigateToTvSeriesDetails
 import com.koniukhov.cinecircle.core.ui.adapter.MediaListAdapter
+import com.koniukhov.cinecircle.core.ui.base.BaseFragment
+import com.koniukhov.cinecircle.core.ui.utils.GridSpacingItemDecoration
 import com.koniukhov.cinecircle.feature.ai.recommendations.viewmodel.MovieRecommendationViewModel
 import com.koniukhov.cinecircle.feature.ai_recommendations.databinding.FragmentRecommendationsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,11 +22,9 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
-class RecommendationsFragment : Fragment() {
+class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, MovieRecommendationViewModel>() {
 
-    private var _binding: FragmentRecommendationsBinding? = null
-    private val binding get() = _binding!!
-    private val viewModel: MovieRecommendationViewModel by viewModels()
+    override val viewModel: MovieRecommendationViewModel by viewModels()
 
     private val mediaAdapter by lazy {
         MediaListAdapter { mediaId, mediaType ->
@@ -36,24 +32,29 @@ class RecommendationsFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
+    override fun createBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentRecommendationsBinding.inflate(inflater, container, false)
-        return binding.root
+        container: ViewGroup?
+    ): FragmentRecommendationsBinding {
+        return FragmentRecommendationsBinding.inflate(inflater, container, false)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initViews() {
         setupRecyclerView()
-        observeViewModel()
+    }
+
+    override fun observeViewModel() {
+        launchWhenStarted {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { observeLoadingState() }
+                launch { observeRecommendedMovies() }
+                launch { observeEmptyState() }
+            }
+        }
+    }
+
+    override fun setupViews() {
+        super.setupViews()
         startRecommendationCalculation()
     }
 
@@ -69,16 +70,6 @@ class RecommendationsFragment : Fragment() {
             GridSpacingItemDecoration(2, spacing, true)
         )
         binding.recommendationsRecyclerView.adapter = mediaAdapter
-    }
-
-    private fun observeViewModel() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { observeLoadingState() }
-                launch { observeRecommendedMovies() }
-                launch { observeEmptyState() }
-            }
-        }
     }
 
     private suspend fun observeLoadingState() {
