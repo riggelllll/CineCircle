@@ -15,7 +15,7 @@ import com.koniukhov.cinecircle.core.design.databinding.ItemMediaListBinding
 import com.koniukhov.cinecircle.core.domain.model.MediaItem
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
-import com.koniukhov.cinecircle.core.ui.util.MediaItemCallback
+import com.koniukhov.cinecircle.core.ui.utils.MediaItemCallback
 import java.util.Locale
 
 class PagingMediaAdapter(

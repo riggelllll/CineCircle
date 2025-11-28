@@ -14,7 +14,7 @@ import com.koniukhov.cinecircle.core.common.util.DateUtils.formatDate
 import com.koniukhov.cinecircle.core.design.R as design_R
 import com.koniukhov.cinecircle.core.domain.model.TvEpisodeDetails
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
-import com.koniukhov.cinecircle.core.ui.util.TvEpisodeDetailsDiffCallback
+import com.koniukhov.cinecircle.core.ui.utils.TvEpisodeDetailsDiffCallback
 import com.koniukhov.cinecircle.feature.movie_details.R
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemEpisodeBinding
 

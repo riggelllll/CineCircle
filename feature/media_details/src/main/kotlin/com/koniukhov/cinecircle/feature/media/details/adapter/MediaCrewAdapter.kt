@@ -8,7 +8,7 @@ import coil3.load
 import coil3.request.placeholder
 import com.koniukhov.cinecircle.core.domain.model.CrewMember
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
-import com.koniukhov.cinecircle.core.ui.util.CrewMemberDiffCallback
+import com.koniukhov.cinecircle.core.ui.utils.CrewMemberDiffCallback
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemPersonBinding
 import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image as placeholder_image
 

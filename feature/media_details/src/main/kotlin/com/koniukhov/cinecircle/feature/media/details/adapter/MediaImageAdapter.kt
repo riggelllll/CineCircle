@@ -9,7 +9,7 @@ import coil3.request.placeholder
 import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image
 import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
-import com.koniukhov.cinecircle.core.ui.util.ImageDiffCallback
+import com.koniukhov.cinecircle.core.ui.utils.ImageDiffCallback
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemMovieImageBinding
 
 class MediaImageAdapter(

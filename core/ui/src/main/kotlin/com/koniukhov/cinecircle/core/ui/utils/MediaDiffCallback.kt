@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.core.ui.util
+package com.koniukhov.cinecircle.core.ui.utils
 
 import androidx.recyclerview.widget.DiffUtil
 import com.koniukhov.cinecircle.core.common.model.GenreUi

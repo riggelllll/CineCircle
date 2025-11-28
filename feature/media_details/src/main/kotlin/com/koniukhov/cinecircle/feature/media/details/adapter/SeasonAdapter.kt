@@ -13,7 +13,7 @@ import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
 import com.koniukhov.cinecircle.core.domain.model.TvSeasonDetails
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
-import com.koniukhov.cinecircle.core.ui.util.TvSeasonDetailsDiffCallback
+import com.koniukhov.cinecircle.core.ui.utils.TvSeasonDetailsDiffCallback
 import java.util.Locale
 
 class SeasonAdapter(

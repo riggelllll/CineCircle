@@ -7,7 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.koniukhov.cinecircle.core.domain.model.Video
-import com.koniukhov.cinecircle.core.ui.util.VideoDiffCallback
+import com.koniukhov.cinecircle.core.ui.utils.VideoDiffCallback
 import com.koniukhov.cinecircle.feature.movie_details.BuildConfig
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemMovieTrailerBinding
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants

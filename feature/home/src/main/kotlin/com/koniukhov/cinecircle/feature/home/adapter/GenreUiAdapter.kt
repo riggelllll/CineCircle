@@ -11,7 +11,7 @@ import coil3.transform.RoundedCornersTransformation
 import com.koniukhov.cinecircle.core.common.Constants.IMAGE_RADIUS
 import com.koniukhov.cinecircle.core.common.model.GenreUi
 import com.koniukhov.cinecircle.core.design.R
-import com.koniukhov.cinecircle.core.ui.util.GenreUiDiffCallback
+import com.koniukhov.cinecircle.core.ui.utils.GenreUiDiffCallback
 import com.koniukhov.cinecircle.feature.home.databinding.ItemHomeGenreUiBinding
 
 

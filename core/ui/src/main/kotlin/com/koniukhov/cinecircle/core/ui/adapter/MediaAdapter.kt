@@ -15,7 +15,7 @@ import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
 import com.koniukhov.cinecircle.core.domain.model.MediaItem
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
-import com.koniukhov.cinecircle.core.ui.util.MediaDiffCallback
+import com.koniukhov.cinecircle.core.ui.utils.MediaDiffCallback
 import java.util.Locale
 
 class MediaAdapter(
