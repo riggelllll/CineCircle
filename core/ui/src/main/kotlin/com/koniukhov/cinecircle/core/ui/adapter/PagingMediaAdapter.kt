@@ -3,7 +3,6 @@ package com.koniukhov.cinecircle.core.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.placeholder
@@ -16,11 +15,12 @@ import com.koniukhov.cinecircle.core.design.databinding.ItemMediaListBinding
 import com.koniukhov.cinecircle.core.domain.model.MediaItem
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
+import com.koniukhov.cinecircle.core.ui.util.MediaItemCallback
 import java.util.Locale
 
 class PagingMediaAdapter(
     val onClick: (Int, MediaType) -> Unit
-) : PagingDataAdapter<MediaItem, PagingMediaAdapter.MediaViewHolder>(DIFF) {
+) : PagingDataAdapter<MediaItem, PagingMediaAdapter.MediaViewHolder>(MediaItemCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaViewHolder {
         val binding = ItemMediaListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -52,13 +52,6 @@ class PagingMediaAdapter(
             } else {
                 binding.poster.load(R.drawable.placeholder_image)
             }
-        }
-    }
-
-    companion object {
-        val DIFF = object : DiffUtil.ItemCallback<MediaItem>() {
-            override fun areItemsTheSame(oldItem: MediaItem, newItem: MediaItem) = oldItem.id == newItem.id
-            override fun areContentsTheSame(oldItem: MediaItem, newItem: MediaItem) = oldItem == newItem
         }
     }
 }

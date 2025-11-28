@@ -2,6 +2,7 @@ package com.koniukhov.cinecircle.core.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.placeholder
@@ -14,6 +15,7 @@ import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
 import com.koniukhov.cinecircle.core.domain.model.MediaItem
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import com.koniukhov.cinecircle.core.ui.util.MediaDiffCallback
 import java.util.Locale
 
 class MediaAdapter(
@@ -54,8 +56,10 @@ class MediaAdapter(
 
     override fun getItemCount(): Int = mediaItems.size
 
-    fun setMediaItems(movies: List<MediaItem>) {
-        this.mediaItems = movies
-        notifyDataSetChanged()
+    fun setMediaItems(newItems: List<MediaItem>) {
+        val diffCallback = MediaDiffCallback(mediaItems, newItems)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        mediaItems = newItems
+        diffResult.dispatchUpdatesTo(this)
     }
 }
