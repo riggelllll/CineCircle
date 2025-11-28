@@ -10,4 +10,8 @@ object Constants {
     const val VIDEO_TYPE_TEASER = "Teaser"
 
     const val INVALID_ID = -1
+
+    const val DEFAULT_MAX_RETRIES = 5
+    const val DEFAULT_INITIAL_DELAY_MS = 1000L
+    const val RETRY_DELAY_MULTIPLIER = 2L
 }
