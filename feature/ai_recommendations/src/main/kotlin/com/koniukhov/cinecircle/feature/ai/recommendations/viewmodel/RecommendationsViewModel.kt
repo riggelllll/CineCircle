@@ -53,15 +53,22 @@ class MovieRecommendationViewModel @Inject constructor(
         val allMovies = repository.getAllMovieVectors()
         val tmdbToVectorMap = allMovies.associateBy { it.tmdbId }
 
+        var missingVectorsCount = 0
         for ((tmdbId, rating) in userRatings) {
             val movieVector = tmdbToVectorMap[tmdbId]
             if (movieVector != null) {
                 userVectors.add(movieVector.vector)
                 weights.add(rating)
+            } else {
+                missingVectorsCount++
+                Timber.w("No vector found for rated TMDB id: $tmdbId")
             }
         }
 
-        if (userVectors.isEmpty()) return null
+        if (userVectors.isEmpty()) {
+            Timber.w("calculateUserVector: no vectors found for user's rated items (missing: $missingVectorsCount)")
+            return null
+        }
 
         val dim = userVectors.first().size
         val userVector = FloatArray(dim)
