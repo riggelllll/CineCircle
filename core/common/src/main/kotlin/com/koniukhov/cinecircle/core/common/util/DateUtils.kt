@@ -10,7 +10,7 @@ object DateUtils {
             val inputFormat = SimpleDateFormat(inputPattern, Locale.getDefault())
             val parsedDate = inputFormat.parse(date)
             val outputFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.MEDIUM, Locale.getDefault())
-            outputFormat.format(parsedDate!!)
+            parsedDate?.let { outputFormat.format(it) } ?: date
         } catch (e: Exception) {
             Timber.d(e)
             date
