@@ -3,6 +3,7 @@ package com.koniukhov.cinecircle.feature.media.details.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.placeholder
@@ -13,6 +14,7 @@ import com.koniukhov.cinecircle.core.common.util.DateUtils.formatDate
 import com.koniukhov.cinecircle.core.design.R as design_R
 import com.koniukhov.cinecircle.core.domain.model.TvEpisodeDetails
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import com.koniukhov.cinecircle.core.ui.util.TvEpisodeDetailsDiffCallback
 import com.koniukhov.cinecircle.feature.movie_details.R
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemEpisodeBinding
 
@@ -106,8 +108,10 @@ class EpisodeAdapter : RecyclerView.Adapter<EpisodeAdapter.EpisodeViewHolder>() 
     override fun getItemCount(): Int = episodes.size
 
     fun setEpisodes(newEpisodes: List<TvEpisodeDetails>) {
-        this.episodes = newEpisodes
+        val diffCallback = TvEpisodeDetailsDiffCallback(episodes, newEpisodes)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        episodes = newEpisodes
         expandedPositions.clear()
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 }

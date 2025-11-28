@@ -2,6 +2,7 @@ package com.koniukhov.cinecircle.feature.media.details.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.placeholder
@@ -12,6 +13,7 @@ import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
 import com.koniukhov.cinecircle.core.domain.model.TvSeasonDetails
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import com.koniukhov.cinecircle.core.ui.util.TvSeasonDetailsDiffCallback
 import java.util.Locale
 
 class SeasonAdapter(
@@ -51,8 +53,10 @@ class SeasonAdapter(
 
     override fun getItemCount(): Int = seasonDetails.size
 
-    fun setSeasonsDetails(movies: List<TvSeasonDetails>) {
-        this.seasonDetails = movies
-        notifyDataSetChanged()
+    fun setSeasonsDetails(newSeasons: List<TvSeasonDetails>) {
+        val diffCallback = TvSeasonDetailsDiffCallback(seasonDetails, newSeasons)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        seasonDetails = newSeasons
+        diffResult.dispatchUpdatesTo(this)
     }
 }

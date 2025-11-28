@@ -2,11 +2,13 @@ package com.koniukhov.cinecircle.feature.media.details.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.placeholder
 import com.koniukhov.cinecircle.core.domain.model.CrewMember
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import com.koniukhov.cinecircle.core.ui.util.CrewMemberDiffCallback
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemPersonBinding
 import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image as placeholder_image
 
@@ -47,7 +49,9 @@ class MediaCrewAdapter(
     override fun getItemCount(): Int = crewMembers.size
 
     fun setCrewMembers(newCrewMembers: List<CrewMember>) {
+        val diffCallback = CrewMemberDiffCallback(crewMembers, newCrewMembers)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         crewMembers = newCrewMembers
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 }

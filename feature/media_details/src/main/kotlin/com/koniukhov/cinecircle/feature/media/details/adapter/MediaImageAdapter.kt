@@ -2,13 +2,15 @@ package com.koniukhov.cinecircle.feature.media.details.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.placeholder
+import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image
 import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import com.koniukhov.cinecircle.core.ui.util.ImageDiffCallback
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemMovieImageBinding
-import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image as placeholder_image
 
 class MediaImageAdapter(
     private val onImageClick: (String) -> Unit
@@ -42,7 +44,9 @@ class MediaImageAdapter(
     override fun getItemCount(): Int = images.size
 
     fun setImages(newImages: List<Image>) {
+        val diffCallback = ImageDiffCallback(images, newImages)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         images = newImages
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 }

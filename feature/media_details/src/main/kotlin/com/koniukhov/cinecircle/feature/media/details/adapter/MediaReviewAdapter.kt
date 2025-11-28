@@ -3,13 +3,15 @@ package com.koniukhov.cinecircle.feature.media.details.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.placeholder
+import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image
 import com.koniukhov.cinecircle.core.domain.model.MediaReview
 import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import com.koniukhov.cinecircle.core.ui.util.MediaReviewDiffCallback
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemReviewBinding
-import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image as placeholder_image
 
 class MediaReviewAdapter(
     private val onReviewClick: (MediaReview) -> Unit
@@ -55,7 +57,9 @@ class MediaReviewAdapter(
     override fun getItemCount(): Int = reviews.size
 
     fun setReviews(newReviews: List<MediaReview>) {
+        val diffCallback = MediaReviewDiffCallback(reviews, newReviews)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         reviews = newReviews
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 }

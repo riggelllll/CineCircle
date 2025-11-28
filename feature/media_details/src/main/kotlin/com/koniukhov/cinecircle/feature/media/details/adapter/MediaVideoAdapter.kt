@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.koniukhov.cinecircle.core.domain.model.Video
+import com.koniukhov.cinecircle.core.ui.util.VideoDiffCallback
 import com.koniukhov.cinecircle.feature.movie_details.BuildConfig
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemMovieTrailerBinding
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
@@ -24,9 +26,11 @@ class MediaVideoAdapter(
     private val videos = mutableListOf<Video>()
 
     fun setVideos(newVideos: List<Video>) {
+        val diffCallback = VideoDiffCallback(videos, newVideos)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         videos.clear()
         videos.addAll(newVideos)
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {

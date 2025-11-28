@@ -2,6 +2,7 @@ package com.koniukhov.cinecircle.feature.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.placeholder
@@ -10,6 +11,7 @@ import coil3.transform.RoundedCornersTransformation
 import com.koniukhov.cinecircle.core.common.Constants.IMAGE_RADIUS
 import com.koniukhov.cinecircle.core.common.model.GenreUi
 import com.koniukhov.cinecircle.core.design.R
+import com.koniukhov.cinecircle.core.ui.util.GenreUiDiffCallback
 import com.koniukhov.cinecircle.feature.home.databinding.ItemHomeGenreUiBinding
 
 
@@ -41,8 +43,10 @@ class GenreUiAdapter(private val onItemClick: (Int, String) -> Unit)
         return genres.size
     }
 
-    fun setData(data: List<GenreUi>) {
-        genres = data
-        notifyDataSetChanged()
+    fun setData(newData: List<GenreUi>) {
+        val diffCallback = GenreUiDiffCallback(genres, newData)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        genres = newData
+        diffResult.dispatchUpdatesTo(this)
     }
 }
