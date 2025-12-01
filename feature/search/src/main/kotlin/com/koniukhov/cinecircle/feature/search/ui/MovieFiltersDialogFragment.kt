@@ -5,8 +5,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -17,7 +15,6 @@ import com.koniukhov.cinecircle.feature.search.databinding.FragmentMovieFiltersB
 import com.koniukhov.cinecircle.feature.search.model.MovieFilterParams
 import com.koniukhov.cinecircle.feature.search.ui.viewmodel.SearchViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -51,9 +48,7 @@ class MovieFiltersDialogFragment(private val onSearchClick: () -> Unit) :
 
     override fun observeViewModel() {
         launchWhenStarted {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { populateGenreChipsAndLoadParams() }
-            }
+            populateGenreChipsAndLoadParams()
         }
     }
 

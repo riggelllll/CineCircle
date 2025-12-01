@@ -9,7 +9,9 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import coil3.load
 import coil3.request.placeholder
@@ -189,29 +191,31 @@ class MovieDetailsFragment : Fragment() {
 
     private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.uiState.collect { uiState ->
-                if (!uiState.isLoading && uiState.error  == null){
-                    hideSkeletons()
-                    uiState.movieDetails?.let { movieDetails ->
-                        updateMovieDetailsSection(movieDetails, uiState)
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.uiState.collect { uiState ->
+                        if (!uiState.isLoading && uiState.error == null) {
+                            hideSkeletons()
+                            uiState.movieDetails?.let { movieDetails ->
+                                updateMovieDetailsSection(movieDetails, uiState)
+                            }
+                            updateVideosSection(uiState.videos)
+                            updateImagesSection(uiState.images)
+                            updateCreditsSection(uiState.credits)
+                            updateReviewsSection(uiState.reviews)
+                            updateCollectionSection(uiState.collectionDetails)
+                            updateRecommendationsSection(uiState.recommendations)
+                            updateSimilarSection(uiState.similarMovies)
+                        } else {
+                            Timber.d(uiState.error)
+                        }
                     }
-                    updateVideosSection(uiState.videos)
-                    updateImagesSection(uiState.images)
-                    updateCreditsSection(uiState.credits)
-                    updateReviewsSection(uiState.reviews)
-                    updateCollectionSection(uiState.collectionDetails)
-                    updateRecommendationsSection(uiState.recommendations)
-                    updateSimilarSection(uiState.similarMovies)
-                }else{
-                    Timber.Forest.d(uiState.error)
                 }
-            }
-        }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.userRating.collect { rating ->
-                _binding.let {
-                    binding.ratingBar.rating = rating
+                launch {
+                    viewModel.userRating.collect { rating ->
+                        binding.ratingBar.rating = rating
+                    }
                 }
             }
         }

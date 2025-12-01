@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 abstract class BaseFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
@@ -52,9 +55,11 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
         }
     }
 
-    protected fun launchWhenStarted(action: suspend () -> Unit) {
+    protected fun launchWhenStarted(action: suspend CoroutineScope.() -> Unit) {
         viewLifecycleOwner.lifecycleScope.launch {
-            action()
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                action()
+            }
         }
     }
 

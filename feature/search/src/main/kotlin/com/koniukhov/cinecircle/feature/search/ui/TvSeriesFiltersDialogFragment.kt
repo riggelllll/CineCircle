@@ -5,8 +5,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -17,7 +15,6 @@ import com.koniukhov.cinecircle.feature.search.databinding.FragmentTvSeriesFilte
 import com.koniukhov.cinecircle.feature.search.model.TvSeriesFilterParams
 import com.koniukhov.cinecircle.feature.search.ui.viewmodel.SearchViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -51,9 +48,7 @@ class TvSeriesFiltersDialogFragment(private val onSearchClick: () -> Unit) :
 
     override fun observeViewModel() {
         launchWhenStarted {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { populateGenreChipsAndLoadParams() }
-            }
+            populateGenreChipsAndLoadParams()
         }
     }
 
@@ -219,7 +214,7 @@ class TvSeriesFiltersDialogFragment(private val onSearchClick: () -> Unit) :
         val withGenres = binding.chipGroupInclude.checkedChipIds.mapNotNull { id ->
             binding.chipGroupInclude.findViewById<Chip>(id)?.tag as? Int
         }.takeIf { it.isNotEmpty() }?.joinToString(",")
-        val withoutGenres = binding.chipGroupExclude.checkedChipIds.map { id ->
+        val withoutGenres = binding.chipGroupExclude.checkedChipIds.mapNotNull { id ->
             binding.chipGroupExclude.findViewById<Chip>(id)?.tag as? Int
         }.takeIf { it.isNotEmpty() }?.joinToString(",")
 

@@ -9,8 +9,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -55,10 +53,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
 
     override fun observeViewModel() {
         launchWhenStarted {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { observeSearchPagingData() }
-                launch { observeFilterPagingData() }
-            }
+            launch { observeSearchPagingData() }
+            launch { observeFilterPagingData() }
         }
     }
 

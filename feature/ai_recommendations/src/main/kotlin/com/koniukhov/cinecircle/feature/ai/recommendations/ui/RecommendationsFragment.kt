@@ -4,8 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.koniukhov.cinecircle.core.common.MediaType
@@ -45,11 +43,9 @@ class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, Mov
 
     override fun observeViewModel() {
         launchWhenStarted {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { observeLoadingState() }
-                launch { observeRecommendedMovies() }
-                launch { observeEmptyState() }
-            }
+            launch { observeLoadingState() }
+            launch { observeRecommendedMovies() }
+            launch { observeEmptyState() }
         }
     }
 
@@ -58,10 +54,6 @@ class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, Mov
         startRecommendationCalculation()
     }
 
-    override fun onResume() {
-        super.onResume()
-        startRecommendationCalculation()
-    }
 
     private fun setupRecyclerView() {
         binding.recommendationsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)

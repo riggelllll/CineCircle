@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -69,8 +71,10 @@ class CollectionContentBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun observeCollectionContent(collectionId: Long) {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getCollectionContent(collectionId).collectLatest { items ->
-                adapter.setMediaItems(items)
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getCollectionContent(collectionId).collectLatest { items ->
+                    adapter.setMediaItems(items)
+                }
             }
         }
     }
