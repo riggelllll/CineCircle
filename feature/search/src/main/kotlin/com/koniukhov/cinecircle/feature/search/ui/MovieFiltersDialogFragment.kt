@@ -194,7 +194,7 @@ class MovieFiltersDialogFragment(private val onSearchClick: () -> Unit) :
         val withGenres = binding.chipGroupInclude.checkedChipIds.mapNotNull { id ->
             binding.chipGroupInclude.findViewById<Chip>(id)?.tag as? Int
         }.takeIf { it.isNotEmpty() }?.joinToString(",")
-        val withoutGenres = binding.chipGroupExclude.checkedChipIds.map { id ->
+        val withoutGenres = binding.chipGroupExclude.checkedChipIds.mapNotNull { id ->
             binding.chipGroupExclude.findViewById<Chip>(id)?.tag as? Int
         }.takeIf { it.isNotEmpty() }?.joinToString(",")
 
