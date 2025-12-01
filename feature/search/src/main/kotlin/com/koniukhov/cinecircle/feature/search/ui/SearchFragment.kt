@@ -1,6 +1,5 @@
 package com.koniukhov.cinecircle.feature.search.ui
 
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -9,9 +8,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -21,43 +20,46 @@ import com.koniukhov.cinecircle.core.common.MediaType
 import com.koniukhov.cinecircle.core.common.navigation.navigateToMovieDetails
 import com.koniukhov.cinecircle.core.common.navigation.navigateToTvSeriesDetails
 import com.koniukhov.cinecircle.core.ui.adapter.PagingMediaAdapter
+import com.koniukhov.cinecircle.core.ui.base.BaseFragment
 import com.koniukhov.cinecircle.core.ui.utils.GridSpacingItemDecoration
 import com.koniukhov.cinecircle.feature.search.databinding.FragmentSearchBinding
 import com.koniukhov.cinecircle.feature.search.ui.FiltersDialogFragment.Companion.TAG
 import com.koniukhov.cinecircle.feature.search.ui.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import com.koniukhov.cinecircle.core.design.R as designR
 
 @AndroidEntryPoint
-class SearchFragment : Fragment() {
+class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
 
-    private var _binding: FragmentSearchBinding? = null
-    private val binding get() = _binding!!
-    private val viewModel: SearchViewModel by activityViewModels ()
+    override val viewModel: SearchViewModel by activityViewModels()
     private lateinit var searchAdapter: PagingMediaAdapter
-
     private lateinit var filterAdapter: PagingMediaAdapter
 
-    override fun onCreateView(
+    override fun createBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentSearchBinding.inflate(inflater, container, false)
-
-        return binding.root
+        container: ViewGroup?
+    ): FragmentSearchBinding {
+        return FragmentSearchBinding.inflate(inflater, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initViews() {
         setupSearchRecyclerView()
         setupFilterRecyclerView()
         setupSearch()
         setupFiltersDialog()
-        observeSearchPagingData()
-        observeFilterPagingData()
+    }
+
+    override fun observeViewModel() {
+        launchWhenStarted {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { observeSearchPagingData() }
+                launch { observeFilterPagingData() }
+            }
+        }
     }
 
     private fun setupSearchRecyclerView() {
@@ -141,22 +143,22 @@ class SearchFragment : Fragment() {
         imm?.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private fun observeSearchPagingData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.searchPagingDataFlow.collectLatest { pagingData ->
-                searchAdapter.submitData(pagingData)
-            }
+    private suspend fun observeSearchPagingData() {
+        viewModel.searchPagingDataFlow.collectLatest { pagingData ->
+            searchAdapter.submitData(pagingData)
         }
     }
 
-    private fun observeFilterPagingData() {
-        viewLifecycleOwner.lifecycleScope.launch {
+    private suspend fun observeFilterPagingData() = coroutineScope {
+        launch {
             viewModel.moviesFilterPagingDataFlow.collect { pagingData ->
+                Timber.d("Movies filter data received")
                 filterAdapter.submitData(pagingData)
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
+        launch {
             viewModel.tvSeriesFilterPagingDataFlow.collect { pagingData ->
+                Timber.d("TV Series filter data received")
                 filterAdapter.submitData(pagingData)
             }
         }
@@ -171,9 +173,5 @@ class SearchFragment : Fragment() {
         val isEmpty = !isLoading && !isError && endReached && filterAdapter.itemCount == 0
 
         binding.emptyView.visibility = if (isEmpty) View.VISIBLE else View.GONE
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
