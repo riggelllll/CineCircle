@@ -14,4 +14,5 @@ object Constants {
     const val DEFAULT_MAX_RETRIES = 5
     const val DEFAULT_INITIAL_DELAY_MS = 1000L
     const val RETRY_DELAY_MULTIPLIER = 2L
+    const val MAX_FALLBACK_SOURCES = 5
 }
