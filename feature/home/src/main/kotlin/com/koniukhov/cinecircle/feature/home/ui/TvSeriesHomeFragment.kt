@@ -1,13 +1,10 @@
 package com.koniukhov.cinecircle.feature.home.ui
 
 import android.net.Uri
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,19 +15,20 @@ import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.mediaListUri
 import com.koniukhov.cinecircle.core.common.navigation.navigateToTvSeriesDetails
 import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
+import com.koniukhov.cinecircle.core.ui.base.BaseFragment
 import com.koniukhov.cinecircle.feature.home.R
 import com.koniukhov.cinecircle.feature.home.adapter.GenreUiAdapter
 import com.koniukhov.cinecircle.feature.home.databinding.FragmentTvSeriesHomeBinding
 import com.koniukhov.cinecircle.feature.home.ui.state.TvSeriesUiState
 import com.koniukhov.cinecircle.feature.home.ui.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class TvSeriesHomeFragment : Fragment() {
-    private var _binding: FragmentTvSeriesHomeBinding? = null
-    private val binding get() = _binding!!
-    private val viewModel: HomeViewModel by viewModels()
+class TvSeriesHomeFragment : BaseFragment<FragmentTvSeriesHomeBinding, HomeViewModel>() {
+
+    override val viewModel: HomeViewModel by viewModels()
+
     private lateinit var airingTodaySkeleton: Skeleton
     private lateinit var onAirSkeleton: Skeleton
     private lateinit var trendingSkeleton: Skeleton
@@ -38,42 +36,37 @@ class TvSeriesHomeFragment : Fragment() {
     private lateinit var topRatedSkeleton: Skeleton
     private lateinit var genreSkeleton: Skeleton
 
-    override fun onCreateView(
+    override fun createBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentTvSeriesHomeBinding.inflate(inflater, container, false)
-
-        return binding.root
+        container: ViewGroup?
+    ): FragmentTvSeriesHomeBinding {
+        return FragmentTvSeriesHomeBinding.inflate(inflater, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initViews() {
         setupAllRecyclerViews()
         setupAllRecyclerSkeletons()
         showAllSkeletons()
         setupSeeAllClickListeners()
-        observeTvSeriesState()
+
+        viewModel.loadTvSeriesForAllCategories(1)
     }
 
-    private fun observeTvSeriesState() {
-        lifecycleScope.launch {
-            viewModel.loadTvSeriesForAllCategories(1)
-            viewModel.tvSeriesUiState.collect {
-                if (!it.isLoading && it.error == null) {
-                    if (areAllTvSeriesListsNotEmpty(it)) {
-                        hideAllSkeletons()
-                    }
-                    setDataToRecyclers(it)
-                }
-            }
+    override fun observeViewModel() {
+        launchWhenStarted {
+            observeTvSeriesUiState()
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private suspend fun observeTvSeriesUiState() {
+        viewModel.tvSeriesUiState.collectLatest { uiState ->
+            if (!uiState.isLoading && uiState.error == null) {
+                if (areAllTvSeriesListsNotEmpty(uiState)) {
+                    hideAllSkeletons()
+                }
+                setDataToRecyclers(uiState)
+            }
+        }
     }
 
     private fun setupAllRecyclerSkeletons() {
