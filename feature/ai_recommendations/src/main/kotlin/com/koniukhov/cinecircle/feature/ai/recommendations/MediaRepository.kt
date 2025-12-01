@@ -140,14 +140,21 @@ class MediaRepository @Inject constructor(
             }
             Timber.d("Loaded ${links.size} TMDB links")
 
-            allMediaVectors = embeddingsMap.map { (movieId, vector) ->
-                MediaVector(
-                    movieId = movieId,
-                    tmdbId = links[movieId] ?: -1,
-                    vector = vector
-                )
+            val combined = embeddingsMap.mapNotNull { (movieId, vector) ->
+                val tmdb = links[movieId] ?: -1
+                if (tmdb <= 0) {
+                    null
+                } else {
+                    MediaVector(
+                        movieId = movieId,
+                        tmdbId = tmdb,
+                        vector = vector
+                    )
+                }
             }
-            Timber.d("Combined embeddings with TMDB links: ${allMediaVectors?.size} media vectors")
+
+            allMediaVectors = combined
+            Timber.d("Combined embeddings with TMDB links: ${allMediaVectors?.size} media vectors (filtered out ${embeddingsMap.size - combined.size} entries without TMDB id)")
         } catch (e: Exception) {
             Timber.e(e, "Error loading links and combining data")
             throw e
@@ -176,6 +183,14 @@ class MediaRepository @Inject constructor(
 
     fun getAllMovieVectors(): List<MediaVector> {
         return allMediaVectors ?: emptyList()
+    }
+
+    fun hasVectorForTmdb(tmdbId: Int): Boolean {
+        return allMediaVectors?.any { it.tmdbId == tmdbId } ?: false
+    }
+
+    fun getVectorByTmdb(tmdbId: Int): MediaVector? {
+        return allMediaVectors?.find { it.tmdbId == tmdbId }
     }
 
     companion object {
