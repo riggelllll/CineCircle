@@ -1,13 +1,10 @@
 package com.koniukhov.cinecircle.feature.home.ui
 
 import android.net.Uri
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,20 +15,19 @@ import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.mediaListUri
 import com.koniukhov.cinecircle.core.common.navigation.navigateToMovieDetails
 import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
+import com.koniukhov.cinecircle.core.ui.base.BaseFragment
 import com.koniukhov.cinecircle.feature.home.R
 import com.koniukhov.cinecircle.feature.home.adapter.GenreUiAdapter
 import com.koniukhov.cinecircle.feature.home.databinding.FragmentMoviesHomeBinding
 import com.koniukhov.cinecircle.feature.home.ui.state.MoviesUiState
 import com.koniukhov.cinecircle.feature.home.ui.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class MoviesHomeFragment : Fragment() {
-    private val viewModel: HomeViewModel by viewModels()
+class MoviesHomeFragment : BaseFragment<FragmentMoviesHomeBinding, HomeViewModel>() {
 
-    private var _binding: FragmentMoviesHomeBinding? = null
-    private val binding get() = _binding!!
+    override val viewModel: HomeViewModel by viewModels()
 
     private lateinit var trendingSkeleton: Skeleton
     private lateinit var mowPlayingSkeleton: Skeleton
@@ -40,42 +36,37 @@ class MoviesHomeFragment : Fragment() {
     private lateinit var upcomingSkeleton: Skeleton
     private lateinit var genreSkeleton: Skeleton
 
-    override fun onCreateView(
+    override fun createBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMoviesHomeBinding.inflate(inflater, container, false)
-
-        return binding.root
+        container: ViewGroup?
+    ): FragmentMoviesHomeBinding {
+        return FragmentMoviesHomeBinding.inflate(inflater, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initViews() {
         setupAllRecyclerViews()
         setupAllRecyclerSkeletons()
         showAllSkeletons()
         setupSeeAllClickListeners()
-        observeMoviesState()
+
+        viewModel.loadMoviesForAllCategories()
     }
 
-    private fun observeMoviesState() {
-        lifecycleScope.launch {
-            viewModel.loadMoviesForAllCategories()
-            viewModel.moviesUiState.collect {
-                if (!it.isLoading && it.error == null){
-                    if (areAllMovieListsNotEmpty(it)) {
-                        hideAllSkeletons()
-                    }
-                    setDataToRecyclers(it)
-                }
-            }
+    override fun observeViewModel() {
+        launchWhenStarted {
+            handleMoviesUiState()
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private suspend fun handleMoviesUiState() {
+        viewModel.moviesUiState.collectLatest { uiState ->
+            if (!uiState.isLoading && uiState.error == null) {
+                if (areAllMovieListsNotEmpty(uiState)) {
+                    hideAllSkeletons()
+                }
+                setDataToRecyclers(uiState)
+            }
+        }
     }
 
     private fun setupAllRecyclerViews() {
