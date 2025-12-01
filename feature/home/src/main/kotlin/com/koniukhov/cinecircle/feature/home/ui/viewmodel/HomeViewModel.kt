@@ -49,6 +49,10 @@ class HomeViewModel @Inject constructor(
     val tvSeriesUiState: StateFlow<TvSeriesUiState> = _tvSeriesUiState
 
     fun loadMoviesForAllCategories(page: Int = 1) {
+        if (_moviesUiState.value.trendingMovies.isNotEmpty()) {
+            return
+        }
+
         viewModelScope.launch {
             _moviesUiState.value = _moviesUiState.value.copy(isLoading = true, error = null)
             try {
@@ -85,6 +89,10 @@ class HomeViewModel @Inject constructor(
     }
 
     fun loadTvSeriesForAllCategories(page: Int = 1) {
+        if (_tvSeriesUiState.value.trendingTvSeries.isNotEmpty()) {
+            return
+        }
+
         viewModelScope.launch {
             _tvSeriesUiState.value = _tvSeriesUiState.value.copy(isLoading = true, error = null)
             try {
