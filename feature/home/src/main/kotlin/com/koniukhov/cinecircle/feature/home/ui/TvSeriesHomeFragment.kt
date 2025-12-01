@@ -48,11 +48,11 @@ class TvSeriesHomeFragment : BaseFragment<FragmentTvSeriesHomeBinding, HomeViewM
         setupAllRecyclerSkeletons()
         showAllSkeletons()
         setupSeeAllClickListeners()
-
-        viewModel.loadTvSeriesForAllCategories(1)
     }
 
     override fun observeViewModel() {
+        viewModel.loadTvSeriesForAllCategories(1)
+
         launchWhenStarted {
             observeTvSeriesUiState()
         }

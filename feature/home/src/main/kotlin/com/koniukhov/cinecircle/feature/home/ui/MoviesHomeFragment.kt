@@ -48,11 +48,11 @@ class MoviesHomeFragment : BaseFragment<FragmentMoviesHomeBinding, HomeViewModel
         setupAllRecyclerSkeletons()
         showAllSkeletons()
         setupSeeAllClickListeners()
-
-        viewModel.loadMoviesForAllCategories()
     }
 
     override fun observeViewModel() {
+        viewModel.loadMoviesForAllCategories()
+
         launchWhenStarted {
             handleMoviesUiState()
         }
