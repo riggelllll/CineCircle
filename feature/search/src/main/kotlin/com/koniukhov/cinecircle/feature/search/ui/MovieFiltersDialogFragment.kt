@@ -1,19 +1,17 @@
 package com.koniukhov.cinecircle.feature.search.ui
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.appcompat.view.ContextThemeWrapper
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.koniukhov.cinecircle.core.common.sort.MovieSortOption
+import com.koniukhov.cinecircle.core.ui.base.BaseFragment
 import com.koniukhov.cinecircle.feature.search.R
 import com.koniukhov.cinecircle.feature.search.databinding.FragmentMovieFiltersBinding
 import com.koniukhov.cinecircle.feature.search.model.MovieFilterParams
@@ -25,29 +23,25 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragment() {
-    private var _binding: FragmentMovieFiltersBinding? = null
-    private val binding get() = _binding!!
-    private val viewModel: SearchViewModel by activityViewModels()
+class MovieFiltersDialogFragment(private val onSearchClick: () -> Unit) :
+    BaseFragment<FragmentMovieFiltersBinding, SearchViewModel>() {
+
+    override val viewModel: SearchViewModel by activityViewModels()
+
     private val collator = java.text.Collator.getInstance(Locale.getDefault())
     private val pairComparator: Comparator<Pair<String, String>> =
         Comparator { a, b -> collator.compare(a.first, b.first) }
 
-
-    override fun onCreateView(
+    override fun createBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMovieFiltersBinding.inflate(inflater, container, false)
-        return binding.root
+        container: ViewGroup?
+    ): FragmentMovieFiltersBinding {
+        return FragmentMovieFiltersBinding.inflate(inflater, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initViews() {
         setupDatePickers()
         setupDropdowns()
-        populateGenreChipsAndLoadParams()
         setupYearSlider()
         setupVoteAverageRangeSlider()
         setupVoteCountRangeSlider()
@@ -55,9 +49,12 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
         setupResetBtn()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun observeViewModel() {
+        launchWhenStarted {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { populateGenreChipsAndLoadParams() }
+            }
+        }
     }
 
     private fun setupYearSlider() {
@@ -125,7 +122,7 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
     private fun setupOriginCountryDropdown() {
         val items = viewModel.countries
             .toList()
-            .sortedWith (pairComparator)
+            .sortedWith(pairComparator)
             .map { it.first }
         binding.originCountry.setAdapter(
             ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, items)
@@ -135,7 +132,7 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
     private fun setupOriginalLanguageDropdown() {
         val items = viewModel.languages
             .toList()
-            .sortedWith (pairComparator)
+            .sortedWith(pairComparator)
             .map { it.first }
         binding.originalLanguage.setAdapter(
             ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, items)
@@ -155,34 +152,30 @@ class MovieFiltersDialogFragment (private val onSearchClick: () -> Unit) : Fragm
         }
     }
 
-    private fun populateGenreChipsAndLoadParams() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(androidx.lifecycle.Lifecycle.State.STARTED) {
-                viewModel.movieGenres.collectLatest { map ->
-                    binding.chipGroupInclude.removeAllViews()
-                    binding.chipGroupExclude.removeAllViews()
+    private suspend fun populateGenreChipsAndLoadParams() {
+        viewModel.movieGenres.collectLatest { map ->
+            binding.chipGroupInclude.removeAllViews()
+            binding.chipGroupExclude.removeAllViews()
 
-                    map.forEach { (id, name) ->
-                        val ctx = ContextThemeWrapper(
-                            requireContext(),
-                            com.google.android.material.R.style.Widget_Material3_Chip_Filter
-                        )
-                        val chipInclude = Chip(ctx).apply {
-                            text = name
-                            isCheckable = true
-                            tag = id
-                        }
-                        val chipExclude = Chip(ctx).apply {
-                            text = name
-                            isCheckable = true
-                            tag = id
-                        }
-                        binding.chipGroupInclude.addView(chipInclude)
-                        binding.chipGroupExclude.addView(chipExclude)
-                    }
-                    loadFilterParams()
+            map.forEach { (id, name) ->
+                val ctx = ContextThemeWrapper(
+                    requireContext(),
+                    com.google.android.material.R.style.Widget_Material3_Chip_Filter
+                )
+                val chipInclude = Chip(ctx).apply {
+                    text = name
+                    isCheckable = true
+                    tag = id
                 }
+                val chipExclude = Chip(ctx).apply {
+                    text = name
+                    isCheckable = true
+                    tag = id
+                }
+                binding.chipGroupInclude.addView(chipInclude)
+                binding.chipGroupExclude.addView(chipExclude)
             }
+            loadFilterParams()
         }
     }
 
