@@ -1,47 +1,50 @@
 package com.koniukhov.cinecircle.feature.lists.ui
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.koniukhov.cinecircle.core.database.model.MediaListWithCount
+import com.koniukhov.cinecircle.core.ui.base.BaseFragment
 import com.koniukhov.cinecircle.feature.collections.R
 import com.koniukhov.cinecircle.feature.collections.databinding.CollectionsFragmentBinding
 import com.koniukhov.cinecircle.feature.collections.databinding.DialogCreateCollectionBinding
 import com.koniukhov.cinecircle.feature.lists.adapter.CollectionsAdapter
 import com.koniukhov.cinecircle.feature.lists.viewmodel.CollectionsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class CollectionsFragment : Fragment() {
+class CollectionsFragment : BaseFragment<CollectionsFragmentBinding, CollectionsViewModel>() {
 
-    private var _binding: CollectionsFragmentBinding? = null
-    private val binding get() = _binding!!
+    override val viewModel: CollectionsViewModel by viewModels()
 
-    private val viewModel: CollectionsViewModel by viewModels()
     private lateinit var collectionsAdapter: CollectionsAdapter
 
-    override fun onCreateView(
+    override fun createBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = CollectionsFragmentBinding.inflate(inflater, container, false)
-        return binding.root
+        container: ViewGroup?
+    ): CollectionsFragmentBinding {
+        return CollectionsFragmentBinding.inflate(inflater, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initViews() {
         setupRecyclerView()
         setupFab()
-        observeViewModel()
+    }
+
+    override fun observeViewModel() {
+        launchWhenStarted {
+            observeCollections()
+        }
+    }
+
+    private suspend fun observeCollections() {
+        viewModel.collections.collectLatest { collections ->
+            collectionsAdapter.submitList(collections)
+        }
     }
 
     private fun setupRecyclerView() {
@@ -117,14 +120,6 @@ class CollectionsFragment : Fragment() {
             .show()
     }
 
-    private fun observeViewModel() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.collections.collect { collections ->
-                collectionsAdapter.submitList(collections)
-            }
-        }
-    }
-
     private fun onCollectionClick(collection: MediaListWithCount) {
         val bottomSheet = CollectionContentBottomSheetFragment.newInstance(
             collectionId = collection.id,
@@ -133,10 +128,6 @@ class CollectionsFragment : Fragment() {
         bottomSheet.show(parentFragmentManager, TAG)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     companion object {
         const val TAG = "CollectionContentBottomSheet"
