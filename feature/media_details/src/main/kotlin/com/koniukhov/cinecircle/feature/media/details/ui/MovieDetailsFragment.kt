@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -543,6 +544,17 @@ class MovieDetailsFragment : Fragment() {
         currentExitFullscreenFunction?.invoke()
         fullscreenVideoDialog?.dismiss()
         fullscreenVideoDialog = null
+        currentExitFullscreenFunction = null
+
+        binding.recyclerTrailers.adapter = null
+        binding.recyclerImages.adapter = null
+        binding.recyclerCast.adapter = null
+        binding.recyclerCrew.adapter = null
+        binding.recyclerReviews.adapter = null
+        binding.recyclerCollection.adapter = null
+        binding.recyclerRecommendations.adapter = null
+        binding.recyclerSimilar.adapter = null
+
         _binding = null
         super.onDestroyView()
     }

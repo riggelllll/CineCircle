@@ -79,10 +79,18 @@ class FullscreenVideoDialog : DialogFragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         exitFullscreenFunction?.invoke()
         restoreOrientation()
+        fullscreenView = null
+        exitFullscreenFunction = null
         _binding = null
+        super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        fullscreenView = null
+        exitFullscreenFunction = null
+        super.onDestroy()
     }
 
     private fun restoreOrientation() {

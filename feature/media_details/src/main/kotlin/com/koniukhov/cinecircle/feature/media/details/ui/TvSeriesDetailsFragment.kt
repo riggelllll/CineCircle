@@ -593,8 +593,23 @@ class TvSeriesDetailsFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        currentExitFullscreenFunction?.invoke()
+        fullscreenVideoDialog?.dismiss()
+        fullscreenVideoDialog = null
+        currentExitFullscreenFunction = null
+
+        binding.recyclerTrailers.adapter = null
+        binding.recyclerImages.adapter = null
+        binding.recyclerCast.adapter = null
+        binding.recyclerCrew.adapter = null
+        binding.recyclerReviews.adapter = null
+        binding.recyclerSeasons.adapter = null
+        binding.recyclerRecommendations.adapter = null
+        binding.recyclerSimilar.adapter = null
+
         _binding = null
+
+        super.onDestroyView()
     }
 
     private fun setupArgs(){

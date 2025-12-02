@@ -37,6 +37,17 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
     private lateinit var searchAdapter: PagingMediaAdapter
     private lateinit var filterAdapter: PagingMediaAdapter
 
+    private val searchTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            val query = s.toString().trim()
+            viewModel.onSearchQueryChanged(query)
+        }
+
+        override fun afterTextChanged(s: Editable?) {}
+    }
+
     override fun createBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -106,16 +117,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
     }
 
     private fun setupSearch() {
-        binding.searchView.editText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val query = s.toString().trim()
-                viewModel.onSearchQueryChanged(query)
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
+        binding.searchView.editText.addTextChangedListener(searchTextWatcher)
 
         binding.searchView.editText.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -169,5 +171,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
         val isEmpty = !isLoading && !isError && endReached && filterAdapter.itemCount == 0
 
         binding.emptyView.visibility = if (isEmpty) View.VISIBLE else View.GONE
+    }
+
+    override fun onDestroyView() {
+        removeTextWatcher()
+        super.onDestroyView()
+    }
+
+    private fun removeTextWatcher() {
+        binding.searchView.editText.removeTextChangedListener(searchTextWatcher)
     }
 }
