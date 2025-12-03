@@ -29,12 +29,12 @@ class TvSeriesHomeFragment : BaseFragment<FragmentTvSeriesHomeBinding, HomeViewM
 
     override val viewModel: HomeViewModel by viewModels()
 
-    private lateinit var airingTodaySkeleton: Skeleton
-    private lateinit var onAirSkeleton: Skeleton
-    private lateinit var trendingSkeleton: Skeleton
-    private lateinit var popularSkeleton: Skeleton
-    private lateinit var topRatedSkeleton: Skeleton
-    private lateinit var genreSkeleton: Skeleton
+    private var airingTodaySkeleton: Skeleton? = null
+    private var onAirSkeleton: Skeleton? = null
+    private var trendingSkeleton: Skeleton? = null
+    private var popularSkeleton: Skeleton? = null
+    private var topRatedSkeleton: Skeleton? = null
+    private var genreSkeleton: Skeleton? = null
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -189,21 +189,21 @@ class TvSeriesHomeFragment : BaseFragment<FragmentTvSeriesHomeBinding, HomeViewM
     }
 
     private fun showAllSkeletons() {
-        airingTodaySkeleton.showSkeleton()
-        onAirSkeleton.showSkeleton()
-        trendingSkeleton.showSkeleton()
-        popularSkeleton.showSkeleton()
-        topRatedSkeleton.showSkeleton()
-        genreSkeleton.showSkeleton()
+        airingTodaySkeleton?.showSkeleton()
+        onAirSkeleton?.showSkeleton()
+        trendingSkeleton?.showSkeleton()
+        popularSkeleton?.showSkeleton()
+        topRatedSkeleton?.showSkeleton()
+        genreSkeleton?.showSkeleton()
     }
 
     private fun hideAllSkeletons() {
-        airingTodaySkeleton.showOriginal()
-        onAirSkeleton.showOriginal()
-        trendingSkeleton.showOriginal()
-        popularSkeleton.showOriginal()
-        topRatedSkeleton.showOriginal()
-        genreSkeleton.showOriginal()
+        airingTodaySkeleton?.showOriginal()
+        onAirSkeleton?.showOriginal()
+        trendingSkeleton?.showOriginal()
+        popularSkeleton?.showOriginal()
+        topRatedSkeleton?.showOriginal()
+        genreSkeleton?.showOriginal()
     }
 
     private fun setDataToRecyclers(ui: TvSeriesUiState){
@@ -264,6 +264,24 @@ class TvSeriesHomeFragment : BaseFragment<FragmentTvSeriesHomeBinding, HomeViewM
                 && state.popularTvSeries.isNotEmpty()
                 && state.topRatedTvSeries.isNotEmpty()
                 && state.genreUiTvSeries.isNotEmpty()
+    }
+
+    override fun onDestroyView() {
+        binding.airingTodayRecyclerView.adapter = null
+        binding.onAirRecyclerView.adapter = null
+        binding.trendingRecyclerView.adapter = null
+        binding.popularRecyclerView.adapter = null
+        binding.topRatedRecyclerView.adapter = null
+        binding.genreRecyclerView.adapter = null
+
+        airingTodaySkeleton = null
+        onAirSkeleton = null
+        trendingSkeleton = null
+        popularSkeleton = null
+        topRatedSkeleton = null
+        genreSkeleton = null
+
+        super.onDestroyView()
     }
 
     companion object{

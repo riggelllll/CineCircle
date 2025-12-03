@@ -29,12 +29,12 @@ class MoviesHomeFragment : BaseFragment<FragmentMoviesHomeBinding, HomeViewModel
 
     override val viewModel: HomeViewModel by viewModels()
 
-    private lateinit var trendingSkeleton: Skeleton
-    private lateinit var mowPlayingSkeleton: Skeleton
-    private lateinit var popularSkeleton: Skeleton
-    private lateinit var topRatedSkeleton: Skeleton
-    private lateinit var upcomingSkeleton: Skeleton
-    private lateinit var genreSkeleton: Skeleton
+    private var trendingSkeleton: Skeleton? = null
+    private var mowPlayingSkeleton: Skeleton? = null
+    private var popularSkeleton: Skeleton? = null
+    private var topRatedSkeleton: Skeleton? = null
+    private var upcomingSkeleton: Skeleton? = null
+    private var genreSkeleton: Skeleton? = null
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -152,20 +152,20 @@ class MoviesHomeFragment : BaseFragment<FragmentMoviesHomeBinding, HomeViewModel
         genreSkeleton = binding.genreRecyclerView.applySkeleton(R.layout.item_home_genre_ui, RECYCLER_SKELETON_ITEM_COUNT)
     }
     private fun showAllSkeletons() {
-        trendingSkeleton.showSkeleton()
-        mowPlayingSkeleton.showSkeleton()
-        popularSkeleton.showSkeleton()
-        topRatedSkeleton.showSkeleton()
-        upcomingSkeleton.showSkeleton()
-        genreSkeleton.showSkeleton()
+        trendingSkeleton?.showSkeleton()
+        mowPlayingSkeleton?.showSkeleton()
+        popularSkeleton?.showSkeleton()
+        topRatedSkeleton?.showSkeleton()
+        upcomingSkeleton?.showSkeleton()
+        genreSkeleton?.showSkeleton()
     }
     private fun hideAllSkeletons() {
-        trendingSkeleton.showOriginal()
-        mowPlayingSkeleton.showOriginal()
-        popularSkeleton.showOriginal()
-        topRatedSkeleton.showOriginal()
-        upcomingSkeleton.showOriginal()
-        genreSkeleton.showOriginal()
+        trendingSkeleton?.showOriginal()
+        mowPlayingSkeleton?.showOriginal()
+        popularSkeleton?.showOriginal()
+        topRatedSkeleton?.showOriginal()
+        upcomingSkeleton?.showOriginal()
+        genreSkeleton?.showOriginal()
     }
     private fun setDataToRecyclers(ui: MoviesUiState){
         (binding.trendingRecyclerView.adapter as? MediaAdapter)?.setMediaItems(ui.trendingMovies)
@@ -225,6 +225,24 @@ class MoviesHomeFragment : BaseFragment<FragmentMoviesHomeBinding, HomeViewModel
                 state.topRatedMovies.isNotEmpty() &&
                 state.upcomingMovies.isNotEmpty() &&
                 state.genreUiMovies.isNotEmpty()
+    }
+
+    override fun onDestroyView() {
+        binding.trendingRecyclerView.adapter = null
+        binding.nowPlayingRecyclerView.adapter = null
+        binding.popularRecyclerView.adapter = null
+        binding.topRatedRecyclerView.adapter = null
+        binding.upcomingRecyclerView.adapter = null
+        binding.genreRecyclerView.adapter = null
+
+        trendingSkeleton = null
+        mowPlayingSkeleton = null
+        popularSkeleton = null
+        topRatedSkeleton = null
+        upcomingSkeleton = null
+        genreSkeleton = null
+
+        super.onDestroyView()
     }
 
     companion object{
