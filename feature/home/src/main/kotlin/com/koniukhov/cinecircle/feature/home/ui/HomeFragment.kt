@@ -16,6 +16,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    private var tabLayoutMediator: TabLayoutMediator? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,17 +53,23 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupTabMediator() {
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+        tabLayoutMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> getString(R.string.movies_title)
                 1 -> getString(R.string.tv_series_title)
                 else -> ""
             }
-        }.attach()
+        }
+        tabLayoutMediator?.attach()
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        tabLayoutMediator?.detach()
+        tabLayoutMediator = null
+
+        binding.viewPager.adapter = null
         _binding = null
+
+        super.onDestroyView()
     }
 }
