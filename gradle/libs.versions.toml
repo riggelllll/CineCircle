@@ -29,6 +29,7 @@ skeletonlayout = "6.0.0"
 paging= "3.3.6"
 android-youtube-player = "13.0.0"
 jetbrainsBioNpy = "0.3.5"
+leakcanary = "2.14"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -68,6 +69,7 @@ skeletonlayout = { module = "com.faltenreich:skeletonlayout", version.ref = "ske
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 android-youtube-player = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "android-youtube-player" }
 jetbrains-bio-npy = { module = "org.jetbrains.bio:npy", version.ref = "jetbrainsBioNpy" }
+leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
