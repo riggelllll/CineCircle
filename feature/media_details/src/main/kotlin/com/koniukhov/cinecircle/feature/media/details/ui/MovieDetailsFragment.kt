@@ -75,7 +75,7 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var similarMoviesAdapter: MediaAdapter
     private var isFullscreen = false
     private var currentExitFullscreenFunction: (() -> Unit)? = null
-    private lateinit var windowInsetsController: WindowInsetsControllerCompat
+    private var windowInsetsController: WindowInsetsControllerCompat? = null
     private var fullscreenVideoDialog: FullscreenVideoDialog? = null
     private var containerBackdropSkeleton: Skeleton? = null
     private var imagesRecyclerSkeleton: Skeleton? = null
@@ -116,7 +116,7 @@ class MovieDetailsFragment : Fragment() {
     private fun setupWindowInsets(view: View) {
         WindowCompat.setDecorFitsSystemWindows(requireActivity().window, false)
         windowInsetsController = WindowCompat.getInsetsController(requireActivity().window, view)
-        windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        windowInsetsController?.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
     }
 
     private fun setupRecyclerViews() {
@@ -565,6 +565,8 @@ class MovieDetailsFragment : Fragment() {
         reviewsRecyclerSkeleton = null
         recommendationsRecyclerSkeleton = null
         similarRecyclerSkeleton = null
+
+        windowInsetsController = null
 
         _binding = null
         super.onDestroyView()

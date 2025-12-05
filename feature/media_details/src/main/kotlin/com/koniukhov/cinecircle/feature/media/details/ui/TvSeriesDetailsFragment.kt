@@ -63,7 +63,7 @@ class TvSeriesDetailsFragment : Fragment() {
     private var _binding: FragmentTvSeriesDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: TvSeriesDetailsViewModel by viewModels()
-    private lateinit var windowInsetsController: WindowInsetsControllerCompat
+    private var windowInsetsController: WindowInsetsControllerCompat? = null
     private lateinit var imagesAdapter: MediaImageAdapter
     private lateinit var trailersAdapter: MediaVideoAdapter
     private lateinit var castAdapter: MediaCastAdapter
@@ -116,7 +116,7 @@ class TvSeriesDetailsFragment : Fragment() {
     private fun setupWindowInsets(view: View) {
         WindowCompat.setDecorFitsSystemWindows(requireActivity().window, false)
         windowInsetsController = WindowCompat.getInsetsController(requireActivity().window, view)
-        windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        windowInsetsController?.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
     }
 
     private fun setupToolbar() {
@@ -618,6 +618,8 @@ class TvSeriesDetailsFragment : Fragment() {
         recommendationsRecyclerSkeleton = null
         similarRecyclerSkeleton = null
         seasonsRecyclerSkeleton = null
+
+        windowInsetsController = null
 
         _binding = null
 
