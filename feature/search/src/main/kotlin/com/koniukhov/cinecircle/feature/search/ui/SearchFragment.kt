@@ -14,6 +14,7 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.search.SearchView
 import com.koniukhov.cinecircle.core.common.MediaType
 import com.koniukhov.cinecircle.core.common.navigation.navigateToMovieDetails
 import com.koniukhov.cinecircle.core.common.navigation.navigateToTvSeriesDetails
@@ -36,6 +37,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
     override val viewModel: SearchViewModel by activityViewModels()
     private lateinit var searchAdapter: PagingMediaAdapter
     private lateinit var filterAdapter: PagingMediaAdapter
+    private var searchViewTransitionListener: SearchView.TransitionListener? = null
 
     private val searchTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -71,6 +73,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
 
     private fun setupSearchRecyclerView() {
         searchAdapter = PagingMediaAdapter { mediaId, mediaType ->
+            if (!isAdded) return@PagingMediaAdapter
+
             if (mediaType == MediaType.MOVIE) {
                 findNavController().navigateToMovieDetails(mediaId)
             } else if (mediaType == MediaType.TV_SERIES) {
@@ -87,16 +91,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
             GridSpacingItemDecoration(2, spacing, true)
         )
         binding.searchRecyclerView.adapter = searchAdapter
-
-        searchAdapter.addLoadStateListener { loadStates ->
-            if (loadStates.refresh is LoadState.NotLoading) {
-                binding.searchRecyclerView.scrollToPosition(0)
-            }
-        }
     }
 
     private fun setupFilterRecyclerView() {
         filterAdapter = PagingMediaAdapter { mediaId, mediaType ->
+            if (!isAdded) return@PagingMediaAdapter
+
             if (mediaType == MediaType.MOVIE) {
                 findNavController().navigateToMovieDetails(mediaId)
             } else if (mediaType == MediaType.TV_SERIES) {
@@ -128,6 +128,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
                 false
             }
         }
+
+        searchViewTransitionListener = SearchView.TransitionListener { _, _, newState ->
+            if (newState == SearchView.TransitionState.HIDDEN) {
+                binding.appBarLayout.setExpanded(true, true)
+            }
+        }
+        binding.searchView.addTransitionListener(searchViewTransitionListener!!)
     }
 
     private fun setupFiltersDialog() {
@@ -167,26 +174,65 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
         val isError = loadState.refresh is LoadState.Error ||
                 loadState.append is LoadState.Error ||
                 loadState.prepend is LoadState.Error
-        val endReached = (loadState.append as? LoadState.NotLoading)?.endOfPaginationReached == true
-        val isEmpty = !isLoading && !isError && endReached && filterAdapter.itemCount == 0
+        val itemCount = filterAdapter.itemCount
 
-        binding.emptyView.visibility = if (isEmpty) View.VISIBLE else View.GONE
+        val isEmpty = !isLoading && !isError && itemCount == 0
+
+        if (isEmpty) {
+            binding.emptyView.visibility = View.VISIBLE
+            binding.filtersRecyclerView.visibility = View.GONE
+        } else {
+            binding.emptyView.visibility = View.GONE
+            binding.filtersRecyclerView.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroyView() {
-        binding.searchRecyclerView.adapter = null
-        binding.filtersRecyclerView.adapter = null
+        searchViewTransitionListener?.let {
+            binding.searchView.removeTransitionListener(it)
+            searchViewTransitionListener = null
+        }
 
         removeTextWatcher()
 
-        try {
-            binding.searchView.hide()
-            binding.searchView.clearFocusAndHideKeyboard()
-        } catch (_: Exception) {
+        binding.searchRecyclerView.adapter = null
+        binding.filtersRecyclerView.adapter = null
 
+        try {
+            binding.searchView.editText.let { editText ->
+                editText.clearFocus()
+                hideKeyboard(editText)
+            }
+        } catch (e: Exception) {
+            Timber.d("Error clearing focus from SearchView editText: ${e.message}")
         }
 
+        try {
+            binding.searchView.let {
+                it.hide()
+                it.clearFocusAndHideKeyboard()
+            }
+        } catch (e: Exception) {
+            Timber.d("Error hiding SearchView: ${e.message}")
+        }
+
+        clearSearchViewAccessibilityMap(binding.searchView)
+
+
         super.onDestroyView()
+    }
+
+    private fun clearSearchViewAccessibilityMap(searchView: SearchView) {
+        try {
+            val field = searchView.javaClass.getDeclaredField("childImportantForAccessibilityMap")
+            field.isAccessible = true
+            val map = field.get(searchView) as? HashMap<*, *>
+            map?.clear()
+        } catch (e: NoSuchFieldException) {
+            Timber.e(e, "Field 'childImportantForAccessibilityMap' not found in SearchView class!")
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to clear SearchView accessibility map via reflection")
+        }
     }
 
     private fun removeTextWatcher() {
