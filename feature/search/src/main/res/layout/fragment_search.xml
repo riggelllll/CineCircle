@@ -61,6 +61,7 @@
         android:id="@+id/filters_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         tools:listitem="@layout/item_media"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
@@ -73,6 +74,5 @@
         android:text="@string/empty_discover_list"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-        android:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
