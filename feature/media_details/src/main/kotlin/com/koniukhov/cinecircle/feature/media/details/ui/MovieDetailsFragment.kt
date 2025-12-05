@@ -77,16 +77,16 @@ class MovieDetailsFragment : Fragment() {
     private var currentExitFullscreenFunction: (() -> Unit)? = null
     private lateinit var windowInsetsController: WindowInsetsControllerCompat
     private var fullscreenVideoDialog: FullscreenVideoDialog? = null
-    private lateinit var containerBackdropSkeleton: Skeleton
-    private lateinit var imagesRecyclerSkeleton: Skeleton
-    private lateinit var trailersRecyclerSkeleton: Skeleton
-    private lateinit var castRecyclerSkeleton: Skeleton
-    private lateinit var crewRecyclerSkeleton: Skeleton
-    private lateinit var reviewsRecyclerSkeleton: Skeleton
-    private lateinit var recommendationsRecyclerSkeleton: Skeleton
-    private lateinit var similarRecyclerSkeleton: Skeleton
-    private lateinit var plotSkeleton: Skeleton
-    private lateinit var aboutSkeleton: Skeleton
+    private var containerBackdropSkeleton: Skeleton? = null
+    private var imagesRecyclerSkeleton: Skeleton? = null
+    private var trailersRecyclerSkeleton: Skeleton? = null
+    private var castRecyclerSkeleton: Skeleton? = null
+    private var crewRecyclerSkeleton: Skeleton? = null
+    private var reviewsRecyclerSkeleton: Skeleton? = null
+    private var recommendationsRecyclerSkeleton: Skeleton? = null
+    private var similarRecyclerSkeleton: Skeleton? = null
+    private var plotSkeleton: Skeleton? = null
+    private var aboutSkeleton: Skeleton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -555,6 +555,17 @@ class MovieDetailsFragment : Fragment() {
         binding.recyclerRecommendations.adapter = null
         binding.recyclerSimilar.adapter = null
 
+        containerBackdropSkeleton = null
+        plotSkeleton = null
+        aboutSkeleton = null
+        imagesRecyclerSkeleton = null
+        trailersRecyclerSkeleton = null
+        castRecyclerSkeleton = null
+        crewRecyclerSkeleton = null
+        reviewsRecyclerSkeleton = null
+        recommendationsRecyclerSkeleton = null
+        similarRecyclerSkeleton = null
+
         _binding = null
         super.onDestroyView()
     }
@@ -590,29 +601,29 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun showSkeletons() {
-        containerBackdropSkeleton.showSkeleton()
-        plotSkeleton.showSkeleton()
-        imagesRecyclerSkeleton.showSkeleton()
-        trailersRecyclerSkeleton.showSkeleton()
-        castRecyclerSkeleton.showSkeleton()
-        crewRecyclerSkeleton.showSkeleton()
-        reviewsRecyclerSkeleton.showSkeleton()
-        recommendationsRecyclerSkeleton.showSkeleton()
-        similarRecyclerSkeleton.showSkeleton()
-        aboutSkeleton.showSkeleton()
+        containerBackdropSkeleton?.showSkeleton()
+        plotSkeleton?.showSkeleton()
+        imagesRecyclerSkeleton?.showSkeleton()
+        trailersRecyclerSkeleton?.showSkeleton()
+        castRecyclerSkeleton?.showSkeleton()
+        crewRecyclerSkeleton?.showSkeleton()
+        reviewsRecyclerSkeleton?.showSkeleton()
+        recommendationsRecyclerSkeleton?.showSkeleton()
+        similarRecyclerSkeleton?.showSkeleton()
+        aboutSkeleton?.showSkeleton()
     }
 
     private fun hideSkeletons() {
-        containerBackdropSkeleton.showOriginal()
-        plotSkeleton.showOriginal()
-        imagesRecyclerSkeleton.showOriginal()
-        trailersRecyclerSkeleton.showOriginal()
-        castRecyclerSkeleton.showOriginal()
-        crewRecyclerSkeleton.showOriginal()
-        reviewsRecyclerSkeleton.showOriginal()
-        recommendationsRecyclerSkeleton.showOriginal()
-        similarRecyclerSkeleton.showOriginal()
-        aboutSkeleton.showOriginal()
+        containerBackdropSkeleton?.showOriginal()
+        plotSkeleton?.showOriginal()
+        imagesRecyclerSkeleton?.showOriginal()
+        trailersRecyclerSkeleton?.showOriginal()
+        castRecyclerSkeleton?.showOriginal()
+        crewRecyclerSkeleton?.showOriginal()
+        reviewsRecyclerSkeleton?.showOriginal()
+        recommendationsRecyclerSkeleton?.showOriginal()
+        similarRecyclerSkeleton?.showOriginal()
+        aboutSkeleton?.showOriginal()
     }
 
     companion object{

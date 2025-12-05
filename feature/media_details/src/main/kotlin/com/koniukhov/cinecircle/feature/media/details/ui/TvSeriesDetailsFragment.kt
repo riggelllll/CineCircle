@@ -76,17 +76,17 @@ class TvSeriesDetailsFragment : Fragment() {
     private var isFullscreen = false
     private var currentExitFullscreenFunction: (() -> Unit)? = null
 
-    private lateinit var containerBackdropSkeleton: Skeleton
-    private lateinit var imagesRecyclerSkeleton: Skeleton
-    private lateinit var trailersRecyclerSkeleton: Skeleton
-    private lateinit var castRecyclerSkeleton: Skeleton
-    private lateinit var crewRecyclerSkeleton: Skeleton
-    private lateinit var reviewsRecyclerSkeleton: Skeleton
-    private lateinit var recommendationsRecyclerSkeleton: Skeleton
-    private lateinit var similarRecyclerSkeleton: Skeleton
-    private lateinit var plotSkeleton: Skeleton
-    private lateinit var aboutSkeleton: Skeleton
-    private lateinit var seasonsRecyclerSkeleton: Skeleton
+    private var containerBackdropSkeleton: Skeleton? = null
+    private var imagesRecyclerSkeleton: Skeleton? = null
+    private var trailersRecyclerSkeleton: Skeleton? = null
+    private var castRecyclerSkeleton: Skeleton? = null
+    private var crewRecyclerSkeleton: Skeleton? = null
+    private var reviewsRecyclerSkeleton: Skeleton? = null
+    private var recommendationsRecyclerSkeleton: Skeleton? = null
+    private var similarRecyclerSkeleton: Skeleton? = null
+    private var plotSkeleton: Skeleton? = null
+    private var aboutSkeleton: Skeleton? = null
+    private var seasonsRecyclerSkeleton: Skeleton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -252,31 +252,31 @@ class TvSeriesDetailsFragment : Fragment() {
     }
 
     private fun showSkeletons() {
-        containerBackdropSkeleton.showSkeleton()
-        plotSkeleton.showSkeleton()
-        imagesRecyclerSkeleton.showSkeleton()
-        trailersRecyclerSkeleton.showSkeleton()
-        castRecyclerSkeleton.showSkeleton()
-        crewRecyclerSkeleton.showSkeleton()
-        reviewsRecyclerSkeleton.showSkeleton()
-        recommendationsRecyclerSkeleton.showSkeleton()
-        similarRecyclerSkeleton.showSkeleton()
-        aboutSkeleton.showSkeleton()
-        seasonsRecyclerSkeleton.showSkeleton()
+        containerBackdropSkeleton?.showSkeleton()
+        plotSkeleton?.showSkeleton()
+        imagesRecyclerSkeleton?.showSkeleton()
+        trailersRecyclerSkeleton?.showSkeleton()
+        castRecyclerSkeleton?.showSkeleton()
+        crewRecyclerSkeleton?.showSkeleton()
+        reviewsRecyclerSkeleton?.showSkeleton()
+        recommendationsRecyclerSkeleton?.showSkeleton()
+        similarRecyclerSkeleton?.showSkeleton()
+        aboutSkeleton?.showSkeleton()
+        seasonsRecyclerSkeleton?.showSkeleton()
     }
 
     private fun hideSkeletons() {
-        containerBackdropSkeleton.showOriginal()
-        plotSkeleton.showOriginal()
-        imagesRecyclerSkeleton.showOriginal()
-        trailersRecyclerSkeleton.showOriginal()
-        castRecyclerSkeleton.showOriginal()
-        crewRecyclerSkeleton.showOriginal()
-        reviewsRecyclerSkeleton.showOriginal()
-        recommendationsRecyclerSkeleton.showOriginal()
-        similarRecyclerSkeleton.showOriginal()
-        aboutSkeleton.showOriginal()
-        seasonsRecyclerSkeleton.showOriginal()
+        containerBackdropSkeleton?.showOriginal()
+        plotSkeleton?.showOriginal()
+        imagesRecyclerSkeleton?.showOriginal()
+        trailersRecyclerSkeleton?.showOriginal()
+        castRecyclerSkeleton?.showOriginal()
+        crewRecyclerSkeleton?.showOriginal()
+        reviewsRecyclerSkeleton?.showOriginal()
+        recommendationsRecyclerSkeleton?.showOriginal()
+        similarRecyclerSkeleton?.showOriginal()
+        aboutSkeleton?.showOriginal()
+        seasonsRecyclerSkeleton?.showOriginal()
     }
 
     private fun observeUiState() {
@@ -606,6 +606,18 @@ class TvSeriesDetailsFragment : Fragment() {
         binding.recyclerSeasons.adapter = null
         binding.recyclerRecommendations.adapter = null
         binding.recyclerSimilar.adapter = null
+
+        containerBackdropSkeleton = null
+        plotSkeleton = null
+        aboutSkeleton = null
+        imagesRecyclerSkeleton = null
+        trailersRecyclerSkeleton = null
+        castRecyclerSkeleton = null
+        crewRecyclerSkeleton = null
+        reviewsRecyclerSkeleton = null
+        recommendationsRecyclerSkeleton = null
+        similarRecyclerSkeleton = null
+        seasonsRecyclerSkeleton = null
 
         _binding = null
 
