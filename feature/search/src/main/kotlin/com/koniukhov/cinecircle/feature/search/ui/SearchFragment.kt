@@ -174,6 +174,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
     }
 
     override fun onDestroyView() {
+        binding.searchRecyclerView.adapter = null
+        binding.filtersRecyclerView.adapter = null
         removeTextWatcher()
         super.onDestroyView()
     }

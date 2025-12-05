@@ -59,8 +59,9 @@ class EpisodesBottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        binding.recyclerEpisodes.adapter = null
         _binding = null
+        super.onDestroyView()
     }
 
     companion object {

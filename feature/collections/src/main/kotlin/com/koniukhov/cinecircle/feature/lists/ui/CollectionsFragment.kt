@@ -128,6 +128,10 @@ class CollectionsFragment : BaseFragment<CollectionsFragmentBinding, Collections
         bottomSheet.show(parentFragmentManager, TAG)
     }
 
+    override fun onDestroyView() {
+        binding.recyclerCollections.adapter = null
+        super.onDestroyView()
+    }
 
     companion object {
         const val TAG = "CollectionContentBottomSheet"

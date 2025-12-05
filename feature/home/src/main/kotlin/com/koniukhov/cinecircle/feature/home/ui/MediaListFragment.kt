@@ -103,4 +103,9 @@ class MediaListFragment : BaseFragment<FragmentMediaListBinding, MediaListViewMo
             viewModel.loadMedia(currentType, genreId)
         }
     }
+
+    override fun onDestroyView() {
+        binding.mediaRecyclerView.adapter = null
+        super.onDestroyView()
+    }
 }
