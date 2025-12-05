@@ -24,11 +24,7 @@ class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, Mov
 
     override val viewModel: MovieRecommendationViewModel by viewModels()
 
-    private val mediaAdapter by lazy {
-        MediaListAdapter { mediaId, mediaType ->
-            navigateToDetails(mediaId, mediaType)
-        }
-    }
+    private lateinit var mediaAdapter: MediaListAdapter
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -38,6 +34,7 @@ class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, Mov
     }
 
     override fun initViews() {
+        setupMediaAdapter()
         setupRecyclerView()
     }
 
@@ -52,6 +49,12 @@ class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, Mov
     override fun setupViews() {
         super.setupViews()
         startRecommendationCalculation()
+    }
+
+    private fun setupMediaAdapter() {
+        mediaAdapter = MediaListAdapter { mediaId, mediaType ->
+            navigateToDetails(mediaId, mediaType)
+        }
     }
 
 
@@ -116,5 +119,10 @@ class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, Mov
             MediaType.MOVIE -> findNavController().navigateToMovieDetails(mediaId)
             MediaType.TV_SERIES -> findNavController().navigateToTvSeriesDetails(mediaId)
         }
+    }
+
+    override fun onDestroyView() {
+        binding.recommendationsRecyclerView.adapter = null
+        super.onDestroyView()
     }
 }
