@@ -17,6 +17,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var tabLayoutMediator: TabLayoutMediator? = null
+    private var pagerAdapter: FragmentStateAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,11 +37,12 @@ class HomeFragment : Fragment() {
 
     private fun setupViewPager(){
         binding.viewPager.isUserInputEnabled = false
-        binding.viewPager.adapter = setupAdapter()
+        pagerAdapter = setupAdapter()
+        binding.viewPager.adapter = pagerAdapter
     }
 
     private fun setupAdapter(): FragmentStateAdapter {
-        return object : FragmentStateAdapter(this) {
+        return object : FragmentStateAdapter(childFragmentManager, viewLifecycleOwner.lifecycle) {
             override fun getItemCount() = 2
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
@@ -64,10 +66,13 @@ class HomeFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        binding.viewPager.adapter = null
+        pagerAdapter = null
+
         tabLayoutMediator?.detach()
         tabLayoutMediator = null
 
-        binding.viewPager.adapter = null
+
         _binding = null
 
         super.onDestroyView()
