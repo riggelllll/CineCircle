@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.splashscreen)
     implementation(libs.timber)
+    implementation(libs.bundles.coil)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
