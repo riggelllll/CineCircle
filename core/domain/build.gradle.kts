@@ -9,4 +9,8 @@ android {
 
 dependencies{
     implementation(projects.core.common)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
