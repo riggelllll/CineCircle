@@ -32,6 +32,10 @@ jetbrainsBioNpy = "0.3.5"
 leakcanary = "2.14"
 datastore = "1.2.0"
 
+mockk = "1.13.13"
+turbine = "1.2.0"
+kotlinx-coroutines-test = "1.10.2"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -72,6 +76,10 @@ android-youtube-player = { module = "com.pierfrancescosoffritti.androidyoutubepl
 jetbrains-bio-npy = { module = "org.jetbrains.bio:npy", version.ref = "jetbrainsBioNpy" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+# Testing
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

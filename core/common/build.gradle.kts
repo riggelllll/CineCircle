@@ -12,4 +12,8 @@ dependencies{
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.timber)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
