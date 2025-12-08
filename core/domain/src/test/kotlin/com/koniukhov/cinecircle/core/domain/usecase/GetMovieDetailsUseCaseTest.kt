@@ -209,24 +209,24 @@ class GetMovieDetailsUseCaseTest {
     fun `invoke with different locales returns localized content`() = runTest {
         val movieId = 123
         val languageEn = "en"
-        val languageRu = "uk"
+        val languageUk = "uk"
         val detailsEn = MovieDetails.empty().copy(
             id = movieId,
             title = "The Matrix"
         )
-        val detailsRu = MovieDetails.empty().copy(
+        val detailsUk = MovieDetails.empty().copy(
             id = movieId,
             title = "Матриця"
         )
         coEvery { repository.getMovieDetails(movieId, languageEn) } returns detailsEn
-        coEvery { repository.getMovieDetails(movieId, languageRu) } returns detailsRu
+        coEvery { repository.getMovieDetails(movieId, languageUk) } returns detailsUk
 
         val resultEn = useCase(movieId, languageEn)
-        val resultRu = useCase(movieId, languageRu)
+        val resultUk = useCase(movieId, languageUk)
 
         assertEquals("The Matrix", resultEn.title)
-        assertEquals("Матриця", resultRu.title)
+        assertEquals("Матриця", resultUk.title)
         coVerify { repository.getMovieDetails(movieId, languageEn) }
-        coVerify { repository.getMovieDetails(movieId, languageRu) }
+        coVerify { repository.getMovieDetails(movieId, languageUk) }
     }
 }
