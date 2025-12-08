@@ -1,6 +1,7 @@
 package com.koniukhov.cinecircle
 
 import android.app.Application
+import com.koniukhov.cinecircle.core.common.util.ImageCacheManager
 import com.koniukhov.cinecircle.core.database.initializer.DatabaseInitializerManager
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
@@ -11,7 +12,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
-class CcApplication : Application(){
+class CcApplication : Application() {
 
     @Inject
     lateinit var databaseInitializer: DatabaseInitializerManager
@@ -22,6 +23,7 @@ class CcApplication : Application(){
         super.onCreate()
         initLogging()
         initializeDatabase()
+        performImageCacheCleanup()
     }
 
     private fun initLogging() {
@@ -37,6 +39,17 @@ class CcApplication : Application(){
                 Timber.d("Database initialized successfully")
             } catch (e: Exception) {
                 Timber.e(e, "Failed to initialize database")
+            }
+        }
+    }
+
+    private fun performImageCacheCleanup() {
+        applicationScope.launch {
+            try {
+                ImageCacheManager.performAutoCleanupIfNeeded(this@CcApplication)
+                Timber.d("Image cache cleanup check completed")
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to perform image cache cleanup")
             }
         }
     }
