@@ -10,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.koniukhov.cinecircle.core.common.util.DateUtils.formatDate
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.domain.model.MediaReview
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ImageSizes.PROFILE_MEDIUM
 import com.koniukhov.cinecircle.feature.movie_details.databinding.BottomSheetReviewDetailBinding
 
 class ReviewDetailBottomSheetDialog : BottomSheetDialogFragment() {
@@ -52,7 +52,7 @@ class ReviewDetailBottomSheetDialog : BottomSheetDialogFragment() {
             createdAt.text = formatDate(review.createdAt)
 
             if (review.authorDetails.avatarPath.isNotEmpty()) {
-                imgUserAvatar.load(IMAGE_URL_TEMPLATE.format(review.authorDetails.avatarPath)) {
+                imgUserAvatar.load(PROFILE_MEDIUM.format(review.authorDetails.avatarPath)) {
                     placeholder(R.drawable.placeholder_image)
                 }
             } else {

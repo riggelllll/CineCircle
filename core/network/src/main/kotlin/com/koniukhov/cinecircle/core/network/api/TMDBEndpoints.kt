@@ -2,7 +2,34 @@ package com.koniukhov.cinecircle.core.network.api
 
 object TMDBEndpoints {
     const val BASE_URL = "https://api.themoviedb.org/3/"
+
+    @Deprecated("Use specific image size constants instead", ReplaceWith("ImageSizes"))
     const val IMAGE_URL_TEMPLATE = "https://image.tmdb.org/t/p/original/%s"
+
+    object ImageSizes {
+        private const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p"
+
+        const val POSTER_SMALL = "$BASE_IMAGE_URL/w185/%s"
+        const val POSTER_MEDIUM = "$BASE_IMAGE_URL/w342/%s"
+        const val POSTER_LARGE = "$BASE_IMAGE_URL/w500/%s"
+        const val POSTER_XLARGE = "$BASE_IMAGE_URL/w780/%s"
+        const val POSTER_ORIGINAL = "$BASE_IMAGE_URL/original/%s"
+
+        const val BACKDROP_SMALL = "$BASE_IMAGE_URL/w300/%s"
+        const val BACKDROP_MEDIUM = "$BASE_IMAGE_URL/w780/%s"
+        const val BACKDROP_LARGE = "$BASE_IMAGE_URL/w1280/%s"
+        const val BACKDROP_ORIGINAL = "$BASE_IMAGE_URL/original/%s"
+
+        const val PROFILE_SMALL = "$BASE_IMAGE_URL/w45/%s"
+        const val PROFILE_MEDIUM = "$BASE_IMAGE_URL/w185/%s"
+        const val PROFILE_LARGE = "$BASE_IMAGE_URL/h632/%s"
+        const val PROFILE_ORIGINAL = "$BASE_IMAGE_URL/original/%s"
+
+        const val STILL_SMALL = "$BASE_IMAGE_URL/w185/%s"
+        const val STILL_MEDIUM = "$BASE_IMAGE_URL/w300/%s"
+        const val STILL_LARGE = "$BASE_IMAGE_URL/w500/%s"
+        const val STILL_ORIGINAL = "$BASE_IMAGE_URL/original/%s"
+    }
 
     object QueryParams {
         const val API_KEY = "api_key"

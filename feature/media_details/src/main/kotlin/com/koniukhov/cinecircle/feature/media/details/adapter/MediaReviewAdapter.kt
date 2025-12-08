@@ -9,7 +9,7 @@ import coil3.load
 import coil3.request.placeholder
 import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image
 import com.koniukhov.cinecircle.core.domain.model.MediaReview
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ImageSizes.PROFILE_MEDIUM
 import com.koniukhov.cinecircle.core.ui.utils.MediaReviewDiffCallback
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemReviewBinding
 
@@ -45,7 +45,7 @@ class MediaReviewAdapter(
             }
 
             if (review.authorDetails.avatarPath.isNotEmpty()) {
-                imgUserAvatar.load(IMAGE_URL_TEMPLATE.format(review.authorDetails.avatarPath)) {
+                imgUserAvatar.load(PROFILE_MEDIUM.format(review.authorDetails.avatarPath)) {
                     placeholder(placeholder_image)
                 }
             } else {

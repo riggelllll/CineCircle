@@ -14,7 +14,7 @@ import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.design.databinding.ItemMediaListBinding
 import com.koniukhov.cinecircle.core.domain.model.MediaItem
 import com.koniukhov.cinecircle.core.domain.model.Movie
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ImageSizes.POSTER_MEDIUM
 import com.koniukhov.cinecircle.core.ui.utils.MediaDiffCallback
 import java.util.Locale
 
@@ -44,7 +44,7 @@ class MediaListAdapter(
             rating.text = String.format(Locale.US,"%.1f", mediaItem.voteAverage)
 
             if (mediaItem.posterPath.isNotEmpty()) {
-                poster.load(IMAGE_URL_TEMPLATE.format(mediaItem.posterPath)) {
+                poster.load(POSTER_MEDIUM.format(mediaItem.posterPath)) {
                     placeholder(R.drawable.placeholder_image)
                     transformations(RoundedCornersTransformation(IMAGE_RADIUS))
                 }

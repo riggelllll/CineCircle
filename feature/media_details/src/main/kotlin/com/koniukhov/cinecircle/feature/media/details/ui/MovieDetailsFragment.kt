@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -32,10 +31,10 @@ import com.koniukhov.cinecircle.core.domain.model.Image
 import com.koniukhov.cinecircle.core.domain.model.MediaCredits
 import com.koniukhov.cinecircle.core.domain.model.MediaImages
 import com.koniukhov.cinecircle.core.domain.model.MediaReview
+import com.koniukhov.cinecircle.core.domain.model.MediaVideos
 import com.koniukhov.cinecircle.core.domain.model.Movie
 import com.koniukhov.cinecircle.core.domain.model.MovieDetails
-import com.koniukhov.cinecircle.core.domain.model.MediaVideos
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ImageSizes.BACKDROP_MEDIUM
 import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
 import com.koniukhov.cinecircle.core.ui.utils.openWebsite
 import com.koniukhov.cinecircle.feature.media.details.adapter.CollectionMediaAdapter
@@ -231,7 +230,7 @@ class MovieDetailsFragment : Fragment() {
     private fun updateMovieDetailsSection(movieDetails: MovieDetails, uiState: MovieDetailsUiState) {
         with(binding){
             if (movieDetails.backdropPath.isNotEmpty()){
-                imgBackdrop.load(TMDBEndpoints.IMAGE_URL_TEMPLATE.format(movieDetails.backdropPath)){
+                imgBackdrop.load(BACKDROP_MEDIUM.format(movieDetails.backdropPath)){
                     placeholder(design_R.drawable.placeholder_image)
                 }
             }else {

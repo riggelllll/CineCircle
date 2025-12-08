@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.placeholder
 import com.koniukhov.cinecircle.core.domain.model.CrewMember
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ImageSizes.PROFILE_MEDIUM
 import com.koniukhov.cinecircle.core.ui.utils.CrewMemberDiffCallback
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemPersonBinding
 import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image as placeholder_image
@@ -37,7 +37,7 @@ class MediaCrewAdapter(
             personRole.text = crewMember.job
 
             if (crewMember.profilePath.isNotEmpty()) {
-                imgPerson.load(IMAGE_URL_TEMPLATE.format(crewMember.profilePath)) {
+                imgPerson.load(PROFILE_MEDIUM.format(crewMember.profilePath)) {
                     placeholder(placeholder_image)
                 }
             } else {

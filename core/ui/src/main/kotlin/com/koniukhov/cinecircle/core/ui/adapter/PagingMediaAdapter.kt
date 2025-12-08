@@ -14,7 +14,7 @@ import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.design.databinding.ItemMediaListBinding
 import com.koniukhov.cinecircle.core.domain.model.MediaItem
 import com.koniukhov.cinecircle.core.domain.model.Movie
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ImageSizes.POSTER_MEDIUM
 import com.koniukhov.cinecircle.core.ui.utils.MediaItemCallback
 import java.util.Locale
 
@@ -42,10 +42,10 @@ class PagingMediaAdapter(
             }
 
             binding.title.text = item.title
-            binding.rating.text = String.Companion.format(Locale.US,"%.1f", item.voteAverage)
+            binding.rating.text = String.format(Locale.US,"%.1f", item.voteAverage)
 
             if (item.posterPath.isNotEmpty()) {
-                binding.poster.load(TMDBEndpoints.IMAGE_URL_TEMPLATE.format(item.posterPath)) {
+                binding.poster.load(POSTER_MEDIUM.format(item.posterPath)) {
                     placeholder(R.drawable.placeholder_image)
                     transformations(RoundedCornersTransformation(Constants.IMAGE_RADIUS))
                 }

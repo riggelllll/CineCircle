@@ -13,7 +13,7 @@ import com.koniukhov.cinecircle.core.common.Constants.IMAGE_RADIUS
 import com.koniukhov.cinecircle.core.common.util.DateUtils.formatDate
 import com.koniukhov.cinecircle.core.design.R as design_R
 import com.koniukhov.cinecircle.core.domain.model.TvEpisodeDetails
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ImageSizes.STILL_MEDIUM
 import com.koniukhov.cinecircle.core.ui.utils.TvEpisodeDetailsDiffCallback
 import com.koniukhov.cinecircle.feature.movie_details.R
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemEpisodeBinding
@@ -49,7 +49,7 @@ class EpisodeAdapter : RecyclerView.Adapter<EpisodeAdapter.EpisodeViewHolder>() 
                 }
 
                 if (episode.stillPath.isNotEmpty()) {
-                    imgEpisode.load(IMAGE_URL_TEMPLATE.format(episode.stillPath)) {
+                    imgEpisode.load(STILL_MEDIUM.format(episode.stillPath)) {
                         placeholder(design_R.drawable.placeholder_image)
                         transformations(RoundedCornersTransformation(IMAGE_RADIUS))
                     }

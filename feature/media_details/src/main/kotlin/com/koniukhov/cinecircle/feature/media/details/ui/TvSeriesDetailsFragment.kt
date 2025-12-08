@@ -33,7 +33,7 @@ import com.koniukhov.cinecircle.core.domain.model.MediaVideos
 import com.koniukhov.cinecircle.core.domain.model.TvSeasonDetails
 import com.koniukhov.cinecircle.core.domain.model.TvSeries
 import com.koniukhov.cinecircle.core.domain.model.TvSeriesDetails
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ImageSizes.BACKDROP_MEDIUM
 import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
 import com.koniukhov.cinecircle.core.ui.utils.openWebsite
 import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCastAdapter
@@ -320,7 +320,7 @@ class TvSeriesDetailsFragment : Fragment() {
     private fun updateDetailsSection(details: TvSeriesDetails, uiState: TvSeriesDetailsUiState) {
         with(binding){
             if (details.backdropPath.isNotEmpty()){
-                imgBackdrop.load(TMDBEndpoints.IMAGE_URL_TEMPLATE.format(details.backdropPath)){
+                imgBackdrop.load(BACKDROP_MEDIUM.format(details.backdropPath)){
                     placeholder(design_R.drawable.placeholder_image)
                 }
             }else {

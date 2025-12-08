@@ -12,7 +12,7 @@ import com.koniukhov.cinecircle.core.common.Constants.IMAGE_RADIUS
 import com.koniukhov.cinecircle.core.design.R
 import com.koniukhov.cinecircle.core.design.databinding.ItemMediaBinding
 import com.koniukhov.cinecircle.core.domain.model.TvSeasonDetails
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.IMAGE_URL_TEMPLATE
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ImageSizes.POSTER_MEDIUM
 import com.koniukhov.cinecircle.core.ui.utils.TvSeasonDetailsDiffCallback
 import java.util.Locale
 
@@ -41,7 +41,7 @@ class SeasonAdapter(
             rating.text = String.format(Locale.US,"%.1f", details.voteAverage)
 
             if (details.posterPath.isNotEmpty()) {
-                poster.load(IMAGE_URL_TEMPLATE.format(details.posterPath)) {
+                poster.load(POSTER_MEDIUM.format(details.posterPath)) {
                     placeholder(R.drawable.placeholder_image)
                     transformations(RoundedCornersTransformation(IMAGE_RADIUS))
                 }
