@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import coil3.dispose
 import coil3.load
 import coil3.request.placeholder
 import com.faltenreich.skeletonlayout.Skeleton
@@ -593,10 +594,16 @@ class TvSeriesDetailsFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        binding.imgBackdrop.dispose()
+
         currentExitFullscreenFunction?.invoke()
         fullscreenVideoDialog?.dismiss()
         fullscreenVideoDialog = null
         currentExitFullscreenFunction = null
+
+        if (::imagesAdapter.isInitialized) {
+            imagesAdapter.clear()
+        }
 
         binding.recyclerTrailers.adapter = null
         binding.recyclerImages.adapter = null

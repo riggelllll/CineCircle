@@ -13,7 +13,7 @@ import com.koniukhov.cinecircle.core.ui.utils.ImageDiffCallback
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemMovieImageBinding
 
 class MediaImageAdapter(
-    private val onImageClick: (String) -> Unit
+    private var onImageClick: ((String) -> Unit)?
 ) : RecyclerView.Adapter<MediaImageAdapter.ImageViewHolder>() {
 
     private var images: List<Image> = emptyList()
@@ -29,7 +29,7 @@ class MediaImageAdapter(
         val image = images[position]
 
         holder.itemView.setOnClickListener {
-            onImageClick(image.filePath)
+            onImageClick?.invoke(image.filePath)
         }
 
         if (image.filePath.isNotEmpty()){
@@ -48,5 +48,9 @@ class MediaImageAdapter(
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         images = newImages
         diffResult.dispatchUpdatesTo(this)
+    }
+
+    fun clear() {
+        onImageClick = null
     }
 }
