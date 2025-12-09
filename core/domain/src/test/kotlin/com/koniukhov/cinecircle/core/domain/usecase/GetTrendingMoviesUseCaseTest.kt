@@ -8,7 +8,6 @@ import io.mockk.mockk
 import io.mockk.unmockkAll
 import kotlinx.coroutines.test.runTest
 import org.junit.After
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -95,14 +94,17 @@ class GetTrendingMoviesUseCaseTest {
     fun `invoke throws exception when repository throws exception`() = runTest {
         val page = 1
         val language = "en"
-        coEvery { repository.getTrendingMovies(page, language) } throws Exception("Network error")
+        val errorMessage = "Network error"
+        coEvery { repository.getTrendingMovies(page, language) } throws Exception(errorMessage)
 
+        var exceptionThrown = false
         try {
             useCase(page, language)
-            Assert.fail("Expected exception was not thrown")
         } catch (e: Exception) {
-            assertEquals("Network error", e.message)
+            exceptionThrown = true
+            assertEquals(errorMessage, e.message)
         }
+        assertTrue("Expected exception was not thrown", exceptionThrown)
         coVerify { repository.getTrendingMovies(page, language) }
     }
 
