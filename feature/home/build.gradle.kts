@@ -21,4 +21,8 @@ dependencies{
     implementation(libs.bundles.coil)
     implementation(libs.skeletonlayout)
     implementation(libs.androidx.paging.runtime)
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
