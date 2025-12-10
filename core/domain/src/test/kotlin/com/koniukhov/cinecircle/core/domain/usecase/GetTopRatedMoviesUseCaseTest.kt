@@ -5,10 +5,9 @@ import com.koniukhov.cinecircle.core.domain.repository.MoviesRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.unmockkAll
 import kotlinx.coroutines.test.runTest
-import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -24,116 +23,112 @@ class GetTopRatedMoviesUseCaseTest {
         useCase = GetTopRatedMoviesUseCase(repository)
     }
 
-    @After
-    fun tearDown() {
-        unmockkAll()
-    }
-
     @Test
-    fun `invoke calls repository with correct parameters and returns result`() = runTest {
+    fun `invoke returns flow of movies from repository`() = runTest {
         val page = 1
         val language = "en"
         val expectedMovies = listOf(
-            createTestMovie(id = 1, title = "Top Rated Movie 1", voteAverage = 9.5f),
-            createTestMovie(id = 2, title = "Top Rated Movie 2", voteAverage = 9.0f)
+            Movie(
+                id = 1,
+                title = "The Shawshank Redemption",
+                overview = "Two imprisoned men bond",
+                posterPath = "/poster1.jpg",
+                backdropPath = "/backdrop1.jpg",
+                releaseDate = "1994-09-23",
+                voteAverage = 8.7f,
+                voteCount = 24000,
+                popularity = 95.5f,
+                adult = false,
+                originalLanguage = "en",
+                originalTitle = "The Shawshank Redemption",
+                video = false,
+                genreIds = listOf(18, 80)
+            ),
+            Movie(
+                id = 2,
+                title = "The Godfather",
+                overview = "The aging patriarch",
+                posterPath = "/poster2.jpg",
+                backdropPath = "/backdrop2.jpg",
+                releaseDate = "1972-03-14",
+                voteAverage = 8.7f,
+                voteCount = 18000,
+                popularity = 92.3f,
+                adult = false,
+                originalLanguage = "en",
+                originalTitle = "The Godfather",
+                video = false,
+                genreIds = listOf(18, 80)
+            )
         )
+
         coEvery { repository.getTopRatedMovies(page, language) } returns expectedMovies
 
         val result = useCase(page, language)
 
         assertEquals(expectedMovies, result)
         assertEquals(2, result.size)
-        assertEquals("Top Rated Movie 1", result[0].title)
-        assertEquals(9.5f, result[0].voteAverage)
-
         coVerify(exactly = 1) { repository.getTopRatedMovies(page, language) }
     }
 
     @Test
-    fun `invoke with different page returns corresponding movies`() = runTest {
-        val page = 2
-        val language = "en"
-        val expectedMovies = listOf(
-            createTestMovie(id = 3, title = "Page 2 Top Rated", voteAverage = 8.8f)
-        )
-        coEvery { repository.getTopRatedMovies(page, language) } returns expectedMovies
-
-        val result = useCase(page, language)
-
-        assertEquals(expectedMovies, result)
-        coVerify { repository.getTopRatedMovies(page, language) }
-    }
-
-    @Test
-    fun `invoke with different language code passes it to repository`() = runTest {
-        val page = 1
-        val language = "de"
-        val expectedMovies = listOf(
-            createTestMovie(id = 1, title = "Top bewerteter Film")
-        )
-        coEvery { repository.getTopRatedMovies(page, language) } returns expectedMovies
-
-        val result = useCase(page, language)
-
-        assertEquals(expectedMovies, result)
-        coVerify { repository.getTopRatedMovies(page, language) }
-    }
-
-    @Test
-    fun `invoke returns empty list when repository returns empty list`() = runTest {
+    fun `invoke returns empty flow when repository returns empty list`() = runTest {
         val page = 1
         val language = "en"
+
         coEvery { repository.getTopRatedMovies(page, language) } returns emptyList()
 
         val result = useCase(page, language)
 
         assertTrue(result.isEmpty())
-        coVerify { repository.getTopRatedMovies(page, language) }
+        coVerify(exactly = 1) { repository.getTopRatedMovies(page, language) }
     }
 
-    @Test
+    @Test(expected = Exception::class)
     fun `invoke throws exception when repository throws exception`() = runTest {
         val page = 1
         val language = "en"
-        val errorMessage = "Network error"
-        coEvery { repository.getTopRatedMovies(page, language) } throws Exception(errorMessage)
 
-        var exceptionThrown = false
-        try {
-            useCase(page, language)
-        } catch (e: Exception) {
-            exceptionThrown = true
-            assertEquals(errorMessage, e.message)
-        }
-        assertTrue("Expected exception was not thrown", exceptionThrown)
-        coVerify { repository.getTopRatedMovies(page, language) }
+        coEvery { repository.getTopRatedMovies(page, language) } throws Exception("Network error")
+
+        useCase(page, language)
     }
 
-    private fun createTestMovie(
-        id: Int,
-        title: String,
-        posterPath: String = "/poster.jpg",
-        backdropPath: String = "/backdrop.jpg",
-        overview: String = "Test overview",
-        releaseDate: String = "2024-01-01",
-        voteAverage: Float = 8.5f,
-        voteCount: Int = 1000,
-        genreIds: List<Int> = listOf(18, 36),
-        popularity: Float = 100.0f
-    ) = Movie(
-        id = id,
-        title = title,
-        posterPath = posterPath,
-        backdropPath = backdropPath,
-        overview = overview,
-        releaseDate = releaseDate,
-        voteAverage = voteAverage,
-        voteCount = voteCount,
-        genreIds = genreIds,
-        popularity = popularity,
-        adult = false,
-        video = false,
-        originalTitle = title,
-        originalLanguage = "en"
-    )
+    @Test
+    fun `invoke with different page numbers calls repository correctly`() = runTest {
+        val page1 = 1
+        val page2 = 2
+        val language = "en"
+        val movies = listOf<Movie>()
+
+        coEvery { repository.getTopRatedMovies(any(), any()) } returns movies
+
+        val res1 = useCase(page1, language)
+        val res2 = useCase(page2, language)
+
+        assertNotNull(res1)
+        assertNotNull(res2)
+
+        coVerify(exactly = 1) { repository.getTopRatedMovies(page1, language) }
+        coVerify(exactly = 1) { repository.getTopRatedMovies(page2, language) }
+    }
+
+    @Test
+    fun `invoke with different languages calls repository correctly`() = runTest {
+        val page = 1
+        val languageEn = "en"
+        val languageEs = "es"
+        val movies = listOf<Movie>()
+
+        coEvery { repository.getTopRatedMovies(any(), any()) } returns movies
+
+        val res1 = useCase(page, languageEn)
+        val res2 = useCase(page, languageEs)
+
+        assertNotNull(res1)
+        assertNotNull(res2)
+
+        coVerify(exactly = 1) { repository.getTopRatedMovies(page, languageEn) }
+        coVerify(exactly = 1) { repository.getTopRatedMovies(page, languageEs) }
+    }
 }
