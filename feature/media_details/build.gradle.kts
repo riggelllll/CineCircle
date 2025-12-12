@@ -22,4 +22,9 @@ dependencies{
     implementation(libs.bundles.coil)
     implementation(libs.skeletonlayout)
     implementation(libs.android.youtube.player)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
