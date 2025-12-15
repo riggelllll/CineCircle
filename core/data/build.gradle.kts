@@ -13,4 +13,9 @@ dependencies{
     implementation(projects.core.common)
     implementation(projects.core.database)
     implementation(libs.bundles.retrofit)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
 }
