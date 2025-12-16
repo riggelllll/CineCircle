@@ -17,11 +17,9 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
+import androidx.test.ext.junit.runners.AndroidJUnit4
 
-@RunWith(RobolectricTestRunner::class)
-@Config(sdk = [28])
+@RunWith(AndroidJUnit4::class)
 class MediaListDaoTest {
 
     private lateinit var database: CineCircleDatabase
@@ -44,7 +42,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `insertList should insert and return list ID`() = runTest {
+    fun insertList_shouldInsertAndReturnListId() = runTest {
         val list = MediaListEntity(name = "My List", isDefault = false)
 
         val insertedId = mediaListDao.insertList(list)
@@ -53,7 +51,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `getListById should return inserted list`() = runTest {
+    fun getListById_shouldReturnInsertedList() = runTest {
         val list = MediaListEntity(name = "Test List", isDefault = false)
         val insertedId = mediaListDao.insertList(list)
 
@@ -65,14 +63,14 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `getListById should return null for non-existent ID`() = runTest {
+    fun getListById_shouldReturnNullForNonExistentId() = runTest {
         val result = mediaListDao.getListById(999L)
 
         assertNull(result)
     }
 
     @Test
-    fun `getAllLists should return all lists ordered by isDefault DESC`() = runTest {
+    fun getAllLists_shouldReturnAllListsOrderedByIsDefaultDesc() = runTest {
         val regularList1 = MediaListEntity(name = "Regular 1", isDefault = false)
         val regularList2 = MediaListEntity(name = "Regular 2", isDefault = false)
         val defaultList = MediaListEntity(name = "Default", isDefault = true)
@@ -89,7 +87,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `getDefaultList should return default list`() = runTest {
+    fun getDefaultList_shouldReturnDefaultList() = runTest {
         val regularList = MediaListEntity(name = "Regular", isDefault = false)
         val defaultList = MediaListEntity(name = "Default", isDefault = true)
 
@@ -104,7 +102,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `getDefaultList should return null when no default list exists`() = runTest {
+    fun getDefaultList_shouldReturnNullWhenNoDefaultListExists() = runTest {
         val regularList = MediaListEntity(name = "Regular", isDefault = false)
         mediaListDao.insertList(regularList)
 
@@ -114,7 +112,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `updateList should update list name`() = runTest {
+    fun updateList_shouldUpdateListName() = runTest {
         val list = MediaListEntity(name = "Original Name", isDefault = false)
         val insertedId = mediaListDao.insertList(list)
 
@@ -126,7 +124,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `deleteList should delete non-default list`() = runTest {
+    fun deleteList_shouldDeleteNonDefaultList() = runTest {
         val list = MediaListEntity(name = "To Delete", isDefault = false)
         val insertedId = mediaListDao.insertList(list)
 
@@ -137,7 +135,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `deleteList should not delete default list`() = runTest {
+    fun deleteList_shouldNotDeleteDefaultList() = runTest {
         val defaultList = MediaListEntity(name = "Default", isDefault = true)
         val insertedId = mediaListDao.insertList(defaultList)
 
@@ -148,7 +146,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `addMediaToList should add media item`() = runTest {
+    fun addMediaToList_shouldAddMediaItem() = runTest {
         val list = MediaListEntity(name = "My List", isDefault = false)
         val listId = mediaListDao.insertList(list)
 
@@ -163,7 +161,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `isMediaInList should return 1 when media is in list`() = runTest {
+    fun isMediaInList_shouldReturn1WhenMediaIsInList() = runTest {
         val list = MediaListEntity(name = "My List", isDefault = false)
         val listId = mediaListDao.insertList(list)
         val item = MediaListItemEntity(listId = listId, mediaId = 100, mediaType = MediaType.MOVIE)
@@ -175,7 +173,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `isMediaInList should return 0 when media is not in list`() = runTest {
+    fun isMediaInList_shouldReturn0WhenMediaIsNotInList() = runTest {
         val list = MediaListEntity(name = "My List", isDefault = false)
         val listId = mediaListDao.insertList(list)
 
@@ -185,7 +183,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `getMediaItemsInList should return items in correct order`() = runTest {
+    fun getMediaItemsInList_shouldReturnItemsInCorrectOrder() = runTest {
         val list = MediaListEntity(name = "My List", isDefault = false)
         val listId = mediaListDao.insertList(list)
 
@@ -206,7 +204,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `removeMediaFromList should remove specific media`() = runTest {
+    fun removeMediaFromList_shouldRemoveSpecificMedia() = runTest {
         val list = MediaListEntity(name = "My List", isDefault = false)
         val listId = mediaListDao.insertList(list)
         val item = MediaListItemEntity(listId = listId, mediaId = 100, mediaType = MediaType.MOVIE)
@@ -219,7 +217,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `clearList should remove all items from list`() = runTest {
+    fun clearList_shouldRemoveAllItemsFromList() = runTest {
         val list = MediaListEntity(name = "My List", isDefault = false)
         val listId = mediaListDao.insertList(list)
 
@@ -233,7 +231,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `getMediaCountInList should return correct count`() = runTest {
+    fun getMediaCountInList_shouldReturnCorrectCount() = runTest {
         val list = MediaListEntity(name = "My List", isDefault = false)
         val listId = mediaListDao.insertList(list)
 
@@ -247,7 +245,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `getMediaCountInListAsFlow should emit correct count`() = runTest {
+    fun getMediaCountInListAsFlow_shouldEmitCorrectCount() = runTest {
         val list = MediaListEntity(name = "My List", isDefault = false)
         val listId = mediaListDao.insertList(list)
 
@@ -260,7 +258,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `getAllListsWithCount should return lists with item counts`() = runTest {
+    fun getAllListsWithCount_shouldReturnListsWithItemCounts() = runTest {
         val list1 = MediaListEntity(name = "List 1", isDefault = false)
         val list2 = MediaListEntity(name = "List 2", isDefault = true)
         val listId1 = mediaListDao.insertList(list1)
@@ -280,7 +278,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `getListsContainingMedia should return correct lists`() = runTest {
+    fun getListsContainingMedia_shouldReturnCorrectLists() = runTest {
         val list1 = MediaListEntity(name = "List 1", isDefault = false)
         val list2 = MediaListEntity(name = "List 2", isDefault = true)
         val list3 = MediaListEntity(name = "List 3", isDefault = false)
@@ -301,7 +299,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `getMediaByTypeInList should filter by media type`() = runTest {
+    fun getMediaByTypeInList_shouldFilterByMediaType() = runTest {
         val list = MediaListEntity(name = "My List", isDefault = false)
         val listId = mediaListDao.insertList(list)
 
@@ -317,7 +315,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `addMediaToList should ignore duplicate entries`() = runTest {
+    fun addMediaToList_shouldIgnoreDuplicateEntries() = runTest {
         val list = MediaListEntity(name = "My List", isDefault = false)
         val listId = mediaListDao.insertList(list)
 
@@ -331,7 +329,7 @@ class MediaListDaoTest {
     }
 
     @Test
-    fun `cascade delete should remove items when list is deleted`() = runTest {
+    fun cascadeDelete_shouldRemoveItemsWhenListIsDeleted() = runTest {
         val list = MediaListEntity(name = "To Delete", isDefault = false)
         val listId = mediaListDao.insertList(list)
 

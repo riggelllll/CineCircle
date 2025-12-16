@@ -3,6 +3,7 @@ package com.koniukhov.cinecircle.core.database.dao
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.koniukhov.cinecircle.core.database.CineCircleDatabase
 import com.koniukhov.cinecircle.core.database.entity.RatedMediaEntity
 import kotlinx.coroutines.test.runTest
@@ -11,11 +12,8 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 
-@RunWith(RobolectricTestRunner::class)
-@Config(sdk = [28])
+@RunWith(AndroidJUnit4::class)
 class RatedMediaDaoTest {
 
     private lateinit var database: CineCircleDatabase
@@ -38,7 +36,7 @@ class RatedMediaDaoTest {
     }
 
     @Test
-    fun `insertRatedMedia should insert media with rating`() = runTest {
+    fun insertRatedMedia_shouldInsertMediaWithRating() = runTest {
         val ratedMedia = RatedMediaEntity(mediaId = 100L, rating = 4.5f)
 
         ratedMediaDao.insertRatedMedia(ratedMedia)
@@ -50,7 +48,7 @@ class RatedMediaDaoTest {
     }
 
     @Test
-    fun `insertRatedMedia should replace existing rating`() = runTest {
+    fun insertRatedMedia_shouldReplaceExistingRating() = runTest {
         val ratedMedia1 = RatedMediaEntity(mediaId = 100L, rating = 3.0f)
         val ratedMedia2 = RatedMediaEntity(mediaId = 100L, rating = 4.0f)
 
@@ -62,14 +60,14 @@ class RatedMediaDaoTest {
     }
 
     @Test
-    fun `getRatedMedia should return null for non-existent media`() = runTest {
+    fun getRatedMedia_shouldReturnNullForNonExistentMedia() = runTest {
         val result = ratedMediaDao.getRatedMedia(999L)
 
         assertNull(result)
     }
 
     @Test
-    fun `deleteRatedMedia should remove media from database`() = runTest {
+    fun deleteRatedMedia_shouldRemoveMediaFromDatabase() = runTest {
         val ratedMedia = RatedMediaEntity(mediaId = 100L, rating = 3.5f)
         ratedMediaDao.insertRatedMedia(ratedMedia)
 
@@ -80,7 +78,7 @@ class RatedMediaDaoTest {
     }
 
     @Test
-    fun `getAllRatedMedias should return all rated medias`() = runTest {
+    fun getAllRatedMedias_shouldReturnAllRatedMedias() = runTest {
         val ratedMedia1 = RatedMediaEntity(mediaId = 100L, rating = 3.5f)
         val ratedMedia2 = RatedMediaEntity(mediaId = 200L, rating = 5.0f)
         val ratedMedia3 = RatedMediaEntity(mediaId = 300L, rating = 4.5f)
@@ -95,14 +93,14 @@ class RatedMediaDaoTest {
     }
 
     @Test
-    fun `getAllRatedMedias should return empty list when database is empty`() = runTest {
+    fun getAllRatedMedias_shouldReturnEmptyListWhenDatabaseIsEmpty() = runTest {
         val result = ratedMediaDao.getAllRatedMedias()
 
         assertTrue(result.isEmpty())
     }
 
     @Test
-    fun `clearAll should remove all rated medias`() = runTest {
+    fun clearAll_shouldRemoveAllRatedMedias() = runTest {
         val ratedMedia1 = RatedMediaEntity(mediaId = 100L, rating = 4.5f)
         val ratedMedia2 = RatedMediaEntity(mediaId = 200L, rating = 5.0f)
 
@@ -116,7 +114,7 @@ class RatedMediaDaoTest {
     }
 
     @Test
-    fun `insertRatedMedia should handle multiple different medias`() = runTest {
+    fun insertRatedMedia_shouldHandleMultipleDifferentMedias() = runTest {
         val ratedMedia1 = RatedMediaEntity(mediaId = 100L, rating = 3.5f)
         val ratedMedia2 = RatedMediaEntity(mediaId = 200L, rating = 4.0f)
         val ratedMedia3 = RatedMediaEntity(mediaId = 300L, rating = 4.5f)
@@ -135,7 +133,7 @@ class RatedMediaDaoTest {
     }
 
     @Test
-    fun `getRatedMedia should return correct media among multiple entries`() = runTest {
+    fun getRatedMedia_shouldReturnCorrectMediaAmongMultipleEntries() = runTest {
         ratedMediaDao.insertRatedMedia(RatedMediaEntity(mediaId = 100L, rating = 3.5f))
         ratedMediaDao.insertRatedMedia(RatedMediaEntity(mediaId = 200L, rating = 5.0f))
         ratedMediaDao.insertRatedMedia(RatedMediaEntity(mediaId = 300L, rating = 4.5f))
@@ -148,7 +146,7 @@ class RatedMediaDaoTest {
     }
 
     @Test
-    fun `insertRatedMedia should handle edge case ratings`() = runTest {
+    fun insertRatedMedia_shouldHandleEdgeCaseRatings() = runTest {
         val ratedMedia1 = RatedMediaEntity(mediaId = 100L, rating = 0.0f)
         val ratedMedia2 = RatedMediaEntity(mediaId = 200L, rating = 4.0f)
         val ratedMedia3 = RatedMediaEntity(mediaId = 300L, rating = 0.5f)
@@ -163,7 +161,7 @@ class RatedMediaDaoTest {
     }
 
     @Test
-    fun `deleteRatedMedia should not affect other entries`() = runTest {
+    fun deleteRatedMedia_shouldNotAffectOtherEntries() = runTest {
         val ratedMedia1 = RatedMediaEntity(mediaId = 100L, rating = 3.5f)
         val ratedMedia2 = RatedMediaEntity(mediaId = 200L, rating = 4.0f)
         val ratedMedia3 = RatedMediaEntity(mediaId = 300L, rating = 4.5f)
@@ -182,7 +180,7 @@ class RatedMediaDaoTest {
     }
 
     @Test
-    fun `getAllRatedMedias should return correct order`() = runTest {
+    fun getAllRatedMedias_shouldReturnCorrectOrder() = runTest {
         val ratedMedia1 = RatedMediaEntity(mediaId = 300L, rating = 3.5f)
         val ratedMedia2 = RatedMediaEntity(mediaId = 100L, rating = 4.5f)
         val ratedMedia3 = RatedMediaEntity(mediaId = 200L, rating = 4.0f)
@@ -200,7 +198,7 @@ class RatedMediaDaoTest {
     }
 
     @Test
-    fun `clearAll should work on empty database`() = runTest {
+    fun clearAll_shouldWorkOnEmptyDatabase() = runTest {
         ratedMediaDao.clearAll()
 
         val result = ratedMediaDao.getAllRatedMedias()
@@ -208,7 +206,7 @@ class RatedMediaDaoTest {
     }
 
     @Test
-    fun `insert and update same media multiple times should keep latest value`() = runTest {
+    fun insertAndUpdateSameMediaMultipleTimes_shouldKeepLatestValue() = runTest {
         ratedMediaDao.insertRatedMedia(RatedMediaEntity(mediaId = 100L, rating = 3.0f))
         ratedMediaDao.insertRatedMedia(RatedMediaEntity(mediaId = 100L, rating = 5.0f))
         ratedMediaDao.insertRatedMedia(RatedMediaEntity(mediaId = 100L, rating = 5.0f))
