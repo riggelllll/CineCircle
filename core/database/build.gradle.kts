@@ -14,9 +14,11 @@ dependencies{
     ksp(libs.room.compiler)
 
     testImplementation(libs.junit)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.androidx.room.testing)
-    testImplementation(libs.androidx.test.core)
-    testImplementation(libs.androidx.junit)
-    testImplementation(libs.robolectric)
+
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.androidx.room.testing)
 }
