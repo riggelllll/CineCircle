@@ -12,7 +12,7 @@ android {
         versionCode = 1
         versionName = "0.0.1"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.koniukhov.cinecircle.HiltTestRunner"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -47,6 +47,7 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.core.design)
     implementation(projects.core.network)
+    implementation(projects.core.ui)
     implementation(projects.feature.home)
     implementation(projects.feature.mediaDetails)
     implementation(projects.feature.collections)
@@ -65,8 +66,18 @@ dependencies {
     implementation(libs.bundles.coil)
 
     testImplementation(libs.junit)
+
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.test.espresso.contrib)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.androidx.fragment.testing)
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.mockk.android)
+    kspAndroidTest(libs.hilt.android.compiler)
+    debugImplementation(libs.androidx.fragment.testing.manifest)
 
     debugImplementation(libs.leakcanary.android)
 
