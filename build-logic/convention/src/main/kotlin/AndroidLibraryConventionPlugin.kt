@@ -20,6 +20,16 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 testOptions.animationsDisabled = true
 
+                packaging {
+                    resources {
+                        excludes += setOf(
+                            "META-INF/LICENSE.md",
+                            "META-INF/LICENSE-notice.md",
+                            "META-INF/NOTICE.md"
+                        )
+                    }
+                }
+
                 buildFeatures {
                     buildConfig = true
                     viewBinding = true
