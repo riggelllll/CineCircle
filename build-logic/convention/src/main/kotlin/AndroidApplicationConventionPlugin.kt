@@ -16,6 +16,16 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 defaultConfig.targetSdk = 36
                 testOptions.animationsDisabled = true
 
+                packaging {
+                    resources {
+                        excludes += setOf(
+                            "META-INF/LICENSE.md",
+                            "META-INF/LICENSE-notice.md",
+                            "META-INF/NOTICE.md"
+                        )
+                    }
+                }
+
                 compileOptions {
                     isCoreLibraryDesugaringEnabled = true
                 }
