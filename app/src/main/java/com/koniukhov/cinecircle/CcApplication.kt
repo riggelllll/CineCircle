@@ -1,6 +1,7 @@
 package com.koniukhov.cinecircle
 
 import android.app.Application
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.koniukhov.cinecircle.core.common.util.ImageCacheManager
 import com.koniukhov.cinecircle.core.database.initializer.DatabaseInitializerManager
 import dagger.hilt.android.HiltAndroidApp
@@ -21,9 +22,14 @@ class CcApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        initCrashlytics()
         initLogging()
         initializeDatabase()
         performImageCacheCleanup()
+    }
+
+    private fun initCrashlytics() {
+        FirebaseCrashlytics.getInstance().isCrashlyticsCollectionEnabled = !BuildConfig.DEBUG
     }
 
     private fun initLogging() {

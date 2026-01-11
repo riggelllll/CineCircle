@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.cinecircle.android.application)
     alias(libs.plugins.cinecircle.hilt)
     alias(libs.plugins.secrets.gradle.plugin)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -64,6 +66,9 @@ dependencies {
     implementation(libs.splashscreen)
     implementation(libs.timber)
     implementation(libs.bundles.coil)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.bundles.firebase.crashlytics)
 
     testImplementation(libs.junit)
 
