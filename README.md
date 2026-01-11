@@ -20,14 +20,14 @@ This app uses **The Movie Database (TMDB) API** to fetch movie and TV show data.
 ## Screenshots
 
 <div>
-  <img src=".github/screenshots/Screenshot_1.png" width="24%" alt="Image 1"/>
-  <img src=".github/screenshots/Screenshot_2.png" width="24%" alt="Image 2"/>
-  <img src=".github/screenshots/Screenshot_3.png" width="24%" alt="Image 3"/>
-  <img src=".github/screenshots/Screenshot_4.png" width="24%" alt="Image 4"/>
-  <img src=".github/screenshots/Screenshot_5.png" width="24%" alt="Image 4"/>
-  <img src=".github/screenshots/Screenshot_6.png" width="24%" alt="Image 4"/>
-  <img src=".github/screenshots/Screenshot_7.png" width="24%" alt="Image 4"/>
-  <img src=".github/screenshots/Screenshot_8.png" width="24%" alt="Image 4"/>
+  <img src="screenshots/Screenshot_1.png" width="24%" alt="Image 1"/>
+  <img src="screenshots/Screenshot_2.png" width="24%" alt="Image 2"/>
+  <img src="screenshots/Screenshot_3.png" width="24%" alt="Image 3"/>
+  <img src="screenshots/Screenshot_4.png" width="24%" alt="Image 4"/>
+  <img src="screenshots/Screenshot_5.png" width="24%" alt="Image 4"/>
+  <img src="screenshots/Screenshot_6.png" width="24%" alt="Image 4"/>
+  <img src="screenshots/Screenshot_7.png" width="24%" alt="Image 4"/>
+  <img src="screenshots/Screenshot_8.png" width="24%" alt="Image 4"/>
 </div>
 
 ## Tech Stack
