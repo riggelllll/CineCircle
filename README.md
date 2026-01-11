@@ -80,7 +80,9 @@ This app uses **The Movie Database (TMDB) API** to fetch movie and TV show data.
    ```
    Note: This file is not tracked by git (.gitignore) to keep your API key secure.
 
-5. Build and run
+5. This project includes Firebase Crashlytics, but google-services.json is intentionally ignored in this repository to avoid leaking sensitive configuration. To enable Crashlytics locally, place your own google-services.json file in the project. If you prefer not to use Crashlytics, remove the Crashlytics-related plugin/dependency lines and any initialization code from your Gradle files and rebuild.
+
+6. Build and run
    ```bash
    ./gradlew assembleDebug
    ```
