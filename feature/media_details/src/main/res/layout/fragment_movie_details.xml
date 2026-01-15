@@ -593,6 +593,7 @@
             android:background="@android:color/transparent"
             app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/ic_back_24"
+            app:navigationIconTint="?attr/colorOnSurfaceVariant"
             app:titleTextColor="@android:color/white"
             android:theme="@style/ThemeOverlay.Material3.Toolbar.CircleNavigationButton"
             app:layout_scrollFlags="scroll">
