@@ -88,6 +88,18 @@ class MovieDetailsFragment : Fragment() {
     private var plotSkeleton: Skeleton? = null
     private var aboutSkeleton: Skeleton? = null
 
+    private var plotTitleSkeleton: Skeleton? = null
+    private var imagesTitleSkeleton: Skeleton? = null
+    private var trailersTitleSkeleton: Skeleton? = null
+    private var castTitleSkeleton: Skeleton? = null
+    private var crewTitleSkeleton: Skeleton? = null
+    private var reviewsTitleSkeleton: Skeleton? = null
+    private var aboutTitleSkeleton: Skeleton? = null
+    private var recommendationsTitleSkeleton: Skeleton? = null
+    private var similarTitleSkeleton: Skeleton? = null
+    private var ratingTitleSkeleton: Skeleton? = null
+    private var ratingBarSkeleton: Skeleton? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupArgs()
@@ -572,6 +584,18 @@ class MovieDetailsFragment : Fragment() {
         recommendationsRecyclerSkeleton = null
         similarRecyclerSkeleton = null
 
+        plotTitleSkeleton = null
+        imagesTitleSkeleton = null
+        trailersTitleSkeleton = null
+        castTitleSkeleton = null
+        crewTitleSkeleton = null
+        reviewsTitleSkeleton = null
+        aboutTitleSkeleton = null
+        recommendationsTitleSkeleton = null
+        similarTitleSkeleton = null
+        ratingTitleSkeleton = null
+        ratingBarSkeleton = null
+
         windowInsetsController = null
 
         _binding = null
@@ -606,6 +630,18 @@ class MovieDetailsFragment : Fragment() {
         recommendationsRecyclerSkeleton = binding.recyclerRecommendations.applySkeleton(design_R.layout.item_media, RECYCLER_SKELETON_ITEM_COUNT)
         similarRecyclerSkeleton = binding.recyclerSimilar.applySkeleton(design_R.layout.item_media, RECYCLER_SKELETON_ITEM_COUNT)
         aboutSkeleton = binding.skeletonAbout
+
+        plotTitleSkeleton = binding.skeletonPlotTitle
+        imagesTitleSkeleton = binding.skeletonImagesTitle
+        trailersTitleSkeleton = binding.skeletonTrailersTitle
+        castTitleSkeleton = binding.skeletonCastTitle
+        crewTitleSkeleton = binding.skeletonCrewTitle
+        reviewsTitleSkeleton = binding.skeletonReviewsTitle
+        aboutTitleSkeleton = binding.skeletonAboutTitle
+        recommendationsTitleSkeleton = binding.skeletonRecommendationsTitle
+        similarTitleSkeleton = binding.skeletonSimilarTitle
+        ratingTitleSkeleton = binding.skeletonRatingTitle
+        ratingBarSkeleton = binding.skeletonRatingBar
     }
 
     private fun showSkeletons() {
@@ -619,6 +655,18 @@ class MovieDetailsFragment : Fragment() {
         recommendationsRecyclerSkeleton?.showSkeleton()
         similarRecyclerSkeleton?.showSkeleton()
         aboutSkeleton?.showSkeleton()
+
+        plotTitleSkeleton?.showSkeleton()
+        imagesTitleSkeleton?.showSkeleton()
+        trailersTitleSkeleton?.showSkeleton()
+        castTitleSkeleton?.showSkeleton()
+        crewTitleSkeleton?.showSkeleton()
+        reviewsTitleSkeleton?.showSkeleton()
+        aboutTitleSkeleton?.showSkeleton()
+        recommendationsTitleSkeleton?.showSkeleton()
+        similarTitleSkeleton?.showSkeleton()
+        ratingTitleSkeleton?.showSkeleton()
+        ratingBarSkeleton?.showSkeleton()
     }
 
     private fun hideSkeletons() {
@@ -632,6 +680,18 @@ class MovieDetailsFragment : Fragment() {
         recommendationsRecyclerSkeleton?.showOriginal()
         similarRecyclerSkeleton?.showOriginal()
         aboutSkeleton?.showOriginal()
+
+        plotTitleSkeleton?.showOriginal()
+        imagesTitleSkeleton?.showOriginal()
+        trailersTitleSkeleton?.showOriginal()
+        castTitleSkeleton?.showOriginal()
+        crewTitleSkeleton?.showOriginal()
+        reviewsTitleSkeleton?.showOriginal()
+        aboutTitleSkeleton?.showOriginal()
+        recommendationsTitleSkeleton?.showOriginal()
+        similarTitleSkeleton?.showOriginal()
+        ratingTitleSkeleton?.showOriginal()
+        ratingBarSkeleton?.showOriginal()
     }
 
     companion object{

@@ -122,23 +122,28 @@
                 android:layout_marginTop="12dp"
                 app:layout_constraintTop_toBottomOf="@id/skeleton_backdrop" />
 
-            <TextView
-                android:id="@+id/plot_title"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_plot_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/plot"
-                android:textSize="18sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/chip_group_genres" />
+                app:layout_constraintTop_toBottomOf="@id/chip_group_genres">
+                <TextView
+                    android:id="@+id/plot_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/plot"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
 
             <com.faltenreich.skeletonlayout.SkeletonLayout
                 android:id="@+id/skeleton_plot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/plot_title">
+                app:layout_constraintTop_toBottomOf="@id/skeleton_plot_title">
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/container_plot"
                     android:layout_width="match_parent"
@@ -168,36 +173,50 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
-                <TextView
-                    android:id="@+id/rating_label"
-                    android:text="@string/rate_movie_title"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
+                <com.faltenreich.skeletonlayout.SkeletonLayout
+                    android:id="@+id/skeleton_rating_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/rating_label"
+                        android:text="@string/rate_movie_title"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </com.faltenreich.skeletonlayout.SkeletonLayout>
 
-                <RatingBar
-                    android:id="@+id/rating_bar"
+                <com.faltenreich.skeletonlayout.SkeletonLayout
+                    android:id="@+id/skeleton_rating_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:stepSize="0.5"
                     android:layout_marginTop="8dp"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center">
+                    <RatingBar
+                        android:id="@+id/rating_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        android:stepSize="0.5"/>
+                </com.faltenreich.skeletonlayout.SkeletonLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/images_title"
-                android:layout_width="match_parent"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_images_title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:paddingHorizontal="16dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="@string/images_title"
+                android:layout_marginStart="16dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rating_content" />
+                app:layout_constraintTop_toBottomOf="@id/rating_content">
+                <TextView
+                    android:id="@+id/images_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="@string/images_title"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
 
             <LinearLayout
                 android:id="@+id/container_images"
@@ -207,7 +226,7 @@
                 android:layout_marginTop="8dp"
                 android:clipToPadding="false"
                 android:paddingHorizontal="16dp"
-                app:layout_constraintTop_toBottomOf="@id/images_title">
+                app:layout_constraintTop_toBottomOf="@id/skeleton_images_title">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_images"
                     android:layout_width="match_parent"
@@ -234,18 +253,23 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/trailers_title"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_trailers_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:paddingHorizontal="16dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="@string/trailers_teasers_title"
+                android:layout_marginStart="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/container_images" />
+                app:layout_constraintTop_toBottomOf="@id/container_images">
+                <TextView
+                    android:id="@+id/trailers_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="@string/trailers_teasers_title"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
 
             <LinearLayout
                 android:id="@+id/container_trailers"
@@ -255,7 +279,7 @@
                 android:layout_marginTop="8dp"
                 android:clipToPadding="false"
                 android:paddingHorizontal="16dp"
-                app:layout_constraintTop_toBottomOf="@id/trailers_title">
+                app:layout_constraintTop_toBottomOf="@id/skeleton_trailers_title">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_trailers"
                     android:layout_width="match_parent"
@@ -282,18 +306,23 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/cast_title"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_cast_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:paddingHorizontal="16dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="@string/cast_title"
+                android:layout_marginStart="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/container_trailers" />
+                app:layout_constraintTop_toBottomOf="@id/container_trailers">
+                <TextView
+                    android:id="@+id/cast_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="@string/cast_title"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
 
             <LinearLayout
                 android:id="@+id/container_cast"
@@ -303,7 +332,7 @@
                 android:layout_marginTop="8dp"
                 android:clipToPadding="false"
                 android:paddingHorizontal="16dp"
-                app:layout_constraintTop_toBottomOf="@id/cast_title">
+                app:layout_constraintTop_toBottomOf="@id/skeleton_cast_title">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_cast"
                     android:layout_width="match_parent"
@@ -330,18 +359,23 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/crew_title"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_crew_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:paddingHorizontal="16dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="@string/crew_title"
+                android:layout_marginStart="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/container_cast" />
+                app:layout_constraintTop_toBottomOf="@id/container_cast">
+                <TextView
+                    android:id="@+id/crew_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="@string/crew_title"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
 
             <LinearLayout
                 android:id="@+id/container_crew"
@@ -351,7 +385,7 @@
                 android:layout_marginTop="8dp"
                 android:clipToPadding="false"
                 android:paddingHorizontal="16dp"
-                app:layout_constraintTop_toBottomOf="@id/crew_title">
+                app:layout_constraintTop_toBottomOf="@id/skeleton_crew_title">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_crew"
                     android:layout_width="match_parent"
@@ -378,18 +412,23 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/reviews_title"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_reviews_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:paddingHorizontal="16dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="@string/reviews_title"
+                android:layout_marginStart="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/container_crew" />
+                app:layout_constraintTop_toBottomOf="@id/container_crew">
+                <TextView
+                    android:id="@+id/reviews_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="@string/reviews_title"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
 
             <LinearLayout
                 android:id="@+id/container_reviews"
@@ -399,7 +438,7 @@
                 android:layout_marginTop="8dp"
                 android:clipToPadding="false"
                 android:paddingHorizontal="16dp"
-                app:layout_constraintTop_toBottomOf="@id/reviews_title">
+                app:layout_constraintTop_toBottomOf="@id/skeleton_reviews_title">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_reviews"
                     android:layout_width="match_parent"
@@ -426,24 +465,29 @@
                         android:textColor="?attr/colorOnSurfaceVariant" />
                 </LinearLayout>
             </LinearLayout>
-            <TextView
-                android:id="@+id/about_title"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_about_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/about_title"
-                android:textSize="18sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/container_reviews" />
+                app:layout_constraintTop_toBottomOf="@id/container_reviews">
+                <TextView
+                    android:id="@+id/about_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_title"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
 
             <com.faltenreich.skeletonlayout.SkeletonLayout
                 android:id="@+id/skeleton_about"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/about_title">
+                app:layout_constraintTop_toBottomOf="@id/skeleton_about_title">
                 <include
                     android:id="@+id/section_about"
                     layout="@layout/layout_section_about_movie"
@@ -477,18 +521,23 @@
                 tools:listitem="@layout/item_media"
                 android:visibility="gone"/>
 
-            <TextView
-                android:id="@+id/recommendations_title"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_recommendations_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:paddingHorizontal="16dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="@string/recommendations_title"
+                android:layout_marginStart="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recycler_collection" />
+                app:layout_constraintTop_toBottomOf="@id/recycler_collection">
+                <TextView
+                    android:id="@+id/recommendations_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="@string/recommendations_title"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
 
             <LinearLayout
                 android:id="@+id/container_recommendations"
@@ -498,7 +547,7 @@
                 android:layout_marginTop="8dp"
                 android:clipToPadding="false"
                 android:paddingHorizontal="16dp"
-                app:layout_constraintTop_toBottomOf="@id/recommendations_title">
+                app:layout_constraintTop_toBottomOf="@id/skeleton_recommendations_title">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_recommendations"
                     android:layout_width="match_parent"
@@ -525,18 +574,23 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/similar_title"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_similar_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:paddingHorizontal="16dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="@string/similar_title"
+                android:layout_marginStart="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/container_recommendations" />
+                app:layout_constraintTop_toBottomOf="@id/container_recommendations">
+                <TextView
+                    android:id="@+id/similar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="@string/similar_title"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
 
             <LinearLayout
                 android:id="@+id/container_similar"
@@ -547,7 +601,7 @@
                 android:layout_marginBottom="16dp"
                 android:clipToPadding="false"
                 android:paddingHorizontal="16dp"
-                app:layout_constraintTop_toBottomOf="@id/similar_title">
+                app:layout_constraintTop_toBottomOf="@id/skeleton_similar_title">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_similar"
                     android:layout_width="match_parent"
