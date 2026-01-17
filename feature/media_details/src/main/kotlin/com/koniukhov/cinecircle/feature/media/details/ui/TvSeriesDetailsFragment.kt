@@ -89,6 +89,19 @@ class TvSeriesDetailsFragment : Fragment() {
     private var aboutSkeleton: Skeleton? = null
     private var seasonsRecyclerSkeleton: Skeleton? = null
 
+    private var plotTitleSkeleton: Skeleton? = null
+    private var imagesTitleSkeleton: Skeleton? = null
+    private var trailersTitleSkeleton: Skeleton? = null
+    private var castTitleSkeleton: Skeleton? = null
+    private var crewTitleSkeleton: Skeleton? = null
+    private var reviewsTitleSkeleton: Skeleton? = null
+    private var aboutTitleSkeleton: Skeleton? = null
+    private var seasonsTitleSkeleton: Skeleton? = null
+    private var recommendationsTitleSkeleton: Skeleton? = null
+    private var similarTitleSkeleton: Skeleton? = null
+    private var ratingTitleSkeleton: Skeleton? = null
+    private var ratingBarSkeleton: Skeleton? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupArgs()
@@ -250,6 +263,19 @@ class TvSeriesDetailsFragment : Fragment() {
         seasonsRecyclerSkeleton = binding.recyclerSeasons.applySkeleton(design_R.layout.item_media,
             RECYCLER_SKELETON_ITEM_COUNT
         )
+
+        plotTitleSkeleton = binding.skeletonPlotTitle
+        imagesTitleSkeleton = binding.skeletonImagesTitle
+        trailersTitleSkeleton = binding.skeletonTrailersTitle
+        castTitleSkeleton = binding.skeletonCastTitle
+        crewTitleSkeleton = binding.skeletonCrewTitle
+        reviewsTitleSkeleton = binding.skeletonReviewsTitle
+        aboutTitleSkeleton = binding.skeletonAboutTitle
+        seasonsTitleSkeleton = binding.skeletonSeasonsTitle
+        recommendationsTitleSkeleton = binding.skeletonRecommendationsTitle
+        similarTitleSkeleton = binding.skeletonSimilarTitle
+        ratingTitleSkeleton = binding.skeletonRatingTitle
+        ratingBarSkeleton = binding.skeletonRatingBar
     }
 
     private fun showSkeletons() {
@@ -264,6 +290,19 @@ class TvSeriesDetailsFragment : Fragment() {
         similarRecyclerSkeleton?.showSkeleton()
         aboutSkeleton?.showSkeleton()
         seasonsRecyclerSkeleton?.showSkeleton()
+
+        plotTitleSkeleton?.showSkeleton()
+        imagesTitleSkeleton?.showSkeleton()
+        trailersTitleSkeleton?.showSkeleton()
+        castTitleSkeleton?.showSkeleton()
+        crewTitleSkeleton?.showSkeleton()
+        reviewsTitleSkeleton?.showSkeleton()
+        aboutTitleSkeleton?.showSkeleton()
+        seasonsTitleSkeleton?.showSkeleton()
+        recommendationsTitleSkeleton?.showSkeleton()
+        similarTitleSkeleton?.showSkeleton()
+        ratingTitleSkeleton?.showSkeleton()
+        ratingBarSkeleton?.showSkeleton()
     }
 
     private fun hideSkeletons() {
@@ -278,6 +317,19 @@ class TvSeriesDetailsFragment : Fragment() {
         similarRecyclerSkeleton?.showOriginal()
         aboutSkeleton?.showOriginal()
         seasonsRecyclerSkeleton?.showOriginal()
+
+        plotTitleSkeleton?.showOriginal()
+        imagesTitleSkeleton?.showOriginal()
+        trailersTitleSkeleton?.showOriginal()
+        castTitleSkeleton?.showOriginal()
+        crewTitleSkeleton?.showOriginal()
+        reviewsTitleSkeleton?.showOriginal()
+        aboutTitleSkeleton?.showOriginal()
+        seasonsTitleSkeleton?.showOriginal()
+        recommendationsTitleSkeleton?.showOriginal()
+        similarTitleSkeleton?.showOriginal()
+        ratingTitleSkeleton?.showOriginal()
+        ratingBarSkeleton?.showOriginal()
     }
 
     private fun observeUiState() {
@@ -625,6 +677,19 @@ class TvSeriesDetailsFragment : Fragment() {
         recommendationsRecyclerSkeleton = null
         similarRecyclerSkeleton = null
         seasonsRecyclerSkeleton = null
+
+        plotTitleSkeleton = null
+        imagesTitleSkeleton = null
+        trailersTitleSkeleton = null
+        castTitleSkeleton = null
+        crewTitleSkeleton = null
+        reviewsTitleSkeleton = null
+        aboutTitleSkeleton = null
+        seasonsTitleSkeleton = null
+        recommendationsTitleSkeleton = null
+        similarTitleSkeleton = null
+        ratingTitleSkeleton = null
+        ratingBarSkeleton = null
 
         windowInsetsController = null
 
