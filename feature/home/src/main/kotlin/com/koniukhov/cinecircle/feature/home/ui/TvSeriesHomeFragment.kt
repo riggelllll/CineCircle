@@ -36,6 +36,13 @@ class TvSeriesHomeFragment : BaseFragment<FragmentTvSeriesHomeBinding, HomeViewM
     private var topRatedSkeleton: Skeleton? = null
     private var genreSkeleton: Skeleton? = null
 
+    private var airingTodayTitleSkeleton: Skeleton? = null
+    private var onAirTitleSkeleton: Skeleton? = null
+    private var trendingTitleSkeleton: Skeleton? = null
+    private var popularTitleSkeleton: Skeleton? = null
+    private var topRatedTitleSkeleton: Skeleton? = null
+    private var genreTitleSkeleton: Skeleton? = null
+
     override fun createBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -76,6 +83,7 @@ class TvSeriesHomeFragment : BaseFragment<FragmentTvSeriesHomeBinding, HomeViewM
         setupPopularSkeleton()
         setupTopRatedSkeleton()
         setupGenreSkeleton()
+        setupTitleSkeletons()
     }
 
     private fun setupAiringTodaySkeleton() {
@@ -107,6 +115,15 @@ class TvSeriesHomeFragment : BaseFragment<FragmentTvSeriesHomeBinding, HomeViewM
     private fun setupGenreSkeleton() {
         genreSkeleton = binding.genreRecyclerView
             .applySkeleton(R.layout.item_home_genre_ui,RECYCLER_SKELETON_ITEM_COUNT)
+    }
+
+    private fun setupTitleSkeletons() {
+        airingTodayTitleSkeleton = binding.airingTodayTitleSkeleton
+        onAirTitleSkeleton = binding.onAirTitleSkeleton
+        trendingTitleSkeleton = binding.trendingTitleSkeleton
+        popularTitleSkeleton = binding.popularTitleSkeleton
+        topRatedTitleSkeleton = binding.topRatedTitleSkeleton
+        genreTitleSkeleton = binding.genreTitleSkeleton
     }
 
     private fun setupAllRecyclerViews() {
@@ -195,6 +212,13 @@ class TvSeriesHomeFragment : BaseFragment<FragmentTvSeriesHomeBinding, HomeViewM
         popularSkeleton?.showSkeleton()
         topRatedSkeleton?.showSkeleton()
         genreSkeleton?.showSkeleton()
+
+        airingTodayTitleSkeleton?.showSkeleton()
+        onAirTitleSkeleton?.showSkeleton()
+        trendingTitleSkeleton?.showSkeleton()
+        popularTitleSkeleton?.showSkeleton()
+        topRatedTitleSkeleton?.showSkeleton()
+        genreTitleSkeleton?.showSkeleton()
     }
 
     private fun hideAllSkeletons() {
@@ -204,6 +228,13 @@ class TvSeriesHomeFragment : BaseFragment<FragmentTvSeriesHomeBinding, HomeViewM
         popularSkeleton?.showOriginal()
         topRatedSkeleton?.showOriginal()
         genreSkeleton?.showOriginal()
+
+        airingTodayTitleSkeleton?.showOriginal()
+        onAirTitleSkeleton?.showOriginal()
+        trendingTitleSkeleton?.showOriginal()
+        popularTitleSkeleton?.showOriginal()
+        topRatedTitleSkeleton?.showOriginal()
+        genreTitleSkeleton?.showOriginal()
     }
 
     private fun setDataToRecyclers(ui: TvSeriesUiState){
@@ -280,6 +311,13 @@ class TvSeriesHomeFragment : BaseFragment<FragmentTvSeriesHomeBinding, HomeViewM
         popularSkeleton = null
         topRatedSkeleton = null
         genreSkeleton = null
+
+        airingTodayTitleSkeleton = null
+        onAirTitleSkeleton = null
+        trendingTitleSkeleton = null
+        popularTitleSkeleton = null
+        topRatedTitleSkeleton = null
+        genreTitleSkeleton = null
 
         super.onDestroyView()
     }

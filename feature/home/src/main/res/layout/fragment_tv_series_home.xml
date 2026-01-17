@@ -18,32 +18,37 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             >
-            <TextView
-                android:id="@+id/airing_today_title"
-                android:layout_width="wrap_content"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/airing_today_title_skeleton"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/airing_today_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                style="@style/TextAppearance.Material3.TitleLarge"
-                app:layout_constraintBaseline_toBaselineOf="@id/airing_today_see_all"/>
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/airing_today_see_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/see_all_title"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:clickable="true"
-                android:focusable="true"/>
+                app:layout_constraintEnd_toEndOf="parent">
+                <TextView
+                    android:id="@+id/airing_today_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/airing_today_title"
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:layout_gravity="center_vertical"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/airing_today_see_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/see_all_title"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_gravity="right"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/airing_today_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/airing_today_title"
+                app:layout_constraintTop_toBottomOf="@id/airing_today_title_skeleton"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="16dp"
                 />
@@ -54,32 +59,37 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             >
-            <TextView
-                android:id="@+id/on_air_title"
-                android:layout_width="wrap_content"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/on_air_title_skeleton"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/on_the_air_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                style="@style/TextAppearance.Material3.TitleLarge"
-                app:layout_constraintBaseline_toBaselineOf="@id/on_air_see_all"/>
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/on_air_see_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/see_all_title"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:clickable="true"
-                android:focusable="true"/>
+                app:layout_constraintEnd_toEndOf="parent">
+                <TextView
+                    android:id="@+id/on_air_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/on_the_air_title"
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:layout_gravity="center_vertical"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/on_air_see_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/see_all_title"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_gravity="right"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/on_air_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/on_air_title"
+                app:layout_constraintTop_toBottomOf="@id/on_air_title_skeleton"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="16dp"
                 />
@@ -90,32 +100,37 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             >
-            <TextView
-                android:id="@+id/trending_title"
-                android:layout_width="wrap_content"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/trending_title_skeleton"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/trending_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                style="@style/TextAppearance.Material3.TitleLarge"
-                app:layout_constraintBaseline_toBaselineOf="@id/trending_see_all"/>
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/trending_see_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/see_all_title"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:clickable="true"
-                android:focusable="true"/>
+                app:layout_constraintEnd_toEndOf="parent">
+                <TextView
+                    android:id="@+id/trending_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/trending_title"
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:layout_gravity="center_vertical"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/trending_see_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/see_all_title"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_gravity="right"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/trending_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/trending_title"
+                app:layout_constraintTop_toBottomOf="@id/trending_title_skeleton"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="16dp"
                 />
@@ -126,32 +141,37 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             >
-            <TextView
-                android:id="@+id/popular_title"
-                android:layout_width="wrap_content"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/popular_title_skeleton"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/popular_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                style="@style/TextAppearance.Material3.TitleLarge"
-                app:layout_constraintBaseline_toBaselineOf="@id/popular_see_all"/>
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/popular_see_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/see_all_title"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:clickable="true"
-                android:focusable="true"/>
+                app:layout_constraintEnd_toEndOf="parent">
+                <TextView
+                    android:id="@+id/popular_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/popular_title"
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:layout_gravity="center_vertical"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/popular_see_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/see_all_title"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_gravity="right"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/popular_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/popular_title"
+                app:layout_constraintTop_toBottomOf="@id/popular_title_skeleton"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="16dp"
                 />
@@ -162,32 +182,37 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             >
-            <TextView
-                android:id="@+id/top_rated_title"
-                android:layout_width="wrap_content"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/top_rated_title_skeleton"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/top_rated_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                style="@style/TextAppearance.Material3.TitleLarge"
-                app:layout_constraintBaseline_toBaselineOf="@id/top_rated_see_all"/>
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/top_rated_see_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/see_all_title"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:clickable="true"
-                android:focusable="true"/>
+                app:layout_constraintEnd_toEndOf="parent">
+                <TextView
+                    android:id="@+id/top_rated_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/top_rated_title"
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:layout_gravity="center_vertical"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/top_rated_see_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/see_all_title"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_gravity="right"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/top_rated_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/top_rated_title"
+                app:layout_constraintTop_toBottomOf="@id/top_rated_title_skeleton"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="16dp"
                 />
@@ -198,21 +223,28 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             >
-            <TextView
-                android:id="@+id/genre_title"
-                android:layout_width="wrap_content"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/genre_title_skeleton"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/genres_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                style="@style/TextAppearance.Material3.TitleLarge"/>
+                app:layout_constraintEnd_toEndOf="parent">
+                <TextView
+                    android:id="@+id/genre_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/genres_title"
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:layout_gravity="center_vertical"/>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/genre_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/genre_title"
+                app:layout_constraintTop_toBottomOf="@id/genre_title_skeleton"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="16dp"
                 />
