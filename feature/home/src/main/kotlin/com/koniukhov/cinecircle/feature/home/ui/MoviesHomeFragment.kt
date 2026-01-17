@@ -36,6 +36,13 @@ class MoviesHomeFragment : BaseFragment<FragmentMoviesHomeBinding, HomeViewModel
     private var upcomingSkeleton: Skeleton? = null
     private var genreSkeleton: Skeleton? = null
 
+    private var nowPlayingTitleSkeleton: Skeleton? = null
+    private var trendingTitleSkeleton: Skeleton? = null
+    private var popularTitleSkeleton: Skeleton? = null
+    private var topRatedTitleSkeleton: Skeleton? = null
+    private var upcomingTitleSkeleton: Skeleton? = null
+    private var genreTitleSkeleton: Skeleton? = null
+
     override fun createBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -45,7 +52,7 @@ class MoviesHomeFragment : BaseFragment<FragmentMoviesHomeBinding, HomeViewModel
 
     override fun initViews() {
         setupAllRecyclerViews()
-        setupAllRecyclerSkeletons()
+        setupSkeletons()
         showAllSkeletons()
         setupSeeAllClickListeners()
     }
@@ -143,13 +150,20 @@ class MoviesHomeFragment : BaseFragment<FragmentMoviesHomeBinding, HomeViewModel
             findNavController().navigate(request)
         }
     }
-    private fun setupAllRecyclerSkeletons() {
+    private fun setupSkeletons() {
         trendingSkeleton = binding.trendingRecyclerView.applySkeleton(R.layout.item_home_genre_ui, RECYCLER_SKELETON_ITEM_COUNT)
         mowPlayingSkeleton = binding.nowPlayingRecyclerView.applySkeleton(R.layout.item_home_genre_ui, RECYCLER_SKELETON_ITEM_COUNT)
         popularSkeleton = binding.popularRecyclerView.applySkeleton(R.layout.item_home_genre_ui, RECYCLER_SKELETON_ITEM_COUNT)
         topRatedSkeleton = binding.topRatedRecyclerView.applySkeleton(R.layout.item_home_genre_ui, RECYCLER_SKELETON_ITEM_COUNT)
         upcomingSkeleton = binding.upcomingRecyclerView.applySkeleton(R.layout.item_home_genre_ui, RECYCLER_SKELETON_ITEM_COUNT)
         genreSkeleton = binding.genreRecyclerView.applySkeleton(R.layout.item_home_genre_ui, RECYCLER_SKELETON_ITEM_COUNT)
+
+        nowPlayingTitleSkeleton = binding.nowPlayingTitleSkeleton
+        trendingTitleSkeleton = binding.trendingTitleSkeleton
+        popularTitleSkeleton = binding.popularTitleSkeleton
+        topRatedTitleSkeleton = binding.topRatedTitleSkeleton
+        upcomingTitleSkeleton = binding.upcomingTitleSkeleton
+        genreTitleSkeleton = binding.genreTitleSkeleton
     }
     private fun showAllSkeletons() {
         trendingSkeleton?.showSkeleton()
@@ -158,6 +172,13 @@ class MoviesHomeFragment : BaseFragment<FragmentMoviesHomeBinding, HomeViewModel
         topRatedSkeleton?.showSkeleton()
         upcomingSkeleton?.showSkeleton()
         genreSkeleton?.showSkeleton()
+
+        nowPlayingTitleSkeleton?.showSkeleton()
+        trendingTitleSkeleton?.showSkeleton()
+        popularTitleSkeleton?.showSkeleton()
+        topRatedTitleSkeleton?.showSkeleton()
+        upcomingTitleSkeleton?.showSkeleton()
+        genreTitleSkeleton?.showSkeleton()
     }
     private fun hideAllSkeletons() {
         trendingSkeleton?.showOriginal()
@@ -166,6 +187,13 @@ class MoviesHomeFragment : BaseFragment<FragmentMoviesHomeBinding, HomeViewModel
         topRatedSkeleton?.showOriginal()
         upcomingSkeleton?.showOriginal()
         genreSkeleton?.showOriginal()
+
+        nowPlayingTitleSkeleton?.showOriginal()
+        trendingTitleSkeleton?.showOriginal()
+        popularTitleSkeleton?.showOriginal()
+        topRatedTitleSkeleton?.showOriginal()
+        upcomingTitleSkeleton?.showOriginal()
+        genreTitleSkeleton?.showOriginal()
     }
     private fun setDataToRecyclers(ui: MoviesUiState){
         (binding.trendingRecyclerView.adapter as? MediaAdapter)?.setMediaItems(ui.trendingMovies)
@@ -241,6 +269,13 @@ class MoviesHomeFragment : BaseFragment<FragmentMoviesHomeBinding, HomeViewModel
         topRatedSkeleton = null
         upcomingSkeleton = null
         genreSkeleton = null
+
+        nowPlayingTitleSkeleton = null
+        trendingTitleSkeleton = null
+        popularTitleSkeleton = null
+        topRatedTitleSkeleton = null
+        upcomingTitleSkeleton = null
+        genreTitleSkeleton = null
 
         super.onDestroyView()
     }
