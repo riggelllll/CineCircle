@@ -12,7 +12,7 @@ object Constants {
     const val INVALID_ID = -1
 
     const val DEFAULT_MAX_RETRIES = 5
-    const val DEFAULT_INITIAL_DELAY_MS = 1000L
-    const val RETRY_DELAY_MULTIPLIER = 2L
+    const val NETWORK_WAIT_TIMEOUT_MS = 5000L
+    const val NETWORK_CHECK_INTERVAL_MS = 500L
     const val MAX_FALLBACK_SOURCES = 5
 }

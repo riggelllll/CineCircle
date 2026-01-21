@@ -1,17 +1,14 @@
 package com.koniukhov.cinecircle.core.data.util
 
-import com.koniukhov.cinecircle.core.common.Constants.DEFAULT_INITIAL_DELAY_MS
-import com.koniukhov.cinecircle.core.common.Constants.DEFAULT_MAX_RETRIES
-import com.koniukhov.cinecircle.core.common.Constants.RETRY_DELAY_MULTIPLIER
+import com.koniukhov.cinecircle.core.common.Constants.NETWORK_CHECK_INTERVAL_MS
+import com.koniukhov.cinecircle.core.common.Constants.NETWORK_WAIT_TIMEOUT_MS
 import kotlinx.coroutines.delay
 import timber.log.Timber
 
 suspend fun <T> fetchWithLocalAndRetry(
     remoteCall: suspend () -> T,
     localCall: suspend () -> T?,
-    isNetworkAvailable: () -> Boolean,
-    maxRetries: Int = DEFAULT_MAX_RETRIES,
-    initialDelay: Long = DEFAULT_INITIAL_DELAY_MS
+    isNetworkAvailable: () -> Boolean
 ): T? {
     if (isNetworkAvailable()) {
         return try {
@@ -23,9 +20,12 @@ suspend fun <T> fetchWithLocalAndRetry(
     } else {
         val local = localCall()
         if (local != null) return local
-        var currentDelay = initialDelay
-        repeat(maxRetries) {
-            delay(currentDelay)
+
+        var waited = 0L
+        while (waited < NETWORK_WAIT_TIMEOUT_MS) {
+            delay(NETWORK_CHECK_INTERVAL_MS)
+            waited += NETWORK_CHECK_INTERVAL_MS
+
             if (isNetworkAvailable()) {
                 return try {
                     remoteCall()
@@ -34,7 +34,6 @@ suspend fun <T> fetchWithLocalAndRetry(
                     null
                 }
             }
-            currentDelay *= RETRY_DELAY_MULTIPLIER
         }
         return null
     }
