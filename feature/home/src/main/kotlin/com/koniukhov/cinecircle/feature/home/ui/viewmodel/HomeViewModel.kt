@@ -49,8 +49,8 @@ class HomeViewModel @Inject constructor(
     private val _tvSeriesUiState = MutableStateFlow(TvSeriesUiState())
     val tvSeriesUiState: StateFlow<TvSeriesUiState> = _tvSeriesUiState
 
-    fun loadMoviesForAllCategories(page: Int = 1) {
-        if (_moviesUiState.value.trendingMovies.isNotEmpty()) {
+    fun loadMoviesForAllCategories(page: Int = 1, forceRefresh: Boolean = false) {
+        if (_moviesUiState.value.trendingMovies.isNotEmpty() && !forceRefresh) {
             return
         }
 
