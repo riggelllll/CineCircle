@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.mediaListUri
@@ -67,13 +68,30 @@ class MoviesHomeFragment : BaseFragment<FragmentMoviesHomeBinding, HomeViewModel
 
     private suspend fun handleMoviesUiState() {
         viewModel.moviesUiState.collectLatest { uiState ->
-            if (!uiState.isLoading && uiState.error == null) {
-                if (areAllMovieListsNotEmpty(uiState)) {
+            if (!uiState.isLoading) {
+                if (uiState.error != null || !areAllMovieListsNotEmpty(uiState)) {
+                    showNetworkErrorDialog()
+                } else {
                     hideAllSkeletons()
+                    setDataToRecyclers(uiState)
                 }
-                setDataToRecyclers(uiState)
             }
         }
+    }
+
+    private fun showNetworkErrorDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.network_error_title)
+            .setMessage(R.string.network_error_message)
+            .setCancelable(false)
+            .setNegativeButton(R.string.exit) { _, _ ->
+                requireActivity().finish()
+            }
+            .setPositiveButton(R.string.retry) { _, _ ->
+                showAllSkeletons()
+                viewModel.loadMoviesForAllCategories(forceRefresh = true)
+            }
+            .show()
     }
 
     private fun setupAllRecyclerViews() {
