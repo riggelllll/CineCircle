@@ -96,8 +96,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun loadTvSeriesForAllCategories(page: Int = 1) {
-        if (_tvSeriesUiState.value.trendingTvSeries.isNotEmpty()) {
+    fun loadTvSeriesForAllCategories(page: Int = 1, forceRefresh: Boolean = false) {
+        if (_tvSeriesUiState.value.trendingTvSeries.isNotEmpty() && !forceRefresh) {
             return
         }
 
