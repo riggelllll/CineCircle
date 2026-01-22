@@ -1,6 +1,7 @@
 package com.koniukhov.cinecircle.feature.home.ui
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -58,13 +59,11 @@ class MediaListFragment : BaseFragment<FragmentMediaListBinding, MediaListViewMo
 
     private suspend fun observeUiState() {
         viewModel.uiState.collectLatest { state ->
-            if (!state.isLoading) {
-                if (state.error != null) {
-                    showErrorDialog()
-                } else {
-                    state.mediaFlow?.collectLatest { pagingData ->
-                        adapter.submitData(pagingData)
-                    }
+            if (state.error != null) {
+                showErrorDialog()
+            } else {
+                state.mediaFlow?.collectLatest { pagingData ->
+                    adapter.submitData(pagingData)
                 }
             }
         }
@@ -72,8 +71,12 @@ class MediaListFragment : BaseFragment<FragmentMediaListBinding, MediaListViewMo
 
     private fun setupAdapterLoadStateListener() {
         adapter.addLoadStateListener { loadState ->
+            val isLoading = loadState.refresh is LoadState.Loading
             val isError = loadState.refresh is LoadState.Error
             val isEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+
+            binding.loadingStateLayout.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.mediaRecyclerView.visibility = if (isLoading) View.GONE else View.VISIBLE
 
             if (isError || isEmpty) {
                 showErrorDialog()
