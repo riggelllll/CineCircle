@@ -70,13 +70,13 @@ class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, Mov
     private suspend fun observeLoadingState() {
         viewModel.isLoading.collectLatest { isLoading ->
             if (isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
+                binding.loadingStateLayout.visibility = View.VISIBLE
                 binding.emptyStateLayout.visibility = View.GONE
                 binding.recommendationsRecyclerView.visibility = View.GONE
                 binding.recommendationsTitle.visibility = View.GONE
                 Timber.d("STATUS: Calculating recommendations...")
             } else {
-                binding.progressBar.visibility = View.GONE
+                binding.loadingStateLayout.visibility = View.GONE
                 Timber.d("STATUS: Calculation completed.")
             }
         }
