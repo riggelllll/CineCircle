@@ -148,6 +148,13 @@ class TvSeriesDetailsFragment : Fragment() {
                 updateFavoriteButtonState(isInCollections)
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { uiState ->
+                val tvSeriesId = uiState.details?.id ?: INVALID_ID
+                binding.btnFavorite.isEnabled = tvSeriesId != INVALID_ID
+            }
+        }
     }
 
     private fun handleFavoriteButtonClick() {

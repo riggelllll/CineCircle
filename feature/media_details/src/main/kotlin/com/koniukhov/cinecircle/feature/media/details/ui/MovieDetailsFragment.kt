@@ -424,6 +424,13 @@ class MovieDetailsFragment : Fragment() {
                 updateFavoriteButtonState(isInCollections)
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.collect { uiState ->
+                val movieId = uiState.movieDetails?.id ?: INVALID_ID
+                binding.btnFavorite.isEnabled = movieId != INVALID_ID
+            }
+        }
     }
 
     private fun updateFavoriteButtonState(isInCollections: Boolean) {
