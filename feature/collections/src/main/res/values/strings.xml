@@ -14,4 +14,6 @@
     <string name="delete_collection_message">Are you sure you want to delete \"%s\"? This action cannot be undone.</string>
     <string name="delete">Delete</string>
     <string name="cannot_delete_default_collection">Cannot delete the default collection</string>
+    <string name="loading">Loading…</string>
+    <string name="empty_collection_message">Add movies or TV series to your collection first to see them here.</string>
 </resources>

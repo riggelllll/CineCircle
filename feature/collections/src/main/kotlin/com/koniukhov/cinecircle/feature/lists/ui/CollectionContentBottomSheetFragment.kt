@@ -73,7 +73,16 @@ class CollectionContentBottomSheetFragment : BottomSheetDialogFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getCollectionContent(collectionId).collectLatest { items ->
-                    adapter.setMediaItems(items)
+                    binding.loadingStateLayout.visibility = View.GONE
+
+                    if (items.isEmpty()) {
+                        binding.emptyStateLayout.visibility = View.VISIBLE
+                        binding.recyclerView.visibility = View.GONE
+                    } else {
+                        binding.emptyStateLayout.visibility = View.GONE
+                        binding.recyclerView.visibility = View.VISIBLE
+                        adapter.setMediaItems(items)
+                    }
                 }
             }
         }
