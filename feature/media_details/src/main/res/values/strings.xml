@@ -71,4 +71,9 @@
     
     <string name="rate_movie_title">Rate the movie</string>
     <string name="rate_tv_series_title">Rate the Tv Series</string>
+
+    <string name="network_error_title">Connection Error</string>
+    <string name="network_error_message">Unable to load data. Please check your internet connection and try again.</string>
+    <string name="back">Back</string>
+    <string name="retry">Retry</string>
 </resources>
