@@ -4,7 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.koniukhov.cinecircle.core.common.MediaType
 import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.ARG_GENRE_ID
@@ -18,6 +20,7 @@ import com.koniukhov.cinecircle.core.ui.base.BaseFragment
 import com.koniukhov.cinecircle.core.ui.utils.GridSpacingItemDecoration
 import com.koniukhov.cinecircle.feature.home.databinding.FragmentMediaListBinding
 import com.koniukhov.cinecircle.feature.home.ui.viewmodel.MediaListViewModel
+import com.koniukhov.cinecircle.feature.home.R as homeR
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -30,6 +33,7 @@ class MediaListFragment : BaseFragment<FragmentMediaListBinding, MediaListViewMo
     private var title: String? = null
     private var genreId: Int? = null
     private lateinit var adapter: PagingMediaAdapter
+    private var isErrorDialogShowing = false
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -54,12 +58,49 @@ class MediaListFragment : BaseFragment<FragmentMediaListBinding, MediaListViewMo
 
     private suspend fun observeUiState() {
         viewModel.uiState.collectLatest { state ->
-            if (!state.isLoading && state.error == null) {
-                state.mediaFlow?.collectLatest { pagingData ->
-                    adapter.submitData(pagingData)
+            if (!state.isLoading) {
+                if (state.error != null) {
+                    showErrorDialog()
+                } else {
+                    state.mediaFlow?.collectLatest { pagingData ->
+                        adapter.submitData(pagingData)
+                    }
                 }
             }
         }
+    }
+
+    private fun setupAdapterLoadStateListener() {
+        adapter.addLoadStateListener { loadState ->
+            val isError = loadState.refresh is LoadState.Error
+            val isEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+
+            if (isError || isEmpty) {
+                showErrorDialog()
+            }
+        }
+    }
+
+    private fun showErrorDialog() {
+        if (isErrorDialogShowing) return
+
+        isErrorDialogShowing = true
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(homeR.string.network_error_title)
+            .setMessage(homeR.string.network_error_message)
+            .setCancelable(false)
+            .setNegativeButton(homeR.string.back) { _, _ ->
+                isErrorDialogShowing = false
+                findNavController().popBackStack()
+            }
+            .setPositiveButton(homeR.string.retry) { _, _ ->
+                isErrorDialogShowing = false
+                loadData()
+            }
+            .setOnDismissListener {
+                isErrorDialogShowing = false
+            }
+            .show()
     }
 
     private fun setupNavigationClickListener() {
@@ -82,6 +123,7 @@ class MediaListFragment : BaseFragment<FragmentMediaListBinding, MediaListViewMo
             GridSpacingItemDecoration(2, spacing, true)
         )
         binding.mediaRecyclerView.adapter = adapter
+        setupAdapterLoadStateListener()
     }
 
     private fun setupArgs() {
