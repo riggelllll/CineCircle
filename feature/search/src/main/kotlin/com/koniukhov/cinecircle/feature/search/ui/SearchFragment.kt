@@ -14,13 +14,16 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.search.SearchView
 import com.koniukhov.cinecircle.core.common.MediaType
 import com.koniukhov.cinecircle.core.common.navigation.navigateToMovieDetails
 import com.koniukhov.cinecircle.core.common.navigation.navigateToTvSeriesDetails
+import com.koniukhov.cinecircle.core.domain.NetworkStatusProvider
 import com.koniukhov.cinecircle.core.ui.adapter.PagingMediaAdapter
 import com.koniukhov.cinecircle.core.ui.base.BaseFragment
 import com.koniukhov.cinecircle.core.ui.utils.GridSpacingItemDecoration
+import com.koniukhov.cinecircle.feature.search.R
 import com.koniukhov.cinecircle.feature.search.databinding.FragmentSearchBinding
 import com.koniukhov.cinecircle.feature.search.ui.FiltersDialogFragment.Companion.TAG
 import com.koniukhov.cinecircle.feature.search.ui.viewmodel.SearchViewModel
@@ -29,6 +32,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 import com.koniukhov.cinecircle.core.design.R as designR
 
 @AndroidEntryPoint
@@ -38,6 +42,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
     private lateinit var searchAdapter: PagingMediaAdapter
     private lateinit var filterAdapter: PagingMediaAdapter
     private var searchViewTransitionListener: SearchView.TransitionListener? = null
+    private var isNetworkDialogShowing = false
+
+    @Inject
+    lateinit var networkStatusProvider: NetworkStatusProvider
 
     private val searchTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -58,13 +66,58 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
     }
 
     override fun initViews() {
-        setupSearchRecyclerView()
-        setupFilterRecyclerView()
-        setupSearch()
-        setupFiltersDialog()
+        checkNetworkAndSetupUI()
+    }
+
+    private fun checkNetworkAndSetupUI() {
+        if (!networkStatusProvider.isNetworkAvailable()) {
+            showNoInternetState()
+            showNoInternetDialog()
+        } else {
+            hideNoInternetState()
+            setupSearchRecyclerView()
+            setupFilterRecyclerView()
+            setupSearch()
+            setupFiltersDialog()
+        }
+    }
+
+    private fun showNoInternetState() {
+        binding.searchBar.visibility = View.GONE
+        binding.filterButton.visibility = View.GONE
+        binding.filtersRecyclerView.visibility = View.GONE
+        binding.emptyView.visibility = View.GONE
+        binding.noInternetView.visibility = View.VISIBLE
+    }
+
+    private fun hideNoInternetState() {
+        binding.searchBar.visibility = View.VISIBLE
+        binding.filterButton.visibility = View.VISIBLE
+        binding.noInternetView.visibility = View.GONE
+        binding.emptyView.visibility = View.VISIBLE
+    }
+
+    private fun showNoInternetDialog() {
+        if (isNetworkDialogShowing) return
+
+        isNetworkDialogShowing = true
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.no_internet_connection_title)
+            .setMessage(R.string.no_internet_message)
+            .setCancelable(false)
+            .setPositiveButton(R.string.close) { dialog, _ ->
+                isNetworkDialogShowing = false
+                dialog.dismiss()
+            }
+            .setOnDismissListener {
+                isNetworkDialogShowing = false
+            }
+            .show()
     }
 
     override fun observeViewModel() {
+        if (!networkStatusProvider.isNetworkAvailable()) return
+
         launchWhenStarted {
             launch { observeSearchPagingData() }
             launch { observeFilterPagingData() }

@@ -19,4 +19,8 @@
     <string name="action_reset">Reset</string>
     <string name="action_search">Search</string>
     <string name="empty_discover_list">The list is empty. Adjust filters and get results.</string>
+    <string name="no_internet_connection_title">No internet connection</string>
+    <string name="no_internet_connection_warning">You are currently offline. Search functionality is unavailable. Please check your internet connection to use search.</string>
+    <string name="no_internet_message">Please check your internet connection and try again.</string>
+    <string name="close">Close</string>
 </resources>

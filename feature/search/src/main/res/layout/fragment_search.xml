@@ -75,4 +75,16 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/no_internet_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="24dp"
+        android:text="@string/no_internet_connection_warning"
+        android:visibility="gone"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
