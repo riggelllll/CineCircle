@@ -50,6 +50,7 @@
         tools:visibility="visible">
 
         <TextView
+            android:id="@+id/no_ratings_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/no_ratings_message"

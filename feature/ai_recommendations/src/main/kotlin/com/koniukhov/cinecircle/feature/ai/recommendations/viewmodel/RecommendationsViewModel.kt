@@ -288,10 +288,11 @@ class MovieRecommendationViewModel @Inject constructor(
         }
     }
 
-    fun generateRecommendationsFromDatabase(topN: Int = 10) {
+    fun generateRecommendationsFromDatabase(topN: Int = 10, forceRefresh: Boolean = false) {
         viewModelScope.launch(Dispatchers.IO) {
             val currentRatedMedias = ratedMediaDao.getAllRatedMedias()
-            if (isRecommendationsCached &&
+            if (!forceRefresh &&
+                isRecommendationsCached &&
                 cachedRatedMediasCount == currentRatedMedias.size &&
                 _recommendedMedia.value.isNotEmpty()) {
                 Timber.d("Using cached recommendations (Count: ${_recommendedMedia.value.size})")

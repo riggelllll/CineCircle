@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.koniukhov.cinecircle.core.common.MediaType
 import com.koniukhov.cinecircle.core.common.navigation.navigateToMovieDetails
 import com.koniukhov.cinecircle.core.common.navigation.navigateToTvSeriesDetails
@@ -13,6 +14,7 @@ import com.koniukhov.cinecircle.core.ui.adapter.MediaListAdapter
 import com.koniukhov.cinecircle.core.ui.base.BaseFragment
 import com.koniukhov.cinecircle.core.ui.utils.GridSpacingItemDecoration
 import com.koniukhov.cinecircle.feature.ai.recommendations.viewmodel.MovieRecommendationViewModel
+import com.koniukhov.cinecircle.feature.ai_recommendations.R
 import com.koniukhov.cinecircle.feature.ai_recommendations.databinding.FragmentRecommendationsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -25,6 +27,7 @@ class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, Mov
     override val viewModel: MovieRecommendationViewModel by viewModels()
 
     private lateinit var mediaAdapter: MediaListAdapter
+    private var isErrorDialogShowing = false
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -78,6 +81,13 @@ class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, Mov
             } else {
                 binding.loadingStateLayout.visibility = View.GONE
                 Timber.d("STATUS: Calculation completed.")
+
+                if (viewModel.recommendedMedia.value.isEmpty() && !viewModel.hasNoRatings.value) {
+                    binding.recommendationsRecyclerView.visibility = View.GONE
+                    binding.recommendationsTitle.visibility = View.GONE
+                    showErrorDialog()
+                    Timber.d("RESULT: Recommendations list is empty.")
+                }
             }
         }
     }
@@ -90,12 +100,33 @@ class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, Mov
                 binding.emptyStateLayout.visibility = View.GONE
                 mediaAdapter.setMediaItems(mediaItems)
                 Timber.d("Displaying ${mediaItems.size} recommended media items")
-            } else if (!viewModel.isLoading.value && !viewModel.hasNoRatings.value) {
-                binding.recommendationsRecyclerView.visibility = View.GONE
-                binding.recommendationsTitle.visibility = View.GONE
-                Timber.d("RESULT: Recommendations list is empty.")
+            } else {
+                binding.noRatingsTitle.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun showErrorDialog() {
+        if (isErrorDialogShowing) return
+
+        isErrorDialogShowing = true
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.recommendations_error_title)
+            .setMessage(R.string.recommendations_error_message)
+            .setCancelable(false)
+            .setNegativeButton(R.string.exit) { _, _ ->
+                isErrorDialogShowing = false
+                requireActivity().finish()
+            }
+            .setPositiveButton(R.string.retry) { _, _ ->
+                isErrorDialogShowing = false
+                binding.loadingStateLayout.visibility = View.VISIBLE
+                viewModel.generateRecommendationsFromDatabase(topN = 20, forceRefresh = true)
+            }
+            .setOnDismissListener {
+                isErrorDialogShowing = false
+            }
+            .show()
     }
 
     private suspend fun observeEmptyState() {
