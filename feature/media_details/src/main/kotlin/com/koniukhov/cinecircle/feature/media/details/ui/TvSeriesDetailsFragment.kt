@@ -55,7 +55,6 @@ import com.koniukhov.cinecircle.feature.movie_details.databinding.DialogAddToCol
 import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentTvSeriesDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.util.Locale
 import com.koniukhov.cinecircle.core.design.R as design_R
 
@@ -101,6 +100,7 @@ class TvSeriesDetailsFragment : Fragment() {
     private var similarTitleSkeleton: Skeleton? = null
     private var ratingTitleSkeleton: Skeleton? = null
     private var ratingBarSkeleton: Skeleton? = null
+    private var isErrorDialogShowing = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -337,20 +337,22 @@ class TvSeriesDetailsFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.uiState.collect { uiState ->
-                        if (!uiState.isLoading && uiState.error == null) {
-                            hideSkeletons()
-                            uiState.details?.let { details ->
-                                updateDetailsSection(details, uiState)
+                        if (!uiState.isLoading) {
+                            if (uiState.error != null
+                                || uiState.details == null
+                                || uiState.details.id == INVALID_ID) {
+                                showNetworkErrorDialog()
+                            } else {
+                                hideSkeletons()
+                                updateDetailsSection(uiState.details, uiState)
+                                updateVideosSection(uiState.videos)
+                                updateImagesSection(uiState.images)
+                                updateCreditsSection(uiState.credits)
+                                updateReviewsSection(uiState.reviews)
+                                updateSeasons(uiState.seasons)
+                                updateRecommendationsSection(uiState.recommendations)
+                                updateSimilarSection(uiState.similar)
                             }
-                            updateVideosSection(uiState.videos)
-                            updateImagesSection(uiState.images)
-                            updateCreditsSection(uiState.credits)
-                            updateReviewsSection(uiState.reviews)
-                            updateSeasons(uiState.seasons)
-                            updateRecommendationsSection(uiState.recommendations)
-                            updateSimilarSection(uiState.similar)
-                        } else {
-                            Timber.d(uiState.error)
                         }
                     }
                 }
@@ -368,6 +370,29 @@ class TvSeriesDetailsFragment : Fragment() {
                 viewModel.setUserRating(rating)
             }
         }
+    }
+
+    private fun showNetworkErrorDialog() {
+        if (isErrorDialogShowing) return
+
+        isErrorDialogShowing = true
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.network_error_title)
+            .setMessage(R.string.network_error_message)
+            .setCancelable(false)
+            .setNegativeButton(R.string.back) { _, _ ->
+                isErrorDialogShowing = false
+                findNavController().popBackStack()
+            }
+            .setPositiveButton(R.string.retry) { _, _ ->
+                isErrorDialogShowing = false
+                showSkeletons()
+                viewModel.loadTvSeriesDetails()
+            }
+            .setOnDismissListener {
+                isErrorDialogShowing = false
+            }
+            .show()
     }
 
     private fun updateDetailsSection(details: TvSeriesDetails, uiState: TvSeriesDetailsUiState) {

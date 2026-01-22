@@ -55,7 +55,6 @@ import com.koniukhov.cinecircle.feature.movie_details.databinding.DialogAddToCol
 import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.util.Locale
 import com.koniukhov.cinecircle.core.design.R as design_R
 
@@ -99,6 +98,7 @@ class MovieDetailsFragment : Fragment() {
     private var similarTitleSkeleton: Skeleton? = null
     private var ratingTitleSkeleton: Skeleton? = null
     private var ratingBarSkeleton: Skeleton? = null
+    private var isErrorDialogShowing = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -207,20 +207,22 @@ class MovieDetailsFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.uiState.collect { uiState ->
-                        if (!uiState.isLoading && uiState.error == null) {
-                            hideSkeletons()
-                            uiState.movieDetails?.let { movieDetails ->
-                                updateMovieDetailsSection(movieDetails, uiState)
+                        if (!uiState.isLoading) {
+                            if (uiState.error != null
+                                || uiState.movieDetails == null
+                                || uiState.movieDetails.id == INVALID_ID) {
+                                showNetworkErrorDialog()
+                            } else {
+                                hideSkeletons()
+                                updateMovieDetailsSection(uiState.movieDetails, uiState)
+                                updateVideosSection(uiState.videos)
+                                updateImagesSection(uiState.images)
+                                updateCreditsSection(uiState.credits)
+                                updateReviewsSection(uiState.reviews)
+                                updateCollectionSection(uiState.collectionDetails)
+                                updateRecommendationsSection(uiState.recommendations)
+                                updateSimilarSection(uiState.similarMovies)
                             }
-                            updateVideosSection(uiState.videos)
-                            updateImagesSection(uiState.images)
-                            updateCreditsSection(uiState.credits)
-                            updateReviewsSection(uiState.reviews)
-                            updateCollectionSection(uiState.collectionDetails)
-                            updateRecommendationsSection(uiState.recommendations)
-                            updateSimilarSection(uiState.similarMovies)
-                        } else {
-                            Timber.d(uiState.error)
                         }
                     }
                 }
@@ -238,6 +240,29 @@ class MovieDetailsFragment : Fragment() {
                 viewModel.setUserRating(rating)
             }
         }
+    }
+
+    private fun showNetworkErrorDialog() {
+        if (isErrorDialogShowing) return
+
+        isErrorDialogShowing = true
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.network_error_title)
+            .setMessage(R.string.network_error_message)
+            .setCancelable(false)
+            .setNegativeButton(R.string.back) { _, _ ->
+                isErrorDialogShowing = false
+                findNavController().popBackStack()
+            }
+            .setPositiveButton(R.string.retry) { _, _ ->
+                isErrorDialogShowing = false
+                showSkeletons()
+                viewModel.loadMovieDetails()
+            }
+            .setOnDismissListener {
+                isErrorDialogShowing = false
+            }
+            .show()
     }
 
     private fun updateMovieDetailsSection(movieDetails: MovieDetails, uiState: MovieDetailsUiState) {
