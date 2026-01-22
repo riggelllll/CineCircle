@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
 import com.koniukhov.cinecircle.core.common.model.MediaListType
 import com.koniukhov.cinecircle.core.common.navigation.NavArgs.mediaListUri
@@ -70,7 +69,7 @@ class TvSeriesHomeFragment : BaseFragment<FragmentTvSeriesHomeBinding, HomeViewM
         viewModel.tvSeriesUiState.collectLatest { uiState ->
             if (!uiState.isLoading) {
                 if (uiState.error != null || !areAllTvSeriesListsNotEmpty(uiState)) {
-                    showNetworkErrorDialog()
+                    notifyNetworkError()
                 } else {
                     hideAllSkeletons()
                     setDataToRecyclers(uiState)
@@ -79,19 +78,13 @@ class TvSeriesHomeFragment : BaseFragment<FragmentTvSeriesHomeBinding, HomeViewM
         }
     }
 
-    private fun showNetworkErrorDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.network_error_title)
-            .setMessage(R.string.network_error_message)
-            .setCancelable(false)
-            .setNegativeButton(R.string.exit) { _, _ ->
-                requireActivity().finish()
-            }
-            .setPositiveButton(R.string.retry) { _, _ ->
-                showAllSkeletons()
-                viewModel.loadTvSeriesForAllCategories(forceRefresh = true)
-            }
-            .show()
+    private fun notifyNetworkError() {
+        (parentFragment as? NetworkErrorListener)?.onNetworkError(HomeFragment.FRAGMENT_TYPE_TV_SERIES)
+    }
+
+    fun retryLoading() {
+        showAllSkeletons()
+        viewModel.loadTvSeriesForAllCategories(forceRefresh = true)
     }
 
     private fun setupAllRecyclerSkeletons() {

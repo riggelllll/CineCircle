@@ -6,18 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.koniukhov.cinecircle.core.common.R
+import com.koniukhov.cinecircle.feature.home.R as homeR
 import com.koniukhov.cinecircle.feature.home.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+interface NetworkErrorListener {
+    fun onNetworkError(fragmentType: Int)
+}
+
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), NetworkErrorListener {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     private var tabLayoutMediator: TabLayoutMediator? = null
     private var pagerAdapter: FragmentStateAdapter? = null
+    private var isDialogShowing = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +40,37 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupViewPager()
         setupTabMediator()
+    }
+
+    override fun onNetworkError(fragmentType: Int) {
+        if (isDialogShowing) return
+
+        isDialogShowing = true
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(homeR.string.network_error_title)
+            .setMessage(homeR.string.network_error_message)
+            .setCancelable(false)
+            .setNegativeButton(homeR.string.exit) { _, _ ->
+                isDialogShowing = false
+                requireActivity().finish()
+            }
+            .setPositiveButton(homeR.string.retry) { _, _ ->
+                isDialogShowing = false
+                notifyChildFragmentsToRetry()
+            }
+            .setOnDismissListener {
+                isDialogShowing = false
+            }
+            .show()
+    }
+
+    private fun notifyChildFragmentsToRetry() {
+        childFragmentManager.fragments.forEach { fragment ->
+            when (fragment) {
+                is MoviesHomeFragment -> fragment.retryLoading()
+                is TvSeriesHomeFragment -> fragment.retryLoading()
+            }
+        }
     }
 
     private fun setupViewPager(){
@@ -76,5 +114,10 @@ class HomeFragment : Fragment() {
         _binding = null
 
         super.onDestroyView()
+    }
+
+    companion object {
+        const val FRAGMENT_TYPE_MOVIES = 0
+        const val FRAGMENT_TYPE_TV_SERIES = 1
     }
 }
