@@ -231,12 +231,22 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
 
         val isEmpty = !isLoading && !isError && itemCount == 0
 
-        if (isEmpty) {
-            binding.emptyView.visibility = View.VISIBLE
-            binding.filtersRecyclerView.visibility = View.GONE
-        } else {
-            binding.emptyView.visibility = View.GONE
-            binding.filtersRecyclerView.visibility = View.VISIBLE
+        when {
+            isLoading -> {
+                binding.loadingContainer.visibility = View.VISIBLE
+                binding.emptyView.visibility = View.GONE
+                binding.filtersRecyclerView.visibility = View.GONE
+            }
+            isEmpty -> {
+                binding.loadingContainer.visibility = View.GONE
+                binding.emptyView.visibility = View.VISIBLE
+                binding.filtersRecyclerView.visibility = View.GONE
+            }
+            else -> {
+                binding.loadingContainer.visibility = View.GONE
+                binding.emptyView.visibility = View.GONE
+                binding.filtersRecyclerView.visibility = View.VISIBLE
+            }
         }
     }
 

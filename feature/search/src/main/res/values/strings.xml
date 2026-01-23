@@ -23,4 +23,5 @@
     <string name="no_internet_connection_warning">You are currently offline. Search functionality is unavailable. Please check your internet connection to use search.</string>
     <string name="no_internet_message">Please check your internet connection and try again.</string>
     <string name="close">Close</string>
+    <string name="loading_text">Loading…</string>
 </resources>
