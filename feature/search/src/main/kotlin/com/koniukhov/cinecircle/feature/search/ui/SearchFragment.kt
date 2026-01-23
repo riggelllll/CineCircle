@@ -157,6 +157,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
             }
         }
 
+        filterAdapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+
         binding.filtersRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         val spacing = resources.getDimensionPixelSize(designR.dimen.grid_spacing)
         binding.filtersRecyclerView.addItemDecoration(
@@ -165,6 +168,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
         binding.filtersRecyclerView.adapter = filterAdapter
 
         filterAdapter.addLoadStateListener { loadStates ->
+            Timber.d("filterAdapter LoadState changed: refresh=${loadStates.refresh} append=${loadStates.append} prepend=${loadStates.prepend}")
             updateEmptyState(loadStates)
         }
     }
@@ -209,15 +213,17 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
 
     private suspend fun observeFilterPagingData() = coroutineScope {
         launch {
-            viewModel.moviesFilterPagingDataFlow.collect { pagingData ->
-                Timber.d("Movies filter data received")
-                filterAdapter.submitData(pagingData)
+            viewModel.moviesFilterPagingDataFlow.collectLatest { pagingData ->
+                if (viewModel.moviesFilterParamsState.value != null) {
+                    filterAdapter.submitData(pagingData)
+                }
             }
         }
         launch {
-            viewModel.tvSeriesFilterPagingDataFlow.collect { pagingData ->
-                Timber.d("TV Series filter data received")
-                filterAdapter.submitData(pagingData)
+            viewModel.tvSeriesFilterPagingDataFlow.collectLatest { pagingData ->
+                if (viewModel.tvSeriesFilterParamsState.value != null) {
+                    filterAdapter.submitData(pagingData)
+                }
             }
         }
     }
@@ -250,39 +256,53 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        refreshFilterAdapterIfNeeded()
+    }
+
     override fun onDestroyView() {
+        removeSearchViewTransitionListener()
+        removeTextWatcher()
+        clearRecyclerAdapters()
+        clearSearchViewFocusAndHideKeyboard()
+        clearSearchViewAccessibilityMap(binding.searchView)
+
+        super.onDestroyView()
+    }
+
+    private fun removeSearchViewTransitionListener() {
         searchViewTransitionListener?.let {
             binding.searchView.removeTransitionListener(it)
             searchViewTransitionListener = null
         }
+    }
 
-        removeTextWatcher()
+    private fun refreshFilterAdapterIfNeeded() {
+        if (::filterAdapter.isInitialized) {
+            val hasMovieParams = viewModel.moviesFilterParamsState.value != null
+            val hasTvParams = viewModel.tvSeriesFilterParamsState.value != null
+            if (hasMovieParams || hasTvParams) {
+                Timber.d("Refreshing filterAdapter onResume because filter params present: movie=$hasMovieParams tv=$hasTvParams")
+                filterAdapter.refresh()
+            }
+        }
+    }
 
+    private fun clearRecyclerAdapters() {
         binding.searchRecyclerView.adapter = null
         binding.filtersRecyclerView.adapter = null
+    }
 
-        try {
-            binding.searchView.editText.let { editText ->
-                editText.clearFocus()
-                hideKeyboard(editText)
-            }
-        } catch (e: Exception) {
-            Timber.d("Error clearing focus from SearchView editText: ${e.message}")
+    private fun clearSearchViewFocusAndHideKeyboard() {
+        binding.searchView.editText.let { editText ->
+            editText.clearFocus()
+            hideKeyboard(editText)
         }
-
-        try {
-            binding.searchView.let {
-                it.hide()
-                it.clearFocusAndHideKeyboard()
-            }
-        } catch (e: Exception) {
-            Timber.d("Error hiding SearchView: ${e.message}")
+        binding.searchView.let {
+            it.hide()
+            it.clearFocusAndHideKeyboard()
         }
-
-        clearSearchViewAccessibilityMap(binding.searchView)
-
-
-        super.onDestroyView()
     }
 
     private fun clearSearchViewAccessibilityMap(searchView: SearchView) {
