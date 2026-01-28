@@ -20,11 +20,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
+import com.koniukhov.cinecircle.core.domain.NetworkStatusProvider
 
 @AndroidEntryPoint
 class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, MovieRecommendationViewModel>() {
 
     override val viewModel: MovieRecommendationViewModel by viewModels()
+
+    @Inject
+    lateinit var networkStatusProvider: NetworkStatusProvider
 
     private lateinit var mediaAdapter: MediaListAdapter
     private var isErrorDialogShowing = false
@@ -139,7 +144,7 @@ class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, Mov
             .setPositiveButton(R.string.retry) { _, _ ->
                 isErrorDialogShowing = false
                 binding.loadingStateLayout.visibility = View.VISIBLE
-                viewModel.generateRecommendationsFromDatabase(topN = 20, forceRefresh = true)
+                startRecommendationCalculation()
             }
             .setOnDismissListener {
                 isErrorDialogShowing = false
@@ -160,6 +165,12 @@ class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, Mov
     }
 
     private fun startRecommendationCalculation() {
+        if (!networkStatusProvider.isNetworkAvailable()) {
+            showErrorDialog()
+            return
+        }
+
+        binding.loadingStateLayout.visibility = View.VISIBLE
         viewModel.generateRecommendationsFromDatabase(topN = 20)
     }
 
