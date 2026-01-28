@@ -25,13 +25,28 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:id="@+id/loading_progress_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/generating_recommendations"
             android:textSize="14sp"
             android:textColor="?attr/colorOnSurfaceVariant"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/loading_progress_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="13sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:gravity="center"
+            android:visibility="gone"
+            android:ellipsize="end"
+            android:maxLines="1"/>
 
     </LinearLayout>
 

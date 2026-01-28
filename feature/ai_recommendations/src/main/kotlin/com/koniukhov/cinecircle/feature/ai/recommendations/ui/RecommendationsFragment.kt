@@ -46,6 +46,7 @@ class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, Mov
             launch { observeLoadingState() }
             launch { observeRecommendedMovies() }
             launch { observeEmptyState() }
+            launch { observeLoadingProgress() }
         }
     }
 
@@ -102,6 +103,23 @@ class RecommendationsFragment : BaseFragment<FragmentRecommendationsBinding, Mov
                 Timber.d("Displaying ${mediaItems.size} recommended media items")
             } else {
                 binding.noRatingsTitle.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private suspend fun observeLoadingProgress() {
+        viewModel.totalCount.collectLatest { total ->
+            viewModel.loadedCount.collectLatest { loaded ->
+                if (viewModel.isLoading.value) {
+                    if (total > 0) {
+                        binding.loadingProgressCount.visibility = View.VISIBLE
+                        binding.loadingProgressCount.text = getString(R.string.loading_progress, loaded, total)
+                    } else {
+                        binding.loadingProgressCount.visibility = View.GONE
+                    }
+                } else {
+                    binding.loadingProgressCount.visibility = View.GONE
+                }
             }
         }
     }

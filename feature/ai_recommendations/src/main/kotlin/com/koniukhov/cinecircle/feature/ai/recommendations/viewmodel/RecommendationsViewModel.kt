@@ -44,6 +44,12 @@ class MovieRecommendationViewModel @Inject constructor(
     private val _hasNoRatings = MutableStateFlow(false)
     val hasNoRatings: StateFlow<Boolean> = _hasNoRatings
 
+    private val _loadedCount = MutableStateFlow(0)
+    val loadedCount: StateFlow<Int> = _loadedCount
+
+    private val _totalCount = MutableStateFlow(0)
+    val totalCount: StateFlow<Int> = _totalCount
+
     private var isRecommendationsCached = false
     private var cachedRatedMediasCount = 0
 
@@ -303,6 +309,9 @@ class MovieRecommendationViewModel @Inject constructor(
             _hasNoRatings.value = false
             _recommendedMedia.value = emptyList()
 
+            _loadedCount.value = 0
+            _totalCount.value = 0
+
             if (currentRatedMedias.isEmpty()) {
                 _isLoading.value = false
                 _hasNoRatings.value = true
@@ -358,6 +367,8 @@ class MovieRecommendationViewModel @Inject constructor(
 
                 _recommendations.value = topRecommendations
                 Timber.d("Calculated ${topRecommendations.size} top recommendations")
+
+                _totalCount.value = topRecommendations.size
 
                 val mediaList = mutableListOf<MediaItem>()
                 topRecommendations.forEach { recommendation ->
@@ -418,6 +429,8 @@ class MovieRecommendationViewModel @Inject constructor(
                         }
                     } catch (e: Exception) {
                         Timber.e(e, "Unexpected error loading media for TMDB ID: ${recommendation.tmdbId}")
+                    } finally {
+                        _loadedCount.value += 1
                     }
                 }
                 _recommendedMedia.value = mediaList.filter { it.id != INVALID_ID }
