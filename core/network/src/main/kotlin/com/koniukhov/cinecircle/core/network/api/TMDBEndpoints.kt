@@ -3,9 +3,6 @@ package com.koniukhov.cinecircle.core.network.api
 object TMDBEndpoints {
     const val BASE_URL = "https://api.themoviedb.org/3/"
 
-    @Deprecated("Use specific image size constants instead", ReplaceWith("ImageSizes"))
-    const val IMAGE_URL_TEMPLATE = "https://image.tmdb.org/t/p/original/%s"
-
     object ImageSizes {
         private const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p"
 
