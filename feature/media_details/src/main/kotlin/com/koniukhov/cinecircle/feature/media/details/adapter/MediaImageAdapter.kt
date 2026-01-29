@@ -8,7 +8,7 @@ import coil3.load
 import coil3.request.placeholder
 import com.koniukhov.cinecircle.core.design.R.drawable.placeholder_image
 import com.koniukhov.cinecircle.core.domain.model.Image
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ImageSizes.BACKDROP_LARGE
+import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ImageSizes.BACKDROP_MEDIUM
 import com.koniukhov.cinecircle.core.ui.utils.ImageDiffCallback
 import com.koniukhov.cinecircle.feature.movie_details.databinding.ItemMovieImageBinding
 
@@ -33,7 +33,7 @@ class MediaImageAdapter(
         }
 
         if (image.filePath.isNotEmpty()){
-            holder.binding.img.load(BACKDROP_LARGE.format(image.filePath)) {
+            holder.binding.img.load(BACKDROP_MEDIUM.format(image.filePath)) {
                 placeholder(placeholder_image)
             }
         }else{
