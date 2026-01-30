@@ -1,6 +1,6 @@
-package com.koniukhov.cinecircle.core.domain.usecase
+package com.koniukhov.cinecirclex.core.domain.usecase
 
-import com.koniukhov.cinecircle.core.domain.repository.CollectionsRepository
+import com.koniukhov.cinecirclex.core.domain.repository.CollectionsRepository
 import javax.inject.Inject
 
 class GetCollectionDetailsUseCase @Inject constructor(private val repository: CollectionsRepository) {

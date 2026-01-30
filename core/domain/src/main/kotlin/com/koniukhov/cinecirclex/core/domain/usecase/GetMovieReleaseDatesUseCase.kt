@@ -1,6 +1,6 @@
-package com.koniukhov.cinecircle.core.domain.usecase
+package com.koniukhov.cinecirclex.core.domain.usecase
 
-import com.koniukhov.cinecircle.core.domain.repository.ReleaseDatesRepository
+import com.koniukhov.cinecirclex.core.domain.repository.ReleaseDatesRepository
 import javax.inject.Inject
 
 class GetMovieReleaseDatesUseCase @Inject constructor(private val repository: ReleaseDatesRepository) {

@@ -1,8 +1,8 @@
-package com.koniukhov.cinecircle.core.domain.usecase
+package com.koniukhov.cinecirclex.core.domain.usecase
 
-import com.koniukhov.cinecircle.core.domain.model.ReleaseDate
-import com.koniukhov.cinecircle.core.domain.model.ReleaseDateResult
-import com.koniukhov.cinecircle.core.domain.repository.ReleaseDatesRepository
+import com.koniukhov.cinecirclex.core.domain.model.ReleaseDate
+import com.koniukhov.cinecirclex.core.domain.model.ReleaseDateResult
+import com.koniukhov.cinecirclex.core.domain.repository.ReleaseDatesRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

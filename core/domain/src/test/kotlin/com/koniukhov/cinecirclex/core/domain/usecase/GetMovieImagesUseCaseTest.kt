@@ -1,8 +1,8 @@
-package com.koniukhov.cinecircle.core.domain.usecase
+package com.koniukhov.cinecirclex.core.domain.usecase
 
-import com.koniukhov.cinecircle.core.domain.model.Image
-import com.koniukhov.cinecircle.core.domain.model.MediaImages
-import com.koniukhov.cinecircle.core.domain.repository.ImagesRepository
+import com.koniukhov.cinecirclex.core.domain.model.Image
+import com.koniukhov.cinecirclex.core.domain.model.MediaImages
+import com.koniukhov.cinecirclex.core.domain.repository.ImagesRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

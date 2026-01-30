@@ -1,6 +1,6 @@
-package com.koniukhov.cinecircle.core.domain.usecase
+package com.koniukhov.cinecirclex.core.domain.usecase
 
-import com.koniukhov.cinecircle.core.domain.repository.CreditsRepository
+import com.koniukhov.cinecirclex.core.domain.repository.CreditsRepository
 import javax.inject.Inject
 
 class GetMovieCreditsUseCase @Inject constructor(private val repository: CreditsRepository) {

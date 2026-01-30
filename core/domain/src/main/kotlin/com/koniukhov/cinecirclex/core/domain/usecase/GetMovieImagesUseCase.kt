@@ -1,6 +1,6 @@
-package com.koniukhov.cinecircle.core.domain.usecase
+package com.koniukhov.cinecirclex.core.domain.usecase
 
-import com.koniukhov.cinecircle.core.domain.repository.ImagesRepository
+import com.koniukhov.cinecirclex.core.domain.repository.ImagesRepository
 import javax.inject.Inject
 
 class GetMovieImagesUseCase @Inject constructor(private val repository: ImagesRepository) {

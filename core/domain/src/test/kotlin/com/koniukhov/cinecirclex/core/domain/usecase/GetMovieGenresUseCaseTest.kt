@@ -1,7 +1,7 @@
-package com.koniukhov.cinecircle.core.domain.usecase
+package com.koniukhov.cinecirclex.core.domain.usecase
 
-import com.koniukhov.cinecircle.core.domain.model.Genre
-import com.koniukhov.cinecircle.core.domain.repository.GenresRepository
+import com.koniukhov.cinecirclex.core.domain.model.Genre
+import com.koniukhov.cinecirclex.core.domain.repository.GenresRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

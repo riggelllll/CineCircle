@@ -1,7 +1,7 @@
-package com.koniukhov.cinecircle.core.domain.usecase
+package com.koniukhov.cinecirclex.core.domain.usecase
 
-import com.koniukhov.cinecircle.core.domain.model.Movie
-import com.koniukhov.cinecircle.core.domain.repository.MoviesRepository
+import com.koniukhov.cinecirclex.core.domain.model.TvSeries
+import com.koniukhov.cinecirclex.core.domain.repository.TvSeriesRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -10,61 +10,65 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-class GetFilteredMoviesUseCaseTest {
+class GetFilteredTvSeriesUseCaseTest {
 
-    private lateinit var repository: MoviesRepository
-    private lateinit var useCase: GetFilteredMoviesUseCase
+    private lateinit var repository: TvSeriesRepository
+    private lateinit var useCase: GetFilteredTvSeriesUseCase
 
     @Before
     fun setUp() {
         repository = mockk()
-        useCase = GetFilteredMoviesUseCase(repository)
+        useCase = GetFilteredTvSeriesUseCase(repository)
     }
 
     @Test
-    fun `invoke returns filtered movies with all parameters from repository`() = runTest {
+    fun `invoke returns filtered tv series with all parameters from repository`() = runTest {
         val page = 1
         val language = "en"
         val sortBy = "popularity.desc"
+        val airDateGte = "2023-01-01"
+        val airDateLte = "2023-12-31"
         val year = 2023
-        val releaseDateGte = "2023-01-01"
-        val releaseDateLte = "2023-12-31"
+        val firstAirDateGte = "2023-01-01"
+        val firstAirDateLte = "2023-12-31"
         val minVoteAverage = 7.0f
         val maxVoteAverage = 10.0f
         val minVoteCount = 100
         val maxVoteCount = 10000
         val withOriginCountry = "US"
         val withOriginalLanguage = "en"
-        val withGenres = "28,12"
+        val withGenres = "18,10765"
         val withoutGenres = "27"
 
-        val mockMovies = listOf(
-            Movie(
+        val mockTvSeries = listOf(
+            TvSeries(
                 id = 1,
-                title = "Test Movie 1",
+                title = "Test Series 1",
                 overview = "Overview 1",
                 posterPath = "/poster1.jpg",
                 backdropPath = "/backdrop1.jpg",
-                releaseDate = "2023-06-15",
                 voteAverage = 8.5f,
                 voteCount = 1000,
+                firstAirDate = "2023-06-15",
+                originCountry = listOf("US"),
                 originalLanguage = "en",
-                originalTitle = "Test Movie 1",
+                originalName = "Test Series 1",
                 popularity = 100.0f,
                 adult = false,
-                genreIds = listOf(28, 12),
-                video = false
+                genreIds = listOf(18, 10765)
             )
         )
 
         coEvery {
-            repository.getFilteredMovies(
+            repository.getFilteredTvSeries(
                 page = page,
                 language = language,
                 sortBy = sortBy,
+                airDateGte = airDateGte,
+                airDateLte = airDateLte,
                 year = year,
-                releaseDateGte = releaseDateGte,
-                releaseDateLte = releaseDateLte,
+                firstAirDateGte = firstAirDateGte,
+                firstAirDateLte = firstAirDateLte,
                 minVoteAverage = minVoteAverage,
                 maxVoteAverage = maxVoteAverage,
                 minVoteCount = minVoteCount,
@@ -74,15 +78,17 @@ class GetFilteredMoviesUseCaseTest {
                 withGenres = withGenres,
                 withoutGenres = withoutGenres
             )
-        } returns mockMovies
+        } returns mockTvSeries
 
         val result = useCase(
             page = page,
             language = language,
             sortBy = sortBy,
+            airDateGte = airDateGte,
+            airDateLte = airDateLte,
             year = year,
-            releaseDateGte = releaseDateGte,
-            releaseDateLte = releaseDateLte,
+            firstAirDateGte = firstAirDateGte,
+            firstAirDateLte = firstAirDateLte,
             minVoteAverage = minVoteAverage,
             maxVoteAverage = maxVoteAverage,
             minVoteCount = minVoteCount,
@@ -93,15 +99,17 @@ class GetFilteredMoviesUseCaseTest {
             withoutGenres = withoutGenres
         )
 
-        assertEquals(mockMovies, result)
+        assertEquals(mockTvSeries, result)
         coVerify(exactly = 1) {
-            repository.getFilteredMovies(
+            repository.getFilteredTvSeries(
                 page = page,
                 language = language,
                 sortBy = sortBy,
+                airDateGte = airDateGte,
+                airDateLte = airDateLte,
                 year = year,
-                releaseDateGte = releaseDateGte,
-                releaseDateLte = releaseDateLte,
+                firstAirDateGte = firstAirDateGte,
+                firstAirDateLte = firstAirDateLte,
                 minVoteAverage = minVoteAverage,
                 maxVoteAverage = maxVoteAverage,
                 minVoteCount = minVoteCount,
@@ -115,21 +123,23 @@ class GetFilteredMoviesUseCaseTest {
     }
 
     @Test
-    fun `invoke returns filtered movies with minimal parameters from repository`() = runTest {
+    fun `invoke returns filtered tv series with minimal parameters from repository`() = runTest {
         val page = 1
         val language = "en"
         val sortBy = "popularity.desc"
 
-        val mockMovies = emptyList<Movie>()
+        val mockTvSeries = emptyList<TvSeries>()
 
         coEvery {
-            repository.getFilteredMovies(
+            repository.getFilteredTvSeries(
                 page = page,
                 language = language,
                 sortBy = sortBy,
+                airDateGte = null,
+                airDateLte = null,
                 year = null,
-                releaseDateGte = null,
-                releaseDateLte = null,
+                firstAirDateGte = null,
+                firstAirDateLte = null,
                 minVoteAverage = null,
                 maxVoteAverage = null,
                 minVoteCount = null,
@@ -139,7 +149,7 @@ class GetFilteredMoviesUseCaseTest {
                 withGenres = null,
                 withoutGenres = null
             )
-        } returns mockMovies
+        } returns mockTvSeries
 
         val result = useCase(
             page = page,
@@ -147,15 +157,17 @@ class GetFilteredMoviesUseCaseTest {
             sortBy = sortBy
         )
 
-        assertEquals(mockMovies, result)
+        assertEquals(mockTvSeries, result)
         coVerify(exactly = 1) {
-            repository.getFilteredMovies(
+            repository.getFilteredTvSeries(
                 page = page,
                 language = language,
                 sortBy = sortBy,
+                airDateGte = null,
+                airDateLte = null,
                 year = null,
-                releaseDateGte = null,
-                releaseDateLte = null,
+                firstAirDateGte = null,
+                firstAirDateLte = null,
                 minVoteAverage = null,
                 maxVoteAverage = null,
                 minVoteCount = null,
@@ -175,13 +187,15 @@ class GetFilteredMoviesUseCaseTest {
         val sortBy = "popularity.desc"
 
         coEvery {
-            repository.getFilteredMovies(
+            repository.getFilteredTvSeries(
                 page = page,
                 language = language,
                 sortBy = sortBy,
+                airDateGte = null,
+                airDateLte = null,
                 year = null,
-                releaseDateGte = null,
-                releaseDateLte = null,
+                firstAirDateGte = null,
+                firstAirDateLte = null,
                 minVoteAverage = null,
                 maxVoteAverage = null,
                 minVoteCount = null,

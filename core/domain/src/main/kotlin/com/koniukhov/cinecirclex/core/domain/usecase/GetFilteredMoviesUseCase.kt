@@ -1,18 +1,16 @@
-package com.koniukhov.cinecircle.core.domain.usecase
+package com.koniukhov.cinecirclex.core.domain.usecase
 
-import com.koniukhov.cinecircle.core.domain.repository.TvSeriesRepository
+import com.koniukhov.cinecirclex.core.domain.repository.MoviesRepository
 import javax.inject.Inject
 
-class GetFilteredTvSeriesUseCase @Inject constructor(private val repository: TvSeriesRepository) {
+class GetFilteredMoviesUseCase @Inject constructor(private val repository: MoviesRepository) {
     suspend operator fun invoke(
         page: Int = 1,
         language: String,
         sortBy: String,
-        airDateGte: String? = null,
-        airDateLte: String? = null,
         year: Int? = null,
-        firstAirDateGte: String? = null,
-        firstAirDateLte: String? = null,
+        releaseDateGte: String? = null,
+        releaseDateLte: String? = null,
         minVoteAverage: Float? = null,
         maxVoteAverage: Float? = null,
         minVoteCount: Int? = null,
@@ -21,15 +19,13 @@ class GetFilteredTvSeriesUseCase @Inject constructor(private val repository: TvS
         withOriginalLanguage: String? = null,
         withGenres: String? = null,
         withoutGenres: String? = null
-    ) = repository.getFilteredTvSeries(
+    ) = repository.getFilteredMovies(
         page = page,
         language = language,
         sortBy = sortBy,
-        airDateGte = airDateGte,
-        airDateLte = airDateLte,
         year = year,
-        firstAirDateGte = firstAirDateGte,
-        firstAirDateLte = firstAirDateLte,
+        releaseDateGte = releaseDateGte,
+        releaseDateLte = releaseDateLte,
         minVoteAverage = minVoteAverage,
         maxVoteAverage = maxVoteAverage,
         minVoteCount = minVoteCount,

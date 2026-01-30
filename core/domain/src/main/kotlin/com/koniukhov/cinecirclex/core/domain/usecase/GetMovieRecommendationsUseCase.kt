@@ -1,6 +1,6 @@
-package com.koniukhov.cinecircle.core.domain.usecase
+package com.koniukhov.cinecirclex.core.domain.usecase
 
-import com.koniukhov.cinecircle.core.domain.repository.MoviesRepository
+import com.koniukhov.cinecirclex.core.domain.repository.MoviesRepository
 import javax.inject.Inject
 
 class GetMovieRecommendationsUseCase @Inject constructor(

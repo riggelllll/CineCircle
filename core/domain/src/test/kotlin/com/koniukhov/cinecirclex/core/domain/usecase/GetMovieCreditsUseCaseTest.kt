@@ -1,9 +1,9 @@
-package com.koniukhov.cinecircle.core.domain.usecase
+package com.koniukhov.cinecirclex.core.domain.usecase
 
-import com.koniukhov.cinecircle.core.domain.model.CastMember
-import com.koniukhov.cinecircle.core.domain.model.CrewMember
-import com.koniukhov.cinecircle.core.domain.model.MediaCredits
-import com.koniukhov.cinecircle.core.domain.repository.CreditsRepository
+import com.koniukhov.cinecirclex.core.domain.model.CastMember
+import com.koniukhov.cinecirclex.core.domain.model.CrewMember
+import com.koniukhov.cinecirclex.core.domain.model.MediaCredits
+import com.koniukhov.cinecirclex.core.domain.repository.CreditsRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
