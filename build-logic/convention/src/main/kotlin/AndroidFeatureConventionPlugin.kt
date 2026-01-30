@@ -1,5 +1,5 @@
 import com.android.build.gradle.LibraryExtension
-import com.koniukhov.cinecircle.convention.libs
+import com.koniukhov.cinecirclex.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply

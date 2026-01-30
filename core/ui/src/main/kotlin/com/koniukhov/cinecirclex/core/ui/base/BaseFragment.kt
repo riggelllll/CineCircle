@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.core.ui.base
+package com.koniukhov.cinecirclex.core.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
