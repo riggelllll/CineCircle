@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.koniukhov.cinecirclex"
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0.0"
 
         testInstrumentationRunner = "com.koniukhov.cinecirclex.HiltTestRunner"
