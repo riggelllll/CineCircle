@@ -1,0 +1,56 @@
+package com.koniukhov.cinecirclex.feature.media.details.adapter
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
+import coil3.load
+import coil3.request.placeholder
+import com.koniukhov.cinecirclex.core.design.R.drawable.placeholder_image
+import com.koniukhov.cinecirclex.core.domain.model.Image
+import com.koniukhov.cinecirclex.core.network.api.TMDBEndpoints.ImageSizes.BACKDROP_MEDIUM
+import com.koniukhov.cinecirclex.core.ui.utils.ImageDiffCallback
+import com.koniukhov.cinecirclex.feature.movie_details.databinding.ItemMovieImageBinding
+
+class MediaImageAdapter(
+    private var onImageClick: ((String) -> Unit)?
+) : RecyclerView.Adapter<MediaImageAdapter.ImageViewHolder>() {
+
+    private var images: List<Image> = emptyList()
+
+    class ImageViewHolder(val binding: ItemMovieImageBinding) : RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+        val binding = ItemMovieImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ImageViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+        val image = images[position]
+
+        holder.itemView.setOnClickListener {
+            onImageClick?.invoke(image.filePath)
+        }
+
+        if (image.filePath.isNotEmpty()){
+            holder.binding.img.load(BACKDROP_MEDIUM.format(image.filePath)) {
+                placeholder(placeholder_image)
+            }
+        }else{
+            holder.binding.img.load(placeholder_image)
+        }
+    }
+
+    override fun getItemCount(): Int = images.size
+
+    fun setImages(newImages: List<Image>) {
+        val diffCallback = ImageDiffCallback(images, newImages)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        images = newImages
+        diffResult.dispatchUpdatesTo(this)
+    }
+
+    fun clear() {
+        onImageClick = null
+    }
+}

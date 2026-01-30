@@ -1,0 +1,124 @@
+package com.koniukhov.cinecirclex.core.database.dao
+
+import androidx.room.*
+import com.koniukhov.cinecirclex.core.common.MediaType
+import com.koniukhov.cinecirclex.core.database.entity.GenreEntity
+import com.koniukhov.cinecirclex.core.database.entity.MediaListEntity
+import com.koniukhov.cinecirclex.core.database.entity.MediaListItemEntity
+import com.koniukhov.cinecirclex.core.database.entity.MediaListWithCountResult
+import com.koniukhov.cinecirclex.core.database.entity.MovieDetailsEntity
+import com.koniukhov.cinecirclex.core.database.entity.MovieWithGenres
+import com.koniukhov.cinecirclex.core.database.entity.TvSeriesDetailsEntity
+import com.koniukhov.cinecirclex.core.database.entity.TvSeriesWithGenres
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface MediaListDao {
+
+    @Query("SELECT * FROM media_lists ORDER BY isDefault DESC")
+    fun getAllLists(): Flow<List<MediaListEntity>>
+
+    @Query("SELECT * FROM media_lists WHERE id = :listId")
+    suspend fun getListById(listId: Long): MediaListEntity?
+
+    @Query("SELECT * FROM media_lists WHERE isDefault = 1 LIMIT 1")
+    suspend fun getDefaultList(): MediaListEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertList(list: MediaListEntity): Long
+
+    @Update
+    suspend fun updateList(list: MediaListEntity)
+
+    @Query("DELETE FROM media_lists WHERE id = :listId AND isDefault = 0")
+    suspend fun deleteList(listId: Long)
+
+    @Query("SELECT * FROM media_list_items WHERE listId = :listId ORDER BY id DESC")
+    fun getMediaItemsInList(listId: Long): Flow<List<MediaListItemEntity>>
+
+    @Query("SELECT COUNT(*) FROM media_list_items WHERE listId = :listId AND mediaId = :mediaId AND mediaType = :mediaType")
+    suspend fun isMediaInList(listId: Long, mediaId: Int, mediaType: MediaType): Int
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addMediaToList(item: MediaListItemEntity): Long
+
+    @Query("DELETE FROM media_list_items WHERE listId = :listId AND mediaId = :mediaId AND mediaType = :mediaType")
+    suspend fun removeMediaFromList(listId: Long, mediaId: Int, mediaType: MediaType)
+
+    @Query("DELETE FROM media_list_items WHERE listId = :listId")
+    suspend fun clearList(listId: Long)
+
+    @Query("SELECT COUNT(*) FROM media_list_items WHERE listId = :listId")
+    suspend fun getMediaCountInList(listId: Long): Int
+
+    @Query("SELECT COUNT(*) FROM media_list_items WHERE listId = :listId")
+    fun getMediaCountInListAsFlow(listId: Long): Flow<Int>
+
+    @Query("""
+        SELECT ml.*, COUNT(mli.id) as itemCount 
+        FROM media_lists ml 
+        LEFT JOIN media_list_items mli ON ml.id = mli.listId 
+        GROUP BY ml.id 
+        ORDER BY ml.isDefault DESC
+    """)
+    fun getAllListsWithCount(): Flow<List<MediaListWithCountResult>>
+
+    @Query("""
+        SELECT ml.* FROM media_lists ml 
+        INNER JOIN media_list_items mli ON ml.id = mli.listId 
+        WHERE mli.mediaId = :mediaId AND mli.mediaType = :mediaType
+        ORDER BY ml.isDefault DESC
+    """)
+    suspend fun getListsContainingMedia(mediaId: Int, mediaType: MediaType): List<MediaListEntity>
+
+    @Query("SELECT * FROM media_list_items WHERE listId = :listId AND mediaType = :mediaType ORDER BY id DESC")
+    fun getMediaByTypeInList(listId: Long, mediaType: MediaType): Flow<List<MediaListItemEntity>>
+
+    @Transaction
+    suspend fun insertMovieWithGenres(movieWithGenres: MovieWithGenres) {
+        insertMovie(movieWithGenres.movie)
+        insertGenres(movieWithGenres.genres)
+    }
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMovie(movie: MovieDetailsEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertGenres(genres: List<GenreEntity>)
+
+    @Transaction
+    suspend fun deleteMovieWithGenres(id: Int) {
+        deleteMovieById(id)
+        deleteGenresByMediaId(id)
+    }
+
+    @Query("DELETE FROM movie_details WHERE id = :id")
+    suspend fun deleteMovieById(id: Int)
+
+    @Query("DELETE FROM genres WHERE mediaId = :mediaId")
+    suspend fun deleteGenresByMediaId(mediaId: Int)
+
+    @Query("SELECT * FROM movie_details WHERE id = :id")
+    suspend fun getMovieWithGenres(id: Int): MovieWithGenres?
+
+    @Transaction
+    suspend fun insertTvSeriesWithGenres(tvSeries: TvSeriesWithGenres) {
+        insertTvSeries(tvSeries.tvSeries)
+        insertGenres(tvSeries.genres)
+    }
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTvSeries(tvSeries: TvSeriesDetailsEntity)
+
+    @Transaction
+    suspend fun deleteTvSeriesWithGenres(id: Int) {
+        deleteTvSeriesById(id)
+        deleteGenresByMediaId(id)
+    }
+
+    @Query("DELETE FROM tv_series_details WHERE id = :id")
+    suspend fun deleteTvSeriesById(id: Int)
+
+    @Query("SELECT * FROM tv_series_details WHERE id = :id")
+    suspend fun getTvSeriesWithGenres(id: Int): TvSeriesWithGenres?
+}
