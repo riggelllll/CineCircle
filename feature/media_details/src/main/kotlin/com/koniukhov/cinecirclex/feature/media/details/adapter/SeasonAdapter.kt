@@ -1,0 +1,62 @@
+package com.koniukhov.cinecirclex.feature.media.details.adapter
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
+import coil3.load
+import coil3.request.placeholder
+import coil3.request.transformations
+import coil3.transform.RoundedCornersTransformation
+import com.koniukhov.cinecirclex.core.common.Constants.IMAGE_RADIUS
+import com.koniukhov.cinecirclex.core.design.R
+import com.koniukhov.cinecirclex.core.design.databinding.ItemMediaBinding
+import com.koniukhov.cinecirclex.core.domain.model.TvSeasonDetails
+import com.koniukhov.cinecirclex.core.network.api.TMDBEndpoints.ImageSizes.POSTER_MEDIUM
+import com.koniukhov.cinecirclex.core.ui.utils.TvSeasonDetailsDiffCallback
+import java.util.Locale
+
+class SeasonAdapter(
+    private val onItemClick: (TvSeasonDetails) -> Unit
+) : RecyclerView.Adapter<SeasonAdapter.SeasonsViewHolder>() {
+
+    private var seasonDetails: List<TvSeasonDetails> = emptyList()
+
+    class SeasonsViewHolder(val binding: ItemMediaBinding) : RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeasonsViewHolder {
+        val binding = ItemMediaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return SeasonsViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: SeasonsViewHolder, position: Int) {
+        val details = seasonDetails[position]
+
+        holder.itemView.setOnClickListener {
+            onItemClick(details)
+        }
+
+        with(holder.binding) {
+            title.text = details.name
+            rating.text = String.format(Locale.US,"%.1f", details.voteAverage)
+
+            if (details.posterPath.isNotEmpty()) {
+                poster.load(POSTER_MEDIUM.format(details.posterPath)) {
+                    placeholder(R.drawable.placeholder_image)
+                    transformations(RoundedCornersTransformation(IMAGE_RADIUS))
+                }
+            } else {
+                poster.load(R.drawable.placeholder_image)
+            }
+        }
+    }
+
+    override fun getItemCount(): Int = seasonDetails.size
+
+    fun setSeasonsDetails(newSeasons: List<TvSeasonDetails>) {
+        val diffCallback = TvSeasonDetailsDiffCallback(seasonDetails, newSeasons)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        seasonDetails = newSeasons
+        diffResult.dispatchUpdatesTo(this)
+    }
+}
