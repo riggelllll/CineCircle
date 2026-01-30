@@ -1,8 +1,8 @@
-package com.koniukhov.cinecircle.core.design.util
+package com.koniukhov.cinecirclex.core.design.util
 
-import com.koniukhov.cinecircle.core.design.R
-import com.koniukhov.cinecircle.core.domain.model.Genre
-import org.junit.Assert.*
+import com.koniukhov.cinecirclex.core.design.R
+import com.koniukhov.cinecirclex.core.domain.model.Genre
+import org.junit.Assert
 import org.junit.Test
 
 class GenreDrawableMapperTest {
@@ -13,10 +13,10 @@ class GenreDrawableMapperTest {
 
         val result = getMoviesGenreUiList(genres)
 
-        assertEquals(1, result.size)
-        assertEquals(28, result[0].id)
-        assertEquals("Action", result[0].name)
-        assertEquals(R.drawable.movie_genre_action_poster, result[0].imageResId)
+        Assert.assertEquals(1, result.size)
+        Assert.assertEquals(28, result[0].id)
+        Assert.assertEquals("Action", result[0].name)
+        Assert.assertEquals(R.drawable.movie_genre_action_poster, result[0].imageResId)
     }
 
     @Test
@@ -25,10 +25,10 @@ class GenreDrawableMapperTest {
 
         val result = getMoviesGenreUiList(genres)
 
-        assertEquals(1, result.size)
-        assertEquals(12, result[0].id)
-        assertEquals("Adventure", result[0].name)
-        assertEquals(R.drawable.movie_genre_adventure_poster, result[0].imageResId)
+        Assert.assertEquals(1, result.size)
+        Assert.assertEquals(12, result[0].id)
+        Assert.assertEquals("Adventure", result[0].name)
+        Assert.assertEquals(R.drawable.movie_genre_adventure_poster, result[0].imageResId)
     }
 
     @Test
@@ -37,8 +37,8 @@ class GenreDrawableMapperTest {
 
         val result = getMoviesGenreUiList(genres)
 
-        assertEquals(1, result.size)
-        assertEquals(R.drawable.movie_genre_comedy_poster, result[0].imageResId)
+        Assert.assertEquals(1, result.size)
+        Assert.assertEquals(R.drawable.movie_genre_comedy_poster, result[0].imageResId)
     }
 
     @Test
@@ -47,8 +47,8 @@ class GenreDrawableMapperTest {
 
         val result = getMoviesGenreUiList(genres)
 
-        assertEquals(1, result.size)
-        assertEquals(R.drawable.movie_genre_drama_poster, result[0].imageResId)
+        Assert.assertEquals(1, result.size)
+        Assert.assertEquals(R.drawable.movie_genre_drama_poster, result[0].imageResId)
     }
 
     @Test
@@ -57,8 +57,8 @@ class GenreDrawableMapperTest {
 
         val result = getMoviesGenreUiList(genres)
 
-        assertEquals(1, result.size)
-        assertEquals(R.drawable.movie_genre_horror_poster, result[0].imageResId)
+        Assert.assertEquals(1, result.size)
+        Assert.assertEquals(R.drawable.movie_genre_horror_poster, result[0].imageResId)
     }
 
     @Test
@@ -67,8 +67,8 @@ class GenreDrawableMapperTest {
 
         val result = getMoviesGenreUiList(genres)
 
-        assertEquals(1, result.size)
-        assertEquals(R.drawable.movie_genre_science_fiction_poster, result[0].imageResId)
+        Assert.assertEquals(1, result.size)
+        Assert.assertEquals(R.drawable.movie_genre_science_fiction_poster, result[0].imageResId)
     }
 
     @Test
@@ -81,16 +81,16 @@ class GenreDrawableMapperTest {
 
         val result = getMoviesGenreUiList(genres)
 
-        assertEquals(2, result.size)
-        assertEquals(28, result[0].id)
-        assertEquals(35, result[1].id)
+        Assert.assertEquals(2, result.size)
+        Assert.assertEquals(28, result[0].id)
+        Assert.assertEquals(35, result[1].id)
     }
 
     @Test
     fun `getMoviesGenreUiList should return empty list for empty input`() {
         val result = getMoviesGenreUiList(emptyList())
 
-        assertTrue(result.isEmpty())
+        Assert.assertTrue(result.isEmpty())
     }
 
     @Test
@@ -102,7 +102,7 @@ class GenreDrawableMapperTest {
 
         val result = getMoviesGenreUiList(genres)
 
-        assertTrue(result.isEmpty())
+        Assert.assertTrue(result.isEmpty())
     }
 
     @Test
@@ -115,10 +115,10 @@ class GenreDrawableMapperTest {
 
         val result = getMoviesGenreUiList(genres)
 
-        assertEquals(3, result.size)
-        assertEquals(28, result[0].id)
-        assertEquals(12, result[1].id)
-        assertEquals(35, result[2].id)
+        Assert.assertEquals(3, result.size)
+        Assert.assertEquals(28, result[0].id)
+        Assert.assertEquals(12, result[1].id)
+        Assert.assertEquals(35, result[2].id)
     }
 
     @Test
@@ -127,10 +127,13 @@ class GenreDrawableMapperTest {
 
         val result = getTvSeriesGenreUiList(genres)
 
-        assertEquals(1, result.size)
-        assertEquals(10759, result[0].id)
-        assertEquals("Action & Adventure", result[0].name)
-        assertEquals(R.drawable.tv_series_genre_action_adventure_poster, result[0].imageResId)
+        Assert.assertEquals(1, result.size)
+        Assert.assertEquals(10759, result[0].id)
+        Assert.assertEquals("Action & Adventure", result[0].name)
+        Assert.assertEquals(
+            R.drawable.tv_series_genre_action_adventure_poster,
+            result[0].imageResId
+        )
     }
 
     @Test
@@ -139,8 +142,8 @@ class GenreDrawableMapperTest {
 
         val result = getTvSeriesGenreUiList(genres)
 
-        assertEquals(1, result.size)
-        assertEquals(R.drawable.tv_series_genre_animation_poster, result[0].imageResId)
+        Assert.assertEquals(1, result.size)
+        Assert.assertEquals(R.drawable.tv_series_genre_animation_poster, result[0].imageResId)
     }
 
     @Test
@@ -149,8 +152,8 @@ class GenreDrawableMapperTest {
 
         val result = getTvSeriesGenreUiList(genres)
 
-        assertEquals(1, result.size)
-        assertEquals(R.drawable.tv_series_genre_comedy_poster, result[0].imageResId)
+        Assert.assertEquals(1, result.size)
+        Assert.assertEquals(R.drawable.tv_series_genre_comedy_poster, result[0].imageResId)
     }
 
     @Test
@@ -159,8 +162,8 @@ class GenreDrawableMapperTest {
 
         val result = getTvSeriesGenreUiList(genres)
 
-        assertEquals(1, result.size)
-        assertEquals(R.drawable.tv_series_genre_drama_poster, result[0].imageResId)
+        Assert.assertEquals(1, result.size)
+        Assert.assertEquals(R.drawable.tv_series_genre_drama_poster, result[0].imageResId)
     }
 
     @Test
@@ -169,8 +172,8 @@ class GenreDrawableMapperTest {
 
         val result = getTvSeriesGenreUiList(genres)
 
-        assertEquals(1, result.size)
-        assertEquals(R.drawable.tv_series_genre_kids_poster, result[0].imageResId)
+        Assert.assertEquals(1, result.size)
+        Assert.assertEquals(R.drawable.tv_series_genre_kids_poster, result[0].imageResId)
     }
 
     @Test
@@ -179,8 +182,8 @@ class GenreDrawableMapperTest {
 
         val result = getTvSeriesGenreUiList(genres)
 
-        assertEquals(1, result.size)
-        assertEquals(R.drawable.tv_series_genre_sci_fi_fantasy_poster, result[0].imageResId)
+        Assert.assertEquals(1, result.size)
+        Assert.assertEquals(R.drawable.tv_series_genre_sci_fi_fantasy_poster, result[0].imageResId)
     }
 
     @Test
@@ -193,16 +196,16 @@ class GenreDrawableMapperTest {
 
         val result = getTvSeriesGenreUiList(genres)
 
-        assertEquals(2, result.size)
-        assertEquals(10759, result[0].id)
-        assertEquals(16, result[1].id)
+        Assert.assertEquals(2, result.size)
+        Assert.assertEquals(10759, result[0].id)
+        Assert.assertEquals(16, result[1].id)
     }
 
     @Test
     fun `getTvSeriesGenreUiList should return empty list for empty input`() {
         val result = getTvSeriesGenreUiList(emptyList())
 
-        assertTrue(result.isEmpty())
+        Assert.assertTrue(result.isEmpty())
     }
 
     @Test
@@ -214,7 +217,7 @@ class GenreDrawableMapperTest {
 
         val result = getTvSeriesGenreUiList(genres)
 
-        assertTrue(result.isEmpty())
+        Assert.assertTrue(result.isEmpty())
     }
 
     @Test
@@ -227,10 +230,10 @@ class GenreDrawableMapperTest {
 
         val result = getTvSeriesGenreUiList(genres)
 
-        assertEquals(3, result.size)
-        assertEquals(10759, result[0].id)
-        assertEquals(18, result[1].id)
-        assertEquals(10765, result[2].id)
+        Assert.assertEquals(3, result.size)
+        Assert.assertEquals(10759, result[0].id)
+        Assert.assertEquals(18, result[1].id)
+        Assert.assertEquals(10765, result[2].id)
     }
 
     @Test
@@ -240,10 +243,10 @@ class GenreDrawableMapperTest {
         val movieResult = getMoviesGenreUiList(listOf(genre))
         val tvResult = getTvSeriesGenreUiList(listOf(genre))
 
-        assertEquals(1, movieResult.size)
-        assertEquals(1, tvResult.size)
-        assertEquals(R.drawable.movie_genre_animation_poster, movieResult[0].imageResId)
-        assertEquals(R.drawable.tv_series_genre_animation_poster, tvResult[0].imageResId)
+        Assert.assertEquals(1, movieResult.size)
+        Assert.assertEquals(1, tvResult.size)
+        Assert.assertEquals(R.drawable.movie_genre_animation_poster, movieResult[0].imageResId)
+        Assert.assertEquals(R.drawable.tv_series_genre_animation_poster, tvResult[0].imageResId)
     }
 
     @Test
@@ -253,8 +256,8 @@ class GenreDrawableMapperTest {
         val movieResult = getMoviesGenreUiList(listOf(genre))
         val tvResult = getTvSeriesGenreUiList(listOf(genre))
 
-        assertEquals(1, movieResult.size)
-        assertEquals(1, tvResult.size)
+        Assert.assertEquals(1, movieResult.size)
+        Assert.assertEquals(1, tvResult.size)
     }
 
     @Test
@@ -264,31 +267,31 @@ class GenreDrawableMapperTest {
         val movieResult = getMoviesGenreUiList(listOf(genre))
         val tvResult = getTvSeriesGenreUiList(listOf(genre))
 
-        assertEquals(1, movieResult.size)
-        assertEquals(1, tvResult.size)
+        Assert.assertEquals(1, movieResult.size)
+        Assert.assertEquals(1, tvResult.size)
     }
 
     @Test
     fun `moviesGenreDrawableMap should contain 19 entries`() {
-        assertEquals(19, moviesGenreDrawableMap.size)
+        Assert.assertEquals(19, moviesGenreDrawableMap.size)
     }
 
     @Test
     fun `tvSeriesGenreDrawableMap should contain 16 entries`() {
-        assertEquals(16, tvSeriesGenreDrawableMap.size)
+        Assert.assertEquals(16, tvSeriesGenreDrawableMap.size)
     }
 
     @Test
     fun `all movie genre IDs should be positive integers`() {
         moviesGenreDrawableMap.keys.forEach { id ->
-            assertTrue("Genre ID $id should be positive", id > 0)
+            Assert.assertTrue("Genre ID $id should be positive", id > 0)
         }
     }
 
     @Test
     fun `all TV series genre IDs should be positive integers`() {
         tvSeriesGenreDrawableMap.keys.forEach { id ->
-            assertTrue("Genre ID $id should be positive", id > 0)
+            Assert.assertTrue("Genre ID $id should be positive", id > 0)
         }
     }
 }

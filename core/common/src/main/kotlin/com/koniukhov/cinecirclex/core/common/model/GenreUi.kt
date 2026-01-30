@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.core.common.model
+package com.koniukhov.cinecirclex.core.common.model
 
 data class GenreUi(
     val id: Int,

@@ -1,7 +1,7 @@
-package com.koniukhov.cinecircle.core.design.util
-import com.koniukhov.cinecircle.core.common.model.GenreUi
-import com.koniukhov.cinecircle.core.design.R
-import com.koniukhov.cinecircle.core.domain.model.Genre
+package com.koniukhov.cinecirclex.core.design.util
+import com.koniukhov.cinecirclex.core.common.model.GenreUi
+import com.koniukhov.cinecirclex.core.design.R
+import com.koniukhov.cinecirclex.core.domain.model.Genre
 import kotlin.collections.mapNotNull
 
 val moviesGenreDrawableMap = mapOf(

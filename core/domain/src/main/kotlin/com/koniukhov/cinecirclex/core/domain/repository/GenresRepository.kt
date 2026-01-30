@@ -1,6 +1,6 @@
-package com.koniukhov.cinecircle.core.domain.repository
+package com.koniukhov.cinecirclex.core.domain.repository
 
-import com.koniukhov.cinecircle.core.domain.model.Genre
+import com.koniukhov.cinecirclex.core.domain.model.Genre
 
 interface GenresRepository {
     suspend fun getMoviesGenreList(language: String): List<Genre>

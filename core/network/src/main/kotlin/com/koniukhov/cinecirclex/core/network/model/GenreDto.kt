@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.core.network.model
+package com.koniukhov.cinecirclex.core.network.model
 
 data class GenreDto(
     val id: Int?,

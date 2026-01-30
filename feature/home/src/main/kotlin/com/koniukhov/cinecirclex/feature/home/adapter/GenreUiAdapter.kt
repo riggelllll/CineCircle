@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.home.adapter
+package com.koniukhov.cinecirclex.feature.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,12 +8,11 @@ import coil3.load
 import coil3.request.placeholder
 import coil3.request.transformations
 import coil3.transform.RoundedCornersTransformation
-import com.koniukhov.cinecircle.core.common.Constants.IMAGE_RADIUS
-import com.koniukhov.cinecircle.core.common.model.GenreUi
-import com.koniukhov.cinecircle.core.design.R
-import com.koniukhov.cinecircle.core.ui.utils.GenreUiDiffCallback
-import com.koniukhov.cinecircle.feature.home.databinding.ItemHomeGenreUiBinding
-
+import com.koniukhov.cinecirclex.core.design.R
+import com.koniukhov.cinecirclex.feature.home.databinding.ItemHomeGenreUiBinding
+import com.koniukhov.cinecirclex.core.common.Constants
+import com.koniukhov.cinecirclex.core.common.model.GenreUi
+import com.koniukhov.cinecirclex.core.ui.utils.GenreUiDiffCallback
 
 class GenreUiAdapter(private val onItemClick: (Int, String) -> Unit)
     : RecyclerView.Adapter<GenreUiAdapter.GenreUiViewHolder>(){
@@ -35,7 +34,7 @@ class GenreUiAdapter(private val onItemClick: (Int, String) -> Unit)
         holder.binding.genre.text = genre.name
         holder.binding.poster.load(genre.imageResId){
             placeholder(R.drawable.placeholder_image)
-            transformations(RoundedCornersTransformation(IMAGE_RADIUS))
+            transformations(RoundedCornersTransformation(Constants.IMAGE_RADIUS))
         }
     }
 

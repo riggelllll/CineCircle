@@ -1,11 +1,11 @@
-package com.koniukhov.cinecircle.core.data.repository
+package com.koniukhov.cinecirclex.core.data.repository
 
-import com.koniukhov.cinecircle.core.data.mapper.toDomain
-import com.koniukhov.cinecircle.core.data.remote.RemoteGenresDataSourceImpl
-import com.koniukhov.cinecircle.core.data.util.fetchWithLocalAndRetry
-import com.koniukhov.cinecircle.core.domain.NetworkStatusProvider
-import com.koniukhov.cinecircle.core.domain.model.Genre
-import com.koniukhov.cinecircle.core.domain.repository.GenresRepository
+import com.koniukhov.cinecirclex.core.data.mapper.toDomain
+import com.koniukhov.cinecirclex.core.data.remote.RemoteGenresDataSourceImpl
+import com.koniukhov.cinecirclex.core.data.util.fetchWithLocalAndRetry
+import com.koniukhov.cinecirclex.core.domain.NetworkStatusProvider
+import com.koniukhov.cinecirclex.core.domain.model.Genre
+import com.koniukhov.cinecirclex.core.domain.repository.GenresRepository
 import javax.inject.Inject
 
 class GenresRepositoryImpl @Inject constructor(
