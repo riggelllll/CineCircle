@@ -1,7 +1,7 @@
-package com.koniukhov.cinecircle.core.data.util
+package com.koniukhov.cinecirclex.core.data.util
 
-import com.koniukhov.cinecircle.core.common.Constants.NETWORK_CHECK_INTERVAL_MS
-import com.koniukhov.cinecircle.core.common.Constants.NETWORK_WAIT_TIMEOUT_MS
+import com.koniukhov.cinecirclex.core.common.Constants.NETWORK_CHECK_INTERVAL_MS
+import com.koniukhov.cinecirclex.core.common.Constants.NETWORK_WAIT_TIMEOUT_MS
 import kotlinx.coroutines.delay
 import timber.log.Timber
 

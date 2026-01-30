@@ -1,13 +1,14 @@
-package com.koniukhov.cinecircle.feature.search.repository
+package com.koniukhov.cinecirclex.feature.search.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.koniukhov.cinecircle.core.common.sort.MovieSortOption
-import com.koniukhov.cinecircle.core.domain.model.MediaItem
-import com.koniukhov.cinecircle.core.domain.usecase.GetFilteredMoviesUseCase
-import com.koniukhov.cinecircle.core.domain.usecase.GetFilteredTvSeriesUseCase
-import com.koniukhov.cinecircle.feature.search.paging.FilteredMovieSource
+import com.koniukhov.cinecirclex.core.common.sort.MovieSortOption
+import com.koniukhov.cinecirclex.core.domain.model.MediaItem
+import com.koniukhov.cinecirclex.core.domain.usecase.GetFilteredMoviesUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetFilteredTvSeriesUseCase
+import com.koniukhov.cinecirclex.feature.search.paging.FilteredMovieSource
+import com.koniukhov.cinecirclex.feature.search.paging.FilteredTvSeriesSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -77,7 +78,7 @@ class FilteredMediaRepository @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE),
             pagingSourceFactory = {
-                com.koniukhov.cinecircle.feature.search.paging.FilteredTvSeriesSource(
+                FilteredTvSeriesSource(
                     filteredTvSeriesUseCase = tvSeriesUseCase,
                     language = language,
                     sortBy = sortBy ?: MovieSortOption.POPULARITY_DESC.apiValue,

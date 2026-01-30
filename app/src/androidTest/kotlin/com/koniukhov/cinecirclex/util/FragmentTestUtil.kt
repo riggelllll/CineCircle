@@ -1,5 +1,6 @@
-package com.koniukhov.cinecircle.util
+package com.koniukhov.cinecirclex.util
 
+import android.R
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
@@ -37,7 +38,7 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
             fragment.arguments = fragmentArgs
             activity.supportFragmentManager
                 .beginTransaction()
-                .add(android.R.id.content, fragment, "")
+                .add(R.id.content, fragment, "")
                 .commitNow()
 
             fragment.action()

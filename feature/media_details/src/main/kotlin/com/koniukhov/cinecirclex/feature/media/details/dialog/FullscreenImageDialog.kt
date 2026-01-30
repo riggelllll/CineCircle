@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.media.details.dialog
+package com.koniukhov.cinecirclex.feature.media.details.dialog
 
 import android.app.Dialog
 import android.os.Bundle
@@ -12,9 +12,9 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.DialogFragment
 import coil3.load
 import coil3.request.crossfade
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ImageSizes.BACKDROP_ORIGINAL
-import com.koniukhov.cinecircle.feature.movie_details.R
-import com.koniukhov.cinecircle.feature.movie_details.databinding.DialogFullscreenImageBinding
+import com.koniukhov.cinecirclex.feature.movie_details.R
+import com.koniukhov.cinecirclex.feature.movie_details.databinding.DialogFullscreenImageBinding
+import com.koniukhov.cinecirclex.core.network.api.TMDBEndpoints
 
 class FullscreenImageDialog : DialogFragment() {
 
@@ -81,7 +81,7 @@ class FullscreenImageDialog : DialogFragment() {
     private fun loadImage() {
         binding.progressBar.visibility = View.VISIBLE
 
-        binding.fullscreenImage.load(BACKDROP_ORIGINAL.format(imagePath)) {
+        binding.fullscreenImage.load(TMDBEndpoints.ImageSizes.BACKDROP_ORIGINAL.format(imagePath)) {
             crossfade(CROSS_FADE_DURATION)
             listener(
                 onStart = {

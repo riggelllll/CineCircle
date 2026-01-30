@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.media.details.dialog
+package com.koniukhov.cinecirclex.feature.media.details.dialog
 
 import android.app.Dialog
 import android.content.pm.ActivityInfo
@@ -11,8 +11,8 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.DialogFragment
-import com.koniukhov.cinecircle.feature.movie_details.R
-import com.koniukhov.cinecircle.feature.movie_details.databinding.DialogFullscreenVideoBinding
+import com.koniukhov.cinecirclex.feature.movie_details.R
+import com.koniukhov.cinecirclex.feature.movie_details.databinding.DialogFullscreenVideoBinding
 
 class FullscreenVideoDialog : DialogFragment() {
 

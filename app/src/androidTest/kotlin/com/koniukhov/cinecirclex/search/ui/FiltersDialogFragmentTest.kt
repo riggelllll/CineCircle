@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.search.ui
+package com.koniukhov.cinecirclex.search.ui
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
@@ -8,10 +8,10 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.koniukhov.cinecircle.core.design.R as DesignR
-import com.koniukhov.cinecircle.feature.search.ui.FiltersDialogFragment
-import com.koniukhov.cinecircle.util.HiltTestActivity
-import com.koniukhov.cinecircle.util.launchFragmentInHiltContainer
+import com.koniukhov.cinecirclex.core.design.R as DesignR
+import com.koniukhov.cinecirclex.feature.search.ui.FiltersDialogFragment
+import com.koniukhov.cinecirclex.util.HiltTestActivity
+import com.koniukhov.cinecirclex.util.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
@@ -19,8 +19,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.koniukhov.cinecircle.core.common.R as commonR
-import com.koniukhov.cinecircle.feature.search.R
+import com.koniukhov.cinecirclex.core.common.R as commonR
+import com.koniukhov.cinecirclex.feature.search.R
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)

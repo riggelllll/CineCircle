@@ -1,6 +1,6 @@
-package com.koniukhov.cinecircle.core.data.util
+package com.koniukhov.cinecirclex.core.data.util
 
-import com.koniukhov.cinecircle.core.common.Constants.DEFAULT_MAX_RETRIES
+import com.koniukhov.cinecirclex.core.common.Constants.DEFAULT_MAX_RETRIES
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Test
@@ -92,9 +92,7 @@ class FetchUtilsTest {
             isNetworkAvailable = {
                 networkCheckCount++
                 networkCheckCount > networkAvailableAfter
-            },
-            maxRetries = 5,
-            initialDelay = 10L
+            }
         )
 
         assertEquals("remote_data", result)
@@ -117,9 +115,7 @@ class FetchUtilsTest {
                 localCalled = true
                 null
             },
-            isNetworkAvailable = { false },
-            maxRetries = 3,
-            initialDelay = 10L
+            isNetworkAvailable = { false }
         )
 
         assertNull(result)
@@ -145,9 +141,7 @@ class FetchUtilsTest {
             isNetworkAvailable = {
                 networkCheckCount++
                 networkCheckCount > 2
-            },
-            maxRetries = 5,
-            initialDelay = 10L
+            }
         )
 
         assertNull(result)
@@ -189,13 +183,11 @@ class FetchUtilsTest {
             isNetworkAvailable = {
                 networkCheckCount++
                 false
-            },
-            maxRetries = 3,
-            initialDelay = 50L
+            }
         )
 
         assertNull(result)
-        assertEquals(4, networkCheckCount)
+        assertEquals(11, networkCheckCount)
     }
 
     @Test

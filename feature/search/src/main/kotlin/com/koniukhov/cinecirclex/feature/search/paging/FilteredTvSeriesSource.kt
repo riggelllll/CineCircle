@@ -1,18 +1,20 @@
-package com.koniukhov.cinecircle.feature.search.paging
+package com.koniukhov.cinecirclex.feature.search.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.koniukhov.cinecircle.core.domain.model.MediaItem
+import com.koniukhov.cinecirclex.core.domain.model.MediaItem
 import timber.log.Timber
 
-class FilteredMovieSource(
-    private val filteredMoviesUseCase: suspend (
+class FilteredTvSeriesSource (
+    private val filteredTvSeriesUseCase: suspend (
         page: Int,
         language: String,
         sortBy: String,
+        airDateGte: String?,
+        airDateLte: String?,
         year: Int?,
-        releaseDateGte: String?,
-        releaseDateLte: String?,
+        firstAirDateGte: String?,
+        firstAirDateLte: String?,
         minVoteAverage: Float?,
         maxVoteAverage: Float?,
         minVoteCount: Int?,
@@ -23,9 +25,11 @@ class FilteredMovieSource(
         withoutGenres: String?) -> List<MediaItem>,
     private val language: String,
     private val sortBy: String,
+    private val airDateGte: String? = null,
+    private val airDateLte: String? = null,
     private val year: Int? = null,
-    private val releaseDateGte: String? = null,
-    private val releaseDateLte: String? = null,
+    private val firstAirDateGte: String? = null,
+    private val firstAirDateLte: String? = null,
     private val minVoteAverage: Float? = null,
     private val maxVoteAverage: Float? = null,
     private val minVoteCount: Int? = null,
@@ -35,8 +39,7 @@ class FilteredMovieSource(
     private val withGenres: String? = null,
     private val withoutGenres: String? = null
 
-) : PagingSource<Int, MediaItem>()  {
-
+) : PagingSource<Int, MediaItem>() {
     override fun getRefreshKey(state: PagingState<Int, MediaItem>): Int? {
         return state.anchorPosition?.let {
             state.closestPageToPosition(it)?.prevKey?.plus(1)
@@ -47,13 +50,15 @@ class FilteredMovieSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MediaItem> {
         val page = params.key ?: 1
         return try {
-            val items = filteredMoviesUseCase(
+            val items = filteredTvSeriesUseCase(
                 page,
                 language,
                 sortBy,
+                airDateGte,
+                airDateLte,
                 year,
-                releaseDateGte,
-                releaseDateLte,
+                firstAirDateGte,
+                firstAirDateLte,
                 minVoteAverage,
                 maxVoteAverage,
                 minVoteCount,
@@ -63,7 +68,6 @@ class FilteredMovieSource(
                 withGenres,
                 withoutGenres
             )
-
             LoadResult.Page(
                 data = items,
                 prevKey = if (page == 1) null else page - 1,

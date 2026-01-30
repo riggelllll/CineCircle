@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.search.ui
+package com.koniukhov.cinecirclex.feature.search.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +8,10 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import com.koniukhov.cinecircle.core.design.R
-import com.koniukhov.cinecircle.feature.search.databinding.DialogFiltersBinding
+import com.koniukhov.cinecirclex.core.design.R
+import com.koniukhov.cinecirclex.feature.search.databinding.DialogFiltersBinding
 import dagger.hilt.android.AndroidEntryPoint
-import com.koniukhov.cinecircle.core.common.R as commonR
+import com.koniukhov.cinecirclex.core.common.R as commonR
 
 
 @AndroidEntryPoint
