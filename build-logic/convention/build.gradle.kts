@@ -2,7 +2,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "com.koniukhov.cinecircle.buildlogic"
+group = "com.koniukhov.cinecirclex.buildlogic"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17

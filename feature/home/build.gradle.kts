@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.koniukhov.cinecircle.feature.home"
+    namespace = "com.koniukhov.cinecirclex.feature.home"
 }
 
 dependencies{

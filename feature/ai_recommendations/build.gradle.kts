@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.koniukhov.cinecircle.feature.ai_recommendations"
+    namespace = "com.koniukhov.cinecirclex.feature.ai_recommendations"
 }
 
 dependencies {

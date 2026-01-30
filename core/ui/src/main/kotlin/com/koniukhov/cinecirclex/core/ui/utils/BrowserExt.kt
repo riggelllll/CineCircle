@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.core.ui.utils
+package com.koniukhov.cinecirclex.core.ui.utils
 
 import android.content.Context
 import android.content.Intent

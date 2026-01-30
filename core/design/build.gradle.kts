@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.koniukhov.cinecircle.core.design"
+    namespace = "com.koniukhov.cinecirclex.core.design"
 }
 
 dependencies{

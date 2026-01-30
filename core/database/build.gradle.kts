@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.koniukhov.cinecircle.core.database"
+    namespace = "com.koniukhov.cinecirclex.core.database"
 }
 
 dependencies{

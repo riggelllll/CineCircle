@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.koniukhov.cinecircle.feature.search"
+    namespace = "com.koniukhov.cinecirclex.feature.search"
 }
 dependencies {
     implementation(projects.core.domain)

@@ -7,14 +7,14 @@ plugins {
 }
 
 android {
-    namespace = "com.koniukhov.cinecircle"
+    namespace = "com.koniukhov.cinecirclex"
 
     defaultConfig {
-        applicationId = "com.koniukhov.cinecircle"
-        versionCode = 3
+        applicationId = "com.koniukhov.cinecirclex"
+        versionCode = 1
         versionName = "1.0.0"
 
-        testInstrumentationRunner = "com.koniukhov.cinecircle.HiltTestRunner"
+        testInstrumentationRunner = "com.koniukhov.cinecirclex.HiltTestRunner"
         vectorDrawables.useSupportLibrary = true
     }
 
