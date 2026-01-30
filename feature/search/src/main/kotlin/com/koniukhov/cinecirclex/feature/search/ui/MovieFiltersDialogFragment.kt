@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.search.ui
+package com.koniukhov.cinecirclex.feature.search.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,24 +8,26 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.koniukhov.cinecircle.core.common.sort.MovieSortOption
-import com.koniukhov.cinecircle.core.ui.base.BaseFragment
-import com.koniukhov.cinecircle.feature.search.R
-import com.koniukhov.cinecircle.feature.search.databinding.FragmentMovieFiltersBinding
-import com.koniukhov.cinecircle.feature.search.model.MovieFilterParams
-import com.koniukhov.cinecircle.feature.search.ui.viewmodel.SearchViewModel
+import com.koniukhov.cinecirclex.core.common.sort.MovieSortOption
+import com.koniukhov.cinecirclex.core.ui.base.BaseFragment
+import com.koniukhov.cinecirclex.feature.search.R
+import com.koniukhov.cinecirclex.feature.search.databinding.FragmentMovieFiltersBinding
+import com.koniukhov.cinecirclex.feature.search.model.MovieFilterParams
+import com.koniukhov.cinecirclex.feature.search.ui.viewmodel.SearchViewModel
 import kotlinx.coroutines.flow.collectLatest
+import java.text.Collator
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.collections.get
 
 class MovieFiltersDialogFragment(private val onSearchClick: () -> Unit) :
     BaseFragment<FragmentMovieFiltersBinding, SearchViewModel>() {
 
     override val viewModel: SearchViewModel by activityViewModels()
 
-    private val collator = java.text.Collator.getInstance(Locale.getDefault())
+    private val collator = Collator.getInstance(Locale.getDefault())
     private val pairComparator: Comparator<Pair<String, String>> =
         Comparator { a, b -> collator.compare(a.first, b.first) }
 

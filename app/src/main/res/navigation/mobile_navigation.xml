@@ -9,22 +9,22 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.koniukhov.cinecircle.feature.home.ui.HomeFragment"
+        android:name="com.koniukhov.cinecirclex.feature.home.ui.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/navigation_ai_recommendations"
-        android:name="com.koniukhov.cinecircle.feature.ai.recommendations.ui.RecommendationsFragment"
+        android:name="com.koniukhov.cinecirclex.feature.ai.recommendations.ui.RecommendationsFragment"
         android:label="@string/for_you"
         tools:layout="@layout/fragment_recommendations" />
     <fragment
         android:id="@+id/navigation_collections"
-        android:name="com.koniukhov.cinecircle.feature.lists.ui.CollectionsFragment"
+        android:name="com.koniukhov.cinecirclex.feature.lists.ui.CollectionsFragment"
         android:label="CollectionsFragment"
         tools:layout="@layout/collections_fragment"/>
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.koniukhov.cinecircle.feature.search.ui.SearchFragment"
+        android:name="com.koniukhov.cinecirclex.feature.search.ui.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search"/>
 

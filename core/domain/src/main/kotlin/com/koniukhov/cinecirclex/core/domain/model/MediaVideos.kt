@@ -1,9 +1,9 @@
-package com.koniukhov.cinecircle.core.domain.model
+package com.koniukhov.cinecirclex.core.domain.model
 
-import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
-import com.koniukhov.cinecircle.core.common.Constants.VIDEO_SITE_YOUTUBE
-import com.koniukhov.cinecircle.core.common.Constants.VIDEO_TYPE_TEASER
-import com.koniukhov.cinecircle.core.common.Constants.VIDEO_TYPE_TRAILER
+import com.koniukhov.cinecirclex.core.common.Constants.INVALID_ID
+import com.koniukhov.cinecirclex.core.common.Constants.VIDEO_SITE_YOUTUBE
+import com.koniukhov.cinecirclex.core.common.Constants.VIDEO_TYPE_TEASER
+import com.koniukhov.cinecirclex.core.common.Constants.VIDEO_TYPE_TRAILER
 
 data class MediaVideos(
     val id: Int,

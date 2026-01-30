@@ -1,14 +1,40 @@
-package com.koniukhov.cinecircle.feature.media.details.ui.viewmodel
+package com.koniukhov.cinecirclex.feature.media.details.ui.viewmodel
 
 import app.cash.turbine.test
-import com.koniukhov.cinecircle.core.database.dao.RatedMediaDao
-import com.koniukhov.cinecircle.core.database.entity.MediaListEntity
-import com.koniukhov.cinecircle.core.database.entity.RatedMediaEntity
-import com.koniukhov.cinecircle.core.database.model.MediaListWithCount
-import com.koniukhov.cinecircle.core.database.repository.MediaListRepository
-import com.koniukhov.cinecircle.core.domain.model.*
-import com.koniukhov.cinecircle.core.domain.usecase.*
-import io.mockk.*
+import com.koniukhov.cinecirclex.core.database.dao.RatedMediaDao
+import com.koniukhov.cinecirclex.core.database.entity.MediaListEntity
+import com.koniukhov.cinecirclex.core.database.entity.RatedMediaEntity
+import com.koniukhov.cinecirclex.core.database.repository.MediaListRepository
+import com.koniukhov.cinecirclex.core.domain.model.CastMember
+import com.koniukhov.cinecirclex.core.domain.model.CollectionDetails
+import com.koniukhov.cinecirclex.core.domain.model.CrewMember
+import com.koniukhov.cinecirclex.core.domain.model.Genre
+import com.koniukhov.cinecirclex.core.domain.model.Image
+import com.koniukhov.cinecirclex.core.domain.model.MediaCredits
+import com.koniukhov.cinecirclex.core.domain.model.MediaImages
+import com.koniukhov.cinecirclex.core.domain.model.MediaReview
+import com.koniukhov.cinecirclex.core.domain.model.MediaVideos
+import com.koniukhov.cinecirclex.core.domain.model.Movie
+import com.koniukhov.cinecirclex.core.domain.model.MovieCollection
+import com.koniukhov.cinecirclex.core.domain.model.MovieDetails
+import com.koniukhov.cinecirclex.core.domain.model.ReleaseDate
+import com.koniukhov.cinecirclex.core.domain.model.ReleaseDateResult
+import com.koniukhov.cinecirclex.core.domain.model.ReviewAuthor
+import com.koniukhov.cinecirclex.core.domain.model.Video
+import com.koniukhov.cinecirclex.core.domain.usecase.GetCollectionDetailsUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetMovieCreditsUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetMovieDetailsUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetMovieImagesUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetMovieRecommendationsUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetMovieReleaseDatesUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetMovieReviewsUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetMovieVideosUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetSimilarMoviesUseCase
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -17,7 +43,11 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -311,22 +341,58 @@ class MovieDetailsViewModelTest {
 
     private fun createTestImages() = MediaImages(
         id = movieId,
-        posters = listOf(Image(filePath = "/poster.jpg", voteAverage = 3.5f, voteCount = 10, width = 500, height = 750, aspectRatio = 0.667f, countryCode = "US")),
-        backdrops = listOf(Image(filePath = "/backdrop.jpg", voteAverage = 4.0f, voteCount = 20, width = 1920, height = 1080, aspectRatio = 1.778f, countryCode = "US")),
+        posters = listOf(
+            Image(
+                filePath = "/poster.jpg",
+                voteAverage = 3.5f,
+                voteCount = 10,
+                width = 500,
+                height = 750,
+                aspectRatio = 0.667f,
+                countryCode = "US"
+            )
+        ),
+        backdrops = listOf(
+            Image(
+                filePath = "/backdrop.jpg",
+                voteAverage = 4.0f,
+                voteCount = 20,
+                width = 1920,
+                height = 1080,
+                aspectRatio = 1.778f,
+                countryCode = "US"
+            )
+        ),
         logos = emptyList()
     )
 
     private fun createTestVideos() = MediaVideos(
         id = movieId,
         results = listOf(
-            Video(id = "video1", key = "key1", name = "Trailer", site = "YouTube", type = "Trailer", official = true, publishedAt = "2020-01-01", languageCode = "en", countryCode = "US", size = 1080)
+            Video(
+                id = "video1",
+                key = "key1",
+                name = "Trailer",
+                site = "YouTube",
+                type = "Trailer",
+                official = true,
+                publishedAt = "2020-01-01",
+                languageCode = "en",
+                countryCode = "US",
+                size = 1080
+            )
         )
     )
 
     private fun createTestReviews() = listOf(
         MediaReview(
             author = "John Doe",
-            authorDetails = ReviewAuthor(name = "John", username = "johndoe", avatarPath = "/avatar.jpg", rating = "9"),
+            authorDetails = ReviewAuthor(
+                name = "John",
+                username = "johndoe",
+                avatarPath = "/avatar.jpg",
+                rating = "9"
+            ),
             content = "Great movie!",
             createdAt = "2020-01-01",
             id = "review1",
@@ -337,10 +403,35 @@ class MovieDetailsViewModelTest {
 
     private fun createTestCredits() = MediaCredits(
         cast = listOf(
-            CastMember(id = 1, name = "Brad Pitt", character = "Tyler Durden", profilePath = "/brad.jpg", order = 0, castId = 1, creditId = "credit1", gender = 2, knownForDepartment = "Acting", adult = false, originalName = "Brad Pitt", popularity = 10f)
+            CastMember(
+                id = 1,
+                name = "Brad Pitt",
+                character = "Tyler Durden",
+                profilePath = "/brad.jpg",
+                order = 0,
+                castId = 1,
+                creditId = "credit1",
+                gender = 2,
+                knownForDepartment = "Acting",
+                adult = false,
+                originalName = "Brad Pitt",
+                popularity = 10f
+            )
         ),
         crew = listOf(
-            CrewMember(id = 2, name = "David Fincher", job = "Director", department = "Directing", profilePath = "/david.jpg", creditId = "credit2", gender = 2, knownForDepartment = "Directing", adult = false, originalName = "David Fincher", popularity = 9f)
+            CrewMember(
+                id = 2,
+                name = "David Fincher",
+                job = "Director",
+                department = "Directing",
+                profilePath = "/david.jpg",
+                creditId = "credit2",
+                gender = 2,
+                knownForDepartment = "Directing",
+                adult = false,
+                originalName = "David Fincher",
+                popularity = 9f
+            )
         )
     )
 

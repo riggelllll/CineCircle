@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.search.model
+package com.koniukhov.cinecirclex.feature.search.model
 
 data class MovieFilterParams(
     val sortBy: String? = null,

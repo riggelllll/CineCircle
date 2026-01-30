@@ -1,7 +1,7 @@
-package com.koniukhov.cinecircle.core.network.model
+package com.koniukhov.cinecirclex.core.network.model
 
 import com.google.gson.annotations.SerializedName
-import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
+import com.koniukhov.cinecirclex.core.common.Constants.INVALID_ID
 
 data class MovieDetailsDto (
     val adult: Boolean?,

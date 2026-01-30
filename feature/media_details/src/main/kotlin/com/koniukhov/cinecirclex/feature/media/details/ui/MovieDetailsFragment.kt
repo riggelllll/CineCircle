@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.feature.media.details.ui
+package com.koniukhov.cinecirclex.feature.media.details.ui
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -22,41 +22,41 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.radiobutton.MaterialRadioButton
 import com.google.android.material.snackbar.Snackbar
-import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
-import com.koniukhov.cinecircle.core.common.navigation.NavArgs
-import com.koniukhov.cinecircle.core.common.navigation.navigateToMovieDetails
-import com.koniukhov.cinecircle.core.common.util.DateUtils.formatDate
-import com.koniukhov.cinecircle.core.domain.model.CollectionDetails
-import com.koniukhov.cinecircle.core.domain.model.Genre
-import com.koniukhov.cinecircle.core.domain.model.Image
-import com.koniukhov.cinecircle.core.domain.model.MediaCredits
-import com.koniukhov.cinecircle.core.domain.model.MediaImages
-import com.koniukhov.cinecircle.core.domain.model.MediaReview
-import com.koniukhov.cinecircle.core.domain.model.MediaVideos
-import com.koniukhov.cinecircle.core.domain.model.Movie
-import com.koniukhov.cinecircle.core.domain.model.MovieDetails
-import com.koniukhov.cinecircle.core.network.api.TMDBEndpoints.ImageSizes.BACKDROP_MEDIUM
-import com.koniukhov.cinecircle.core.ui.adapter.MediaAdapter
-import com.koniukhov.cinecircle.core.ui.utils.openWebsite
-import com.koniukhov.cinecircle.feature.media.details.adapter.CollectionMediaAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCastAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MediaCrewAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MediaImageAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MediaReviewAdapter
-import com.koniukhov.cinecircle.feature.media.details.adapter.MediaVideoAdapter
-import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenImageDialog
-import com.koniukhov.cinecircle.feature.media.details.dialog.FullscreenVideoDialog
-import com.koniukhov.cinecircle.feature.media.details.dialog.ReviewDetailBottomSheetDialog
-import com.koniukhov.cinecircle.feature.media.details.ui.state.MovieDetailsUiState
-import com.koniukhov.cinecircle.feature.media.details.ui.viewmodel.MovieDetailsViewModel
-import com.koniukhov.cinecircle.feature.media.details.utils.MediaDetailsUtils
-import com.koniukhov.cinecircle.feature.movie_details.R
-import com.koniukhov.cinecircle.feature.movie_details.databinding.DialogAddToCollectionBinding
-import com.koniukhov.cinecircle.feature.movie_details.databinding.FragmentMovieDetailsBinding
+import com.koniukhov.cinecirclex.core.common.Constants.INVALID_ID
+import com.koniukhov.cinecirclex.core.common.navigation.NavArgs
+import com.koniukhov.cinecirclex.core.common.navigation.navigateToMovieDetails
+import com.koniukhov.cinecirclex.core.common.util.DateUtils.formatDate
+import com.koniukhov.cinecirclex.core.domain.model.CollectionDetails
+import com.koniukhov.cinecirclex.core.domain.model.Genre
+import com.koniukhov.cinecirclex.core.domain.model.Image
+import com.koniukhov.cinecirclex.core.domain.model.MediaCredits
+import com.koniukhov.cinecirclex.core.domain.model.MediaImages
+import com.koniukhov.cinecirclex.core.domain.model.MediaReview
+import com.koniukhov.cinecirclex.core.domain.model.MediaVideos
+import com.koniukhov.cinecirclex.core.domain.model.Movie
+import com.koniukhov.cinecirclex.core.domain.model.MovieDetails
+import com.koniukhov.cinecirclex.core.network.api.TMDBEndpoints.ImageSizes.BACKDROP_MEDIUM
+import com.koniukhov.cinecirclex.core.ui.adapter.MediaAdapter
+import com.koniukhov.cinecirclex.core.ui.utils.openWebsite
+import com.koniukhov.cinecirclex.feature.media.details.adapter.CollectionMediaAdapter
+import com.koniukhov.cinecirclex.feature.media.details.adapter.MediaCastAdapter
+import com.koniukhov.cinecirclex.feature.media.details.adapter.MediaCrewAdapter
+import com.koniukhov.cinecirclex.feature.media.details.adapter.MediaImageAdapter
+import com.koniukhov.cinecirclex.feature.media.details.adapter.MediaReviewAdapter
+import com.koniukhov.cinecirclex.feature.media.details.adapter.MediaVideoAdapter
+import com.koniukhov.cinecirclex.feature.media.details.dialog.FullscreenImageDialog
+import com.koniukhov.cinecirclex.feature.media.details.dialog.FullscreenVideoDialog
+import com.koniukhov.cinecirclex.feature.media.details.dialog.ReviewDetailBottomSheetDialog
+import com.koniukhov.cinecirclex.feature.media.details.ui.state.MovieDetailsUiState
+import com.koniukhov.cinecirclex.feature.media.details.ui.viewmodel.MovieDetailsViewModel
+import com.koniukhov.cinecirclex.feature.media.details.utils.MediaDetailsUtils
+import com.koniukhov.cinecirclex.feature.movie_details.R
+import com.koniukhov.cinecirclex.feature.movie_details.databinding.DialogAddToCollectionBinding
+import com.koniukhov.cinecirclex.feature.movie_details.databinding.FragmentMovieDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Locale
-import com.koniukhov.cinecircle.core.design.R as design_R
+import com.koniukhov.cinecirclex.core.design.R as design_R
 
 @AndroidEntryPoint
 class MovieDetailsFragment : Fragment() {

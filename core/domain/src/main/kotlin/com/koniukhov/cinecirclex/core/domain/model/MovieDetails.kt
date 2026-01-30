@@ -1,6 +1,6 @@
-package com.koniukhov.cinecircle.core.domain.model
+package com.koniukhov.cinecirclex.core.domain.model
 
-import com.koniukhov.cinecircle.core.common.Constants.INVALID_ID
+import com.koniukhov.cinecirclex.core.common.Constants.INVALID_ID
 
 data class MovieDetails(
     val adult: Boolean,

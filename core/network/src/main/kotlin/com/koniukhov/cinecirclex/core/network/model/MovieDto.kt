@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.core.network.model
+package com.koniukhov.cinecirclex.core.network.model
 
 import com.google.gson.annotations.SerializedName
 data class MovieDto (
