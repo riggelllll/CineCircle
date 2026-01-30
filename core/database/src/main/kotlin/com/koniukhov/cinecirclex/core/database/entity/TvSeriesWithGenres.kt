@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.core.database.entity
+package com.koniukhov.cinecirclex.core.database.entity
 
 import androidx.room.Embedded
 import androidx.room.Relation

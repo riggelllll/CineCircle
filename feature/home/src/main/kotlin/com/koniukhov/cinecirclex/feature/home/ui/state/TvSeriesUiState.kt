@@ -1,7 +1,7 @@
-package com.koniukhov.cinecircle.feature.home.ui.state
+package com.koniukhov.cinecirclex.feature.home.ui.state
 
-import com.koniukhov.cinecircle.core.common.model.GenreUi
-import com.koniukhov.cinecircle.core.domain.model.TvSeries
+import com.koniukhov.cinecirclex.core.common.model.GenreUi
+import com.koniukhov.cinecirclex.core.domain.model.TvSeries
 
 data class TvSeriesUiState (
     val airingTodayTvSeries: List<TvSeries> = emptyList(),

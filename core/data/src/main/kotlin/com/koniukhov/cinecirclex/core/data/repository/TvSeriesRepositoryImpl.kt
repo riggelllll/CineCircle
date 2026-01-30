@@ -1,15 +1,15 @@
-package com.koniukhov.cinecircle.core.data.repository
+package com.koniukhov.cinecirclex.core.data.repository
 
-import com.koniukhov.cinecircle.core.data.local.LocalTvSeriesDataSource
-import com.koniukhov.cinecircle.core.data.mapper.toDomain
-import com.koniukhov.cinecircle.core.data.mapper.toTvSeriesDetails
-import com.koniukhov.cinecircle.core.data.remote.RemoteTvSeriesDataSource
-import com.koniukhov.cinecircle.core.data.util.fetchWithLocalAndRetry
-import com.koniukhov.cinecircle.core.domain.NetworkStatusProvider
-import com.koniukhov.cinecircle.core.domain.model.TvSeasonDetails
-import com.koniukhov.cinecircle.core.domain.model.TvSeries
-import com.koniukhov.cinecircle.core.domain.model.TvSeriesDetails
-import com.koniukhov.cinecircle.core.domain.repository.TvSeriesRepository
+import com.koniukhov.cinecirclex.core.data.local.LocalTvSeriesDataSource
+import com.koniukhov.cinecirclex.core.data.mapper.toDomain
+import com.koniukhov.cinecirclex.core.data.mapper.toTvSeriesDetails
+import com.koniukhov.cinecirclex.core.data.remote.RemoteTvSeriesDataSource
+import com.koniukhov.cinecirclex.core.data.util.fetchWithLocalAndRetry
+import com.koniukhov.cinecirclex.core.domain.NetworkStatusProvider
+import com.koniukhov.cinecirclex.core.domain.model.TvSeasonDetails
+import com.koniukhov.cinecirclex.core.domain.model.TvSeries
+import com.koniukhov.cinecirclex.core.domain.model.TvSeriesDetails
+import com.koniukhov.cinecirclex.core.domain.repository.TvSeriesRepository
 import javax.inject.Inject
 
 class TvSeriesRepositoryImpl @Inject constructor(

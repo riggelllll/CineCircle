@@ -1,8 +1,8 @@
-package com.koniukhov.cinecircle.core.domain.repository
+package com.koniukhov.cinecirclex.core.domain.repository
 
-import com.koniukhov.cinecircle.core.domain.model.TvSeasonDetails
-import com.koniukhov.cinecircle.core.domain.model.TvSeries
-import com.koniukhov.cinecircle.core.domain.model.TvSeriesDetails
+import com.koniukhov.cinecirclex.core.domain.model.TvSeasonDetails
+import com.koniukhov.cinecirclex.core.domain.model.TvSeries
+import com.koniukhov.cinecirclex.core.domain.model.TvSeriesDetails
 
 interface TvSeriesRepository {
     suspend fun getAiringTodayTvSeries(page: Int = 1, language: String): List<TvSeries>

@@ -1,7 +1,8 @@
-package com.koniukhov.cinecircle.core.common.sort
+package com.koniukhov.cinecirclex.core.common.sort
 
+import android.content.Context
 import androidx.annotation.StringRes
-import com.koniukhov.cinecircle.core.common.R
+import com.koniukhov.cinecirclex.core.common.R
 
 enum class TvSeriesSortOption(@StringRes val labelRes: Int, val apiValue: String) {
     FIRST_AIR_DATE_ASC(R.string.sort_first_air_date_asc, "first_air_date.asc"),
@@ -24,7 +25,7 @@ enum class TvSeriesSortOption(@StringRes val labelRes: Int, val apiValue: String
 
     companion object {
 
-        fun apiFromDisplayText(displayText: String, context: android.content.Context): String {
+        fun apiFromDisplayText(displayText: String, context: Context): String {
             return entries.firstOrNull { option ->
                 context.getString(option.labelRes) == displayText
             }?.apiValue ?: POPULARITY_DESC.apiValue

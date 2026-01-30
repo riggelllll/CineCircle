@@ -1,6 +1,6 @@
-package com.koniukhov.cinecircle.core.domain.repository
+package com.koniukhov.cinecirclex.core.domain.repository
 
-import com.koniukhov.cinecircle.core.domain.model.MediaVideos
+import com.koniukhov.cinecirclex.core.domain.model.MediaVideos
 
 interface VideosRepository {
     suspend fun getMovieVideos(movieId: Int, language: String): MediaVideos

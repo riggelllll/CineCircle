@@ -1,12 +1,12 @@
-package com.koniukhov.cinecircle.core.data.repository
+package com.koniukhov.cinecirclex.core.data.repository
 
-import com.koniukhov.cinecircle.core.data.local.LocalTvSeriesDataSource
-import com.koniukhov.cinecircle.core.data.remote.RemoteTvSeriesDataSource
-import com.koniukhov.cinecircle.core.domain.NetworkStatusProvider
-import com.koniukhov.cinecircle.core.network.model.TvSeriesDto
-import com.koniukhov.cinecircle.core.network.model.TvSeriesDetailsDto
-import com.koniukhov.cinecircle.core.network.model.TvSeriesResponseDto
-import com.koniukhov.cinecircle.core.network.model.TvSeasonDetailsDto
+import com.koniukhov.cinecirclex.core.data.local.LocalTvSeriesDataSource
+import com.koniukhov.cinecirclex.core.data.remote.RemoteTvSeriesDataSource
+import com.koniukhov.cinecirclex.core.domain.NetworkStatusProvider
+import com.koniukhov.cinecirclex.core.network.model.TvSeriesDto
+import com.koniukhov.cinecirclex.core.network.model.TvSeriesDetailsDto
+import com.koniukhov.cinecirclex.core.network.model.TvSeriesResponseDto
+import com.koniukhov.cinecirclex.core.network.model.TvSeasonDetailsDto
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
