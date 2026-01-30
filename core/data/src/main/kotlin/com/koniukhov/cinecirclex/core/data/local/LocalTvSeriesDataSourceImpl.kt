@@ -1,7 +1,7 @@
-package com.koniukhov.cinecircle.core.data.local
+package com.koniukhov.cinecirclex.core.data.local
 
-import com.koniukhov.cinecircle.core.database.dao.MediaListDao
-import com.koniukhov.cinecircle.core.database.entity.TvSeriesWithGenres
+import com.koniukhov.cinecirclex.core.database.dao.MediaListDao
+import com.koniukhov.cinecirclex.core.database.entity.TvSeriesWithGenres
 import javax.inject.Inject
 
 class LocalTvSeriesDataSourceImpl @Inject constructor(

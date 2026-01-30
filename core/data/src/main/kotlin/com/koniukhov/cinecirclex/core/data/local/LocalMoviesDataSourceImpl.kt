@@ -1,7 +1,7 @@
-package com.koniukhov.cinecircle.core.data.local
+package com.koniukhov.cinecirclex.core.data.local
 
-import com.koniukhov.cinecircle.core.database.dao.MediaListDao
-import com.koniukhov.cinecircle.core.database.entity.MovieWithGenres
+import com.koniukhov.cinecirclex.core.database.dao.MediaListDao
+import com.koniukhov.cinecirclex.core.database.entity.MovieWithGenres
 import javax.inject.Inject
 
 class LocalMoviesDataSourceImpl @Inject constructor(

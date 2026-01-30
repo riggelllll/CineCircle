@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.core.common.util
+package com.koniukhov.cinecirclex.core.common.util
 
 import java.util.Locale
 

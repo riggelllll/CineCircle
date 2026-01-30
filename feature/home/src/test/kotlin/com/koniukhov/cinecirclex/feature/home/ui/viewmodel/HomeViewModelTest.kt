@@ -1,21 +1,21 @@
-package com.koniukhov.cinecircle.feature.home.ui.viewmodel
+package com.koniukhov.cinecirclex.feature.home.ui.viewmodel
 
 import app.cash.turbine.test
-import com.koniukhov.cinecircle.core.domain.model.Genre
-import com.koniukhov.cinecircle.core.domain.model.Movie
-import com.koniukhov.cinecircle.core.domain.model.TvSeries
-import com.koniukhov.cinecircle.core.domain.usecase.GetAiringTodayTvSeriesUseCase
-import com.koniukhov.cinecircle.core.domain.usecase.GetMovieGenresUseCase
-import com.koniukhov.cinecircle.core.domain.usecase.GetNowPlayingMoviesUseCase
-import com.koniukhov.cinecircle.core.domain.usecase.GetOnAirTvSeriesUseCase
-import com.koniukhov.cinecircle.core.domain.usecase.GetPopularMoviesUseCase
-import com.koniukhov.cinecircle.core.domain.usecase.GetPopularTvSeriesUseCase
-import com.koniukhov.cinecircle.core.domain.usecase.GetTopRatedMoviesUseCase
-import com.koniukhov.cinecircle.core.domain.usecase.GetTopRatedTvSeriesUseCase
-import com.koniukhov.cinecircle.core.domain.usecase.GetTrendingMoviesUseCase
-import com.koniukhov.cinecircle.core.domain.usecase.GetTrendingTvSeriesUseCase
-import com.koniukhov.cinecircle.core.domain.usecase.GetTvSeriesGenresUseCase
-import com.koniukhov.cinecircle.core.domain.usecase.GetUpcomingMoviesUseCase
+import com.koniukhov.cinecirclex.core.domain.model.Genre
+import com.koniukhov.cinecirclex.core.domain.model.Movie
+import com.koniukhov.cinecirclex.core.domain.model.TvSeries
+import com.koniukhov.cinecirclex.core.domain.usecase.GetAiringTodayTvSeriesUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetMovieGenresUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetNowPlayingMoviesUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetOnAirTvSeriesUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetPopularMoviesUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetPopularTvSeriesUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetTopRatedMoviesUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetTopRatedTvSeriesUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetTrendingMoviesUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetTrendingTvSeriesUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetTvSeriesGenresUseCase
+import com.koniukhov.cinecirclex.core.domain.usecase.GetUpcomingMoviesUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -33,6 +33,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import kotlin.collections.get
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeViewModelTest {

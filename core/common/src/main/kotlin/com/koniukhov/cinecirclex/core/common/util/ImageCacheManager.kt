@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.core.common.util
+package com.koniukhov.cinecirclex.core.common.util
 
 import android.content.Context
 import androidx.datastore.core.DataStore

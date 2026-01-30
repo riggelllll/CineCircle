@@ -1,9 +1,9 @@
-package com.koniukhov.cinecircle.core.data.repository
+package com.koniukhov.cinecirclex.core.data.repository
 
-import com.koniukhov.cinecircle.core.data.remote.RemoteImagesDataSourceImpl
-import com.koniukhov.cinecircle.core.domain.NetworkStatusProvider
-import com.koniukhov.cinecircle.core.network.model.ImageDto
-import com.koniukhov.cinecircle.core.network.model.MediaImagesDto
+import com.koniukhov.cinecirclex.core.data.remote.RemoteImagesDataSourceImpl
+import com.koniukhov.cinecirclex.core.domain.NetworkStatusProvider
+import com.koniukhov.cinecirclex.core.network.model.ImageDto
+import com.koniukhov.cinecirclex.core.network.model.MediaImagesDto
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

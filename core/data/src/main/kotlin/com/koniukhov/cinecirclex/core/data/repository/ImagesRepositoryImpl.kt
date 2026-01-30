@@ -1,11 +1,11 @@
-package com.koniukhov.cinecircle.core.data.repository
+package com.koniukhov.cinecirclex.core.data.repository
 
-import com.koniukhov.cinecircle.core.data.mapper.toDomain
-import com.koniukhov.cinecircle.core.data.remote.RemoteImagesDataSourceImpl
-import com.koniukhov.cinecircle.core.data.util.fetchWithLocalAndRetry
-import com.koniukhov.cinecircle.core.domain.NetworkStatusProvider
-import com.koniukhov.cinecircle.core.domain.model.MediaImages
-import com.koniukhov.cinecircle.core.domain.repository.ImagesRepository
+import com.koniukhov.cinecirclex.core.data.mapper.toDomain
+import com.koniukhov.cinecirclex.core.data.remote.RemoteImagesDataSourceImpl
+import com.koniukhov.cinecirclex.core.data.util.fetchWithLocalAndRetry
+import com.koniukhov.cinecirclex.core.domain.NetworkStatusProvider
+import com.koniukhov.cinecirclex.core.domain.model.MediaImages
+import com.koniukhov.cinecirclex.core.domain.repository.ImagesRepository
 import javax.inject.Inject
 
 class ImagesRepositoryImpl @Inject constructor(

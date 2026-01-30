@@ -1,6 +1,6 @@
-package com.koniukhov.cinecircle.core.domain.repository
+package com.koniukhov.cinecirclex.core.domain.repository
 
-import com.koniukhov.cinecircle.core.domain.model.MediaImages
+import com.koniukhov.cinecirclex.core.domain.model.MediaImages
 
 interface ImagesRepository {
     suspend fun getMovieImages(movieId: Int, language: String): MediaImages

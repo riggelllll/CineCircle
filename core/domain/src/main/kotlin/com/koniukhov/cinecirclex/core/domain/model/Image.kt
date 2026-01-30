@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.core.domain.model
+package com.koniukhov.cinecirclex.core.domain.model
 
 data class Image(
     val filePath: String,

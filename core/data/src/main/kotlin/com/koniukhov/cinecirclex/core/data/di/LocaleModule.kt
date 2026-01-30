@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.core.data.di
+package com.koniukhov.cinecirclex.core.data.di
 
 import android.content.Context
 import dagger.Module

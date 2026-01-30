@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle
+package com.koniukhov.cinecirclex
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -7,7 +7,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.koniukhov.cinecircle.databinding.ActivityMainBinding
+import com.koniukhov.cinecirclex.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

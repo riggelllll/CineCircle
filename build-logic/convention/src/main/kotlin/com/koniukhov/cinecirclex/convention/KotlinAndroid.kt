@@ -1,4 +1,4 @@
-package com.koniukhov.cinecircle.convention
+package com.koniukhov.cinecirclex.convention
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
