@@ -11,8 +11,8 @@ android {
 
     defaultConfig {
         applicationId = "com.koniukhov.cinecirclex"
-        versionCode = 3
-        versionName = "1.0.0"
+        versionCode = 4
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "com.koniukhov.cinecirclex.HiltTestRunner"
         vectorDrawables.useSupportLibrary = true
