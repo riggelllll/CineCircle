@@ -12,7 +12,7 @@ This app uses **The Movie Database (TMDB) API** to fetch movie and TV show data.
 ## Download
 [![](https://PlayBadges.pavi2410.me/badge/downloads?id=com.koniukhov.cinecirclex)](https://play.google.com/store/apps/details?id=com.koniukhov.cinecirclex)
 
-[<img src=".github/pics/badges/badge-googleplay.svg" alt="" height="80">](https://play.google.com/store/apps/details?id=com.koniukhov.cinecirclex)
+[<img src="screenshots/badges/badge-googleplay.svg" alt="" height="80">](https://play.google.com/store/apps/details?id=com.koniukhov.cinecirclex)
 
 
 
