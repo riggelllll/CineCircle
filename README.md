@@ -8,6 +8,12 @@ CineCircle is a multi-module Android application that lets users discover, brows
 
 This app uses **The Movie Database (TMDB) API** to fetch movie and TV show data.
 
+
+## Download
+[![](https://PlayBadges.pavi2410.me/badge/downloads?id=com.koniukhov.cinecirclex)](https://play.google.com/store/apps/details?id=com.koniukhov.cinecirclex)
+
+
+
 ## Features
 
 - 🎬 Browse movies and TV shows
