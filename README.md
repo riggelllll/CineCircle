@@ -60,7 +60,6 @@ This app uses **The Movie Database (TMDB) API** to fetch movie and TV show data.
 │   ├── database/               # Room database
 │   ├── design/                 # Design system
 │   ├── domain/                 # Domain models
-│   ├── model/                  # Data models
 │   ├── network/                # Network layer
 │   └── ui/                     # Shared UI components
 └── feature/
